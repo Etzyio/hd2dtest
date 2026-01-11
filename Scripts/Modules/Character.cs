@@ -14,43 +14,43 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         [Export]
         public string CharacterName { get; set; } = "Character";
-        
+
         // 状态属性
         /// <summary>
         /// 是否正在移动
         /// </summary>
         public bool IsMoving { get; set; } = false;
-        
+
         /// <summary>
         /// 是否正在攻击
         /// </summary>
         public bool IsAttacking { get; set; } = false;
-        
+
         /// <summary>
         /// 是否正在防御
         /// </summary>
         public bool IsDefending { get; set; } = false;
-        
+
         // 位置和方向
         /// <summary>
         /// 移动方向
         /// </summary>
         public Vector2 Direction { get; set; } = Vector2.Zero;
-        
+
         // 动画状态
         /// <summary>
         /// 动画精灵组件
         /// </summary>
         [Export]
         public AnimatedSprite2D AnimatedSprite { get; set; }
-        
+
         // 碰撞形状
         /// <summary>
         /// 碰撞形状组件
         /// </summary>
         [Export]
         public CollisionShape2D CollisionShape { get; set; }
-        
+
         /// <summary>
         /// 初始化人物
         /// </summary>
@@ -59,7 +59,7 @@ namespace hd2dtest.Scripts.Modules
             base.Initialize();
             CharacterName = "Character";
         }
-        
+
         /// <summary>
         /// 角色死亡
         /// </summary>
@@ -69,14 +69,11 @@ namespace hd2dtest.Scripts.Modules
             IsMoving = false;
             IsAttacking = false;
             IsDefending = false;
-            
+
             // 播放死亡动画
-            if (AnimatedSprite != null)
-            {
-                AnimatedSprite.Play("die");
-            }
+            AnimatedSprite?.Play("die");
         }
-        
+
         /// <summary>
         /// 移动角色
         /// </summary>
@@ -88,15 +85,15 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             Direction = direction.Normalized();
             Position += Direction * Speed * delta;
             IsMoving = direction.Length() > 0;
-            
+
             // 更新动画
             UpdateAnimation();
         }
-        
+
         /// <summary>
         /// 攻击目标
         /// </summary>
@@ -108,22 +105,19 @@ namespace hd2dtest.Scripts.Modules
             {
                 return false;
             }
-            
+
             IsAttacking = true;
-            
+
             // 计算伤害
             float damage = Attack * (0.8f + GD.Randf() * 0.4f); // 80%-120%的攻击伤害
             target.TakeDamage(damage);
-            
+
             // 播放攻击动画
-            if (AnimatedSprite != null)
-            {
-                AnimatedSprite.Play("attack");
-            }
-            
+            AnimatedSprite?.Play("attack");
+
             return true;
         }
-        
+
         /// <summary>
         /// 防御姿态
         /// </summary>
@@ -133,16 +127,13 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             IsDefending = true;
-            
+
             // 播放防御动画
-            if (AnimatedSprite != null)
-            {
-                AnimatedSprite.Play("defend");
-            }
+            AnimatedSprite?.Play("defend");
         }
-        
+
         /// <summary>
         /// 取消防御姿态
         /// </summary>
@@ -150,7 +141,7 @@ namespace hd2dtest.Scripts.Modules
         {
             IsDefending = false;
         }
-        
+
         /// <summary>
         /// 更新动画状态
         /// </summary>
@@ -160,11 +151,11 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             if (IsMoving)
             {
                 AnimatedSprite.Play("move");
-                
+
                 // 设置动画方向
                 if (Mathf.Abs(Direction.X) > Mathf.Abs(Direction.Y))
                 {
@@ -177,7 +168,7 @@ namespace hd2dtest.Scripts.Modules
                 AnimatedSprite.Play("idle");
             }
         }
-        
+
         /// <summary>
         /// 获取角色信息字符串
         /// </summary>

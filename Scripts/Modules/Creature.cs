@@ -8,30 +8,24 @@ namespace hd2dtest.Scripts.Modules
     /// <summary>
     /// 弱点结构体，包含弱点类型和伤害倍率
     /// </summary>
-    public struct Weakness
+    /// <remarks>
+    /// 构造弱点
+    /// </remarks>
+    /// <param name="type">弱点类型</param>
+    /// <param name="multiplier">伤害倍率</param>
+    public struct Weakness(string type, float multiplier)
     {
         /// <summary>
         /// 弱点类型（如：火、水、雷、冰、物理、魔法等）
         /// </summary>
-        public string Type { get; set; }
-        
+        public string Type { get; set; } = type;
+
         /// <summary>
         /// 弱点倍率，大于1表示弱点，小于1表示抗性，等于1表示正常
         /// </summary>
-        public float Multiplier { get; set; }
-        
-        /// <summary>
-        /// 构造弱点
-        /// </summary>
-        /// <param name="type">弱点类型</param>
-        /// <param name="multiplier">伤害倍率</param>
-        public Weakness(string type, float multiplier)
-        {
-            Type = type;
-            Multiplier = multiplier;
-        }
+        public float Multiplier { get; set; } = multiplier;
     }
-    
+
     /// <summary>
     /// 生物基类，包含所有生物共有的属性
     /// </summary>
@@ -43,61 +37,61 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         [Export]
         public string CreatureName { get; set; } = "Creature";
-        
+
         /// <summary>
         /// 当前生命值
         /// </summary>
         [Export]
         public float Health { get; set; } = 100f;
-        
+
         /// <summary>
         /// 最大生命值
         /// </summary>
         [Export]
         public float MaxHealth { get; set; } = 100f;
-        
+
         /// <summary>
         /// 攻击力
         /// </summary>
         [Export]
         public float Attack { get; set; } = 10f;
-        
+
         /// <summary>
         /// 防御力
         /// </summary>
         [Export]
         public float Defense { get; set; } = 5f;
-        
+
         /// <summary>
         /// 移动速度
         /// </summary>
         [Export]
         public float Speed { get; set; } = 50f;
-        
+
         /// <summary>
         /// 生物等级
         /// </summary>
         [Export]
         public int Level { get; set; } = 1;
-        
+
         /// <summary>
         /// 经验值
         /// </summary>
         [Export]
         public int Experience { get; set; } = 0;
-        
+
         // 弱点属性
         /// <summary>
         /// 弱点列表
         /// </summary>
-        public List<Weakness> Weaknesses { get; private set; } = new List<Weakness>();
-        
+        public List<Weakness> Weaknesses { get; private set; } = [];
+
         // 状态属性
         /// <summary>
         /// 是否存活
         /// </summary>
         public bool IsAlive { get; private set; } = true;
-        
+
         /// <summary>
         /// 初始化生物
         /// </summary>
@@ -107,7 +101,7 @@ namespace hd2dtest.Scripts.Modules
             IsAlive = true;
             Weaknesses.Clear();
         }
-        
+
         /// <summary>
         /// 添加弱点
         /// </summary>
@@ -127,7 +121,7 @@ namespace hd2dtest.Scripts.Modules
                 Weaknesses.Add(weakness);
             }
         }
-        
+
         /// <summary>
         /// 添加弱点
         /// </summary>
@@ -137,7 +131,7 @@ namespace hd2dtest.Scripts.Modules
         {
             AddWeakness(new Weakness(type, multiplier));
         }
-        
+
         /// <summary>
         /// 移除弱点
         /// </summary>
@@ -146,7 +140,7 @@ namespace hd2dtest.Scripts.Modules
         {
             Weaknesses.RemoveAll(w => w.Type == type);
         }
-        
+
         /// <summary>
         /// 清除所有弱点
         /// </summary>
@@ -154,7 +148,7 @@ namespace hd2dtest.Scripts.Modules
         {
             Weaknesses.Clear();
         }
-        
+
         /// <summary>
         /// 获取弱点倍率
         /// </summary>
@@ -166,7 +160,7 @@ namespace hd2dtest.Scripts.Modules
             Weakness? weakness = Weaknesses.Find(w => w.Type == damageType);
             return weakness.HasValue ? weakness.Value.Multiplier : 1.0f;
         }
-        
+
         /// <summary>
         /// 受到伤害（不指定伤害类型，默认为物理伤害）
         /// </summary>
@@ -176,7 +170,7 @@ namespace hd2dtest.Scripts.Modules
         {
             return TakeDamage(damage, "物理");
         }
-        
+
         /// <summary>
         /// 受到伤害（指定伤害类型）
         /// </summary>
@@ -189,13 +183,13 @@ namespace hd2dtest.Scripts.Modules
             {
                 return 0f;
             }
-            
+
             // 计算弱点倍率
             float weaknessMultiplier = GetWeaknessMultiplier(damageType);
-            
+
             // 计算实际伤害（考虑防御和弱点）
             float actualDamage = Mathf.Max(1f, damage - Defense * 0.1f) * weaknessMultiplier;
-            
+
             // 显示弱点伤害信息
             if (weaknessMultiplier > 1f)
             {
@@ -205,19 +199,19 @@ namespace hd2dtest.Scripts.Modules
             {
                 Log.Info($"{CreatureName} resists {damageType}! Deals {actualDamage:F1} damage (x{weaknessMultiplier:F1} multiplier)");
             }
-            
+
             Health -= actualDamage;
-            
+
             // 检查是否死亡
             if (Health <= 0f)
             {
                 Health = 0f;
                 Die();
             }
-            
+
             return actualDamage;
         }
-        
+
         /// <summary>
         /// 恢复生命值
         /// </summary>
@@ -228,10 +222,10 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             Health = Mathf.Min(MaxHealth, Health + amount);
         }
-        
+
         /// <summary>
         /// 生物死亡
         /// </summary>
@@ -239,7 +233,7 @@ namespace hd2dtest.Scripts.Modules
         {
             IsAlive = false;
         }
-        
+
         /// <summary>
         /// 获取生物信息字符串
         /// </summary>
@@ -261,7 +255,7 @@ namespace hd2dtest.Scripts.Modules
                     }
                 }
             }
-            
+
             return $"{CreatureName} - Level {Level} - HP: {Health:F0}/{MaxHealth:F0} - ATK: {Attack:F0} - DEF: {Defense:F0} - SPD: {Speed:F0}{weaknessesInfo}";
         }
     }

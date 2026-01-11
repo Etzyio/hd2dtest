@@ -19,7 +19,7 @@ namespace hd2dtest.Scripts.Modules
             Guard,
             Healer
         }
-        
+
         // NPC状态枚举
         public enum NPCState
         {
@@ -29,7 +29,7 @@ namespace hd2dtest.Scripts.Modules
             Following,
             Alert
         }
-        
+
         // 交互类型枚举
         public enum InteractionType
         {
@@ -39,108 +39,108 @@ namespace hd2dtest.Scripts.Modules
             Heal,
             Follow
         }
-        
+
         // NPC属性
         /// <summary>
         /// NPC类型
         /// </summary>
         [Export]
         public NPCType Type { get; set; } = NPCType.Villager;
-        
+
         /// <summary>
         /// NPC对话内容
         /// </summary>
         [Export]
         public string Dialogue { get; set; } = "Hello!";
-        
+
         /// <summary>
         /// 是否可以交互
         /// </summary>
         [Export]
         public bool IsInteractive { get; set; } = true;
-        
+
         /// <summary>
         /// 可用的交互类型列表
         /// </summary>
         public List<InteractionType> AvailableInteractions { get; set; } = [];
-        
+
         /// <summary>
         /// 是否可以对话
         /// </summary>
         public bool CanTalk => AvailableInteractions.Contains(InteractionType.Talk);
-        
+
         /// <summary>
         /// 是否可以交易
         /// </summary>
         public bool CanTrade => AvailableInteractions.Contains(InteractionType.Trade);
-        
+
         /// <summary>
         /// 是否可以接受任务
         /// </summary>
         public bool CanQuest => AvailableInteractions.Contains(InteractionType.Quest);
-        
+
         /// <summary>
         /// 是否可以治疗
         /// </summary>
         public bool CanHeal => AvailableInteractions.Contains(InteractionType.Heal);
-        
+
         /// <summary>
         /// 是否可以跟随
         /// </summary>
         public bool CanFollow => AvailableInteractions.Contains(InteractionType.Follow);
-        
+
         // AI属性
         /// <summary>
         /// 当前AI状态
         /// </summary>
         [Export]
         public NPCState CurrentState { get; set; } = NPCState.Idle;
-        
+
         /// <summary>
         /// 检测半径
         /// </summary>
         [Export]
         public float DetectionRadius { get; set; } = 50f;
-        
+
         /// <summary>
         /// 巡逻速度
         /// </summary>
         [Export]
         public float PatrolSpeed { get; set; } = 25f;
-        
+
         // 巡逻点
         /// <summary>
         /// 巡逻点列表
         /// </summary>
         public List<Vector2> PatrolPoints { get; set; } = [];
-        
+
         /// <summary>
         /// 当前巡逻点索引
         /// </summary>
         private int _currentPatrolIndex = 0;
-        
+
         /// <summary>
         /// 空闲计时器
         /// </summary>
         private float _idleTimer = 0f;
-        
+
         /// <summary>
         /// 最大空闲时间
         /// </summary>
         private float _maxIdleTime = 2f;
-        
+
         /// <summary>
         /// 目标角色
         /// </summary>
         private Character _target = null;
-        
+
         /// <summary>
         /// 初始化NPC
         /// </summary>
         public override void Initialize()
         {
             base.Initialize();
-            
+
             // 根据NPC类型设置默认属性和交互类型
             switch (Type)
             {
@@ -169,7 +169,7 @@ namespace hd2dtest.Scripts.Modules
                     break;
             }
         }
-        
+
         /// <summary>
         /// AI更新逻辑
         /// </summary>
@@ -180,10 +180,10 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             // 检测玩家
             Character player = DetectPlayer();
-            
+
             switch (CurrentState)
             {
                 case NPCState.Idle:
@@ -200,7 +200,7 @@ namespace hd2dtest.Scripts.Modules
                     break;
             }
         }
-        
+
         /// <summary>
         /// 检测玩家
         /// </summary>
@@ -210,7 +210,7 @@ namespace hd2dtest.Scripts.Modules
             // 这里简化处理，实际应该通过场景树查找玩家
             return null;
         }
-        
+
         /// <summary>
         /// 处理空闲状态
         /// </summary>
@@ -218,7 +218,7 @@ namespace hd2dtest.Scripts.Modules
         private void HandleIdleState(float delta)
         {
             _idleTimer += delta;
-            
+
             // 空闲一段时间后开始巡逻
             if (_idleTimer >= _maxIdleTime && PatrolPoints.Count > 0)
             {
@@ -226,7 +226,7 @@ namespace hd2dtest.Scripts.Modules
                 _idleTimer = 0f;
             }
         }
-        
+
         /// <summary>
         /// 处理巡逻状态
         /// </summary>
@@ -238,11 +238,11 @@ namespace hd2dtest.Scripts.Modules
                 CurrentState = NPCState.Idle;
                 return;
             }
-            
+
             // 移动到当前巡逻点
             Vector2 targetPos = PatrolPoints[_currentPatrolIndex];
             Vector2 direction = (targetPos - Position).Normalized();
-            
+
             // 检查是否到达巡逻点
             if (Position.DistanceTo(targetPos) < 5f)
             {
@@ -257,7 +257,7 @@ namespace hd2dtest.Scripts.Modules
                 Move(direction, delta);
             }
         }
-        
+
         /// <summary>
         /// 处理跟随状态
         /// </summary>
@@ -270,11 +270,11 @@ namespace hd2dtest.Scripts.Modules
                 CurrentState = NPCState.Idle;
                 return;
             }
-            
+
             // 保持一定距离跟随
             float followDistance = 30f;
             Vector2 direction = (target.Position - Position).Normalized();
-            
+
             if (Position.DistanceTo(target.Position) > followDistance)
             {
                 Move(direction, delta);
@@ -285,7 +285,7 @@ namespace hd2dtest.Scripts.Modules
                 UpdateAnimation();
             }
         }
-        
+
         /// <summary>
         /// 处理警戒状态
         /// </summary>
@@ -297,19 +297,19 @@ namespace hd2dtest.Scripts.Modules
                 CurrentState = NPCState.Idle;
                 return;
             }
-            
+
             // 检查目标是否在检测范围内
             if (Position.DistanceTo(target.Position) > DetectionRadius)
             {
                 CurrentState = NPCState.Idle;
                 return;
             }
-            
+
             // 朝向目标
             Direction = (target.Position - Position).Normalized();
             UpdateAnimation();
         }
-        
+
         /// <summary>
         /// 开始对话
         /// </summary>
@@ -320,18 +320,18 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             CurrentState = NPCState.Talking;
             _target = player;
             IsMoving = false;
-            
+
             // 朝向玩家
             Direction = (player.Position - Position).Normalized();
             UpdateAnimation();
-            
+
             Log.Info($"{CharacterName}: {Dialogue}");
         }
-        
+
         /// <summary>
         /// 结束对话
         /// </summary>
@@ -340,7 +340,7 @@ namespace hd2dtest.Scripts.Modules
             CurrentState = NPCState.Idle;
             _target = null;
         }
-        
+
         /// <summary>
         /// 与NPC进行交互
         /// </summary>
@@ -352,14 +352,14 @@ namespace hd2dtest.Scripts.Modules
             {
                 return;
             }
-            
+
             // 检查交互类型是否可用
             if (!AvailableInteractions.Contains(interactionType))
             {
                 Log.Info($"{CharacterName}: I can't do that.");
                 return;
             }
-            
+
             // 根据交互类型执行不同的逻辑
             switch (interactionType)
             {
@@ -380,7 +380,7 @@ namespace hd2dtest.Scripts.Modules
                     break;
             }
         }
-        
+
         /// <summary>
         /// 开始交易
         /// </summary>
@@ -390,7 +390,7 @@ namespace hd2dtest.Scripts.Modules
             Log.Info($"{CharacterName}: Let's trade!");
             // 这里简化处理，实际应该打开交易界面
         }
-        
+
         /// <summary>
         /// 提供任务
         /// </summary>
@@ -400,7 +400,7 @@ namespace hd2dtest.Scripts.Modules
             Log.Info($"{CharacterName}: I have a quest for you!");
             // 这里简化处理，实际应该打开任务界面
         }
-        
+
         /// <summary>
         /// 治疗玩家
         /// </summary>
@@ -410,11 +410,11 @@ namespace hd2dtest.Scripts.Modules
             // 治疗玩家
             float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
             player.Heal(healAmount);
-            
+
             Log.Info($"{CharacterName}: Feel better now?");
             Log.Info($"{player.CharacterName} recovered {healAmount:F0} HP!");
         }
-        
+
         /// <summary>
         /// 切换跟随状态
         /// </summary>
@@ -434,7 +434,7 @@ namespace hd2dtest.Scripts.Modules
                 _target = player;
             }
         }
-        
+
         /// <summary>
         /// 获取NPC信息
         /// </summary>

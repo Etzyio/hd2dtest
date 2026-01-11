@@ -19,109 +19,109 @@ namespace hd2dtest.Scripts.Modules
             Dagger,
             Spear
         }
-        
+
         /// <summary>
         /// 武器ID
         /// </summary>
         public string Id { get; set; } = "";
-        
+
         /// <summary>
         /// 武器名称Key（用于国际化）
         /// </summary>
         public string NameKey { get; set; } = "";
-        
+
         /// <summary>
         /// 武器描述Key（用于国际化）
         /// </summary>
         public string DescriptionKey { get; set; } = "";
-        
+
         // 武器属性
         /// <summary>
         /// 武器名称
         /// </summary>
         public string WeaponName { get; set; } = "New Weapon";
-        
+
         /// <summary>
         /// 武器描述
         /// </summary>
         public string Description { get; set; } = "";
-        
+
         /// <summary>
         /// 武器类型
         /// </summary>
         public WeaponType WeaponTypeValue { get; set; } = WeaponType.Sword;
-        
+
         /// <summary>
         /// 武器类型字符串（用于JSON序列化）
         /// </summary>
         public string Type { get; set; } = "";
-        
+
         /// <summary>
         /// 武器子类型字符串（用于JSON序列化）
         /// </summary>
         public string SubType { get; set; } = "";
-        
+
         /// <summary>
         /// 武器攻击力
         /// </summary>
         public float AttackPower { get; set; } = 10f;
-        
+
         /// <summary>
         /// 武器攻击速度
         /// </summary>
         public float AttackSpeed { get; set; } = 1f;
-        
+
         /// <summary>
         /// 武器攻击范围
         /// </summary>
         public float Range { get; set; } = 30f;
-        
+
         /// <summary>
         /// 武器暴击率（5%）
         /// </summary>
         public float CriticalChance { get; set; } = 0.05f;
-        
+
         /// <summary>
         /// 武器暴击伤害（150%）
         /// </summary>
         public float CriticalDamage { get; set; } = 1.5f;
-        
+
         /// <summary>
         /// 武器所需等级
         /// </summary>
         public int RequiredLevel { get; set; } = 1;
-        
+
         /// <summary>
         /// 武器价格
         /// </summary>
         public int Price { get; set; } = 100;
-        
+
         /// <summary>
         /// 武器是否已装备
         /// </summary>
         public bool IsEquipped { get; set; } = false;
-        
+
         // 武器特效
         /// <summary>
         /// 武器特效Key（用于国际化）
         /// </summary>
         public string EffectKey { get; set; } = "";
-        
+
         /// <summary>
         /// 武器特效名称
         /// </summary>
         public string Effect { get; set; } = "";
-        
+
         /// <summary>
         /// 武器特效触发几率
         /// </summary>
         public float EffectChance { get; set; } = 0f;
-        
+
         /// <summary>
         /// 武器元素属性
         /// </summary>
         public string Element { get; set; } = "";
-        
+
         /// <summary>
         /// 计算攻击伤害
         /// </summary>
@@ -131,16 +131,16 @@ namespace hd2dtest.Scripts.Modules
         {
             // 基础攻击伤害 = 基础攻击力 + 武器攻击力
             float baseDamage = baseAttack + AttackPower;
-            
+
             // 应用攻击速度修正（简化处理）
             float attackSpeedMultiplier = 1f + (AttackSpeed - 1f) * 0.1f;
-            
+
             // 计算最终伤害
             float finalDamage = baseDamage * attackSpeedMultiplier;
-            
+
             return finalDamage;
         }
-        
+
         /// <summary>
         /// 检查是否暴击
         /// </summary>
@@ -149,7 +149,7 @@ namespace hd2dtest.Scripts.Modules
         {
             return GD.Randf() <= CriticalChance;
         }
-        
+
         /// <summary>
         /// 计算暴击伤害
         /// </summary>
@@ -159,7 +159,7 @@ namespace hd2dtest.Scripts.Modules
         {
             return damage * CriticalDamage;
         }
-        
+
         /// <summary>
         /// 装备武器
         /// </summary>
@@ -168,7 +168,7 @@ namespace hd2dtest.Scripts.Modules
             IsEquipped = true;
             Log.Info($"Equipped weapon: {WeaponName}");
         }
-        
+
         /// <summary>
         /// 卸下武器
         /// </summary>
@@ -177,7 +177,7 @@ namespace hd2dtest.Scripts.Modules
             IsEquipped = false;
             Log.Info($"Unequipped weapon: {WeaponName}");
         }
-        
+
         /// <summary>
         /// 获取武器类型名称
         /// </summary>
@@ -195,7 +195,7 @@ namespace hd2dtest.Scripts.Modules
                 _ => "Unknown"
             };
         }
-        
+
         /// <summary>
         /// 获取武器信息
         /// </summary>

@@ -21,12 +21,12 @@ namespace hd2dtest.Scripts.Core
             Error,
             Critical
         }
-        
+
         /// <summary>
         /// 当前日志级别
         /// </summary>
         public static LogLevel CurrentLevel { get; set; } = LogLevel.Debug;
-        
+
         /// <summary>
         /// 调试日志
         /// </summary>
@@ -45,7 +45,7 @@ namespace hd2dtest.Scripts.Core
                 PrintLog(LogLevel.Debug, message, callerMemberName, callerFilePath, callerLineNumber);
             }
         }
-        
+
         /// <summary>
         /// 信息日志
         /// </summary>
@@ -64,7 +64,7 @@ namespace hd2dtest.Scripts.Core
                 PrintLog(LogLevel.Info, message, callerMemberName, callerFilePath, callerLineNumber);
             }
         }
-        
+
         /// <summary>
         /// 警告日志
         /// </summary>
@@ -83,7 +83,7 @@ namespace hd2dtest.Scripts.Core
                 PrintLog(LogLevel.Warning, message, callerMemberName, callerFilePath, callerLineNumber);
             }
         }
-        
+
         /// <summary>
         /// 错误日志
         /// </summary>
@@ -102,7 +102,7 @@ namespace hd2dtest.Scripts.Core
                 PrintLog(LogLevel.Error, message, callerMemberName, callerFilePath, callerLineNumber);
             }
         }
-        
+
         /// <summary>
         /// 严重错误日志
         /// </summary>
@@ -121,7 +121,7 @@ namespace hd2dtest.Scripts.Core
                 PrintLog(LogLevel.Critical, message, callerMemberName, callerFilePath, callerLineNumber);
             }
         }
-        
+
         /// <summary>
         /// 打印日志
         /// </summary>
@@ -134,10 +134,10 @@ namespace hd2dtest.Scripts.Core
         {
             // 获取当前时间，格式为：YYYY-MM-DD HH:MM:SS.fff
             string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-            
+
             // 获取类名（从文件路径中提取）
             string className = System.IO.Path.GetFileNameWithoutExtension(callerFilePath);
-            
+
             // 日志级别颜色映射
             string color = level switch
             {
@@ -148,10 +148,10 @@ namespace hd2dtest.Scripts.Core
                 LogLevel.Critical => "[color=darkred]",
                 _ => "[color=white]"
             };
-            
+
             // 日志输出格式：[时间] [级别] [类名.方法名:行号] 消息
             string logMessage = $"{color}[{time}] [{level.ToString().ToUpper()}] [{className}.{callerMemberName}:{callerLineNumber}] {message}[/color]";
-            
+
             // 使用GD.PrintRich输出带颜色的日志
             GD.PrintRich(logMessage);
         }
