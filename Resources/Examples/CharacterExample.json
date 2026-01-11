@@ -1,0 +1,31 @@
+{
+  "NameKey": "CHARACTER_NAME_001",
+  "Type": "Character",
+  "ClassKey": "CHARACTER_CLASS_001",
+  "Level": 5,
+  "Health": 120,
+  "MaxHealth": 120,
+  "Attack": 25,
+  "Defense": 15,
+  "Speed": 80,
+  "Experience": 1200,
+  "Weaknesses": [
+    { "Type": "TYPE_MAGIC", "Multiplier": 1.2 },
+    { "Type": "TYPE_FIRE", "Multiplier": 1.1 }
+  ],
+  "Resistances": [
+    { "Type": "TYPE_PHYSICAL", "Multiplier": 0.8 },
+    { "Type": "TYPE_ICE", "Multiplier": 0.9 }
+  ],
+  "Equipment": {
+    "Weapon": "EQP_WP_SWD_001",
+    "Armor": "EQP_ARM_001",
+    "Helmet": "EQP_HLM_001",
+    "Boots": "EQP_BTS_001"
+  },
+  "Skills": [
+    "SKILL_001",
+    "SKILL_003",
+    "SKILL_004"
+  ]
+}

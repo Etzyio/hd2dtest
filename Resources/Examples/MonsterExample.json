@@ -1,0 +1,56 @@
+{
+  "NameKey": "CHARACTER_NAME_002",
+  "Type": "Monster",
+  "MonsterType": "MONSTER_TYPE_NORMAL",
+  "Level": 3,
+  "Health": 80,
+  "MaxHealth": 80,
+  "Attack": 20,
+  "Defense": 8,
+  "Speed": 100,
+  "Experience": 300,
+  "Weaknesses": [
+    { "Type": "TYPE_LIGHT", "Multiplier": 1.5 },
+    { "Type": "TYPE_FIRE", "Multiplier": 1.2 }
+  ],
+  "Resistances": [
+    { "Type": "TYPE_DARK", "Multiplier": 0.5 },
+    { "Type": "TYPE_PHYSICAL", "Multiplier": 0.9 }
+  ],
+  "AI": {
+    "State": "Patrol",
+    "AggroRange": 150,
+    "AttackRange": 50,
+    "ChaseSpeed": 120,
+    "PatrolSpeed": 60,
+    "CanChase": true,
+    "CanFlee": false,
+    "PatrolPoints": [
+      { "X": 100, "Y": 200 },
+      { "X": 300, "Y": 200 },
+      { "X": 300, "Y": 400 },
+      { "X": 100, "Y": 400 }
+    ]
+  },
+  "DropItems": [
+    {
+      "ItemId": "ITEM_MATERIAL_DRAGON_001",
+      "DropChance": 0.7,
+      "Quantity": { "Min": 1, "Max": 3 }
+    },
+    {
+      "ItemId": "ITEM_POTION_HEAL_001",
+      "DropChance": 0.3,
+      "Quantity": { "Min": 1, "Max": 1 }
+    },
+    {
+      "ItemId": "ITEM_MATERIAL_DRAGON_001",
+      "DropChance": 0.5,
+      "Quantity": { "Min": 1, "Max": 2 }
+    }
+  ],
+  "Skills": [
+    "SKILL_001",
+    "SKILL_005"
+  ]
+}

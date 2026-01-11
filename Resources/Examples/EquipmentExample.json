@@ -1,0 +1,75 @@
+{
+  "Equipments": [
+    {
+      "Id": "EQP_WP_SWD_001",
+      "NameKey": "EQUIP_NAME_WP_SWD_001",
+      "Type": "EQUIP_TYPE_WEAPON",
+      "SubType": "EQUIP_TYPE_SWORD",
+      "DescriptionKey": "EQUIP_DESC_WP_SWD_001",
+      "AttackPower": 35,
+      "AttackSpeed": 1.2,
+      "Range": 50,
+      "CriticalChance": 0.15,
+      "CriticalDamage": 1.7,
+      "RequiredLevel": 6,
+      "Price": 800,
+      "EffectKey": "EQUIP_EFFECT_WP_SWD_001",
+      "Element": "TYPE_FIRE"
+    },
+    {
+      "Id": "EQP_ARM_001",
+      "NameKey": "EQUIP_NAME_ARM_001",
+      "Type": "EQUIP_TYPE_ARMOR",
+      "DescriptionKey": "EQUIP_DESC_ARM_001",
+      "Defense": 18,
+      "Health": 30,
+      "Speed": 5,
+      "RequiredLevel": 5,
+      "Price": 650,
+      "EffectKey": "EQUIP_EFFECT_ARM_001"
+    },
+    {
+      "Id": "EQP_HLM_001",
+      "NameKey": "EQUIP_NAME_HLM_001",
+      "Type": "EQUIP_TYPE_HELMET",
+      "DescriptionKey": "EQUIP_DESC_HLM_001",
+      "Defense": 8,
+      "Mana": 25,
+      "RequiredLevel": 4,
+      "Price": 400,
+      "EffectKey": "EQUIP_EFFECT_HLM_001"
+    },
+    {
+      "Id": "EQP_BTS_001",
+      "NameKey": "EQUIP_NAME_BTS_001",
+      "Type": "EQUIP_TYPE_BOOTS",
+      "DescriptionKey": "EQUIP_DESC_BTS_001",
+      "Defense": 5,
+      "Speed": 30,
+      "RequiredLevel": 3,
+      "Price": 350,
+      "EffectKey": "EQUIP_EFFECT_BTS_001"
+    },
+    {
+      "Id": "EQP_GLV_001",
+      "NameKey": "EQUIP_NAME_GLV_001",
+      "Type": "EQUIP_TYPE_GLOVES",
+      "DescriptionKey": "EQUIP_DESC_GLV_001",
+      "Attack": 10,
+      "Defense": 3,
+      "RequiredLevel": 2,
+      "Price": 250,
+      "EffectKey": "EQUIP_EFFECT_GLV_001"
+    },
+    {
+      "Id": "EQP_ACC_001",
+      "NameKey": "EQUIP_NAME_ACC_001",
+      "Type": "EQUIP_TYPE_ACCESSORY",
+      "DescriptionKey": "EQUIP_DESC_ACC_001",
+      "Health": 40,
+      "RequiredLevel": 5,
+      "Price": 500,
+      "EffectKey": "EQUIP_EFFECT_ACC_001"
+    }
+  ]
+}

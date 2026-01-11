@@ -1,0 +1,67 @@
+{
+  "Skills": [
+    {
+      "Id": "SKILL_001",
+      "NameKey": "SKILL_NAME_001",
+      "Type": "Attack",
+      "DescriptionKey": "SKILL_DESC_001",
+      "Damage": 45,
+      "DamageType": "TYPE_FIRE",
+      "Range": 80,
+      "Cooldown": 4,
+      "ManaCost": 20,
+      "RequiredLevel": 1,
+      "EffectKey": "SKILL_EFFECT_001"
+    },
+    {
+      "Id": "SKILL_002",
+      "NameKey": "SKILL_NAME_002",
+      "Type": "Healing",
+      "DescriptionKey": "SKILL_DESC_002",
+      "Healing": 50,
+      "Range": 100,
+      "Cooldown": 4,
+      "ManaCost": 25,
+      "RequiredLevel": 2,
+      "EffectKey": "SKILL_EFFECT_002"
+    },
+    {
+      "Id": "SKILL_003",
+      "NameKey": "SKILL_NAME_003",
+      "Type": "Defense",
+      "DescriptionKey": "SKILL_DESC_003",
+      "DefenseBoost": 15,
+      "Duration": 8,
+      "Cooldown": 12,
+      "ManaCost": 30,
+      "RequiredLevel": 4,
+      "EffectKey": "SKILL_EFFECT_003"
+    },
+    {
+      "Id": "SKILL_004",
+      "NameKey": "SKILL_NAME_004",
+      "Type": "Support",
+      "DescriptionKey": "SKILL_DESC_004",
+      "SpeedBoost": 40,
+      "Duration": 5,
+      "Cooldown": 10,
+      "ManaCost": 15,
+      "RequiredLevel": 1,
+      "EffectKey": "SKILL_EFFECT_004"
+    },
+    {
+      "Id": "SKILL_005",
+      "NameKey": "SKILL_NAME_005",
+      "Type": "Attack",
+      "DescriptionKey": "SKILL_DESC_005",
+      "Damage": 35,
+      "DamageType": "TYPE_THUNDER",
+      "Range": 120,
+      "AreaOfEffect": 60,
+      "Cooldown": 6,
+      "ManaCost": 40,
+      "RequiredLevel": 5,
+      "EffectKey": "SKILL_EFFECT_005"
+    }
+  ]
+}

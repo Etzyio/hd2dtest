@@ -1,0 +1,125 @@
+{
+  "Items": [
+    {
+      "Id": "ITEM_POTION_HEAL_001",
+      "NameKey": "ITEM_NAME_POTION_HEAL_001",
+      "Type": "ITEM_TYPE_CONSUMABLE",
+      "SubType": "ITEM_TYPE_POTION",
+      "DescriptionKey": "ITEM_DESC_POTION_HEAL_001",
+      "Effect": {
+        "Type": "Heal",
+        "Value": 50,
+        "Target": "Self"
+      },
+      "Stackable": true,
+      "MaxStack": 50,
+      "Price": 50,
+      "RequiredLevel": 1
+    },
+    {
+      "Id": "ITEM_POTION_MANA_001",
+      "NameKey": "ITEM_NAME_POTION_MANA_001",
+      "Type": "ITEM_TYPE_CONSUMABLE",
+      "SubType": "ITEM_TYPE_POTION",
+      "DescriptionKey": "ITEM_DESC_POTION_MANA_001",
+      "Effect": {
+        "Type": "Mana",
+        "Value": 30,
+        "Target": "Self"
+      },
+      "Stackable": true,
+      "MaxStack": 50,
+      "Price": 40,
+      "RequiredLevel": 1
+    },
+    {
+      "Id": "ITEM_BUFF_ATTACK_001",
+      "NameKey": "ITEM_NAME_BUFF_ATTACK_001",
+      "Type": "ITEM_TYPE_CONSUMABLE",
+      "SubType": "ITEM_TYPE_BUFF",
+      "DescriptionKey": "ITEM_DESC_BUFF_ATTACK_001",
+      "Effect": {
+        "Type": "AttackBoost",
+        "Value": 20,
+        "Duration": 300,
+        "Target": "Self"
+      },
+      "Stackable": true,
+      "MaxStack": 10,
+      "Price": 100,
+      "RequiredLevel": 2
+    },
+    {
+      "Id": "ITEM_MATERIAL_DRAGON_001",
+      "NameKey": "ITEM_NAME_MATERIAL_DRAGON_001",
+      "Type": "ITEM_TYPE_MATERIAL",
+      "DescriptionKey": "ITEM_DESC_MATERIAL_DRAGON_001",
+      "Stackable": true,
+      "MaxStack": 20,
+      "Price": 200,
+      "Rarity": "Rare"
+    },
+    {
+      "Id": "ITEM_KEY_ANCIENT_001",
+      "NameKey": "ITEM_NAME_KEY_ANCIENT_001",
+      "Type": "ITEM_TYPE_KEY",
+      "DescriptionKey": "ITEM_DESC_KEY_ANCIENT_001",
+      "Stackable": false,
+      "Price": 0,
+      "Effect": {
+        "Type": "Unlock",
+        "Target": "AncientChest"
+      }
+    },
+    {
+      "Id": "ITEM_EXP_BOOK_001",
+      "NameKey": "ITEM_NAME_EXP_BOOK_001",
+      "Type": "ITEM_TYPE_CONSUMABLE",
+      "SubType": "ITEM_TYPE_EXPERIENCE",
+      "DescriptionKey": "ITEM_DESC_EXP_BOOK_001",
+      "Effect": {
+        "Type": "Experience",
+        "Value": 1000,
+        "Target": "Self"
+      },
+      "Stackable": true,
+      "MaxStack": 5,
+      "Price": 500,
+      "RequiredLevel": 3
+    },
+    {
+      "Id": "ITEM_SCROLL_INVIS_001",
+      "NameKey": "ITEM_NAME_SCROLL_INVIS_001",
+      "Type": "ITEM_TYPE_CONSUMABLE",
+      "SubType": "ITEM_TYPE_SCROLL",
+      "DescriptionKey": "ITEM_DESC_SCROLL_INVIS_001",
+      "Effect": {
+        "Type": "Invisibility",
+        "Duration": 30,
+        "Target": "Self"
+      },
+      "Stackable": true,
+      "MaxStack": 5,
+      "Price": 250,
+      "RequiredLevel": 4
+    },
+    {
+      "Id": "ITEM_ACC_LUCK_001",
+      "NameKey": "ITEM_NAME_ACC_LUCK_001",
+      "Type": "ITEM_TYPE_ACCESSORY",
+      "DescriptionKey": "ITEM_DESC_ACC_LUCK_001",
+      "Effect": {
+        "Type": "CriticalChanceBoost",
+        "Value": 0.05
+      },
+      "SecondaryEffect": {
+        "Type": "DropRateBoost",
+        "Value": 0.1
+      },
+      "Stackable": false,
+      "Price": 700,
+      "RequiredLevel": 5,
+      "Rarity": "Epic"
+    }
+  ]
+}
