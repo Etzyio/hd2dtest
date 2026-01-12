@@ -84,7 +84,7 @@ namespace hd2dtest.Scripts.Core
                     foreach (var info in saveInfos)
                     {
                         Log.Info($"- Slot {info.SaveId}: {info.SaveName}");
-                        Log.Info($"  Player Level: {info.PlayerLevel}, Game Score: {info.GameScore}");
+                        Log.Info($"  Players: {info.PlayerCount}, Avg Level: {info.AveragePlayerLevel}, Game Score: {info.GameScore}");
                         Log.Info($"  Play Time: {info.PlayTime} seconds, Scene: {info.CurrentScene}");
                         Log.Info($"  Saved: {info.SaveTime}");
                     }

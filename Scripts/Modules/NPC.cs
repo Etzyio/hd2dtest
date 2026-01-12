@@ -1,6 +1,6 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using hd2dtest.Scripts.Core;
 
 namespace hd2dtest.Scripts.Modules
@@ -44,19 +44,16 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// NPC类型
         /// </summary>
-        [Export]
         public NPCType Type { get; set; } = NPCType.Villager;
 
         /// <summary>
         /// NPC对话内容
         /// </summary>
-        [Export]
         public string Dialogue { get; set; } = "Hello!";
 
         /// <summary>
         /// 是否可以交互
         /// </summary>
-        [Export]
         public bool IsInteractive { get; set; } = true;
 
         /// <summary>
@@ -93,19 +90,16 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 当前AI状态
         /// </summary>
-        [Export]
         public NPCState CurrentState { get; set; } = NPCState.Idle;
 
         /// <summary>
         /// 检测半径
         /// </summary>
-        [Export]
         public float DetectionRadius { get; set; } = 50f;
 
         /// <summary>
         /// 巡逻速度
         /// </summary>
-        [Export]
         public float PatrolSpeed { get; set; } = 25f;
 
         /// <summary>
@@ -117,6 +111,8 @@ namespace hd2dtest.Scripts.Modules
         /// 移动方向
         /// </summary>
         public Vector2 Direction { get; set; } = Vector2.Zero;
+
+
 
         // 巡逻点
         /// <summary>

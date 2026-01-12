@@ -1,6 +1,6 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using hd2dtest.Scripts.Core;
 
 namespace hd2dtest.Scripts.Modules
@@ -21,69 +21,27 @@ namespace hd2dtest.Scripts.Modules
     }
 
     /// <summary>
-    /// 生物基类，包含所有生物共有的属性
+    /// 生物基类，定义所有生物应该具有的属性和方法
     /// </summary>
-    public partial class Creature : Node2D
+    public class Creature
     {
         // 基本属性
-        /// <summary>
-        /// 生物名称
-        /// </summary>
-        [Export]
         public string CreatureName { get; set; } = "Creature";
-
-        /// <summary>
-        /// 当前生命值
-        /// </summary>
-        [Export]
         public float Health { get; set; } = 100f;
-
-        /// <summary>
-        /// 最大生命值
-        /// </summary>
-        [Export]
         public float MaxHealth { get; set; } = 100f;
-
-        /// <summary>
-        /// 攻击力
-        /// </summary>
-        [Export]
         public float Attack { get; set; } = 10f;
-
-        /// <summary>
-        /// 防御力
-        /// </summary>
-        [Export]
         public float Defense { get; set; } = 5f;
-
-        /// <summary>
-        /// 移动速度
-        /// </summary>
-        [Export]
         public float Speed { get; set; } = 50f;
-
-        /// <summary>
-        /// 生物等级
-        /// </summary>
-        [Export]
         public int Level { get; set; } = 1;
-
-        /// <summary>
-        /// 经验值
-        /// </summary>
-        [Export]
         public int Experience { get; set; } = 0;
-
-        [Export]
-        public Godot.Collections.Array<String> SkillIDs { get; set; } = [];
+        public List<string> SkillIDs { get; set; } = [];
 
         // 状态属性
-        /// <summary>
-        /// 是否存活
-        /// </summary>
         public bool IsAlive { get; private set; } = true;
-
-        public List<string> weaknesses = [];
+        public List<string> weaknesses { get; set; } = [];
+        
+        // 位置信息
+        public Vector2 Position { get; set; } = Vector2.Zero;
 
         /// <summary>
         /// 初始化生物
@@ -135,8 +93,9 @@ namespace hd2dtest.Scripts.Modules
                 return 0;
             }
 
-            float Health = DamageCalculator.CalculateDamage(creature, this, skill);
-            return Health;
+            float healAmount = DamageCalculator.CalculateDamage(creature, this, skill);
+            Health = Math.Min(Health + healAmount, MaxHealth);
+            return healAmount;
         }
 
         /// <summary>

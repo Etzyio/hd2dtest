@@ -1,8 +1,7 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using hd2dtest.Scripts.Core;
-using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -11,11 +10,20 @@ namespace hd2dtest.Scripts.Modules
     /// </summary>
     public partial class Player : Creature
     {
+        // 单例实例
+        private static Player _instance;
+        public static Player Instance => _instance;
 
         /// <summary>
         /// 私有构造函数，防止外部实例化
         /// </summary>
         private Player() { }
+        
+        // 初始化单例
+        static Player()
+        {
+            _instance = new Player();
+        }
         
         // 玩家装备
         /// <summary>
@@ -59,12 +67,7 @@ namespace hd2dtest.Scripts.Modules
         /// 移动方向
         /// </summary>
         public Vector2 Direction { get; set; } = Vector2.Zero;
-        
-        /// <summary>
-        /// 动画精灵组件
-        /// </summary>
-        [Export]
-        public AnimatedSprite2D AnimatedSprite { get; set; }
+       
         
         // 玩家统计数据
         /// <summary>
@@ -222,16 +225,18 @@ namespace hd2dtest.Scripts.Modules
 
             Skill skill = Skills[skillIndex];
 
-            // 检查技能是否可用
-            if (!skill.IsAvailable)
+            // 使用技能 - 直接调用目标的TakeDamage或Heal方法
+            float damage = 0f;
+            if (skill.SkillTypeValue == Skill.SkillType.Attack)
             {
-                return false;
+                damage = target.TakeDamage(this, skill);
+            }
+            else if (skill.SkillTypeValue == Skill.SkillType.Healing)
+            {
+                damage = this.Heal(this, skill);
             }
 
-            // 使用技能
-            skill.Use(this, target);
-
-            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}");
+            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, dealing {damage:F1} damage.");
 
             return true;
         }
@@ -295,31 +300,7 @@ namespace hd2dtest.Scripts.Modules
             Log.Info($"Player died. Death count: {DeathCount}");
         }
 
-        /// <summary>
-        /// 更新动画状态
-        /// </summary>
-        protected void UpdateAnimation()
-        {
-            if (AnimatedSprite == null)
-            {
-                return;
-            }
 
-            if (IsMoving)
-            {
-                AnimatedSprite.Play("move");
-
-                // 设置动画方向
-                if (Mathf.Abs(Direction.X) > Mathf.Abs(Direction.Y))
-                {
-                    AnimatedSprite.FlipH = Direction.X < 0;
-                }
-            }
-            else
-            {
-                AnimatedSprite.Play("idle");
-            }
-        }
 
         /// <summary>
         /// 获取玩家信息（重写父类方法）

@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
+using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts.Core
 {
@@ -25,58 +25,6 @@ namespace hd2dtest.Scripts.Core
 
         [Export]
         public string SaveFileExtension = ".json";
-
-        // 存档数据结构
-        public class SaveData
-        {
-            // 基本存档信息
-            public string SaveId { get; set; }  // 存档ID
-            public string SaveName { get; set; }  // 存档名称
-            public DateTime SaveTime { get; set; }  // 保存时间
-
-            // 玩家状态
-            public Vector2 PlayerPosition { get; set; }  // 玩家位置
-            public int PlayerLevel { get; set; }  // 玩家等级
-            public int PlayerExperience { get; set; }  // 玩家经验值
-            public float PlayerHealth { get; set; }  // 玩家当前生命值
-            public float PlayerMaxHealth { get; set; }  // 玩家最大生命值
-            public float PlayerMana { get; set; }  // 玩家当前魔法值
-            public float PlayerMaxMana { get; set; }  // 玩家最大魔法值
-            public int PlayerAttack { get; set; }  // 玩家攻击力
-            public int PlayerDefense { get; set; }  // 玩家防御力
-            public float PlayerSpeed { get; set; }  // 玩家移动速度
-
-            // 游戏进度
-            public string CurrentScene { get; set; }  // 当前场景名称
-            public int GameScore { get; set; }  // 游戏分数
-            public int PlayTime { get; set; }  // 游戏时间（秒）
-            public Dictionary<string, bool> CompletedQuests { get; set; } = [];  // 已完成任务列表
-            public Dictionary<string, bool> DiscoveredAreas { get; set; } = [];  // 已发现区域
-
-            // 物品和装备
-            public Dictionary<string, int> Inventory { get; set; } = [];  // 背包物品（物品ID:数量）
-            public string EquippedWeapon { get; set; }  // 已装备武器
-            public Dictionary<string, string> EquippedEquipment { get; set; } = [];  // 已装备装备（装备位置:装备ID）
-
-            // 技能
-            public List<string> LearnedSkills { get; set; } = [];  // 已学习技能列表
-            public Dictionary<string, int> SkillLevels { get; set; } = [];  // 技能等级（技能ID:等级）
-
-            // 自定义数据
-            public Dictionary<string, object> CustomData { get; set; } = [];  // 自定义保存数据
-        }
-
-        // 存档信息结构（用于显示存档列表）
-        public class SaveInfo
-        {
-            public string SaveId { get; set; }  // 存档ID
-            public string SaveName { get; set; }  // 存档名称
-            public DateTime SaveTime { get; set; }  // 保存时间
-            public int GameScore { get; set; }  // 游戏分数
-            public int PlayerLevel { get; set; }  // 玩家等级
-            public int PlayTime { get; set; }  // 游戏时间（秒）
-            public string CurrentScene { get; set; }  // 当前场景
-        }
 
         // 私有构造函数，防止外部实例化
         private SaveManager() { }
@@ -232,24 +180,34 @@ namespace hd2dtest.Scripts.Core
         // 创建默认存档数据
         public static SaveData CreateDefaultSaveData(string saveId = "1", string saveName = null)
         {
+            // 创建包含单个玩家的默认存档数据
+            var defaultPlayer = new PlayerSaveData
+            {
+                PlayerId = 0,
+                PlayerName = "Player 1",
+                Position = new System.Numerics.Vector2(0, 0),
+                Level = 1,
+                Experience = 0,
+                Health = 100f,
+                MaxHealth = 100f,
+                Mana = 50f,
+                MaxMana = 50f,
+                Attack = 10,
+                Defense = 5,
+                Speed = 50f,
+                Inventory = [],
+                EquippedWeapon = "",
+                EquippedEquipment = [],
+                LearnedSkills = [],
+                SkillLevels = []
+            };
+
             return new SaveData
             {
                 // 基本存档信息
                 SaveId = saveId,
                 SaveName = saveName ?? $"Save {saveId}",
                 SaveTime = DateTime.Now,
-
-                // 玩家状态
-                PlayerPosition = new Vector2(0, 0),
-                PlayerLevel = 1,
-                PlayerExperience = 0,
-                PlayerHealth = 100f,
-                PlayerMaxHealth = 100f,
-                PlayerMana = 50f,
-                PlayerMaxMana = 50f,
-                PlayerAttack = 10,
-                PlayerDefense = 5,
-                PlayerSpeed = 50f,
 
                 // 游戏进度
                 CurrentScene = "main",
@@ -258,14 +216,8 @@ namespace hd2dtest.Scripts.Core
                 CompletedQuests = [],
                 DiscoveredAreas = [],
 
-                // 物品和装备
-                Inventory = [],
-                EquippedWeapon = "",
-                EquippedEquipment = [],
-
-                // 技能
-                LearnedSkills = [],
-                SkillLevels = [],
+                // 多个玩家状态
+                Players = [defaultPlayer],
 
                 // 自定义数据
                 CustomData = []
@@ -311,6 +263,15 @@ namespace hd2dtest.Scripts.Core
                                     string baseName = fileName[..fileName.LastIndexOf(SaveFileExtension)];
                                     string saveId = baseName.Replace("save_", "");
 
+                                    // 计算平均玩家等级
+                                    int totalLevel = 0;
+                                    int playerCount = saveData.Players.Count;
+                                    foreach (var player in saveData.Players)
+                                    {
+                                        totalLevel += player.Level;
+                                    }
+                                    int averageLevel = playerCount > 0 ? totalLevel / playerCount : 0;
+                                    
                                     // 创建存档信息
                                     SaveInfo saveInfo = new()
                                     {
@@ -318,7 +279,8 @@ namespace hd2dtest.Scripts.Core
                                         SaveName = saveData.SaveName,
                                         SaveTime = saveData.SaveTime,
                                         GameScore = saveData.GameScore,
-                                        PlayerLevel = saveData.PlayerLevel,
+                                        PlayerCount = playerCount,
+                                        AveragePlayerLevel = averageLevel,
                                         PlayTime = saveData.PlayTime,
                                         CurrentScene = saveData.CurrentScene
                                     };

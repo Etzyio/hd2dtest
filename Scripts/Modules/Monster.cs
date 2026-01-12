@@ -1,8 +1,7 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using hd2dtest.Scripts.Core;
-using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -33,51 +32,45 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 怪物类型
         /// </summary>
-        [Export]
         public MonsterType Type { get; set; } = MonsterType.Normal;
 
         /// <summary>
         /// 仇恨范围
         /// </summary>
-        [Export]
         public float AggroRange { get; set; } = 100f;
 
         /// <summary>
         /// 攻击范围
         /// </summary>
-        [Export]
         public float AttackRange { get; set; } = 40f;
 
         /// <summary>
         /// 追逐速度
         /// </summary>
-        [Export]
         public float ChaseSpeed { get; set; } = 60f;
 
         /// <summary>
         /// 巡逻速度
         /// </summary>
-        [Export]
         public float PatrolSpeed { get; set; } = 30f;
 
         // AI属性
         /// <summary>
         /// 当前AI状态
         /// </summary>
-        [Export]
         public MonsterState CurrentState { get; set; } = MonsterState.Idle;
 
         /// <summary>
         /// 是否可以追逐
         /// </summary>
-        [Export]
         public bool CanChase { get; set; } = true;
 
         /// <summary>
         /// 是否可以逃跑
         /// </summary>
-        [Export]
         public bool CanFlee { get; set; } = false;
+
+
 
         // 巡逻点
         /// <summary>
@@ -132,7 +125,7 @@ namespace hd2dtest.Scripts.Modules
             switch (Type)
             {
                 case MonsterType.Elite:
-                    Name = "Elite Monster";
+                    CreatureName = "Elite Monster";
                     Health = 150f;
                     MaxHealth = 150f;
                     Attack = 20f;
@@ -141,7 +134,7 @@ namespace hd2dtest.Scripts.Modules
                     AttackRange = 50f;
                     break;
                 case MonsterType.Boss:
-                    Name = "Boss Monster";
+                    CreatureName = "Boss Monster";
                     Health = 500f;
                     MaxHealth = 500f;
                     Attack = 35f;
@@ -151,7 +144,7 @@ namespace hd2dtest.Scripts.Modules
                     _maxAttackCooldown = 0.8f;
                     break;
                 default:
-                    Name = "Monster";
+                    CreatureName = "Monster";
                     Health = 80f;
                     MaxHealth = 80f;
                     Attack = 12f;
@@ -396,9 +389,9 @@ namespace hd2dtest.Scripts.Modules
         }
 
         /// <summary>
-        /// 怪物死亡（重写父类方法）
+        /// 怪物死亡
         /// </summary>
-        protected override void Die()
+        protected new void Die()
         {
             base.Die();
 
@@ -406,7 +399,7 @@ namespace hd2dtest.Scripts.Modules
             DropLoot();
 
             // 通知玩家（如果玩家存在）
-            if (_target is Player player)
+            if (_target != null && _target is Player player)
             {
                 player.KillEnemy(this);
             }
@@ -421,15 +414,15 @@ namespace hd2dtest.Scripts.Modules
             if (DropItems.Count > 0)
             {
                 // 随机选择一个物品掉落
-                int randomIndex = (int)(GD.Randi() % DropItems.Count);
+                int randomIndex = DamageCalculator.Randi(DropItems.Count);
                 string droppedItem = DropItems[randomIndex];
 
                 Log.Info($"{CreatureName} dropped {droppedItem}");
             }
 
             // 掉落金币
-            int gold = (int)(GD.Randi() % (Level * 20) + 5);
-            if (gold > 0 && _target is Player player)
+            int gold = DamageCalculator.Randi(Level * 20) + 5;
+            if (gold > 0 && _target != null && _target is Player player)
             {
                 player.CollectGold(gold);
             }

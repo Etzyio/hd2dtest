@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using hd2dtest.Scripts.Core;
 

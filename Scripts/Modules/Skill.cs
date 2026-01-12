@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using hd2dtest.Scripts.Core;
 
@@ -95,11 +94,6 @@ namespace hd2dtest.Scripts.Modules
         public int ManaCost { get; set; } = 0;
 
         /// <summary>
-        /// 技能所需等级
-        /// </summary>
-        public int RequiredLevel { get; set; } = 1;
-
-        /// <summary>
         /// 技能伤害类型
         /// </summary>
         public string DamageType { get; set; } = "";
@@ -108,17 +102,6 @@ namespace hd2dtest.Scripts.Modules
         /// 技能是否已解锁
         /// </summary>
         public bool IsUnlocked { get; set; } = false;
-
-        // 技能状态
-        /// <summary>
-        /// 当前冷却时间
-        /// </summary>
-        private float _currentCooldown = 0f;
-
-        /// <summary>
-        /// 技能是否可用
-        /// </summary>
-        public bool IsAvailable => _currentCooldown <= 0f;
 
         /// <summary>
         /// 获取技能状态描述
@@ -130,12 +113,6 @@ namespace hd2dtest.Scripts.Modules
             {
                 return "Locked";
             }
-
-            if (!IsAvailable)
-            {
-                return $"Cooldown: {_currentCooldown:F1}s";
-            }
-
             return "Ready";
         }
 
@@ -158,7 +135,7 @@ namespace hd2dtest.Scripts.Modules
                    $"Description: {Description}\n" +
                    $"Damage: {Damage:F1} | Healing: {Healing:F1}\n" +
                    $"Cooldown: {Cooldown:F1}s | Mana Cost: {ManaCost}\n" +
-                   $"Required Level: {RequiredLevel} | Status: {GetStatus()}";
+                   $"Damage Type: {DamageType} | Status: {GetStatus()}";
         }
     }
 }

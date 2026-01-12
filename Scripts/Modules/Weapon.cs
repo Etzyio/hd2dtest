@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using hd2dtest.Scripts.Core;
 
@@ -147,7 +146,7 @@ namespace hd2dtest.Scripts.Modules
         /// <returns>是否暴击</returns>
         public bool IsCriticalHit()
         {
-            return GD.Randf() <= CriticalChance;
+            return DamageCalculator.Randf() <= CriticalChance;
         }
 
         /// <summary>
