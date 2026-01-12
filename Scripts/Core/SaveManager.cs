@@ -74,6 +74,22 @@ namespace hd2dtest.Scripts.Core
                 {
                     saveData.SaveName = $"Save {saveId}";
                 }
+                
+                // 设置版本信息
+                if (VersionManager.Instance != null)
+                {
+                    saveData.GameVersion = VersionManager.Instance.GameVersion;
+                    saveData.BuildDate = VersionManager.Instance.BuildDate;
+                    saveData.GitCommit = VersionManager.Instance.GitCommit;
+                }
+                
+                // 如果VersionManager实例不可用，使用默认版本号
+                else
+                {
+                    saveData.GameVersion = "0.0.1";
+                    saveData.BuildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    saveData.GitCommit = "unknown";
+                }
 
                 // 序列化存档数据
                 string json = JsonSerializer.Serialize(saveData, _jsonSerializerOptions);
@@ -200,6 +216,18 @@ namespace hd2dtest.Scripts.Core
                 EquippedEquipment = [],
                 LearnedSkills = []
             };
+            
+            // 获取版本信息
+            string gameVersion = "0.0.1";
+            string buildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string gitCommit = "unknown";
+            
+            if (VersionManager.Instance != null)
+            {
+                gameVersion = VersionManager.Instance.GameVersion;
+                buildDate = VersionManager.Instance.BuildDate;
+                gitCommit = VersionManager.Instance.GitCommit;
+            }
 
             return new SaveData
             {
@@ -207,6 +235,9 @@ namespace hd2dtest.Scripts.Core
                 SaveId = saveId,
                 SaveName = saveName ?? $"Save {saveId}",
                 SaveTime = DateTime.Now,
+                GameVersion = gameVersion,
+                BuildDate = buildDate,
+                GitCommit = gitCommit,
 
                 // 游戏进度
                 CurrentScene = "main",
@@ -277,6 +308,7 @@ namespace hd2dtest.Scripts.Core
                                         SaveId = saveId,
                                         SaveName = saveData.SaveName,
                                         SaveTime = saveData.SaveTime,
+                                        GameVersion = saveData.GameVersion,
                                         GameScore = saveData.GameScore,
                                         PlayerCount = playerCount,
                                         AveragePlayerLevel = averageLevel,

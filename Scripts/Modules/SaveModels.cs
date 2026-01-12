@@ -40,6 +40,9 @@ namespace hd2dtest.Scripts.Modules
         public string SaveId { get; set; }  // 存档ID
         public string SaveName { get; set; }  // 存档名称
         public DateTime SaveTime { get; set; }  // 保存时间
+        public string GameVersion { get; set; }  // 游戏版本号
+        public string BuildDate { get; set; }  // 构建日期
+        public string GitCommit { get; set; }  // Git提交哈希
 
         // 游戏进度
         public string CurrentScene { get; set; }  // 当前场景名称
@@ -63,6 +66,7 @@ namespace hd2dtest.Scripts.Modules
         public string SaveId { get; set; }  // 存档ID
         public string SaveName { get; set; }  // 存档名称
         public DateTime SaveTime { get; set; }  // 保存时间
+        public string GameVersion { get; set; }  // 游戏版本号
         public int GameScore { get; set; }  // 游戏分数
         public int PlayerCount { get; set; }  // 玩家数量
         public int AveragePlayerLevel { get; set; }  // 平均玩家等级
