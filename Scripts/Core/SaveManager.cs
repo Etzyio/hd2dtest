@@ -198,8 +198,7 @@ namespace hd2dtest.Scripts.Core
                 Inventory = [],
                 EquippedWeapon = "",
                 EquippedEquipment = [],
-                LearnedSkills = [],
-                SkillLevels = []
+                LearnedSkills = []
             };
 
             return new SaveData
