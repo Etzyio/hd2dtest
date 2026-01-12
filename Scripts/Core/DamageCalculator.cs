@@ -32,13 +32,10 @@ namespace hd2dtest.Scripts.Core
             float baseDamageAfterDefense = Mathf.Max(1f, player.Attack - monster.Defense * 0.1f);
 
             // 计算弱点倍率
-            float weaknessMultiplier = monster.Weaknesses != null && monster.Weaknesses.Contains(skill.DamageType) ? 1.3f : 1.0f;
+            float weaknessMultiplier = monster.weaknesses != null && monster.weaknesses.Contains(skill.DamageType) ? 1.3f : 1.0f;
 
-            // 计算暴击倍率
-            float critMultiplier = GD.Randf() < player.CritRate ? 1.5f : 1.0f;
-
-            // 计算最终伤害
-            float finalDamage = baseDamageAfterDefense * weaknessMultiplier * critMultiplier;
+            // 计算最终伤害（暂时不考虑暴击，因为Creature类中没有CritRate属性）
+            float finalDamage = baseDamageAfterDefense * weaknessMultiplier;
 
             return finalDamage;
         }
