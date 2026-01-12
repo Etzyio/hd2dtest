@@ -74,6 +74,9 @@ namespace hd2dtest.Scripts.Modules
         [Export]
         public int Experience { get; set; } = 0;
 
+        [Export]
+        public Godot.Collections.Array<String> SkillIDs { get; set; } = [];
+
         // 状态属性
         /// <summary>
         /// 是否存活
@@ -123,15 +126,17 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 恢复生命值
         /// </summary>
-        /// <param name="amount">恢复量</param>
-        public virtual void Heal(float amount)
+        /// <param name="creature">治疗来源</param>
+        /// <param name="skill">治疗类型</param>
+        public virtual float Heal(Creature creature, Skill skill)
         {
             if (!IsAlive)
             {
-                return;
+                return 0;
             }
 
-            Health = Mathf.Min(MaxHealth, Health + amount);
+            float Health = DamageCalculator.CalculateDamage(creature, this, skill);
+            return Health;
         }
 
         /// <summary>

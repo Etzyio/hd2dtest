@@ -18,13 +18,13 @@ namespace hd2dtest.Scripts.Core
         {
             _instance = this;
         }
+
         /// <summary>
         /// 计算实际伤害值
         /// </summary>
-        /// <param name="baseDamage">基础伤害值</param>
-        /// <param name="defense">目标防御值</param>
-        /// <param name="weaknesses">目标弱点列表</param>
-        /// <param name="damageType">伤害类型</param>
+        /// <param name="player">攻击方生物</param>
+        /// <param name="monster">防御方生物</param>
+        /// <param name="skill">技能信息</param>
         /// <returns>实际伤害值</returns>
         public static float CalculateDamage(Creature player, Creature monster, Skill skill)
         {
@@ -32,12 +32,13 @@ namespace hd2dtest.Scripts.Core
             float baseDamageAfterDefense = Mathf.Max(1f, player.Attack - monster.Defense * 0.1f);
 
             // 计算弱点倍率
-            float weaknessMultiplier = monster.weaknesses.Contains(skill.DamageType) ? 1.3f : 1.0f;
+            float weaknessMultiplier = monster.Weaknesses != null && monster.Weaknesses.Contains(skill.DamageType) ? 1.3f : 1.0f;
 
-            // float CalculateCritDamage = GD.Randf() < player.CritRate ? 1.5f : 1.0f;
+            // 计算暴击倍率
+            float critMultiplier = GD.Randf() < player.CritRate ? 1.5f : 1.0f;
 
             // 计算最终伤害
-            float finalDamage = baseDamageAfterDefense * weaknessMultiplier;
+            float finalDamage = baseDamageAfterDefense * weaknessMultiplier * critMultiplier;
 
             return finalDamage;
         }

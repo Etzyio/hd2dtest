@@ -422,8 +422,8 @@ namespace hd2dtest.Scripts.Modules
         private void HealPlayer(Creature player)
         {
             // 治疗玩家
-            float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
-            player.Heal(healAmount);
+            // float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
+            float healAmount = player.Heal(this, Skills[0]); // 使用NPC的第一个技能进行治疗
 
             Log.Info($"{CreatureName}: Feel better now?");
             Log.Info($"{player.CreatureName} recovered {healAmount:F0} HP!");
