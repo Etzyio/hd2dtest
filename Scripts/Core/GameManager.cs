@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using Godot;
-using System;
+using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts.Core
 {
@@ -20,10 +21,11 @@ namespace hd2dtest.Scripts.Core
         private GameState _currentState;
 
         [Export]
-        public Node2D Player;
+        public Godot.Collections.Array<Node2D> Players = new Godot.Collections.Array<Node2D>();
 
         [Export]
         public CanvasLayer UI;
+
 
         public override void _Ready()
         {
@@ -67,9 +69,9 @@ namespace hd2dtest.Scripts.Core
             _currentState = GameState.Playing;
             ShowUI("Game");
             // 重置玩家位置和状态
-            if (Player != null)
+            if (Players != null)
             {
-                Player.Position = new Vector2(0, 0);
+                Players[0].Position = new Vector2(0, 0);
             }
         }
 
