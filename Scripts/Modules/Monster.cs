@@ -9,7 +9,7 @@ namespace hd2dtest.Scripts.Modules
     /// <summary>
     /// 怪物类
     /// </summary>
-    public partial class Monster : Character
+    public partial class Monster : Creature
     {
         // 怪物类型枚举
         public enum MonsterType
@@ -119,7 +119,7 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 目标角色
         /// </summary>
-        private Character _target = null;
+        private Creature _target = null;
 
         /// <summary>
         /// 初始化怪物
@@ -132,7 +132,7 @@ namespace hd2dtest.Scripts.Modules
             switch (Type)
             {
                 case MonsterType.Elite:
-                    CharacterName = "Elite Monster";
+                    Name = "Elite Monster";
                     Health = 150f;
                     MaxHealth = 150f;
                     Attack = 20f;
@@ -141,7 +141,7 @@ namespace hd2dtest.Scripts.Modules
                     AttackRange = 50f;
                     break;
                 case MonsterType.Boss:
-                    CharacterName = "Boss Monster";
+                    Name = "Boss Monster";
                     Health = 500f;
                     MaxHealth = 500f;
                     Attack = 35f;
@@ -151,7 +151,7 @@ namespace hd2dtest.Scripts.Modules
                     _maxAttackCooldown = 0.8f;
                     break;
                 default:
-                    CharacterName = "Monster";
+                    Name = "Monster";
                     Health = 80f;
                     MaxHealth = 80f;
                     Attack = 12f;
@@ -178,7 +178,7 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 检测玩家
-            Character player = DetectPlayer();
+            Creature player = DetectPlayer();
 
             switch (CurrentState)
             {
@@ -204,7 +204,7 @@ namespace hd2dtest.Scripts.Modules
         /// 检测玩家
         /// </summary>
         /// <returns>检测到的玩家</returns>
-        private Character DetectPlayer()
+        private Creature DetectPlayer()
         {
             // 这里简化处理，实际应该通过场景树查找玩家
             return null;
@@ -215,7 +215,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="delta">时间增量</param>
         /// <param name="player">玩家</param>
-        private void HandleIdleState(float delta, Character player)
+        private void HandleIdleState(float delta, Creature player)
         {
             // 检查玩家是否在攻击范围内
             if (player != null && Position.DistanceTo(player.Position) <= AggroRange)
@@ -240,7 +240,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="delta">时间增量</param>
         /// <param name="player">玩家</param>
-        private void HandlePatrolState(float delta, Character player)
+        private void HandlePatrolState(float delta, Creature player)
         {
             // 检查玩家是否在攻击范围内
             if (player != null && Position.DistanceTo(player.Position) <= AggroRange)
@@ -269,9 +269,9 @@ namespace hd2dtest.Scripts.Modules
             }
             else
             {
-                // 移动
+                // 直接移动，不使用Move方法
                 Speed = PatrolSpeed;
-                Move(direction, delta);
+                Position += direction * Speed * delta;
             }
         }
 
@@ -280,7 +280,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="delta">时间增量</param>
         /// <param name="player">玩家</param>
-        private void HandleChaseState(float delta, Character player)
+        private void HandleChaseState(float delta, Creature player)
         {
             if (player == null)
             {
@@ -304,10 +304,10 @@ namespace hd2dtest.Scripts.Modules
                 return;
             }
 
-            // 追逐玩家
+            // 追逐玩家，直接移动
             Speed = ChaseSpeed;
             Vector2 direction = (player.Position - Position).Normalized();
-            Move(direction, delta);
+            Position += direction * Speed * delta;
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="delta">时间增量</param>
         /// <param name="player">玩家</param>
-        private void HandleAttackState(float delta, Character player)
+        private void HandleAttackState(float delta, Creature player)
         {
             if (player == null)
             {
@@ -345,7 +345,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="delta">时间增量</param>
         /// <param name="player">玩家</param>
-        private void HandleFleeState(float delta, Character player)
+        private void HandleFleeState(float delta, Creature player)
         {
             if (player == null)
             {
@@ -365,24 +365,34 @@ namespace hd2dtest.Scripts.Modules
             // 远离玩家
             Speed = ChaseSpeed;
             Vector2 direction = (Position - player.Position).Normalized();
-            Move(direction, delta);
+            Position += direction * Speed * delta;
         }
 
         /// <summary>
-        /// 攻击目标（重写父类方法）
+        /// 攻击目标
         /// </summary>
         /// <param name="target">攻击目标</param>
         /// <returns>是否攻击成功</returns>
-        public override bool AttackTarget(Character target)
+        public bool AttackTarget(Creature target)
         {
-            bool success = base.AttackTarget(target);
-
-            if (success)
+            if (!IsAlive || target == null || !target.IsAlive)
             {
-                _attackCooldown = _maxAttackCooldown;
+                return false;
             }
 
-            return success;
+            // 使用默认技能攻击目标
+            // 这里简化处理，实际应该使用怪物的技能
+            Skill defaultSkill = new Skill
+            {
+                SkillName = "Monster Attack",
+                SkillTypeValue = Skill.SkillType.Attack,
+                Damage = Attack,
+                Cooldown = 1f
+            };
+
+            target.TakeDamage(this, defaultSkill);
+            _attackCooldown = _maxAttackCooldown;
+            return true;
         }
 
         /// <summary>
@@ -414,7 +424,7 @@ namespace hd2dtest.Scripts.Modules
                 int randomIndex = (int)(GD.Randi() % DropItems.Count);
                 string droppedItem = DropItems[randomIndex];
 
-                Log.Info($"{CharacterName} dropped {droppedItem}");
+                Log.Info($"{CreatureName} dropped {droppedItem}");
             }
 
             // 掉落金币
@@ -429,9 +439,9 @@ namespace hd2dtest.Scripts.Modules
         /// 获取怪物信息
         /// </summary>
         /// <returns>怪物信息</returns>
-        public override string GetCharacterInfo()
+        public override string GetCreatureInfo()
         {
-            return $"{base.GetCharacterInfo()} - Type: {Type} - State: {CurrentState}";
+            return $"{base.GetCreatureInfo()} - Type: {Type} - State: {CurrentState}";
         }
     }
 }

@@ -135,7 +135,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="caster">施法者</param>
         /// <param name="target">目标</param>
-        public void Use(Character caster, Character target)
+        public void Use(Creature caster, Creature target)
         {
             if (!IsAvailable || !caster.IsAlive || (target != null && !target.IsAlive))
             {
@@ -174,32 +174,29 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="caster">施法者</param>
         /// <param name="target">目标</param>
-        private void ExecuteAttackEffect(Character caster, Character target)
+        private void ExecuteAttackEffect(Creature caster, Creature target)
         {
             if (target == null)
             {
                 return;
             }
 
-            // 计算最终伤害
-            float finalDamage = Damage + caster.Attack * 0.5f;
-
             // 目标受到伤害
-            target.TakeDamage(finalDamage);
+            target.TakeDamage(caster, this);
 
-            Log.Info($"{caster.CharacterName} used {SkillName} on {target.CharacterName}, dealing {finalDamage:F1} damage!");
+            Log.Info($"{caster.CreatureName} used {SkillName} on {target.CreatureName}");
         }
 
         /// <summary>
         /// 执行防御效果
         /// </summary>
         /// <param name="caster">施法者</param>
-        private void ExecuteDefenseEffect(Character caster)
+        private void ExecuteDefenseEffect(Creature caster)
         {
-            // 提升防御力
+            // 提升防御力   
             caster.Defense += DefenseBoost;
 
-            Log.Info($"{caster.CharacterName} used {SkillName}, defense increased by {DefenseBoost:F1}!");
+            Log.Info($"{caster.CreatureName} used {SkillName}, defense increased by {DefenseBoost:F1}!");
 
             // 如果有持续时间，设置定时器恢复
             if (Duration > 0)
@@ -213,12 +210,12 @@ namespace hd2dtest.Scripts.Modules
         /// 执行辅助效果
         /// </summary>
         /// <param name="caster">施法者</param>
-        private void ExecuteSupportEffect(Character caster)
+        private void ExecuteSupportEffect(Creature caster)
         {
             // 提升速度
             caster.Speed += SpeedBoost;
 
-            Log.Info($"{caster.CharacterName} used {SkillName}, speed increased by {SpeedBoost:F1}!");
+            Log.Info($"{caster.CreatureName} used {SkillName}, speed increased by {SpeedBoost:F1}!");
 
             // 如果有持续时间，设置定时器恢复
             if (Duration > 0)
@@ -233,10 +230,10 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="caster">施法者</param>
         /// <param name="target">目标</param>
-        private void ExecuteHealingEffect(Character caster, Character target)
+        private void ExecuteHealingEffect(Creature caster, Creature target)
         {
             // 如果目标为null，治疗自己
-            Character healingTarget = target ?? caster;
+            Creature healingTarget = target ?? caster;
 
             // 计算最终治疗量
             float finalHealing = Healing + caster.Level * 2f;
@@ -244,7 +241,7 @@ namespace hd2dtest.Scripts.Modules
             // 目标恢复生命值
             healingTarget.Heal(finalHealing);
 
-            Log.Info($"{caster.CharacterName} used {SkillName} on {healingTarget.CharacterName}, healing {finalHealing:F1} HP!");
+            Log.Info($"{caster.CreatureName} used {SkillName} on {healingTarget.CreatureName}, healing {finalHealing:F1} HP!");
         }
 
         /// <summary>

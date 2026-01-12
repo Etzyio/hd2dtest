@@ -86,11 +86,6 @@ namespace hd2dtest.Scripts.Modules
         public float Attack { get; set; } = 0f;
 
         /// <summary>
-        /// 装备所需等级
-        /// </summary>
-        public int RequiredLevel { get; set; } = 1;
-
-        /// <summary>
         /// 装备价格
         /// </summary>
         public int Price { get; set; } = 100;
@@ -173,7 +168,7 @@ namespace hd2dtest.Scripts.Modules
                    $"Defense: {Defense:F0} | Health: {Health:F0} | Mana: {Mana:F0}\n" +
                    $"Speed: {Speed:F0}\n" +
                    effectLine +
-                   $"Required Level: {RequiredLevel} | Price: {Price} Gold\n" +
+                   $"Price: {Price} Gold\n" +
                    $"Equipped: {IsEquipped}";
         }
 

@@ -9,65 +9,14 @@ namespace hd2dtest.Scripts.Modules
     /// <summary>
     /// 玩家类（单例模式）
     /// </summary>
-    public partial class Player : Character
+    public partial class Player : Creature
     {
-        // 单例实例
-        /// <summary>
-        /// 单例实例
-        /// </summary>
-        private static Player _instance;
-
-        /// <summary>
-        /// 获取玩家实例
-        /// </summary>
-        public static Player Instance => _instance;
 
         /// <summary>
         /// 私有构造函数，防止外部实例化
         /// </summary>
         private Player() { }
-
-        // 玩家特定属性
-        /// <summary>
-        /// 跳跃力
-        /// </summary>
-        [Export]
-        public float JumpForce { get; set; } = 300f;
-
-        /// <summary>
-        /// 最大跳跃高度
-        /// </summary>
-        [Export]
-        public float MaxJumpHeight { get; set; } = 100f;
-
-        /// <summary>
-        /// 跳跃到最高点的时间
-        /// </summary>
-        [Export]
-        public float JumpTimeToPeak { get; set; } = 0.4f;
-
-        /// <summary>
-        /// 从最高点下落的时间
-        /// </summary>
-        [Export]
-        public float JumpTimeToFall { get; set; } = 0.3f;
-
-        // 玩家状态
-        /// <summary>
-        /// 是否正在跳跃
-        /// </summary>
-        public bool IsJumping { get; private set; } = false;
-
-        /// <summary>
-        /// 是否在地面上
-        /// </summary>
-        public bool IsOnGround { get; set; } = false;
-
-        /// <summary>
-        /// 跳跃速度
-        /// </summary>
-        public float JumpVelocity { get; private set; } = 0f;
-
+        
         // 玩家装备
         /// <summary>
         /// 武器列表
@@ -90,6 +39,33 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         public List<Skill> Skills { get; } = [];
 
+        // 状态属性
+        /// <summary>
+        /// 是否正在移动
+        /// </summary>
+        public bool IsMoving { get; set; } = false;
+        
+        /// <summary>
+        /// 是否正在攻击
+        /// </summary>
+        public bool IsAttacking { get; set; } = false;
+        
+        /// <summary>
+        /// 是否正在防御
+        /// </summary>
+        public bool IsDefending { get; set; } = false;
+        
+        /// <summary>
+        /// 移动方向
+        /// </summary>
+        public Vector2 Direction { get; set; } = Vector2.Zero;
+        
+        /// <summary>
+        /// 动画精灵组件
+        /// </summary>
+        [Export]
+        public AnimatedSprite2D AnimatedSprite { get; set; }
+        
         // 玩家统计数据
         /// <summary>
         /// 金币数量
@@ -107,36 +83,20 @@ namespace hd2dtest.Scripts.Modules
         public int DeathCount { get; set; } = 0;
 
         /// <summary>
-        /// 获取或创建玩家实例（单例模式）
-        /// </summary>
-        /// <returns>玩家实例</returns>
-        public static Player GetInstance()
-        {
-            _instance ??= new Player();
-            return _instance;
-        }
-
-        /// <summary>
         /// 初始化玩家
         /// </summary>
         public override void Initialize()
         {
             base.Initialize();
 
-            // 设置单例实例
-            _instance = this;
-
             // 设置默认属性
-            CharacterName = "Player";
+            CreatureName = "Player";
             Health = 100f;
             MaxHealth = 100f;
             Attack = 15f;
             Defense = 8f;
             Speed = 75f;
             Level = 1;
-
-            // 初始化跳跃参数
-            JumpVelocity = -2f * MaxJumpHeight / JumpTimeToPeak;
 
             // 初始化装备和技能
             InitializeWeapons();
@@ -154,9 +114,7 @@ namespace hd2dtest.Scripts.Modules
             {
                 WeaponName = "Default Sword",
                 WeaponTypeValue = Weapon.WeaponType.Sword,
-                AttackPower = 5f,
-                AttackSpeed = 1f,
-                Range = 30f
+                AttackPower = 5f
             };
 
             Weapons.Add(defaultWeapon);
@@ -196,52 +154,6 @@ namespace hd2dtest.Scripts.Modules
             };
 
             Skills.Add(defaultSkill);
-        }
-
-        /// <summary>
-        /// 玩家跳跃
-        /// </summary>
-        public void Jump()
-        {
-            if (!IsAlive || !IsOnGround || IsJumping)
-            {
-                return;
-            }
-
-            IsJumping = true;
-            IsOnGround = false;
-
-            // 应用跳跃力
-            JumpVelocity = JumpForce;
-
-            // 播放跳跃动画
-            AnimatedSprite?.Play("jump");
-        }
-
-        /// <summary>
-        /// 更新跳跃逻辑
-        /// </summary>
-        /// <param name="delta">时间增量</param>
-        public void UpdateJump(float delta)
-        {
-            if (IsJumping)
-            {
-                // 应用重力
-                JumpVelocity += 9.8f * 100f * delta;
-
-                // 更新位置
-                Position += new Vector2(0, JumpVelocity * delta);
-
-                // 检查是否到达地面
-                if (IsOnGround)
-                {
-                    IsJumping = false;
-                    JumpVelocity = 0f;
-
-                    // 播放着陆动画
-                    AnimatedSprite?.Play("idle");
-                }
-            }
         }
 
         /// <summary>
@@ -301,7 +213,7 @@ namespace hd2dtest.Scripts.Modules
         /// <param name="skillIndex">技能索引</param>
         /// <param name="target">技能目标</param>
         /// <returns>是否成功使用技能</returns>
-        public bool UseSkill(int skillIndex, Character target)
+        public bool UseSkill(int skillIndex, Creature target)
         {
             if (skillIndex < 0 || skillIndex >= Skills.Count || !IsAlive || target == null || !target.IsAlive)
             {
@@ -319,7 +231,7 @@ namespace hd2dtest.Scripts.Modules
             // 使用技能
             skill.Use(this, target);
 
-            Log.Info($"Used skill: {skill.SkillName} on {target.CharacterName}");
+            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}");
 
             return true;
         }
@@ -338,7 +250,7 @@ namespace hd2dtest.Scripts.Modules
         /// 杀死敌人
         /// </summary>
         /// <param name="enemy">被杀死的敌人</param>
-        public void KillEnemy(Character enemy)
+        public void KillEnemy(Creature enemy)
         {
             KillCount++;
             Experience += enemy.Level * 10;
@@ -346,7 +258,7 @@ namespace hd2dtest.Scripts.Modules
             // 检查是否升级
             CheckLevelUp();
 
-            Log.Info($"Killed {enemy.CharacterName}. Kill count: {KillCount}");
+            Log.Info($"Killed {enemy.CreatureName}. Kill count: {KillCount}");
         }
 
         /// <summary>
@@ -379,27 +291,21 @@ namespace hd2dtest.Scripts.Modules
             base.Die();
 
             DeathCount++;
-            IsJumping = false;
-            JumpVelocity = 0f;
 
             Log.Info($"Player died. Death count: {DeathCount}");
         }
 
         /// <summary>
-        /// 更新动画状态（重写父类方法）
+        /// 更新动画状态
         /// </summary>
-        protected override void UpdateAnimation()
+        protected void UpdateAnimation()
         {
             if (AnimatedSprite == null)
             {
                 return;
             }
 
-            if (IsJumping)
-            {
-                AnimatedSprite.Play("jump");
-            }
-            else if (IsMoving)
+            if (IsMoving)
             {
                 AnimatedSprite.Play("move");
 
@@ -419,9 +325,9 @@ namespace hd2dtest.Scripts.Modules
         /// 获取玩家信息（重写父类方法）
         /// </summary>
         /// <returns>玩家信息</returns>
-        public override string GetCharacterInfo()
+        public override string GetCreatureInfo()
         {
-            return $"{base.GetCharacterInfo()} - Gold: {Gold} - Kills: {KillCount} - Deaths: {DeathCount}";
+            return $"{base.GetCreatureInfo()} - Gold: {Gold} - Kills: {KillCount} - Deaths: {DeathCount}";
         }
     }
 }

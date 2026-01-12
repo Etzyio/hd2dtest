@@ -8,7 +8,7 @@ namespace hd2dtest.Scripts.Modules
     /// <summary>
     /// NPC类
     /// </summary>
-    public partial class NPC : Character
+    public partial class NPC : Creature
     {
         // NPC类型枚举
         public enum NPCType
@@ -108,6 +108,16 @@ namespace hd2dtest.Scripts.Modules
         [Export]
         public float PatrolSpeed { get; set; } = 25f;
 
+        /// <summary>
+        /// 是否正在移动
+        /// </summary>
+        public bool IsMoving { get; set; } = false;
+
+        /// <summary>
+        /// 移动方向
+        /// </summary>
+        public Vector2 Direction { get; set; } = Vector2.Zero;
+
         // 巡逻点
         /// <summary>
         /// 巡逻点列表
@@ -132,7 +142,7 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 目标角色
         /// </summary>
-        private Character _target = null;
+        private Creature _target = null;
 
         /// <summary>
         /// 初始化NPC
@@ -145,26 +155,26 @@ namespace hd2dtest.Scripts.Modules
             switch (Type)
             {
                 case NPCType.Merchant:
-                    CharacterName = "Merchant";
+                    CreatureName = "Merchant";
                     AvailableInteractions.AddRange([InteractionType.Talk, InteractionType.Trade]);
                     break;
                 case NPCType.QuestGiver:
-                    CharacterName = "Quest Giver";
+                    CreatureName = "Quest Giver";
                     AvailableInteractions.AddRange([InteractionType.Talk, InteractionType.Quest]);
                     break;
                 case NPCType.Guard:
-                    CharacterName = "Guard";
+                    CreatureName = "Guard";
                     Attack = 15f;
                     Defense = 10f;
                     DetectionRadius = 80f;
                     AvailableInteractions.Add(InteractionType.Talk);
                     break;
                 case NPCType.Healer:
-                    CharacterName = "Healer";
+                    CreatureName = "Healer";
                     AvailableInteractions.AddRange([InteractionType.Talk, InteractionType.Heal]);
                     break;
                 default:
-                    CharacterName = "Villager";
+                    CreatureName = "Villager";
                     AvailableInteractions.Add(InteractionType.Talk);
                     break;
             }
@@ -182,7 +192,7 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 检测玩家
-            Character player = DetectPlayer();
+            Creature player = DetectPlayer();
 
             switch (CurrentState)
             {
@@ -205,7 +215,7 @@ namespace hd2dtest.Scripts.Modules
         /// 检测玩家
         /// </summary>
         /// <returns>检测到的玩家</returns>
-        private static Character DetectPlayer()
+        private static Creature DetectPlayer()
         {
             // 这里简化处理，实际应该通过场景树查找玩家
             return null;
@@ -249,12 +259,15 @@ namespace hd2dtest.Scripts.Modules
                 // 移动到下一个巡逻点
                 _currentPatrolIndex = (_currentPatrolIndex + 1) % PatrolPoints.Count;
                 CurrentState = NPCState.Idle;
+                IsMoving = false;
             }
             else
             {
                 // 移动
                 Speed = PatrolSpeed;
-                Move(direction, delta);
+                IsMoving = true;
+                Direction = direction;
+                Position += direction * Speed * delta;
             }
         }
 
@@ -263,11 +276,12 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="delta">时间增量</param>
         /// <param name="target">跟随目标</param>
-        private void HandleFollowingState(float delta, Character target)
+        private void HandleFollowingState(float delta, Creature target)
         {
             if (target == null)
             {
                 CurrentState = NPCState.Idle;
+                IsMoving = false;
                 return;
             }
 
@@ -277,12 +291,14 @@ namespace hd2dtest.Scripts.Modules
 
             if (Position.DistanceTo(target.Position) > followDistance)
             {
-                Move(direction, delta);
+                Speed = PatrolSpeed;
+                IsMoving = true;
+                Direction = direction;
+                Position += direction * Speed * delta;
             }
             else
             {
                 IsMoving = false;
-                UpdateAnimation();
             }
         }
 
@@ -290,7 +306,7 @@ namespace hd2dtest.Scripts.Modules
         /// 处理警戒状态
         /// </summary>
         /// <param name="target">警戒目标</param>
-        private void HandleAlertState(Character target)
+        private void HandleAlertState(Creature target)
         {
             if (target == null)
             {
@@ -307,14 +323,13 @@ namespace hd2dtest.Scripts.Modules
 
             // 朝向目标
             Direction = (target.Position - Position).Normalized();
-            UpdateAnimation();
         }
 
         /// <summary>
         /// 开始对话
         /// </summary>
         /// <param name="player">对话对象</param>
-        public virtual void StartDialogue(Character player)
+        public virtual void StartDialogue(Creature player)
         {
             if (!CanTalk || !IsAlive || player == null)
             {
@@ -327,9 +342,8 @@ namespace hd2dtest.Scripts.Modules
 
             // 朝向玩家
             Direction = (player.Position - Position).Normalized();
-            UpdateAnimation();
 
-            Log.Info($"{CharacterName}: {Dialogue}");
+            Log.Info($"{CreatureName}: {Dialogue}");
         }
 
         /// <summary>
@@ -346,7 +360,7 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="player">交互的玩家</param>
         /// <param name="interactionType">交互类型</param>
-        public void Interact(Character player, InteractionType interactionType)
+        public void Interact(Creature player, InteractionType interactionType)
         {
             if (!IsInteractive || !IsAlive || player == null || !player.IsAlive)
             {
@@ -356,7 +370,7 @@ namespace hd2dtest.Scripts.Modules
             // 检查交互类型是否可用
             if (!AvailableInteractions.Contains(interactionType))
             {
-                Log.Info($"{CharacterName}: I can't do that.");
+                Log.Info($"{CreatureName}: I can't do that.");
                 return;
             }
 
@@ -385,9 +399,9 @@ namespace hd2dtest.Scripts.Modules
         /// 开始交易
         /// </summary>
         /// <param name="player">交易的玩家</param>
-        private void StartTrade(Character player)
+        private void StartTrade(Creature player)
         {
-            Log.Info($"{CharacterName}: Let's trade!");
+            Log.Info($"{CreatureName}: Let's trade!");
             // 这里简化处理，实际应该打开交易界面
         }
 
@@ -395,9 +409,9 @@ namespace hd2dtest.Scripts.Modules
         /// 提供任务
         /// </summary>
         /// <param name="player">接收任务的玩家</param>
-        private void OfferQuest(Character player)
+        private void OfferQuest(Creature player)
         {
-            Log.Info($"{CharacterName}: I have a quest for you!");
+            Log.Info($"{CreatureName}: I have a quest for you!");
             // 这里简化处理，实际应该打开任务界面
         }
 
@@ -405,31 +419,31 @@ namespace hd2dtest.Scripts.Modules
         /// 治疗玩家
         /// </summary>
         /// <param name="player">需要治疗的玩家</param>
-        private void HealPlayer(Character player)
+        private void HealPlayer(Creature player)
         {
             // 治疗玩家
             float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
             player.Heal(healAmount);
 
-            Log.Info($"{CharacterName}: Feel better now?");
-            Log.Info($"{player.CharacterName} recovered {healAmount:F0} HP!");
+            Log.Info($"{CreatureName}: Feel better now?");
+            Log.Info($"{player.CreatureName} recovered {healAmount:F0} HP!");
         }
 
         /// <summary>
         /// 切换跟随状态
         /// </summary>
         /// <param name="player">跟随的玩家</param>
-        private void ToggleFollow(Character player)
+        private void ToggleFollow(Creature player)
         {
             if (CurrentState == NPCState.Following)
             {
-                Log.Info($"{CharacterName}: I'll stop following you now.");
+                Log.Info($"{CreatureName}: I'll stop following you now.");
                 CurrentState = NPCState.Idle;
                 _target = null;
             }
             else
             {
-                Log.Info($"{CharacterName}: I'll follow you!");
+                Log.Info($"{CreatureName}: I'll follow you!");
                 CurrentState = NPCState.Following;
                 _target = player;
             }
@@ -439,9 +453,9 @@ namespace hd2dtest.Scripts.Modules
         /// 获取NPC信息
         /// </summary>
         /// <returns>NPC信息</returns>
-        public override string GetCharacterInfo()
+        public override string GetCreatureInfo()
         {
-            return $"{base.GetCharacterInfo()} - Type: {Type} - State: {CurrentState}";
+            return $"{base.GetCreatureInfo()} - Type: {Type} - State: {CurrentState}";
         }
     }
 }
