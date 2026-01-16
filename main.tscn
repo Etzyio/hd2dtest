@@ -1,6 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://dk3oyjhpn4eje"]
 
-[ext_resource type="Script" uid="uid://pgd23k2jimvs" path="res://Main.cs" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://baj87yb2xmw0b" path="res://Main.cs" id="1_ig7tw"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
+
+[node name="sceneLayer" type="Node" parent="."]
+
+[node name="popupLayer" type="Node" parent="."]

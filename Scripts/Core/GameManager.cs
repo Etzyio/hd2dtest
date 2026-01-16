@@ -57,8 +57,8 @@ namespace hd2dtest.Scripts.Core
 
         private void InitializeGame()
         {
-            // 初始化游戏设置
-            Input.MouseMode = Input.MouseModeEnum.Captured;
+            // 初始化游戏设置 - 鼠标始终可见
+            Input.MouseMode = Input.MouseModeEnum.Visible;
 
             // 显示标题UI
             ShowUI("Title");
@@ -86,7 +86,7 @@ namespace hd2dtest.Scripts.Core
         {
             _currentState = GameState.Playing;
             ShowUI("Game");
-            Input.MouseMode = Input.MouseModeEnum.Captured;
+            Input.MouseMode = Input.MouseModeEnum.Visible;
         }
 
         private void GameOver()

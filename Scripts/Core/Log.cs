@@ -54,14 +54,14 @@ namespace hd2dtest.Scripts.Core
         /// <param name="callerFilePath">调用文件路径（自动填充）</param>
         /// <param name="callerLineNumber">调用行号（自动填充）</param>
         public static void Info(
-            string message,
+            object message,
             [CallerMemberName] string callerMemberName = "",
             [CallerFilePath] string callerFilePath = "",
             [CallerLineNumber] int callerLineNumber = 0)
         {
             if (CurrentLevel <= LogLevel.Info)
             {
-                PrintLog(LogLevel.Info, message, callerMemberName, callerFilePath, callerLineNumber);
+                PrintLog(LogLevel.Info, message.ToString(), callerMemberName, callerFilePath, callerLineNumber);
             }
         }
 
