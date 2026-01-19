@@ -21,7 +21,7 @@ namespace hd2dtest.Scripts.Core
         private GameState _currentState;
 
         [Export]
-        public Godot.Collections.Array<Node2D> Players = new Godot.Collections.Array<Node2D>();
+        public Godot.Collections.Array<Node3D> Players = [];
 
         [Export]
         public CanvasLayer UI;
@@ -69,9 +69,9 @@ namespace hd2dtest.Scripts.Core
             _currentState = GameState.Playing;
             ShowUI("Game");
             // 重置玩家位置和状态
-            if (Players != null)
+            if (Players != null && Players.Count > 0)
             {
-                Players[0].Position = new Vector2(0, 0);
+                Players[0].Position = new Vector3(0f, 1.5f, 0f);
             }
         }
 

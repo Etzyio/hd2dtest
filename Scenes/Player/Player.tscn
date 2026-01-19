@@ -3,14 +3,18 @@
 [ext_resource type="Script" uid="uid://cpeq2pe6w1xtj" path="res://Scenes/Player/Player.cs" id="1_s0eop"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3ax4"]
+radius = 0.5
 height = 1.8
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_s0eop"]
+lightmap_size_hint = Vector2i(100, 20)
+radius = 1.0
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_s0eop"]
-frustum_focal_length = 40.0
+frustum_focal_length = 50.0
 
 [node name="Player" type="CharacterBody3D"]
+gravity_scale = 1.0
 script = ExtResource("1_s0eop")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -22,5 +26,5 @@ transform = Transform3D(0.5, 0, 0, 0, 0.9, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_s0eop")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-4.371139e-08, -0.5591929, 0.8290376, 0, 0.8290376, 0.5591929, -1, 2.4443098e-08, -3.6238383e-08, 25, 20, 0)
+transform = Transform3D(-4.371139e-08, -0.39073113, 0.92050487, 0, 0.92050487, 0.39073113, -1, 1.70794e-08, -4.0236547e-08, 25, 12.5, 0)
 attributes = SubResource("CameraAttributesPhysical_s0eop")
