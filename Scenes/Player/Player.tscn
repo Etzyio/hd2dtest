@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cu88pkc8etwxo"]
+
+[ext_resource type="Script" uid="uid://cpeq2pe6w1xtj" path="res://Scenes/Player/Player.cs" id="1_s0eop"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3ax4"]
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s0eop"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_s0eop"]
+frustum_focal_length = 40.0
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_s0eop")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_l3ax4")
+debug_color = Color(0.16078432, 0.59607846, 0.67058825, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.9, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_s0eop")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.371139e-08, -0.5591929, 0.8290376, 0, 0.8290376, 0.5591929, -1, 2.4443098e-08, -3.6238383e-08, 25, 20, 0)
+attributes = SubResource("CameraAttributesPhysical_s0eop")
