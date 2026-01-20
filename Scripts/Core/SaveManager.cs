@@ -197,25 +197,7 @@ namespace hd2dtest.Scripts.Core
         public static SaveData CreateDefaultSaveData(string saveId = "1", string saveName = null)
         {
             // 创建包含单个玩家的默认存档数据
-            var defaultPlayer = new PlayerSaveData
-            {
-                PlayerId = 0,
-                PlayerName = "Player 1",
-                Position = new System.Numerics.Vector2(0, 0),
-                Level = 1,
-                Experience = 0,
-                Health = 100f,
-                MaxHealth = 100f,
-                Mana = 50f,
-                MaxMana = 50f,
-                Attack = 10,
-                Defense = 5,
-                Speed = 50f,
-                Inventory = [],
-                EquippedWeapon = "",
-                EquippedEquipment = [],
-                LearnedSkills = []
-            };
+            var defaultPlayer = new hd2dtest.Scripts.Modules.Player();
             
             // 获取版本信息
             string gameVersion = "0.0.1";

@@ -11,7 +11,7 @@ namespace hd2dtest.Scripts.Modules
     {
         public int PlayerId { get; set; }  // 玩家ID
         public string PlayerName { get; set; }  // 玩家名称
-        public Vector2 Position { get; set; }  // 玩家位置
+        public Vector3 Position { get; set; }  // 玩家位置
         public int Level { get; set; }  // 玩家等级
         public int Experience { get; set; }  // 玩家经验值
         public float Health { get; set; }  // 玩家当前生命值
@@ -21,12 +21,12 @@ namespace hd2dtest.Scripts.Modules
         public int Attack { get; set; }  // 玩家攻击力
         public int Defense { get; set; }  // 玩家防御力
         public float Speed { get; set; }  // 玩家移动速度
-        
+
         // 物品和装备
         public Dictionary<string, int> Inventory { get; set; } = [];  // 背包物品（物品ID:数量）
         public string EquippedWeapon { get; set; }  // 已装备武器
         public Dictionary<string, string> EquippedEquipment { get; set; } = [];  // 已装备装备（装备位置:装备ID）
-        
+
         // 技能
         public List<string> LearnedSkills { get; set; } = [];  // 已学习技能列表
     }
@@ -52,7 +52,7 @@ namespace hd2dtest.Scripts.Modules
         public Dictionary<string, bool> DiscoveredAreas { get; set; } = [];  // 已发现区域
 
         // 多个玩家状态
-        public List<PlayerSaveData> Players { get; set; } = [];  // 所有玩家状态数据
+        public List<Player> Players { get; set; } = [];  // 所有玩家状态数据
 
         // 自定义数据
         public Dictionary<string, object> CustomData { get; set; } = [];  // 自定义保存数据

@@ -10,20 +10,6 @@ namespace hd2dtest.Scripts.Modules
     /// </summary>
     public partial class Player : Creature
     {
-        // 单例实例
-        private static Player _instance;
-        public static Player Instance => _instance;
-
-        /// <summary>
-        /// 私有构造函数，防止外部实例化
-        /// </summary>
-        private Player() { }
-        
-        // 初始化单例
-        static Player()
-        {
-            _instance = new Player();
-        }
         
         // 玩家装备
         /// <summary>

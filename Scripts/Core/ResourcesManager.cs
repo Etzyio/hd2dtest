@@ -22,6 +22,8 @@ namespace hd2dtest.Scripts.Core
         public static Dictionary<string, Monster> MonsterCache = new Dictionary<string, Monster>();
         public static Dictionary<string, Weapon> WeaponsCache = new Dictionary<string, Weapon>();
         public static Dictionary<string, Equipment> EquipmentCache = new Dictionary<string, Equipment>();
+        public static Dictionary<string, Level> LevelCache = new Dictionary<string, Level>();
+        public static Dictionary<string, NPC> NpcCache = new Dictionary<string, NPC>();
 
         // 默认资源路径
         private const string DefaultResourcesPath = "res://Resources/Static/";
@@ -69,37 +71,18 @@ namespace hd2dtest.Scripts.Core
                 MonsterCache = LoadFromJson<Dictionary<string, Monster>>("Monsters.json") ?? new Dictionary<string, Monster>();
                 WeaponsCache = LoadFromJson<Dictionary<string, Weapon>>("Weapons.json") ?? new Dictionary<string, Weapon>();
                 EquipmentCache = LoadFromJson<Dictionary<string, Equipment>>("Equipment.json") ?? new Dictionary<string, Equipment>();
+                LevelCache = LoadFromJson<Dictionary<string, Level>>("Levels.json") ?? new Dictionary<string, Level>();
+                NpcCache = LoadFromJson<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
                 
-                // 加载示例资源（如果需要）
-                // LoadExampleResources();
+                 // 加载示例资源（如果需要）
+                 // LoadExampleResources();
+
                 
                 Log.Info($"资源初始化完成 - 技能: {SkillsCache.Count}, 物品: {ItemsCache.Count}, NPC: {NPCsCache.Count}, 怪物: {MonsterCache.Count}, 武器: {WeaponsCache.Count}, 装备: {EquipmentCache.Count}");
             }
             catch (Exception ex)
             {
                 Log.Error($"资源初始化失败: {ex.Message}");
-            }
-        }
-        
-        /// <summary>
-        /// 加载示例资源（用于开发和测试）
-        /// </summary>
-        private void LoadExampleResources()
-        {
-            try
-            {
-                // 加载示例资源
-                var characterExample = LoadFromJson<Dictionary<string, object>>("CharacterExample.json", ExamplesPath);
-                var equipmentExample = LoadFromJson<Dictionary<string, object>>("EquipmentExample.json", ExamplesPath);
-                var itemExample = LoadFromJson<Dictionary<string, object>>("ItemExample.json", ExamplesPath);
-                var monsterExample = LoadFromJson<Dictionary<string, object>>("MonsterExample.json", ExamplesPath);
-                var skillExample = LoadFromJson<Dictionary<string, object>>("SkillExample.json", ExamplesPath);
-                
-                Log.Info("示例资源加载完成");
-            }
-            catch (Exception ex)
-            {
-                Log.Warning($"示例资源加载失败: {ex.Message}");
             }
         }
 
