@@ -120,75 +120,75 @@ namespace hd2dtest.Scripts.Core
                 Log.Error($"Failed to get git commit: {e.Message}");
                 return "unknown";
             }
-}
+        }
 
-// 保存版本信息到文件
-private void SaveVersionInfo()
-{
-    try
-    {
-        // 创建版本信息字典
-        var versionData = new Godot.Collections.Dictionary
+        // 保存版本信息到文件
+        private void SaveVersionInfo()
+        {
+            try
+            {
+                // 创建版本信息字典
+                var versionData = new Godot.Collections.Dictionary
             {
                 { "version", GameVersion },
                 { "build_date", BuildDate },
                 { "git_commit", GitCommit }
             };
 
-        // 保存到用户目录
-        string versionPath = "user://version.json";
+                // 保存到用户目录
+                string versionPath = "res://version.json";
 
-        // 使用Godot的FileAccess正确方法保存文件
-        using var file = Godot.FileAccess.Open(versionPath, Godot.FileAccess.ModeFlags.Write);
-        if (file != null)
-        {
-            string json = Godot.Json.Stringify(versionData);
-            file.StoreString(json);
-            file.Close();
-            Log.Info($"Version info saved to: {versionPath}");
-        }
-    }
-    catch (Exception e)
-    {
-        Log.Error($"Failed to save version info: {e.Message}");
-    }
-}
-
-// 加载版本信息
-public Godot.Collections.Dictionary LoadVersionInfo()
-{
-    try
-    {
-        string versionPath = "user://version.json";
-        if (Godot.FileAccess.FileExists(versionPath))
-        {
-            // 使用Godot的FileAccess正确方法读取文件
-            using var file = Godot.FileAccess.Open(versionPath, Godot.FileAccess.ModeFlags.Read);
-            if (file != null)
+                // 使用Godot的FileAccess正确方法保存文件
+                using var file = Godot.FileAccess.Open(versionPath, Godot.FileAccess.ModeFlags.Write);
+                if (file != null)
+                {
+                    string json = Godot.Json.Stringify(versionData);
+                    file.StoreString(json);
+                    file.Close();
+                    Log.Info($"Version info saved to: {versionPath}");
+                }
+            }
+            catch (Exception e)
             {
-                string json = file.GetAsText();
-                file.Close();
-                return Godot.Json.ParseString(json).AsGodotDictionary();
+                Log.Error($"Failed to save version info: {e.Message}");
             }
         }
-    }
-    catch (Exception e)
-    {
-        Log.Error($"Failed to load version info: {e.Message}");
-    }
 
-    return new Godot.Collections.Dictionary
+        // 加载版本信息
+        public Godot.Collections.Dictionary LoadVersionInfo()
+        {
+            try
+            {
+                string versionPath = "res://version.json";
+                if (Godot.FileAccess.FileExists(versionPath))
+                {
+                    // 使用Godot的FileAccess正确方法读取文件
+                    using var file = Godot.FileAccess.Open(versionPath, Godot.FileAccess.ModeFlags.Read);
+                    if (file != null)
+                    {
+                        string json = file.GetAsText();
+                        file.Close();
+                        return Godot.Json.ParseString(json).AsGodotDictionary();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Failed to load version info: {e.Message}");
+            }
+
+            return new Godot.Collections.Dictionary
         {
             { "version", GameVersion },
             { "build_date", BuildDate },
             { "git_commit", GitCommit }
         };
-}
+        }
 
-// 获取版本字符串（用于显示）
-public string GetVersionString()
-{
-    return $"v{GameVersion} ({GitCommit}) - {BuildDate}";
-}
+        // 获取版本字符串（用于显示）
+        public string GetVersionString()
+        {
+            return $"v{GameVersion} ({GitCommit}) - {BuildDate}";
+        }
     }
 }
