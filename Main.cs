@@ -7,6 +7,8 @@ namespace hd2dtest.Scripts.Core
 	public partial class Main : Node
 	{
 		private VersionManager _versionManager;
+		private Node _sceneLayer;
+		private Node _popupLayer;
 
 		public override void _Ready()
 		{
@@ -24,35 +26,17 @@ namespace hd2dtest.Scripts.Core
 			// 输出当前存档信息
 			PrintCurrentSaveInfo();
 
-			// 注册输入映射 - 使用正确的方法调用
-			InputMap.AddAction("open_first_scene");
-			InputMap.ActionAddEvent("open_first_scene", new InputEventKey() { Keycode = Key.F1 });
-			
-			InputMap.AddAction("open_main_scene");
-			InputMap.ActionAddEvent("open_main_scene", new InputEventKey() { Keycode = Key.F2 });
-
-			// 加载Start场景到sceneLayer
-			SwitchScene("res://Scenes/Start/Start.tscn");
+			// 获取子节点
+			_sceneLayer = GetNode<Node>("sceneLayer");
+			_popupLayer = GetNode<Node>("popupLayer");
+			// 初始化视图管理器
+			GameViewManager.Init(_sceneLayer, _popupLayer);
+			// 切换初始场景
+			GameViewManager.SwitchScene("开始界面");
 		}
 
 		public override void _Process(double delta)
 		{
-			// 处理场景切换快捷键
-			HandleSceneSwitching();
-		}
-
-		private void HandleSceneSwitching()
-		{
-			if (Input.IsActionJustPressed("open_first_scene"))
-			{
-				// 直接切换到First场景，不显示弹窗
-				SwitchScene("res://Scenes/First/First.tscn");
-			}
-			else if (Input.IsActionJustPressed("open_main_scene"))
-			{
-				// 直接切换到Start场景，不显示弹窗
-				SwitchScene("res://Scenes/Start/Start.tscn");
-			}
 		}
 
 		private void InitializeVersionManager()
