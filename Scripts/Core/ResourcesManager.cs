@@ -23,11 +23,11 @@ namespace hd2dtest.Scripts.Core
         public static Dictionary<string, Weapon> WeaponsCache = new Dictionary<string, Weapon>();
         public static Dictionary<string, Equipment> EquipmentCache = new Dictionary<string, Equipment>();
         public static Dictionary<string, Level> LevelCache = new Dictionary<string, Level>();
-        public static Dictionary<string, NPC> NpcCache = new Dictionary<string, NPC>();
+        public Dictionary<string, NPC> NpcCache = new Dictionary<string, NPC>();
+        public Dictionary<string, string> ViewRegister = new Dictionary<string, string>();
 
         // 默认资源路径
         private const string DefaultResourcesPath = "res://Resources/Static/";
-        private const string ExamplesPath = "res://Resources/Examples/";
         private const string LocalizationPath = "res://Resources/Localization/";
         
         // JSON 序列化选项
@@ -73,6 +73,7 @@ namespace hd2dtest.Scripts.Core
                 EquipmentCache = LoadFromJson<Dictionary<string, Equipment>>("Equipment.json") ?? new Dictionary<string, Equipment>();
                 LevelCache = LoadFromJson<Dictionary<string, Level>>("Levels.json") ?? new Dictionary<string, Level>();
                 NpcCache = LoadFromJson<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
+                ViewRegister = LoadFromJson<Dictionary<string, string>>("ViewRegister.json") ?? new Dictionary<string, string>();
                 
                  // 加载示例资源（如果需要）
                  // LoadExampleResources();
@@ -118,7 +119,7 @@ namespace hd2dtest.Scripts.Core
 
                 // 反序列化为目标类型
                 T result = JsonSerializer.Deserialize<T>(jsonContent, JsonOptions);
-                Log.Debug($"成功加载 JSON 文件: {filePath}, 类型: {typeof(T).Name}");
+                Log.Info($"成功加载 JSON 文件: {filePath}, 类型: {typeof(T).Name}");
                 
                 return result;
             }
