@@ -132,8 +132,8 @@ namespace hd2dtest.Scripts.Core
         /// <param name="callerLineNumber">调用行号</param>
         private static void PrintLog(LogLevel level, string message, string callerMemberName, string callerFilePath, int callerLineNumber)
         {
-            // 获取当前时间，格式为：YYYY-MM-DD HH:MM:SS.fff
-            string time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            // 获取当前时间，格式为：YYYY-MM-DD HH:MM:SS.fff ±HH:MM（包含时区偏移）
+            string time = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss.fff zzz");
 
             // 获取类名（从文件路径中提取）
             string className = System.IO.Path.GetFileNameWithoutExtension(callerFilePath);
