@@ -32,7 +32,7 @@ namespace hd2dtest.Scripts.Core
 			// 初始化视图管理器
 			GameViewManager.Init(_sceneLayer, _popupLayer);
 			// 切换初始场景
-			GameViewManager.SwitchScene("开始界面");
+			GameViewManager.SwitchScene("start");
 		}
 
 		public override void _Process(double delta)
@@ -41,13 +41,6 @@ namespace hd2dtest.Scripts.Core
 
 		private void InitializeVersionManager()
 		{
-			// 创建并添加VersionManager节点
-			_versionManager = new VersionManager();
-			AddChild(_versionManager);
-
-			// 显示版本信息
-			Log.Info("=== Version Info ===");
-			Log.Info(_versionManager.GetVersionString());
 		}
 
 		private void InitializeSaveManager()

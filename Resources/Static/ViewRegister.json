@@ -1,3 +1,7 @@
-{
-    
-}
+[
+    {
+        "id": "start",
+        "name": "start",
+        "tscn": "res://Scenes/Start/Start.tscn"
+    }
+]
