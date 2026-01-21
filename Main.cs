@@ -6,8 +6,8 @@ namespace hd2dtest.Scripts.Core
     public partial class Main : Node
     {
         private VersionManager _versionManager;
-        private Node _sceneLayer;
-        private Node _popupLayer;
+        private Control _sceneLayer;
+        private Control _popupLayer;
 
         public override void _Ready()
         {
@@ -26,8 +26,8 @@ namespace hd2dtest.Scripts.Core
             PrintCurrentSaveInfo();
 
             // 获取子节点
-            _sceneLayer = GetNode<Node>("sceneLayer");
-            _popupLayer = GetNode<Node>("popupLayer");
+            _sceneLayer = GetNode<Control>("sceneLayer");
+            _popupLayer = GetNode<Control>("popupLayer");
             // 初始化视图管理器
             GameViewManager.Init(_sceneLayer, _popupLayer);
             // 切换初始场景

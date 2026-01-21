@@ -5,8 +5,9 @@ using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts
 {
-    public partial class Start : Node
+    public partial class Start : Node2D
     {
+        private CanvasLayer _canvasLayer;
         private Button _startButton;
         private Button _continueButton;
         private Button _settingsButton;
@@ -19,6 +20,7 @@ namespace hd2dtest.Scripts
 
         public override void _Ready()
         {
+            _canvasLayer = GetNode<CanvasLayer>("CanvasLayer");
             // 获取按钮节点
             _startButton = GetNode<Button>("CanvasLayer/CenterContainer/Panel/VBoxContainer/StartButton");
             _continueButton = GetNode<Button>("CanvasLayer/CenterContainer/Panel/VBoxContainer/ContinueButton");
@@ -33,6 +35,15 @@ namespace hd2dtest.Scripts
 
             // 初始化存档列表UI
             // CreateSaveListUI();
+            GameViewManager.TriggerSceneReady();
+        }
+
+        public override void _Process(double delta)
+        {
+            if (!Visible)
+            {
+                _canvasLayer.Visible = false;
+            }
         }
 
         // 开始游戏按钮点击事件

@@ -5,6 +5,14 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_ig7tw")
 
-[node name="sceneLayer" type="Node" parent="."]
+[node name="sceneLayer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="popupLayer" type="Node" parent="."]
+[node name="popupLayer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

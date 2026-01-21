@@ -9,13 +9,12 @@ namespace hd2dtest.Scripts.Core
     {
         // 加载动画节点
         private Control _loadingAnimation;
-        // 单例实例
-        private static LoadingManager _instance;
-        public static LoadingManager Instance => _instance;
+
+        public static LoadingManager Instance { get; private set; }
 
         public override void _Ready()
         {
-            _instance = this;
+            Instance = this;
             InitializeLoadingAnimation();
         }
 
@@ -23,17 +22,17 @@ namespace hd2dtest.Scripts.Core
         private void InitializeLoadingAnimation()
         {
             // 创建加载动画节点
-            var colorRect = new ColorRect
+            ColorRect colorRect = new()
             {
                 Name = "LoadingAnimation",
                 Color = new Color(0, 0, 0, 0.8f),
-                Size = new Vector2(1900, 980)
+                Size = new Vector2(1800, 900)
             };
             colorRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
             _loadingAnimation = colorRect;
-            
+
             // 添加加载文本
-            var label = new Label
+            Label label = new()
             {
                 Name = "LoadingLabel",
                 Text = "Loading...",
@@ -42,9 +41,9 @@ namespace hd2dtest.Scripts.Core
             };
             label.SetAnchorsPreset(Control.LayoutPreset.Center);
             _loadingAnimation.AddChild(label);
-            
+
             // 添加加载指示器
-            var loadingIndicator = new Label
+            Label loadingIndicator = new()
             {
                 Name = "LoadingIndicator",
                 Text = "●",
@@ -54,9 +53,9 @@ namespace hd2dtest.Scripts.Core
             loadingIndicator.SetAnchorsPreset(Control.LayoutPreset.Center);
             loadingIndicator.Position -= new Vector2(0, 100);
             _loadingAnimation.AddChild(loadingIndicator);
-            
+
             // 默认隐藏加载动画
-            _loadingAnimation.Visible = false;
+            _loadingAnimation.Visible = true;
             AddChild(_loadingAnimation);
         }
 

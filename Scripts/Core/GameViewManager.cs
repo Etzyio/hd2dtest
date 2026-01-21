@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 
 namespace hd2dtest.Scripts.Core
@@ -6,9 +8,9 @@ namespace hd2dtest.Scripts.Core
     public class GameViewManager
     {
         //场景层
-        private static Node _sceneLayer;
+        private static Control _sceneLayer;
         //弹窗层
-        private static Node _popupLayer;
+        private static Control _popupLayer;
         private static readonly Queue<Node> _popupQueue = new();
         //弹窗标识
         private static int _identifier;
@@ -55,41 +57,31 @@ namespace hd2dtest.Scripts.Core
         }
 
 
-        public static void Init(Node sceneLayer, Node popupLayer)
+        public static void Init(Control sceneLayer, Control popupLayer)
         {
             _sceneLayer = sceneLayer;
             _popupLayer = popupLayer;
-            
-            if (_sceneLayer != null)
-            {
-                Log.Info($"GameViewManager initialized with scene layer: {_sceneLayer.Name}");
-                Log.Info($"Scene layer parent: {_sceneLayer.GetParent()?.Name}");
-                Log.Info($"Scene layer has {_sceneLayer.GetChildCount()} children");
-            }
-            else
-            {
-                Log.Error("GameViewManager initialized with null scene layer!");
-            }
         }
 
         // 隐藏场景层（用于场景切换）
         private static void HideSceneLayer()
         {
-            if (_sceneLayer is not null and CanvasItem canvasItem)
+            _sceneLayer.Visible = false;
+            _popupLayer.Visible = false;
+            if (_nowScene is CanvasItem canvas)
             {
-                canvasItem.Visible = false;
-                Log.Info("Scene layer hidden");
+                canvas.Visible = false;
             }
+
+            Log.Info("Scene layer hidden (CanvasItem)");
         }
 
         // 显示场景层（用于场景切换）
         private static void ShowSceneLayer()
         {
-            if (_sceneLayer is not null and CanvasItem canvasItem)
-            {
-                canvasItem.Visible = true;
-                Log.Info("Scene layer shown");
-            }
+            _sceneLayer.Visible = true;
+            _popupLayer.Visible = true;
+            Log.Info("Scene layer shown (CanvasItem)");
         }
 
         // 暂停场景层（用于弹窗）
@@ -116,33 +108,17 @@ namespace hd2dtest.Scripts.Core
         public static Node SwitchScene(string sceneName)
         {
             Log.Info($"Starting to switch scene: {sceneName}");
-            
-            // 检查场景层状态
-            if (_sceneLayer == null)
-            {
-                Log.Error("Scene layer is null before switching scene!");
-            }
-            else
-            {
-                Log.Info($"Scene layer status before switch: {_sceneLayer.Name}, Parent: {_sceneLayer.GetParent()?.Name}, Children: {_sceneLayer.GetChildCount()}");
-            }
-
-            // 显示加载动画
-            LoadingManager.Instance?.ShowLoading();
 
             // 隐藏场景层
             HideSceneLayer();
-
             try
             {
                 PackedScene scene = GameViewRegister.GetScene(sceneName);
 
                 if (scene != null)
                 {
-                    Log.Info($"Scene packed scene loaded: {sceneName}");
                     NowScene = scene.Instantiate<Node>();
                     // 使用Godot内置的_ready方法初始化，不需要额外调用Init
-                    Log.Info($"Scene switch completed: {sceneName}");
                     return NowScene;
                 }
                 Log.Error($"Failed to load scene: {sceneName}");
@@ -151,28 +127,18 @@ namespace hd2dtest.Scripts.Core
             catch (System.Exception ex)
             {
                 Log.Error($"Exception during scene switch: {ex.Message}");
+                // 如果发生异常，手动显示场景层
+                ShowSceneLayer();
                 return null;
             }
-            finally
-            {
-                // 检查场景层状态
-                if (_sceneLayer == null)
-                {
-                    Log.Error("Scene layer is null after switching scene!");
-                }
-                else
-                {
-                    Log.Info($"Scene layer status after switch: {_sceneLayer.Name}, Parent: {_sceneLayer.GetParent()?.Name}, Children: {_sceneLayer.GetChildCount()}");
-                }
-                
-                // 显示场景层
-                ShowSceneLayer();
+        }
 
-                // 隐藏加载动画
-                LoadingManager.Instance?.HideLoading();
-                
-                Log.Info($"Scene switch process completed for: {sceneName}");
-            }
+        // 触发场景就绪，显示场景层
+        public static void TriggerSceneReady()
+        {
+            Log.Info("Scene ready triggered, showing scene layer");
+            // 显示场景层
+            ShowSceneLayer();
         }
 
         /*************************弹窗管理*****************************/
