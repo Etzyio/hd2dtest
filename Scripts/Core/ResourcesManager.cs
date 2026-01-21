@@ -8,14 +8,14 @@ using hd2dtest.Scripts.Modules;
 namespace hd2dtest.Scripts.Core
 {
     /// <summary>
-    /// 资源管理器，用于加载和解析 JSON 文件
+    /// Resource manager for loading and parsing JSON files
     /// </summary>
     public partial class ResourcesManager: Node
     {
         private static ResourcesManager _instance;
         public static ResourcesManager Instance => _instance;
         
-        // 资源缓存字典
+        // Resource cache dictionaries
         public static Dictionary<string, Skill> SkillsCache = new Dictionary<string, Skill>();
         public static Dictionary<string, Item> ItemsCache = new Dictionary<string, Item>();
         public static Dictionary<string, NPC> NPCsCache = new Dictionary<string, NPC>();
@@ -26,24 +26,24 @@ namespace hd2dtest.Scripts.Core
         public Dictionary<string, NPC> NpcCache = new Dictionary<string, NPC>();
         public Dictionary<string, string> ViewRegister = new Dictionary<string, string>();
 
-        // 默认资源路径
+        // Default resource paths
         private const string DefaultResourcesPath = "res://Resources/Static/";
         private const string LocalizationPath = "res://Resources/Localization/";
         
-        // JSON 序列化选项
+        // JSON serialization options
         private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
         {
-            // 忽略大小写
+            // Ignore case
             PropertyNameCaseInsensitive = true,
-            // 处理空值
+            // Handle null values
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            // 允许注释
+            // Allow comments
             ReadCommentHandling = JsonCommentHandling.Skip,
-            // 允许尾随逗号
+            // Allow trailing commas
             AllowTrailingCommas = true,
-            // 使用驼峰命名
+            // Use camel case
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            // 自定义枚举转换器
+            // Custom enum converter
             Converters = { new JsonStringEnumConverter() }
         };
 
@@ -51,124 +51,124 @@ namespace hd2dtest.Scripts.Core
         {
             _instance = this;
             
-            // 初始化所有资源
+            // Initialize all resources
             InitializeResources();
         }
         
         /// <summary>
-        /// 初始化所有资源
+        /// Initialize all resources
         /// </summary>
         private void InitializeResources()
         {
             try
             {
-                Log.Info("开始初始化资源...");
+                Log.Info("Starting resource initialization...");
                 
-                // 加载静态资源
-                SkillsCache = LoadFromJson<Dictionary<string, Skill>>("Skills.json") ?? new Dictionary<string, Skill>();
-                ItemsCache = LoadFromJson<Dictionary<string, Item>>("Items.json") ?? new Dictionary<string, Item>();
-                NPCsCache = LoadFromJson<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
-                MonsterCache = LoadFromJson<Dictionary<string, Monster>>("Monsters.json") ?? new Dictionary<string, Monster>();
-                WeaponsCache = LoadFromJson<Dictionary<string, Weapon>>("Weapons.json") ?? new Dictionary<string, Weapon>();
-                EquipmentCache = LoadFromJson<Dictionary<string, Equipment>>("Equipment.json") ?? new Dictionary<string, Equipment>();
-                LevelCache = LoadFromJson<Dictionary<string, Level>>("Levels.json") ?? new Dictionary<string, Level>();
-                NpcCache = LoadFromJson<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
-                ViewRegister = LoadFromJson<Dictionary<string, string>>("ViewRegister.json") ?? new Dictionary<string, string>();
+                // Load static resources
+                SkillsCache = LoadResource<Dictionary<string, Skill>>("Skills.json") ?? new Dictionary<string, Skill>();
+                ItemsCache = LoadResource<Dictionary<string, Item>>("Items.json") ?? new Dictionary<string, Item>();
+                NPCsCache = LoadResource<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
+                MonsterCache = LoadResource<Dictionary<string, Monster>>("Monsters.json") ?? new Dictionary<string, Monster>();
+                WeaponsCache = LoadResource<Dictionary<string, Weapon>>("Weapons.json") ?? new Dictionary<string, Weapon>();
+                EquipmentCache = LoadResource<Dictionary<string, Equipment>>("Equipment.json") ?? new Dictionary<string, Equipment>();
+                LevelCache = LoadResource<Dictionary<string, Level>>("Levels.json") ?? new Dictionary<string, Level>();
+                NpcCache = LoadResource<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
+                ViewRegister = LoadViewRegister();
                 
-                 // 加载示例资源（如果需要）
-                 // LoadExampleResources();
+                // Load example resources (if needed)
+                // LoadExampleResources();
 
                 
-                Log.Info($"资源初始化完成 - 技能: {SkillsCache.Count}, 物品: {ItemsCache.Count}, NPC: {NPCsCache.Count}, 怪物: {MonsterCache.Count}, 武器: {WeaponsCache.Count}, 装备: {EquipmentCache.Count}");
+                Log.Info($"Resource initialization completed - Skills: {SkillsCache.Count}, Items: {ItemsCache.Count}, NPCs: {NPCsCache.Count}, Monsters: {MonsterCache.Count}, Weapons: {WeaponsCache.Count}, Equipment: {EquipmentCache.Count}");
             }
             catch (Exception ex)
             {
-                Log.Error($"资源初始化失败: {ex.Message}");
+                Log.Error($"Resource initialization failed: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// 从指定的 JSON 文件加载数据并反序列化为对象
+        /// Load data from a JSON file and deserialize to object
         /// </summary>
-        /// <typeparam name="T">目标对象类型</typeparam>
-        /// <param name="fileName">JSON 文件名（包含扩展名）</param>
-        /// <param name="customPath">自定义资源路径（可选）</param>
-        /// <returns>反序列化后的对象，如果失败则返回默认值</returns>
-        public static T LoadFromJson<T>(string fileName, string customPath = null)
+        /// <typeparam name="T">Target object type</typeparam>
+        /// <param name="fileName">JSON file name (with extension)</param>
+        /// <param name="customPath">Custom resource path (optional)</param>
+        /// <returns>Deserialized object, or default if failed</returns>
+        public static T LoadResource<T>(string fileName, string customPath = null)
         {
             string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
             
-            // 检查文件是否存在
+            // Check if file exists
             if (!FileAccess.FileExists(filePath))
             {
-                Log.Warning($"JSON 文件不存在: {filePath}");
+                Log.Warning($"JSON file not found: {filePath}");
                 return default;
             }
 
             try
             {
-                // 使用 Godot 的 FileAccess API 加载文件
+                // Load file using Godot's FileAccess API
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
                 string jsonContent = file.GetAsText();
                 
                 if (string.IsNullOrEmpty(jsonContent))
                 {
-                    Log.Warning($"JSON 文件内容为空: {filePath}");
+                    Log.Warning($"JSON file is empty: {filePath}");
                     return default;
                 }
 
-                // 反序列化为目标类型
+                // Deserialize to target type
                 T result = JsonSerializer.Deserialize<T>(jsonContent, JsonOptions);
-                Log.Info($"成功加载 JSON 文件: {filePath}, 类型: {typeof(T).Name}");
+                Log.Info($"Successfully loaded JSON file: {filePath}, Type: {typeof(T).Name}");
                 
                 return result;
             }
             catch (Exception ex)
             {
-                Log.Error($"JSON 反序列化失败: {filePath}, 错误: {ex.Message}");
+                Log.Error($"JSON deserialization failed: {filePath}, Error: {ex.Message}");
                 return default;
             }
         }
         
         /// <summary>
-        /// 将对象序列化为 JSON 并保存到文件
+        /// Serialize object to JSON and save to file
         /// </summary>
-        /// <typeparam name="T">对象类型</typeparam>
-        /// <param name="data">要保存的数据</param>
-        /// <param name="fileName">保存的文件名（包含扩展名）</param>
-        /// <param name="customPath">自定义资源路径（可选）</param>
-        /// <returns>是否保存成功</returns>
-        public static bool SaveToJson<T>(T data, string fileName, string customPath = null)
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="data">Data to save</param>
+        /// <param name="fileName">File name to save (with extension)</param>
+        /// <param name="customPath">Custom resource path (optional)</param>
+        /// <returns>Whether save was successful</returns>
+        public static bool SaveResource<T>(T data, string fileName, string customPath = null)
         {
             string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
             
             try
             {
-                // 序列化对象为 JSON
+                // Serialize object to JSON
                 string jsonContent = JsonSerializer.Serialize(data, JsonOptions);
                 
-                // 使用 Godot 的 FileAccess API 保存文件
+                // Save file using Godot's FileAccess API
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Write);
                 file.StoreString(jsonContent);
                 
-                Log.Debug($"成功保存 JSON 文件: {filePath}");
+                Log.Debug($"Successfully saved JSON file: {filePath}");
                 return true;
             }
             catch (Exception ex)
             {
-                Log.Error($"JSON 序列化失败: {filePath}, 错误: {ex.Message}");
+                Log.Error($"JSON serialization failed: {filePath}, Error: {ex.Message}");
                 return false;
             }
         }
         
         /// <summary>
-        /// 重新加载所有资源
+        /// Reload all resources
         /// </summary>
         public static void ReloadAllResources()
         {
             if (Instance == null)
             {
-                Log.Warning("ResourcesManager 实例未初始化，无法重新加载资源");
+                Log.Warning("ResourcesManager instance not initialized, cannot reload resources");
                 return;
             }
             
@@ -176,29 +176,96 @@ namespace hd2dtest.Scripts.Core
         }
         
         /// <summary>
-        /// 获取本地化字符串
+        /// Load ViewRegister.json file and convert to Dictionary<string, string>
         /// </summary>
-        /// <param name="key">字符串键</param>
-        /// <param name="languageCode">语言代码（默认中文）</param>
-        /// <returns>本地化字符串，如果找不到则返回原始键</returns>
+        /// <returns>Converted Dictionary, key is id, value is tscn</returns>
+        private Dictionary<string, string> LoadViewRegister()
+        {
+            try
+            {
+                string filePath = DefaultResourcesPath + "ViewRegister.json";
+                
+                // Check if file exists
+                if (!FileAccess.FileExists(filePath))
+                {
+                    Log.Warning($"ViewRegister.json file not found: {filePath}");
+                    return new Dictionary<string, string>();
+                }
+
+                // Load file using Godot's FileAccess API
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                string jsonContent = file.GetAsText();
+                
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    Log.Warning($"ViewRegister.json file is empty: {filePath}");
+                    return new Dictionary<string, string>();
+                }
+
+                // Parse JSON array
+                var viewRegisterArray = JsonSerializer.Deserialize<List<ViewRegisterItem>>(jsonContent, JsonOptions);
+                if (viewRegisterArray == null)
+                {
+                    Log.Warning($"ViewRegister.json parsing failed: {filePath}");
+                    return new Dictionary<string, string>();
+                }
+
+                // Convert to Dictionary
+                var viewRegisterDict = new Dictionary<string, string>();
+                foreach (var item in viewRegisterArray)
+                {
+                    if (!string.IsNullOrEmpty(item.Id) && !string.IsNullOrEmpty(item.Tscn))
+                    {
+                        viewRegisterDict[item.Id] = item.Tscn;
+                    }
+                }
+
+                Log.Info($"Successfully loaded ViewRegister.json: {filePath}, Items: {viewRegisterDict.Count}");
+                return viewRegisterDict;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to load ViewRegister.json: {ex.Message}");
+                return new Dictionary<string, string>();
+            }
+        }
+
+        /// <summary>
+        /// ViewRegister item temporary class
+        /// </summary>
+        private class ViewRegisterItem
+        {
+            [JsonPropertyName("id")]
+            public string Id { get; set; }
+
+            [JsonPropertyName("tscn")]
+            public string Tscn { get; set; }
+        }
+
+        /// <summary>
+        /// Get localized string
+        /// </summary>
+        /// <param name="key">String key</param>
+        /// <param name="languageCode">Language code (default: zh)</param>
+        /// <returns>Localized string, or original key if not found</returns>
         public static string GetLocalizedString(string key, string languageCode = "zh")
         {
             try
             {
                 string fileName = $"{languageCode}.json";
-                var localizationData = LoadFromJson<Dictionary<string, string>>(fileName, LocalizationPath);
+                var localizationData = LoadResource<Dictionary<string, string>>(fileName, LocalizationPath);
                 
                 if (localizationData != null && localizationData.TryGetValue(key, out string value))
                 {
                     return value;
                 }
                 
-                Log.Warning($"本地化字符串未找到: {key}, 语言: {languageCode}");
+                Log.Warning($"Localized string not found: {key}, Language: {languageCode}");
                 return key;
             }
             catch (Exception ex)
             {
-                Log.Error($"获取本地化字符串失败: {ex.Message}");
+                Log.Error($"Failed to get localized string: {ex.Message}");
                 return key;
             }
         }

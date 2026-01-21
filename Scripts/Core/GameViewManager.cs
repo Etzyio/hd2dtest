@@ -57,7 +57,7 @@ namespace hd2dtest.Scripts.Core
             if (scene != null)
             {
                 nowScene = scene.Instantiate<Node>();
-                nowScene.Call("Init");
+                // 使用Godot内置的_ready方法初始化，不需要额外调用Init
                 return nowScene;
             }
             return null;
@@ -106,7 +106,7 @@ namespace hd2dtest.Scripts.Core
 
                 _popupLayer.AddChild(sceneObj);
                 _nowPopup = sceneObj;
-                _nowPopup.Call("Init");
+                // 使用Godot内置的_ready方法初始化，不需要额外调用Init
 
                 return sceneObj;
             }
