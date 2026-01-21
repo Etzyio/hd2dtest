@@ -2,5 +2,9 @@
     {
         "id": "start",
         "tscn": "res://Scenes/Start/Start.tscn"
+    },
+    {
+        "id": "test",
+        "tscn": "res://Scenes/test/test.tscn"
     }
 ]

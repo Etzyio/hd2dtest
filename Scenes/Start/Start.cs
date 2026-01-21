@@ -40,7 +40,7 @@ namespace hd2dtest.Scripts
         {
             Log.Info("Start button pressed");
             // 切换到First场景
-            _ = GetTree().ChangeSceneToFile("res://Scenes/test/test.tscn");
+            _ = GameViewManager.SwitchScene("test");
         }
 
         // 继续游戏按钮点击事件
