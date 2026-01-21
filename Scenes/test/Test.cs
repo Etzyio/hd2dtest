@@ -1,5 +1,6 @@
 using Godot;
 using hd2dtest.Scripts.Player;
+using hd2dtest.Scripts.Core;
 
 public partial class Test : Node2D
 {
@@ -9,12 +10,19 @@ public partial class Test : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        Visible = false;
         // 获取Player节点
         _player = GetNode<Player>("SubViewportContainer/SubViewport/Player");
         if (_player == null)
         {
-            GD.PrintErr("Player node not found!");
+            Log.Error("Player node not found!");
         }
+
+        // 场景就绪，触发信号显示场景层
+        Log.Info("Test scene ready, triggered SceneReady signal");
+        GameViewManager.TriggerSceneReady();
+
+        Visible = true;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
