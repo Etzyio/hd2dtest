@@ -15,9 +15,10 @@ operation = 2
 script = ExtResource("1_vtced")
 
 [node name="House_Area3D" type="Area3D" parent="House"]
-transform = Transform3D(3.9, 0, 0, 0, 3.9, 0, 0, 0, 3.9, 0, 1.93, -2)
+transform = Transform3D(7.9, 0, 0, 0, 7.9, 0, 0, 0, 7.9, 0, 1.93, -2)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="House/House_Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.245)
 shape = SubResource("BoxShape3D_g5ubp")
 
 [node name="House" type="CSGPolygon3D" parent="House"]
@@ -32,7 +33,7 @@ size = Vector3(3.8, 2, 3.9)
 [node name="door" type="CSGBox3D" parent="House"]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
 operation = 2
-size = Vector3(1, 3, 1)
+size = Vector3(3, 8, 1)
 
 [node name="inHouse" type="CSGPolygon3D" parent="House"]
 visible = false
