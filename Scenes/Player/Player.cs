@@ -4,10 +4,12 @@ namespace hd2dtest.Scripts.Player
 {
 	public partial class Player : CharacterBody3D
 	{
-		private float _speed = 5.0f;
+		private float _speed = 10.0f;
 		private bool _gravityEnabled = true;
 		private const float GRAVITY_ACCELERATION = 40.0f;
 		private readonly bool[] _disabledDirections = new bool[4]; // 0: up, 1: down, 2: left, 3: right
+		private AnimatedSprite3D _animatedSprite;
+		private Vector3 _lastDirection = Vector3.Zero;
 
 		[Signal]
 		public delegate void MovementPausedEventHandler();
@@ -23,6 +25,9 @@ namespace hd2dtest.Scripts.Player
 
 		public override void _Ready()
 		{
+			// 获取动画精灵引用
+			_animatedSprite = GetNode<AnimatedSprite3D>("AnimatedSprite3D");
+			
 			// 连接信号
 			InputMap.AddAction("pause_movement");
 			InputMap.ActionAddEvent("pause_movement", new InputEventKey() { Keycode = Key.Space });
@@ -60,6 +65,8 @@ namespace hd2dtest.Scripts.Player
 			{
 				// 停止水平移动
 				Velocity = new Vector3(0, Velocity.Y, 0);
+				// 播放 idle 动画
+				UpdateAnimation(Vector3.Zero);
 			}
 
 			// 应用移动和碰撞
@@ -72,35 +79,130 @@ namespace hd2dtest.Scripts.Player
 			// WASD移动 - 使用标准的ui_前缀动作名称
 			if (!_disabledDirections[2] && Input.IsActionPressed("ui_up"))
 			{
-				direction.X -= 1;
+				direction.Z -= 1;
 			}
 
 			if (!_disabledDirections[3] && Input.IsActionPressed("ui_down"))
 			{
-				direction.X += 1;
+				direction.Z += 1;
 			}
 
 			if (!_disabledDirections[0] && Input.IsActionPressed("ui_left"))
 			{
-				direction.Z += 1;
+				direction.X -= 1;
 			}
 
 			if (!_disabledDirections[1] && Input.IsActionPressed("ui_right"))
 			{
-				direction.Z -= 1;
+				direction.X += 1;
 			}
 
 			// 归一化方向向量
 			if (direction.Length() > 0)
 			{
 				direction = direction.Normalized();
+				// 保存最后输入的方向
+				_lastDirection = direction;
 				// 应用速度
 				Velocity = new Vector3(direction.X * _speed, Velocity.Y, direction.Z * _speed);
+				// 更新动画
+				UpdateAnimation(direction);
 			}
 			else
 			{
 				// 停止水平移动
 				Velocity = new Vector3(0, Velocity.Y, 0);
+				// 播放 idle 动画
+				UpdateAnimation(Vector3.Zero);
+			}
+		}
+
+		private void UpdateAnimation(Vector3 direction)
+		{
+			if (_animatedSprite == null)
+			{
+				return;
+			}
+
+			if (direction == Vector3.Zero)
+			{
+				// 停止移动，根据最后输入的方向播放相应的 idle 动画
+				_animatedSprite.Stop();
+				
+				if (_lastDirection == Vector3.Zero)
+				{
+					// 如果没有最后输入的方向，播放默认 idle 动画
+					_animatedSprite.FlipH = false;
+					_animatedSprite.Play("idle");
+				}
+				else
+				{
+					// 根据最后输入的方向播放相应的 idle 动画
+					if (Mathf.Abs(_lastDirection.Z) > Mathf.Abs(_lastDirection.X))
+					{
+						if (_lastDirection.Z < 0)
+						{
+							// 向上移动（背面）
+							_animatedSprite.FlipH = false;
+							_animatedSprite.Play("back_idle");
+						}
+						else
+						{
+							// 向下移动（正面）
+							_animatedSprite.FlipH = false;
+							_animatedSprite.Play("idle");
+						}
+					}
+					else
+					{
+						if (_lastDirection.X < 0)
+						{
+							// 向左移动，使用反转的 right_idle
+							_animatedSprite.FlipH = true;
+							_animatedSprite.Play("right_idle");
+						}
+						else
+						{
+							// 向右移动
+							_animatedSprite.FlipH = false;
+							_animatedSprite.Play("right_idle");
+						}
+					}
+				}
+			}
+			else
+			{
+				// 根据移动方向播放相应的动画
+				if (Mathf.Abs(direction.Z) > Mathf.Abs(direction.X))
+				{
+					if (direction.Z < 0)
+					{
+						// 向上移动（背面）
+						_animatedSprite.FlipH = false;
+						_animatedSprite.Play("back_run");
+					}
+					else
+					{
+						// 向下移动（正面）
+						_animatedSprite.FlipH = false;
+						_animatedSprite.Play("main_run");
+					}
+				}
+				else
+				{
+					if (direction.X < 0)
+					{
+						// 向左移动，使用反转的 right_run
+						_animatedSprite.FlipH = true;
+						_animatedSprite.Play("right_run");
+					}
+					else
+					{
+						// 向右移动
+						_animatedSprite.FlipH = false;
+						_animatedSprite.Play("right_run");
+					}
+				}
 			}
 		}
 

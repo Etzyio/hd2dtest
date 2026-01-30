@@ -1,16 +1,155 @@
-[gd_scene load_steps=5 format=3 uid="uid://cu88pkc8etwxo"]
+[gd_scene load_steps=21 format=3 uid="uid://cu88pkc8etwxo"]
 
 [ext_resource type="Script" uid="uid://cpeq2pe6w1xtj" path="res://Scenes/Player/Player.cs" id="1_s0eop"]
+[ext_resource type="Texture2D" uid="uid://bo2x8jvcrsvg2" path="res://Resources/player/Mana Seed Farmer Sprite Free Sample/farmer base sheets/01body/fbas_1body_human_00.png" id="2_ft8w5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3ax4"]
-radius = 0.75
-height = 1.5
+radius = 0.24
+height = 1.02
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_s0eop"]
-lightmap_size_hint = Vector2i(100, 20)
-radius = 1.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_h54ih"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ude3g"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(256, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmcll"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(320, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wape"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(384, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t26db"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fk5o5"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(0, 0, 64, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esmjy"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tu5v"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spxdj"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_825xp"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ji083"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(0, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kmp4"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(64, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5acl"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(128, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epg6k"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(192, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u84n"]
+atlas = ExtResource("2_ft8w5")
+region = Rect2(256, 256, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0objx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h54ih")
+}],
+"loop": true,
+"name": &"back_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ude3g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmcll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wape")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t26db")
+}],
+"loop": true,
+"name": &"back_run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fk5o5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esmjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tu5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tu5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spxdj")
+}],
+"loop": true,
+"name": &"main_run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_825xp")
+}],
+"loop": true,
+"name": &"right_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ji083")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0kmp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5acl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epg6k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0u84n")
+}],
+"loop": true,
+"name": &"right_run",
+"speed": 5.0
+}]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_s0eop"]
+frustum_focus_distance = 30.0
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_s0eop")
@@ -19,10 +158,12 @@ script = ExtResource("1_s0eop")
 shape = SubResource("CapsuleShape3D_l3ax4")
 debug_color = Color(0.16078432, 0.59607846, 0.67058825, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.9, 0, 0, 0, 0.5, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_s0eop")
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(3.545, 0, 0, 0, 3.545, 0, 0, 0, 3.545, 0, 0, 0)
+sprite_frames = SubResource("SpriteFrames_0objx")
+animation = &"right_run"
+autoplay = "main_run"
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-4.371139e-08, -0.19936793, 0.9799247, 0, 0.9799247, 0.19936793, -1, 8.714649e-09, -4.2833868e-08, 25, 7, 0)
+transform = Transform3D(1, 0, 0, 0, 0.95527834, 0.29570806, 0, -0.29570803, 0.95527846, 0, 13.41, 30)
 attributes = SubResource("CameraAttributesPhysical_s0eop")
