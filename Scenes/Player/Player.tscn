@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://cpeq2pe6w1xtj" path="res://Scenes/Player/Player.cs" id="1_s0eop"]
 [ext_resource type="Texture2D" uid="uid://bo2x8jvcrsvg2" path="res://Resources/player/Mana Seed Farmer Sprite Free Sample/farmer base sheets/01body/fbas_1body_human_00.png" id="2_ft8w5"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_l3ax4"]
-radius = 0.24
-height = 1.02
+[sub_resource type="BoxShape3D" id="BoxShape3D_ft8w5"]
+custom_solver_bias = 0.085
+size = Vector3(0.5, 0.86, 0.295)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h54ih"]
 atlas = ExtResource("2_ft8w5")
@@ -150,19 +150,27 @@ animations = [{
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_s0eop"]
 frustum_focus_distance = 30.0
+frustum_focal_length = 50.0
+frustum_near = 0.127
+frustum_far = 558.26
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_s0eop")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_l3ax4")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.425, 0)
+shape = SubResource("BoxShape3D_ft8w5")
 debug_color = Color(0.16078432, 0.59607846, 0.67058825, 1)
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(3.545, 0, 0, 0, 3.545, 0, 0, 0, 3.545, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.415, 0)
+pixel_size = 0.03
+billboard = 1
+shaded = true
+texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_0objx")
-animation = &"right_run"
-autoplay = "main_run"
+animation = &"idle"
+autoplay = "idle"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.95527834, 0.29570806, 0, -0.29570803, 0.95527846, 0, 13.41, 30)
