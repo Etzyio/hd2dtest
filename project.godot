@@ -25,7 +25,6 @@ GameManager="*res://Scripts/Core/GameManager.cs"
 ResourcesManager="*res://Scripts/Core/ResourcesManager.cs"
 SaveManager="*res://Scripts/Core/SaveManager.cs"
 VersionManager="*res://Scripts/Core/VersionManager.cs"
-LevelManager="res://Scripts/Core/LevelManager.cs"
 
 [display]
 
