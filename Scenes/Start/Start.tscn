@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bc1234568aa"]
+[gd_scene load_steps=3 format=3 uid="uid://bc1234568aa"]
 
 [ext_resource type="Script" uid="uid://bby33sgo7wyte" path="res://Scenes/Start/Start.cs" id="1"]
+[ext_resource type="AudioStream" uid="uid://ly3v2o85ufuf" path="res://Resources/Music/Powerful(chosic.com).mp3" id="2_7adfa"]
 
 [node name="Start" type="Node2D"]
 script = ExtResource("1")
@@ -62,3 +63,8 @@ custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "退出"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_7adfa")
+volume_db = -3.0
+autoplay = true
