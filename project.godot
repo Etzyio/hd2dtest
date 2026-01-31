@@ -72,6 +72,10 @@ ui_down={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://Resources/Localization/localization.zh_CN.translation", "res://Resources/Localization/localization.en_US.translation")
+
 [rendering]
 
 camera/depth_of_field/depth_of_field_bokeh_quality=2
