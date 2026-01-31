@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bc1234568aa"]
+[gd_scene load_steps=4 format=3 uid="uid://bc1234568aa"]
 
 [ext_resource type="Script" uid="uid://bby33sgo7wyte" path="res://Scenes/Start/Start.cs" id="1"]
 [ext_resource type="AudioStream" uid="uid://ly3v2o85ufuf" path="res://Resources/Music/Powerful(chosic.com).mp3" id="2_7adfa"]
+[ext_resource type="Theme" uid="uid://b3fm4jw65qk0c" path="res://Resources/Theme/mainbutton.tres" id="2_x3rvt"]
 
 [node name="Start" type="Node2D"]
 script = ExtResource("1")
@@ -18,51 +19,281 @@ color = Color(0.1, 0.1, 0.2, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource("2_x3rvt")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/CenterContainer"]
 custom_minimum_size = Vector2(400, 500)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MainButton" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.5
+offset_top = -173.5
+offset_right = 140.5
+offset_bottom = 173.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 9
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "HD2D Test Game"
+text = "game_name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "开始游戏"
+text = "start"
 
-[node name="ContinueButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="ContinueButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "继续游戏"
+text = "continue"
 
-[node name="SettingsButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+text = "settings"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "exit"
+
+[node name="SettingMenu" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu"]
+layout_mode = 2
 text = "设置"
+horizontal_alignment = 1
 
-[node name="ExitButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SettingsContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AudioSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="AudioLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+text = "音量设置"
+
+[node name="MasterVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox"]
+layout_mode = 2
+text = "主音量"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="MusicVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox"]
+layout_mode = 2
+text = "音乐音量"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.8
+
+[node name="SFXVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="SFXVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox"]
+layout_mode = 2
+text = "音效音量"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="VoiceVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="VoiceVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox"]
+layout_mode = 2
+text = "语音音量"
+
+[node name="VoiceVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="AudioMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="GraphicsSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="GraphicsLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+text = "图形设置"
+
+[node name="BrightnessHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="BrightnessLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox"]
+layout_mode = 2
+text = "亮度"
+
+[node name="BrightnessSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="ContrastHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="ContrastLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox"]
+layout_mode = 2
+text = "对比度"
+
+[node name="ContrastSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="SaturationHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="SaturationLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox"]
+layout_mode = 2
+text = "饱和度"
+
+[node name="SaturationSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="FullscreenHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="FullscreenLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox"]
+layout_mode = 2
+text = "全屏"
+
+[node name="FullscreenToggle" type="CheckButton" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox"]
+layout_mode = 2
+
+[node name="VSyncHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="VSyncLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox"]
+layout_mode = 2
+text = "垂直同步"
+
+[node name="VSyncToggle" type="CheckButton" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox"]
+layout_mode = 2
+
+[node name="GraphicsMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="GameSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="GameLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+text = "游戏设置"
+
+[node name="AutoSaveHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+
+[node name="AutoSaveLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox"]
+layout_mode = 2
+text = "自动保存"
+
+[node name="AutoSaveToggle" type="CheckButton" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox"]
+layout_mode = 2
+
+[node name="TextSpeedHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+
+[node name="TextSpeedLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox"]
+layout_mode = 2
+text = "文本速度"
+
+[node name="TextSpeedSlider" type="HSlider" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 0.5
+
+[node name="ShowFPSHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+
+[node name="ShowFPSLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox"]
+layout_mode = 2
+text = "显示FPS"
+
+[node name="ShowFPSToggle" type="CheckButton" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox"]
+layout_mode = 2
+
+[node name="GameMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/SettingMenu"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "退出"
+text = "返回"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_7adfa")
