@@ -71,7 +71,6 @@ namespace hd2dtest.Scripts.Core
                 MonsterCache = LoadResource<Dictionary<string, Monster>>("Monsters.json") ?? new Dictionary<string, Monster>();
                 WeaponsCache = LoadResource<Dictionary<string, Weapon>>("Weapons.json") ?? new Dictionary<string, Weapon>();
                 EquipmentCache = LoadResource<Dictionary<string, Equipment>>("Equipment.json") ?? new Dictionary<string, Equipment>();
-                LevelCache = LoadResource<Dictionary<string, Level>>("Levels.json") ?? new Dictionary<string, Level>();
                 NpcCache = LoadResource<Dictionary<string, NPC>>("NPCs.json") ?? new Dictionary<string, NPC>();
                 ViewRegister = LoadViewRegister();
                 
