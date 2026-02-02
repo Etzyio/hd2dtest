@@ -23,7 +23,7 @@ jobs:
           apt-get install -y nodejs
 
       - name: Checkout
-        uses: https://gitcode.com/actions/checkout@v3
+        uses: actions/checkout@v3
         with:
           lfs: true
       - name: Windows Build
@@ -34,12 +34,12 @@ jobs:
           godot --headless --verbose --export-release "Windows Desktop" "build/windows/$EXPORT_NAME.exe"
           godot --headless --verbose --export-release "macOS" "build/mac/$EXPORT_NAME.dmg"
       - name: Upload Artifact win
-        uses: https://gitcode.com/actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: windows
           path: build/windows
       - name: Upload Artifact mac
-        uses: https://gitcode.com/actions/upload-artifact@v3
+        uses:  actions/upload-artifact@v3
         with:
           name: mac
           path: build/mac
