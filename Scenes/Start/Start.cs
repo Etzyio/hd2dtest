@@ -441,9 +441,11 @@ namespace hd2dtest.Scripts
 			saveItemPanel.AddChild(centerContainer);
 
 			// 创建垂直容器
-			VBoxContainer saveItemVBox = new();
-			saveItemVBox.SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter;
-			saveItemVBox.SizeFlagsVertical = Control.SizeFlags.ShrinkCenter;
+			VBoxContainer saveItemVBox = new()
+			{
+				SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
+				SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
+			};
 			saveItemVBox.AddThemeConstantOverride("margin_left", 10);
 			saveItemVBox.AddThemeConstantOverride("margin_top", 10);
 			saveItemVBox.AddThemeConstantOverride("margin_right", 10);

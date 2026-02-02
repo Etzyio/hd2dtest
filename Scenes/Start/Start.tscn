@@ -110,6 +110,30 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="LanguageSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "language_settings"
+
+[node name="LanguageSelectorHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "language"
+
+[node name="LanguageSelector" type="OptionButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LanguageMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
 [node name="AudioSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
 layout_mode = 2
 
@@ -347,30 +371,6 @@ text = "invert_y"
 layout_mode = 2
 
 [node name="ControlMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
-[node name="LanguageSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
-layout_mode = 2
-
-[node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-text = "language_settings"
-
-[node name="LanguageSelectorHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
-layout_mode = 2
-
-[node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-text = "language"
-
-[node name="LanguageSelector" type="OptionButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="LanguageMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
