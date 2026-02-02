@@ -35,3 +35,6 @@ delete,Delete,删除
 load_save_failed,Failed to load save,加载存档失败
 delete_save_success,Save deleted successfully,删除存档成功
 delete_save_failed,Failed to delete save,删除存档失败
+level,Level,等级
+play_time,Play Time,游戏时间
+save_time,Save Time,保存时间

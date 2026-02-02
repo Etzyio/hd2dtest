@@ -109,6 +109,11 @@ namespace hd2dtest.Scripts.Core
             /// 是否开启垂直同步
             /// </summary>
             public bool VSync { get; set; } = true;
+            
+            /// <summary>
+            /// 语言设置，默认为简体中文
+            /// </summary>
+            public string Language { get; set; } = "zh_CN";
             #endregion
 
             #region 控制设置
@@ -276,10 +281,23 @@ namespace hd2dtest.Scripts.Core
             DisplayServer.WindowSetVsyncMode(CurrentConfig.VSync ? Godot.DisplayServer.VSyncMode.Enabled : Godot.DisplayServer.VSyncMode.Disabled);
             #endregion
 
+            #region 应用语言设置
+            ApplyLanguage();
+            #endregion
+
             // 发出配置变更信号
             EmitSignal(SignalName.ConfigChanged);
 
             Log.Info("Config applied");
+        }
+
+        /// <summary>
+        /// 应用语言设置
+        /// </summary>
+        private void ApplyLanguage()
+        {
+            TranslationServer.SetLocale(CurrentConfig.Language);
+            Log.Info($"Language set to: {CurrentConfig.Language}");
         }
 
         /// <summary>
@@ -455,6 +473,17 @@ namespace hd2dtest.Scripts.Core
             CurrentConfig.VSync = vSync;
             SaveConfig();
             ApplyConfig();
+        }
+
+        /// <summary>
+        /// 设置语言
+        /// </summary>
+        /// <param name="language">语言代码（zh_CN或en_US）</param>
+        public void SetLanguage(string language)
+        {
+            CurrentConfig.Language = language;
+            SaveConfig();
+            ApplyLanguage();
         }
         #endregion
 

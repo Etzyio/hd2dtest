@@ -110,6 +110,9 @@ namespace hd2dtest.Scripts
 				_autoSaveToggle.Toggled += OnAutoSaveToggled;
 				_textSpeedSlider.ValueChanged += OnTextSpeedChanged;
 				_showFPSToggle.Toggled += OnShowFPSToggled;
+				
+				// 语言设置信号
+				_languageSelector.ItemSelected += OnLanguageSelected;
 
 				Log.Info("All signals connected successfully");
 
@@ -190,8 +193,12 @@ namespace hd2dtest.Scripts
 					_languageSelector.AddItem("简体中文");
 					_languageSelector.AddItem("English");
 					// _languageSelector.AddItem("日本語");
-					// 设置默认语言
-					_languageSelector.Selected = 0;
+					// 从配置加载语言设置
+					string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
+					int selectedIndex = savedLanguage == "en_US" ? 1 : 0;
+					_languageSelector.Selected = selectedIndex;
+					// 应用语言设置
+					ConfigManager.Instance.SetLanguage(savedLanguage);
 				}
 			}
 			catch (Exception e)
@@ -239,7 +246,7 @@ namespace hd2dtest.Scripts
 				// 如果没有存档，显示提示
 				Label noSaveLabel = new()
 				{
-					Text = "没有找到存档",
+					Text = TranslationServer.Translate("no_saves"),
 					HorizontalAlignment = HorizontalAlignment.Center
 				};
 				noSaveLabel.AddThemeFontSizeOverride("font_size", 20);
@@ -385,6 +392,14 @@ namespace hd2dtest.Scripts
 			ConfigManager.Instance.SetShowFPS(toggled);
 		}
 
+		// 语言选择事件
+		private void OnLanguageSelected(long index)
+		{
+			string language = index == 0 ? "zh_CN" : "en_US";
+			Log.Info($"Language selected: {language}");
+			ConfigManager.Instance.SetLanguage(language);
+		}
+
 		// 退出按钮点击事件
 		private void OnExitButtonPressed()
 		{
@@ -447,7 +462,10 @@ namespace hd2dtest.Scripts
 			// 存档信息
 			Label infoLabel = new();
 			string playTime = FormatPlayTime(saveInfo.PlayTime);
-			infoLabel.Text = $"等级: {saveInfo.AveragePlayerLevel} | 游戏时间: {playTime} | 保存时间: {saveInfo.SaveTime:yyyy-MM-dd HH:mm}";
+			string levelText = TranslationServer.Translate("level");
+			string playTimeText = TranslationServer.Translate("play_time");
+			string saveTimeText = TranslationServer.Translate("save_time");
+			infoLabel.Text = $"{levelText}: {saveInfo.AveragePlayerLevel} | {playTimeText}: {playTime} | {saveTimeText}: {saveInfo.SaveTime:yyyy-MM-dd HH:mm}";
 			infoLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			infoLabel.AddThemeFontSizeOverride("font_size", 16);
 			saveItemVBox.AddChild(infoLabel);
@@ -463,7 +481,7 @@ namespace hd2dtest.Scripts
 			// 加载按钮
 			Button loadButton = new()
 			{
-				Text = "加载",
+				Text = TranslationServer.Translate("load"),
 				CustomMinimumSize = new Vector2(100, 30)
 			};
 			loadButton.AddThemeFontSizeOverride("font_size", 16);
@@ -480,7 +498,7 @@ namespace hd2dtest.Scripts
 			// 删除按钮
 			Button deleteButton = new()
 			{
-				Text = "删除",
+				Text = TranslationServer.Translate("delete"),
 				CustomMinimumSize = new Vector2(100, 30)
 			};
 			deleteButton.AddThemeFontSizeOverride("font_size", 16);
@@ -526,7 +544,8 @@ namespace hd2dtest.Scripts
 			}
 			else
 			{
-				ShowToast($"加载存档 {saveId} 失败");
+				string failedText = TranslationServer.Translate("load_save_failed");
+				ShowToast($"{failedText} {saveId}");
 			}
 		}
 
@@ -538,13 +557,15 @@ namespace hd2dtest.Scripts
 			bool success = SaveManager.Instance.DeleteSave(saveId);
 			if (success)
 			{
-				ShowToast($"删除存档 {saveId} 成功");
+				string successText = TranslationServer.Translate("delete_save_success");
+				ShowToast($"{successText} {saveId}");
 				// 重新显示存档列表
 				ShowSaveList();
 			}
 			else
 			{
-				ShowToast($"删除存档 {saveId} 失败");
+				string failedText = TranslationServer.Translate("delete_save_failed");
+				ShowToast($"{failedText} {saveId}");
 			}
 		}
 
