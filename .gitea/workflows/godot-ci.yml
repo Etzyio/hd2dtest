@@ -30,9 +30,16 @@ jobs:
         run: |
           cd /workspace/etzyio/hd2dtest
           mkdir -v -p build/windows
+          mkdir -v -p build/mac
           godot --headless --verbose --export-release "Windows Desktop" "build/windows/$EXPORT_NAME.exe"
+          godot --headless --verbose --export-release "macOS" "build/mac/$EXPORT_NAME.dmg"
       - name: Upload Artifact win
-        uses: https://gitcode.com/actions/upload-artifact@v6
+        uses: https://gitcode.com/actions/upload-artifact@v3
         with:
           name: windows
           path: build/windows
+      - name: Upload Artifact mac
+        uses: https://gitcode.com/actions/upload-artifact@v3
+        with:
+          name: mac
+          path: build/mac
