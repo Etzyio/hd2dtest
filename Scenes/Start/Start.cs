@@ -120,7 +120,7 @@ namespace hd2dtest.Scripts
 				LoadSettings();
 
 				// 初始化存档列表UI
-				// CreateSaveListUI();
+				InitializeSaveListUI();
 				GameViewManager.TriggerSceneReady();
 				
 				Log.Info("Start scene ready");
@@ -221,13 +221,16 @@ namespace hd2dtest.Scripts
 		{
 			Log.Info("Continue button pressed");
 			// 显示存档列表
-			// ShowSaveList();
+			ShowSaveList();
 
 		}
 
 		// 显示存档列表
 		private void ShowSaveList()
 		{
+			// 清空存档列表
+			ClearSaveList();
+			
 			// 获取所有存档信息
 			List<SaveInfo> saveInfos = SaveManager.Instance.GetAllSaveInfos();
 			Log.Info($"Found {saveInfos.Count} saves");
@@ -258,100 +261,16 @@ namespace hd2dtest.Scripts
 			_saveListPanel.Visible = true;
 		}
 
-		// 创建存档列表UI
-		private void CreateSaveListUI()
+		// 初始化存档列表UI
+		private void InitializeSaveListUI()
 		{
-			// 获取CanvasLayer节点
-			CanvasLayer canvasLayer = GetNode<CanvasLayer>("CanvasLayer");
+			// 从场景中获取存档列表UI元素
+			_saveListPanel = GetNode<ColorRect>("CanvasLayer/SaveListPanel");
+			_saveListContainer = GetNode<VBoxContainer>("CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer/ScrollContainer/SaveListContainer");
+			_backButton = GetNode<Button>("CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer/BackButton");
 
-			// 创建存档列表面板
-			_saveListPanel = new ColorRect
-			{
-				Name = "SaveListPanel",
-				Visible = false
-			};
-			_saveListPanel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-			_saveListPanel.SizeFlagsHorizontal = Control.SizeFlags.Fill;
-			_saveListPanel.SizeFlagsVertical = Control.SizeFlags.Fill;
-			_saveListPanel.Modulate = new Color(0, 0, 0, 0.8f);
-			canvasLayer.AddChild(_saveListPanel);
-
-			// 创建居中容器
-			CenterContainer centerContainer = new()
-			{
-				Name = "CenterContainer"
-			};
-			centerContainer.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-			centerContainer.SizeFlagsHorizontal = Control.SizeFlags.Fill;
-			centerContainer.SizeFlagsVertical = Control.SizeFlags.Fill;
-			_saveListPanel.AddChild(centerContainer);
-
-			// 创建面板
-			Panel panel = new()
-			{
-				Name = "Panel",
-				CustomMinimumSize = new Vector2(600, 400)
-			};
-			centerContainer.AddChild(panel);
-
-			// 创建垂直容器
-			VBoxContainer vBoxContainer = new()
-			{
-				Name = "VBoxContainer"
-			};
-			vBoxContainer.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-			vBoxContainer.AddThemeConstantOverride("margin_left", 10);
-			vBoxContainer.AddThemeConstantOverride("margin_top", 10);
-			vBoxContainer.AddThemeConstantOverride("margin_right", 10);
-			vBoxContainer.AddThemeConstantOverride("margin_bottom", 10);
-			vBoxContainer.Alignment = BoxContainer.AlignmentMode.Center;
-			panel.AddChild(vBoxContainer);
-
-			// 创建标题标签
-			Label titleLabel = new()
-			{
-				Name = "TitleLabel",
-				Text = "选择存档",
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
-			titleLabel.AddThemeFontSizeOverride("font_size", 32);
-			vBoxContainer.AddChild(titleLabel);
-
-			// 创建间隔
-			MarginContainer marginContainer = new()
-			{
-				Name = "MarginContainer",
-				CustomMinimumSize = new Vector2(0, 20)
-			};
-			vBoxContainer.AddChild(marginContainer);
-
-			// 创建滚动容器
-			ScrollContainer scrollContainer = new()
-			{
-				Name = "ScrollContainer",
-				SizeFlagsHorizontal = Control.SizeFlags.Fill,
-				SizeFlagsVertical = Control.SizeFlags.Fill
-			};
-			vBoxContainer.AddChild(scrollContainer);
-
-			// 创建存档列表容器
-			_saveListContainer = new VBoxContainer
-			{
-				Name = "SaveListContainer",
-				SizeFlagsHorizontal = Control.SizeFlags.Fill
-			};
-			scrollContainer.AddChild(_saveListContainer);
-
-			// 创建返回按钮
-			_backButton = new Button
-			{
-				Name = "BackButton",
-				Text = "返回",
-				CustomMinimumSize = new Vector2(0, 50)
-			};
-			_backButton.AddThemeFontSizeOverride("font_size", 20);
+			// 连接返回按钮信号
 			_backButton.Pressed += OnBackButtonPressed;
-			vBoxContainer.AddChild(_backButton);
 		}
 
 		// 设置按钮点击事件
@@ -501,14 +420,20 @@ namespace hd2dtest.Scripts
 			saveItemPanel.AddThemeConstantOverride("margin_bottom", 10);
 			_saveListContainer.AddChild(saveItemPanel);
 
+			// 创建CenterContainer用于居中显示存档信息
+			CenterContainer centerContainer = new();
+			centerContainer.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+			saveItemPanel.AddChild(centerContainer);
+
 			// 创建垂直容器
 			VBoxContainer saveItemVBox = new();
-			saveItemVBox.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+			saveItemVBox.SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter;
+			saveItemVBox.SizeFlagsVertical = Control.SizeFlags.ShrinkCenter;
 			saveItemVBox.AddThemeConstantOverride("margin_left", 10);
 			saveItemVBox.AddThemeConstantOverride("margin_top", 10);
 			saveItemVBox.AddThemeConstantOverride("margin_right", 10);
 			saveItemVBox.AddThemeConstantOverride("margin_bottom", 10);
-			saveItemPanel.AddChild(saveItemVBox);
+			centerContainer.AddChild(saveItemVBox);
 
 			// 存档名称
 			Label nameLabel = new()
@@ -585,23 +510,46 @@ namespace hd2dtest.Scripts
 		}
 
 		// 加载存档按钮点击事件
-		private static void OnLoadSavePressed(string saveId)
+		private void OnLoadSavePressed(string saveId)
 		{
 			Log.Info($"Load save pressed for slot {saveId}");
-			// TODO: 实现加载存档功能
-			ShowToast($"加载存档 {saveId} 功能尚未实现");
+			// 加载存档
+			SaveData saveData = SaveManager.Instance.LoadGame(saveId);
+			if (saveData != null)
+			{
+				// 隐藏存档列表
+				_saveListPanel.Visible = false;
+				// 切换到存档中的场景
+				string targetScene = saveData.CurrentScene;
+				Log.Info($"Loading scene: {targetScene}");
+				_ = GameViewManager.SwitchScene(targetScene);
+			}
+			else
+			{
+				ShowToast($"加载存档 {saveId} 失败");
+			}
 		}
 
 		// 删除存档按钮点击事件
-		private static void OnDeleteSavePressed(string saveId)
+		private void OnDeleteSavePressed(string saveId)
 		{
 			Log.Info($"Delete save pressed for slot {saveId}");
-			// TODO: 实现删除存档功能
-			ShowToast($"删除存档 {saveId} 功能尚未实现");
+			// 删除存档
+			bool success = SaveManager.Instance.DeleteSave(saveId);
+			if (success)
+			{
+				ShowToast($"删除存档 {saveId} 成功");
+				// 重新显示存档列表
+				ShowSaveList();
+			}
+			else
+			{
+				ShowToast($"删除存档 {saveId} 失败");
+			}
 		}
 
 		// 显示提示信息
-		private static void ShowToast(string message)
+		private void ShowToast(string message)
 		{
 			// 这里可以实现一个简单的提示信息显示
 			Log.Info($"Toast: {message}");

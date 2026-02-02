@@ -4,3 +4,34 @@ start,Start,开始游戏
 continue,Continue,继续游戏
 settings,Settings,设置
 exit,Exit,退出
+back,Back,返回
+audio_settings,Audio Settings,音量设置
+master_volume,Master Volume,主音量
+music_volume,Music Volume,音乐音量
+sfx_volume,SFX Volume,音效音量
+voice_volume,Voice Volume,语音音量
+graphics_settings,Graphics Settings,图形设置
+brightness,Brightness,亮度
+contrast,Contrast,对比度
+saturation,Saturation,饱和度
+fullscreen,Fullscreen,全屏
+vsync,VSync,垂直同步
+game_settings,Game Settings,游戏设置
+auto_save,Auto Save,自动保存
+text_speed,Text Speed,文本速度
+show_fps,Show FPS,显示FPS
+control_settings,Control Settings,控制设置
+sensitivity,Sensitivity,灵敏度
+invert_y,Invert Y-Axis,反转Y轴
+language_settings,Language Settings,语言设置
+language,Language,语言
+notification_settings,Notification Settings,通知设置
+game_notifications,Game Notifications,游戏通知
+achievement_notifications,Achievement Notifications,成就通知
+select_save,Select Save,选择存档
+no_saves,No Saves Found,没有找到存档
+load,Load,加载
+delete,Delete,删除
+load_save_failed,Failed to load save,加载存档失败
+delete_save_success,Save deleted successfully,删除存档成功
+delete_save_failed,Failed to delete save,删除存档失败

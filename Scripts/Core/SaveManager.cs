@@ -272,7 +272,7 @@ namespace hd2dtest.Scripts.Core
                                     SaveData saveData = JsonSerializer.Deserialize<SaveData>(json, _jsonSerializerOptions);
 
                                     // 提取存档ID（从文件名中提取）
-                                    string baseName = fileName[..fileName.LastIndexOf(SaveFileExtension)];
+                                    string baseName = fileName.Substring(0, fileName.LastIndexOf(SaveFileExtension));
                                     string saveId = baseName.Replace("save_", "");
 
                                     // 计算平均玩家等级
@@ -283,7 +283,7 @@ namespace hd2dtest.Scripts.Core
                                         totalLevel += player.Level;
                                     }
                                     int averageLevel = playerCount > 0 ? totalLevel / playerCount : 0;
-                                    
+
                                     // 创建存档信息
                                     SaveInfo saveInfo = new()
                                     {
@@ -312,14 +312,14 @@ namespace hd2dtest.Scripts.Core
                 }
 
                 // 按存档ID数值顺序排序，使用安全转换
-                saveInfos = [.. saveInfos.OrderBy(s => {
-                if (int.TryParse(s.SaveId, out int id))
-                {
-                    return id;
-                }
-                // 非整数ID放在最后
-                return int.MaxValue;
-            })];
+                saveInfos = saveInfos.OrderBy(s => {
+                    if (int.TryParse(s.SaveId, out int id))
+                    {
+                        return id;
+                    }
+                    // 非整数ID放在最后
+                    return int.MaxValue;
+                }).ToList();
             }
             catch (Exception e)
             {

@@ -94,7 +94,7 @@ alignment = 1
 [node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-text = "设置"
+text = "settings"
 horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu"]
@@ -116,7 +116,7 @@ layout_mode = 2
 [node name="AudioLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "音量设置"
+text = "audio_settings"
 
 [node name="MasterVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
 layout_mode = 2
@@ -124,7 +124,7 @@ layout_mode = 2
 [node name="MasterVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "主音量"
+text = "%master_volume"
 
 [node name="MasterVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox"]
 layout_mode = 2
@@ -139,7 +139,7 @@ layout_mode = 2
 [node name="MusicVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "音乐音量"
+text = "%music_volume"
 
 [node name="MusicVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox"]
 layout_mode = 2
@@ -154,7 +154,7 @@ layout_mode = 2
 [node name="SFXVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "音效音量"
+text = "%sfx_volume"
 
 [node name="SFXVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox"]
 layout_mode = 2
@@ -169,7 +169,7 @@ layout_mode = 2
 [node name="VoiceVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "语音音量"
+text = "%voice_volume"
 
 [node name="VoiceVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox"]
 layout_mode = 2
@@ -188,7 +188,7 @@ layout_mode = 2
 [node name="GraphicsLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "图形设置"
+text = "%graphics_settings"
 
 [node name="BrightnessHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
 layout_mode = 2
@@ -196,7 +196,7 @@ layout_mode = 2
 [node name="BrightnessLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "亮度"
+text = "%brightness"
 
 [node name="BrightnessSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox"]
 layout_mode = 2
@@ -211,7 +211,7 @@ layout_mode = 2
 [node name="ContrastLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "对比度"
+text = "%contrast"
 
 [node name="ContrastSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox"]
 layout_mode = 2
@@ -226,7 +226,7 @@ layout_mode = 2
 [node name="SaturationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "饱和度"
+text = "%saturation"
 
 [node name="SaturationSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox"]
 layout_mode = 2
@@ -241,7 +241,7 @@ layout_mode = 2
 [node name="FullscreenLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "全屏"
+text = "%fullscreen"
 
 [node name="FullscreenToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox"]
 layout_mode = 2
@@ -252,7 +252,7 @@ layout_mode = 2
 [node name="VSyncLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "垂直同步"
+text = "%vsync"
 
 [node name="VSyncToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox"]
 layout_mode = 2
@@ -267,7 +267,7 @@ layout_mode = 2
 [node name="GameLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "游戏设置"
+text = "%game_settings"
 
 [node name="AutoSaveHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
 layout_mode = 2
@@ -275,7 +275,7 @@ layout_mode = 2
 [node name="AutoSaveLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "自动保存"
+text = "%auto_save"
 
 [node name="AutoSaveToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox"]
 layout_mode = 2
@@ -286,7 +286,7 @@ layout_mode = 2
 [node name="TextSpeedLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "文本速度"
+text = "%text_speed"
 
 [node name="TextSpeedSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox"]
 layout_mode = 2
@@ -302,7 +302,7 @@ layout_mode = 2
 [node name="ShowFPSLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "显示FPS"
+text = "%show_fps"
 
 [node name="ShowFPSToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox"]
 layout_mode = 2
@@ -317,7 +317,7 @@ layout_mode = 2
 [node name="ControlLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "控制设置"
+text = "%control_settings"
 
 [node name="SensitivityHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
 layout_mode = 2
@@ -325,7 +325,7 @@ layout_mode = 2
 [node name="SensitivityLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/SensitivityHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "灵敏度"
+text = "%sensitivity"
 
 [node name="SensitivitySlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/SensitivityHBox"]
 layout_mode = 2
@@ -341,7 +341,7 @@ layout_mode = 2
 [node name="InvertYLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/InvertYHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "反转Y轴"
+text = "%invert_y"
 
 [node name="InvertYToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/InvertYHBox"]
 layout_mode = 2
@@ -356,7 +356,7 @@ layout_mode = 2
 [node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "语言设置"
+text = "%language_settings"
 
 [node name="LanguageSelectorHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
 layout_mode = 2
@@ -364,7 +364,7 @@ layout_mode = 2
 [node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "语言"
+text = "%language"
 
 [node name="LanguageSelector" type="OptionButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
 layout_mode = 2
@@ -380,7 +380,7 @@ layout_mode = 2
 [node name="NotificationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-text = "通知设置"
+text = "%notification_settings"
 
 [node name="GameNotificationHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection"]
 layout_mode = 2
@@ -388,7 +388,7 @@ layout_mode = 2
 [node name="GameNotificationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/GameNotificationHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "游戏通知"
+text = "%game_notifications"
 
 [node name="GameNotificationToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/GameNotificationHBox"]
 layout_mode = 2
@@ -399,7 +399,7 @@ layout_mode = 2
 [node name="AchievementNotificationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/AchievementNotificationHBox"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-text = "成就通知"
+text = "%achievement_notifications"
 
 [node name="AchievementNotificationToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/AchievementNotificationHBox"]
 layout_mode = 2
@@ -411,7 +411,64 @@ layout_mode = 2
 [node name="BackButton" type="Button" parent="CanvasLayer/CenterContainer2/SettingMenu"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-text = "返回"
+text = "%back"
+
+[node name="SaveListPanel" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0, 0, 0, 0.8)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/SaveListPanel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="CanvasLayer/SaveListPanel/CenterContainer"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -180.0
+offset_right = 280.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "select_save"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SaveListContainer" type="VBoxContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "back"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_7adfa")
