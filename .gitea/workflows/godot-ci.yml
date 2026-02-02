@@ -11,9 +11,9 @@ env:
 jobs:
   windows-export:
     name: Windows Export
-    runs-on: ubuntu-latest18 
+    runs-on: ubuntu-24.04  # Use 24.04 with godot 4
     container:
-      image: barichello/godot-ci:mono-4.5.1
+      image: godot-ci-mono-nodejs:4.5.1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -38,7 +38,7 @@ jobs:
     name: macOS Export
     runs-on: ubuntu-24.04  # Use 24.04 with godot 4
     container:
-      image: barichello/godot-ci:mono-4.5.1
+      image: godot-ci-mono-nodejs:4.5.1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -63,7 +63,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-24.04  # Use 24.04 with godot 4
     container:
-      image: barichello/godot-ci:mono-4.5.1
+      image: godot-ci-mono-nodejs:4.5.1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
