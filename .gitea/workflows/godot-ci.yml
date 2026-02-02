@@ -9,8 +9,8 @@ env:
   PROJECT_PATH: hd2dtest
 
 jobs:
-  export-windows:
-    name: Windows Export
+  export:
+    name: Export Builds
     runs-on: ubuntu-24.04  # Use 24.04 with godot 4
     container:
       image: barichello/godot-ci:mono-4.5.1
@@ -23,23 +23,42 @@ jobs:
           apt-get install -y nodejs
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: https://gitcode.com/actions/checkout@v3
         with:
           lfs: true
-      - name: Windows Build
+
+      - name: Setup Environment
         run: |
-          cd /workspace/etzyio/hd2dtest
           mkdir -v -p build/windows
           mkdir -v -p build/mac
-          godot --headless --verbose --export-release "Windows Desktop" "build/windows/$EXPORT_NAME.exe"
-          godot --headless --verbose --export-release "macOS" "build/mac/$EXPORT_NAME.dmg"
-      - name: Upload Artifact win
-        uses: actions/upload-artifact@v3
+          mkdir -v -p build/linux
+
+      - name: Windows Build
+        run: |
+          godot --headless --verbose --export-release "Windows Desktop"
+
+      - name: macOS Build
+        run: |
+          godot --headless --verbose --export-release "macOS"
+
+      - name: Linux Build
+        run: |
+          godot --headless --verbose --export-release "Linux"
+
+      - name: Upload Windows Artifact
+        uses: https://gitcode.com/actions/upload-artifact@v3
         with:
           name: windows
           path: build/windows
-      - name: Upload Artifact mac
-        uses:  actions/upload-artifact@v3
+
+      - name: Upload macOS Artifact
+        uses: https://gitcode.com/actions/upload-artifact@v3
         with:
           name: mac
           path: build/mac
+
+      - name: Upload Linux Artifact
+        uses: https://gitcode.com/actions/upload-artifact@v3
+        with:
+          name: linux
+          path: build/linux
