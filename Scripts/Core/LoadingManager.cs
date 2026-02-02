@@ -64,6 +64,7 @@ namespace hd2dtest.Scripts.Core
         {
             if (_loadingAnimation != null)
             {
+                _loadingAnimation.GetParent().MoveChild(_loadingAnimation, 999);
                 _loadingAnimation.Visible = true;
                 Log.Info("Loading animation shown");
             }
@@ -74,6 +75,7 @@ namespace hd2dtest.Scripts.Core
         {
             if (_loadingAnimation != null)
             {
+                _loadingAnimation.GetParent().MoveChild(_loadingAnimation, -1);
                 _loadingAnimation.Visible = false;
                 Log.Info("Loading animation hidden");
             }
