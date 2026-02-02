@@ -78,4 +78,5 @@ locale/translations=PackedStringArray("res://Resources/Localization/localization
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 camera/depth_of_field/depth_of_field_bokeh_quality=2
