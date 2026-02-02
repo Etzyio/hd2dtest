@@ -11,17 +11,10 @@ env:
 jobs:
   windows-export:
     name: Windows Export
-    runs-on: ubuntu-24.04  # Use 24.04 with godot 4
+    runs-on: ubuntu-latest18 
     container:
       image: barichello/godot-ci:mono-4.5.1
     steps:
-      - name: Set Node.js
-        run: |
-          apt-get update
-          apt-get install -y curl
-          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-          apt-get install -y nodejs
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -47,13 +40,6 @@ jobs:
     container:
       image: barichello/godot-ci:mono-4.5.1
     steps:
-      - name: Set Node.js
-        run: |
-          apt-get update
-          apt-get install -y curl
-          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-          apt-get install -y nodejs
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -79,12 +65,6 @@ jobs:
     container:
       image: barichello/godot-ci:mono-4.5.1
     steps:
-      - name: Set Node.js
-        run: |
-          apt-get update
-          apt-get install -y curl
-          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-          apt-get install -y nodejs
       - name: Checkout
         uses: actions/checkout@v3
         with:
