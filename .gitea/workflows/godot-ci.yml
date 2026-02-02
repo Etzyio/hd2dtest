@@ -1,0 +1,38 @@
+name: "godot-ci export"
+on: push
+
+# NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
+
+env:
+  GODOT_VERSION: 4.5.1
+  EXPORT_NAME: hd2dtest
+  PROJECT_PATH: hd2dtest
+
+jobs:
+  export-windows:
+    name: Windows Export
+    runs-on: ubuntu-24.04  # Use 24.04 with godot 4
+    container:
+      image: barichello/godot-ci:mono-4.5.1
+    steps:
+      - name: Set Node.js
+        run: |
+          apt-get update
+          apt-get install -y curl
+          curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+          apt-get install -y nodejs
+
+      - name: Checkout
+        uses: https://gitcode.com/actions/checkout@v3
+        with:
+          lfs: true
+      - name: Windows Build
+        run: |
+          cd /workspace/etzyio/hd2dtest
+          mkdir -v -p build/windows
+          godot --headless --verbose --export-release "Windows Desktop" "build/windows/$EXPORT_NAME.exe"
+      - name: Upload Artifact win
+        uses: https://gitcode.com/actions/upload-artifact@v6
+        with:
+          name: windows
+          path: build/windows
