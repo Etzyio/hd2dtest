@@ -38,3 +38,40 @@ delete_save_failed,Failed to delete save,删除存档失败
 level,Level,等级
 play_time,Play Time,游戏时间
 save_time,Save Time,保存时间
+paused,PAUSED,暂停
+health_label,Health: {0}/{1},生命值: {0}/{1}
+mana_label,Mana: {0}/{1},魔法值: {0}/{1}
+level_label,Level: {0},等级: {0}
+item_description,Item: {0}\nCount: {1}\nDescription: This is a {0}.,道具: {0}\n数量: {1}\n描述: 这是一个{0}。
+game_saved_successfully,Game saved successfully!,游戏保存成功！
+game_save_failed,Failed to save game!,游戏保存失败！
+settings_saved,Settings saved!,设置已保存！
+settings_reset,Settings reset to default!,设置已重置为默认值！
+low,Low,低
+medium,Medium,中
+high,High,高
+ultra,Ultra,超高
+inventory,Inventory,道具
+map,Map,地图
+status,Status,状态
+equipment,Equipment,装备
+save,Save,保存
+
+# Shader Compilation - Common Terms
+shader_compilation,Shader Compilation,着色器编译
+compiling,Compiling,编译中
+compilation_complete,Compilation Complete,编译完成
+compilation_failed,Compilation Failed,编译失败
+compilation_cancelled,Compilation Cancelled,编译取消
+progress,Progress,进度
+remaining_time,Remaining Time,剩余时间
+current_shader,Current Shader,当前着色器
+
+# Shader Compilation - Specific Messages
+shader_compilation_start,Starting shader compilation...,开始编译着色器...
+shader_compilation_preparing,Preparing...,准备中...
+shader_compiling,Compiling: {0},正在编译: {0}
+shader_compilation_complete,Shader compilation complete!,着色器编译完成！
+shader_compilation_failed,Failed to compile shader: {0},编译着色器失败: {0}
+shader_compilation_cancelled,Compilation cancelled,编译已取消
+shader_compilation_error,Error during compilation: {0},编译过程中发生错误: {0}

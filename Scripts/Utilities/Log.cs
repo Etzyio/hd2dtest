@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace hd2dtest.Scripts.Core
+namespace hd2dtest.Scripts.Utilities
 {
     /// <summary>
     /// 日志工具类，封装GD.Print，提供规范化的日志输出

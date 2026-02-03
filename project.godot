@@ -20,11 +20,11 @@ config/windows_native_icon="uid://wwrjchujk8rf"
 
 [autoload]
 
-ConfigManager="*res://Scripts/Core/ConfigManager.cs"
-GameManager="*res://Scripts/Core/GameManager.cs"
-ResourcesManager="*res://Scripts/Core/ResourcesManager.cs"
-SaveManager="*res://Scripts/Core/SaveManager.cs"
-VersionManager="*res://Scripts/Core/VersionManager.cs"
+ConfigManager="*res://Scripts/Managers/ConfigManager.cs"
+GameManager="*res://Scripts/Managers/GameManager.cs"
+ResourcesManager="*res://Scripts/Managers/ResourcesManager.cs"
+SaveManager="*res://Scripts/Managers/SaveManager.cs"
+VersionManager="*res://Scripts/Managers/VersionManager.cs"
 
 [display]
 

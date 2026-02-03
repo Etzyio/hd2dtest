@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
+using hd2dtest.Scripts.Utilities;
 
-namespace hd2dtest.Scripts.Core
+namespace hd2dtest.Scripts.Managers
 {
     /// <summary>
     /// 配置管理器，用于管理游戏的所有设置
@@ -21,9 +22,12 @@ namespace hd2dtest.Scripts.Core
         
         /// <summary>
         /// 缓存的Json序列化选项，用于提高序列化性能
-        /// 通过预先获取TypeInfo，避免每次序列化/反序列化时重复生成
         /// </summary>
-        private readonly JsonTypeInfo _cachedJsonOptions = JsonSerializerOptions.Default.GetTypeInfo(typeof(ConfigData));
+        private readonly JsonSerializerOptions _cachedJsonOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
 
         public static ConfigManager Instance => _instance;
 
@@ -76,12 +80,12 @@ namespace hd2dtest.Scripts.Core
             /// <summary>
             /// 分辨率宽度，最小值800
             /// </summary>
-            public int ResolutionWidth { get; set; } = 1280;
+            public int ResolutionWidth { get; set; } = 720;
             
             /// <summary>
             /// 分辨率高度，最小值600
             /// </summary>
-            public int ResolutionHeight { get; set; } = 720;
+            public int ResolutionHeight { get; set; } = 640;
             
             /// <summary>
             /// 是否全屏
@@ -183,7 +187,7 @@ namespace hd2dtest.Scripts.Core
 
         /// <summary>
         /// 从文件加载配置
-        /// 如果文件不存在，则创建默认配置
+        /// 如果文件不存在，则读取当前游戏设置并保存为配置
         /// </summary>
         public void LoadConfig()
         {
@@ -200,10 +204,25 @@ namespace hd2dtest.Scripts.Core
                 }
                 else
                 {
-                    // 如果配置文件不存在，使用默认配置并保存
+                    // 如果配置文件不存在，读取当前游戏设置并保存为配置
                     CurrentConfig = new ConfigData();
+                    
+                    // 读取当前分辨率
+                    var currentSize = DisplayServer.WindowGetSize();
+                    CurrentConfig.ResolutionWidth = currentSize.X;
+                    CurrentConfig.ResolutionHeight = currentSize.Y;
+                    
+                    // 读取当前全屏状态
+                    var currentMode = DisplayServer.WindowGetMode();
+                    CurrentConfig.Fullscreen = currentMode == DisplayServer.WindowMode.Fullscreen;
+                    
+                    // 读取当前垂直同步状态
+                    var currentVsyncMode = DisplayServer.WindowGetVsyncMode();
+                    CurrentConfig.VSync = currentVsyncMode == DisplayServer.VSyncMode.Enabled;
+                    
+                    // 保存配置
                     SaveConfig();
-                    Log.Info("Default config created");
+                    Log.Info("Config created from current game settings");
                 }
             }
             catch (Exception e)
@@ -524,13 +543,7 @@ namespace hd2dtest.Scripts.Core
                 { "move_right", "ui_right" },
                 { "move_up", "ui_up" },
                 { "move_down", "ui_down" },
-                { "jump", "ui_accept" },
-                { "attack", "ui_focus_next" },
-                { "skill1", "ui_focus_prev" },
-                { "skill2", "ui_page_up" },
-                { "skill3", "ui_page_down" },
                 { "inventory", "ui_cancel" },
-                { "menu", "ui_home" }
             };
             SaveConfig();
         }

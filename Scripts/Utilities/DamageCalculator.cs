@@ -1,8 +1,9 @@
+using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Modules;
 using System;
 using System.Collections.Generic;
 
-namespace hd2dtest.Scripts.Core
+namespace hd2dtest.Scripts.Utilities
 {
     /// <summary>
     /// 伤害计算器，用于处理所有伤害计算逻辑
