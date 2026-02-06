@@ -22,6 +22,13 @@ jobs:
         run: |
           mkdir -v -p build/windows
 
+      - name: Generate Version Info
+        run: |
+          echo "Generating version information..."
+          python3 build_version.py
+          echo "Version file content:"
+          cat version.json
+
       - name: Windows Build
         run: |
           godot --headless --verbose --export-release "Windows Desktop"
@@ -30,7 +37,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: windows
-          path: build/windows
+          path: |
+            build/windows
+            version.json
 
   macos-export:
     name: macOS Export
@@ -45,6 +54,13 @@ jobs:
         run: |
           mkdir -v -p build/mac
 
+      - name: Generate Version Info
+        run: |
+          echo "Generating version information..."
+          python3 build_version.py
+          echo "Version file content:"
+          cat version.json
+
       - name: macOS Build
         run: |
           godot --headless --verbose --export-release "macOS"
@@ -53,7 +69,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: mac
-          path: build/mac
+          path: |
+            build/mac
+            version.json
 
   linux-export:
     name: Linux Export
@@ -68,6 +86,13 @@ jobs:
         run: |
           mkdir -v -p build/linux
 
+      - name: Generate Version Info
+        run: |
+          echo "Generating version information..."
+          python3 build_version.py
+          echo "Version file content:"
+          cat version.json
+
       - name: Linux Build
         run: |
           godot --headless --verbose --export-release "Linux"
@@ -76,4 +101,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: linux
-          path: build/linux
+          path: |
+            build/linux
+            version.json
