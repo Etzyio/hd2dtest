@@ -345,13 +345,7 @@ namespace hd2dtest.Scripts.Managers
                 {
                     try
                     {
-                        foreach (var kvp in saveData.QuestLineNodeStates)
-                        {
-                            var nodeId = kvp.Key;
-                            var state = (QuestLineManager.QuestLineNodeState)kvp.Value;
-                            // 设置剧情线节点状态
-                            QuestLineManager.Instance.SetNodeState(nodeId, state);
-                        }
+                        QuestLineManager.Instance.LoadSaveData(saveData.QuestLineNodeStates);
                     }
                     catch (Exception e)
                     {

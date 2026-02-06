@@ -4,6 +4,8 @@ using System.IO;
 using System.Text.Json;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Managers;
+using hd2dtest.Scripts.Modules;
+using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Quest
 {
@@ -26,13 +28,13 @@ namespace hd2dtest.Scripts.Quest
         /// <summary>
         /// 所有剧情线数据
         /// </summary>
-        private List<QuestLineData> _allQuestLines = new List<QuestLineData>();
+        private List<QuestLineData> _allQuestLines = [];
         
         /// <summary>
         /// 剧情线节点状态字典
         /// 键：节点ID，值：节点状态
         /// </summary>
-        private Dictionary<string, QuestLineNodeState> _nodeStates = new Dictionary<string, QuestLineNodeState>();
+        private Dictionary<string, QuestLineNodeState> _nodeStates = [];
 
         /// <summary>
         /// 剧情线进度更新信号
@@ -61,13 +63,13 @@ namespace hd2dtest.Scripts.Quest
 
         /// <summary>
         /// 节点就绪时的回调
-        /// 初始化单例实例，加载剧情线数据和存档数据
+        /// 初始化单例实例，加载剧情线数据
         /// </summary>
         public override void _Ready()
         {
             _instance = this;
             LoadQuestLines();
-            LoadSaveData();
+            // 存档数据会在SaveManager.LoadGame时自动加载，不需要在这里调用LoadSaveData()
         }
 
         /// <summary>
@@ -94,12 +96,21 @@ namespace hd2dtest.Scripts.Quest
         /// 加载存档数据
         /// 剧情线数据会在SaveManager.LoadGame时自动加载
         /// </summary>
-        public void LoadSaveData()
+        /// <param name="nodeStates">节点状态字典，键为节点ID，值为状态编码</param>
+        public void LoadSaveData(Dictionary<string, int> nodeStates)
         {
             try
             {
-                // 剧情线数据会在SaveManager.LoadGame时自动加载
-                // 这里可以触发加载操作
+                if (nodeStates != null)
+                {
+                    foreach (var kvp in nodeStates)
+                    {
+                        var nodeId = kvp.Key;
+                        var state = (QuestLineNodeState)kvp.Value;
+                        _nodeStates[nodeId] = state;
+                    }
+                    Log.Info($"Loaded {nodeStates.Count} quest line node states from save data");
+                }
             }
             catch (System.Exception e)
             {
@@ -116,12 +127,27 @@ namespace hd2dtest.Scripts.Quest
             try
             {
                 // 剧情线数据会在SaveManager.SaveGame时自动保存
-                // 这里可以触发保存操作
+                // 这里不需要做任何操作，SaveManager会调用SaveQuestData来保存节点状态
+                Log.Debug("QuestLineManager.SaveData called - data will be saved by SaveManager");
             }
             catch (System.Exception e)
             {
                 GD.PrintErr($"Error saving quest line data: {e.Message}");
             }
+        }
+
+        /// <summary>
+        /// 获取所有节点状态（用于保存）
+        /// </summary>
+        /// <returns>节点状态字典，键为节点ID，值为状态编码</returns>
+        public Dictionary<string, int> GetAllNodeStates()
+        {
+            var nodeStates = new Dictionary<string, int>();
+            foreach (var kvp in _nodeStates)
+            {
+                nodeStates[kvp.Key] = (int)kvp.Value;
+            }
+            return nodeStates;
         }
 
         /// <summary>
@@ -165,7 +191,7 @@ namespace hd2dtest.Scripts.Quest
         public void UnlockNode(string nodeId)
         {
             _nodeStates[nodeId] = QuestLineNodeState.Available;
-            SaveData();
+            // 不再调用SaveData()，因为SaveManager会自动保存
         }
 
         /// <summary>
@@ -175,7 +201,7 @@ namespace hd2dtest.Scripts.Quest
         public void CompleteNode(string nodeId)
         {
             _nodeStates[nodeId] = QuestLineNodeState.Completed;
-            SaveData();
+            // 不再调用SaveData()，因为SaveManager会自动保存
 
             // 检查是否解锁下一个节点
             foreach (var questLine in _allQuestLines)
@@ -242,7 +268,7 @@ namespace hd2dtest.Scripts.Quest
         /// <returns>可用节点列表</returns>
         public List<QuestLineNode> GetAvailableNodes(string questLineId)
         {
-            List<QuestLineNode> availableNodes = new List<QuestLineNode>();
+            List<QuestLineNode> availableNodes = [];
             var questLine = GetQuestLine(questLineId);
             if (questLine != null)
             {
@@ -264,7 +290,7 @@ namespace hd2dtest.Scripts.Quest
         /// <returns>已完成节点列表</returns>
         public List<QuestLineNode> GetCompletedNodes(string questLineId)
         {
-            List<QuestLineNode> completedNodes = new List<QuestLineNode>();
+            List<QuestLineNode> completedNodes = [];
             var questLine = GetQuestLine(questLineId);
             if (questLine != null)
             {

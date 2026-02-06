@@ -122,7 +122,7 @@ namespace hd2dtest.Scripts.Modules
         /// 技能伤害类型
         /// </summary>
         /// <value>技能的伤害类型，如：物理、魔法、火、水、雷、冰等</value>
-        public string DamageType { get; set; } = "";
+        public Weakness DamageType { get; set; } = new Weakness("Physical");
 
         /// <summary>
         /// 技能是否已解锁

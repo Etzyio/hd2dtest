@@ -180,7 +180,7 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 最大空闲时间
         /// </summary>
-        private float _maxIdleTime = 2f;
+        private readonly float _maxIdleTime = 2f;
 
         /// <summary>
         /// 目标角色
@@ -560,7 +560,7 @@ namespace hd2dtest.Scripts.Modules
         /// 根据任务ID和对话类型返回相应的对话内容
         /// 检查NPC是否可以交互和对话，任务是否与该NPC关联
         /// </remarks>
-        public string GetNPCTalkForQuest(string questId, hd2dtest.Scripts.Quest.NPCTalkType talkType)
+        public string GetNPCTalkForQuest(string questId, NPCTalkType talkType)
         {
             // 检查NPC是否可以交互和对话
             if (!IsInteractive || !CanTalk || !IsAlive)
@@ -581,19 +581,14 @@ namespace hd2dtest.Scripts.Modules
                     if (npcAssociation != null && npcAssociation.TalkTypes.Contains(talkType))
                     {
                         // 根据任务状态和对话类型返回不同的对话内容
-                        switch (talkType)
+                        return talkType switch
                         {
-                            case hd2dtest.Scripts.Quest.NPCTalkType.Accept:
-                                return $"你好，我需要你帮我完成一个任务：{quest.Description}";
-                            case hd2dtest.Scripts.Quest.NPCTalkType.HandIn:
-                                return "太好了！你完成了任务，这是你的奖励。";
-                            case hd2dtest.Scripts.Quest.NPCTalkType.Progress:
-                                return "任务进展如何了？";
-                            case hd2dtest.Scripts.Quest.NPCTalkType.Complete:
-                                return "任务已经完成了，谢谢你的帮助！";
-                            default:
-                                return "你好！";
-                        }
+                            NPCTalkType.Accept => $"你好，我需要你帮我完成一个任务：{quest.Description}",
+                            NPCTalkType.HandIn => "太好了！你完成了任务，这是你的奖励。",
+                            NPCTalkType.Progress => "任务进展如何了？",
+                            NPCTalkType.Complete => "任务已经完成了，谢谢你的帮助！",
+                            _ => "你好！",
+                        };
                     }
                 }
             }

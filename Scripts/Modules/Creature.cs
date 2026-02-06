@@ -94,7 +94,7 @@ namespace hd2dtest.Scripts.Modules
         /// 弱点列表
         /// </summary>
         /// <value>生物的弱点类型集合</value>
-        public List<string> weaknesses { get; set; } = [];
+        public List<Weakness> Weaknesses { get; set; } = [];
         
         /// <summary>
         /// 位置信息

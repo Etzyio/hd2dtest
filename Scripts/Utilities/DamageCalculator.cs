@@ -10,7 +10,7 @@ namespace hd2dtest.Scripts.Utilities
     /// </summary>
     public static class DamageCalculator
     {
-        private static readonly Random _random = new Random();
+        private static readonly Random _random = new();
 
         /// <summary>
         /// 生成随机浮点数
@@ -55,7 +55,7 @@ namespace hd2dtest.Scripts.Utilities
             float baseDamageAfterDefense = Math.Max(1f, attacker.Attack - defender.Defense * 0.1f);
 
             // 计算弱点倍率
-            float weaknessMultiplier = defender.weaknesses != null && defender.weaknesses.Contains(skill.DamageType) ? 1.3f : 1.0f;
+            float weaknessMultiplier = defender.Weaknesses != null && defender.Weaknesses.Contains(skill.DamageType) ? 1.3f : 1.0f; 
 
             // 计算最终伤害
             float finalDamage = baseDamageAfterDefense * weaknessMultiplier;

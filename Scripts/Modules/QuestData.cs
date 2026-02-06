@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using hd2dtest.Scripts.Quest;
 
-namespace hd2dtest.Scripts.Quest
+namespace hd2dtest.Scripts.Modules
 {
     /// <summary>
     /// 任务数据类
@@ -213,7 +214,7 @@ namespace hd2dtest.Scripts.Quest
         /// <returns>是否完成</returns>
         public override bool IsCompleted(object progress)
         {
-            return progress is bool && (bool)progress;
+            return progress is bool v && v;
         }
     }
 
@@ -239,7 +240,7 @@ namespace hd2dtest.Scripts.Quest
         /// <returns>是否完成</returns>
         public override bool IsCompleted(object progress)
         {
-            return progress is bool && (bool)progress;
+            return progress is bool v && v;
         }
     }
 
