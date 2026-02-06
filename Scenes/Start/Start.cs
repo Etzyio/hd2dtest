@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Modules;
+using hd2dtest.Scripts.Managers;
+using hd2dtest.Scripts.Utilities;
 
-namespace hd2dtest.Scripts
+namespace hd2dtest.Scenes.Start
 {
 	public partial class Start : Node2D
 	{
@@ -120,13 +122,11 @@ namespace hd2dtest.Scripts
 				ConfigManager.GetInstance();
 				
 				// 从配置加载设置
-				LoadSettings();
-
-				// 初始化存档列表UI
-				InitializeSaveListUI();
-				GameViewManager.TriggerSceneReady();
-				
-				Log.Info("Start scene ready");
+			// 初始化存档列表UI
+			InitializeSaveListUI();
+			GameViewManager.TriggerSceneReady();
+			
+			Log.Info("Start scene ready");
 			}
 			catch (Exception e)
 			{
@@ -220,7 +220,7 @@ namespace hd2dtest.Scripts
 		{
 			Log.Info("Start button pressed");
 			// 切换到First场景
-			_ = GameViewManager.SwitchScene("first");
+			GameViewManager.SwitchScene("first");
 		}
 
 		// 继续游戏按钮点击事件
@@ -497,17 +497,6 @@ namespace hd2dtest.Scripts
 			};
 			buttonContainer.AddChild(spacer);
 
-			// 删除按钮
-			Button deleteButton = new()
-			{
-				Text = TranslationServer.Translate("delete"),
-				CustomMinimumSize = new Vector2(100, 30)
-			};
-			deleteButton.AddThemeFontSizeOverride("font_size", 16);
-			deleteButton.Modulate = Colors.Red;
-			deleteButton.Pressed += () => OnDeleteSavePressed(saveInfo.SaveId);
-			buttonContainer.AddChild(deleteButton);
-
 			// 添加点击事件
 			saveItemPanel.MouseEntered += () =>
 			{
@@ -542,7 +531,7 @@ namespace hd2dtest.Scripts
 				// 切换到存档中的场景
 				string targetScene = saveData.CurrentScene;
 				Log.Info($"Loading scene: {targetScene}");
-				_ = GameViewManager.SwitchScene(targetScene);
+				GameViewManager.SwitchScene(targetScene);
 			}
 			else
 			{
@@ -551,25 +540,7 @@ namespace hd2dtest.Scripts
 			}
 		}
 
-		// 删除存档按钮点击事件
-		private void OnDeleteSavePressed(string saveId)
-		{
-			Log.Info($"Delete save pressed for slot {saveId}");
-			// 删除存档
-			bool success = SaveManager.Instance.DeleteSave(saveId);
-			if (success)
-			{
-				string successText = TranslationServer.Translate("delete_save_success");
-				ShowToast($"{successText} {saveId}");
-				// 重新显示存档列表
-				ShowSaveList();
-			}
-			else
-			{
-				string failedText = TranslationServer.Translate("delete_save_failed");
-				ShowToast($"{failedText} {saveId}");
-			}
-		}
+
 
 		// 显示提示信息
 		private void ShowToast(string message)
