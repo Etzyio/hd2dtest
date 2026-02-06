@@ -25,7 +25,7 @@ jobs:
       - name: Generate Version Info
         run: |
           echo "Generating version information..."
-          sh build.sh
+          sh build_version.sh
           echo "Version file content:"
           cat version.json
 
@@ -57,7 +57,7 @@ jobs:
       - name: Generate Version Info
         run: |
           echo "Generating version information..."
-          sh build.sh
+          sh build_version.sh
           echo "Version file content:"
           cat version.json
 
@@ -89,7 +89,7 @@ jobs:
       - name: Generate Version Info
         run: |
           echo "Generating version information..."
-          sh build.sh
+          sh build_version.sh
           echo "Version file content:"
           cat version.json
 
