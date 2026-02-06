@@ -39,7 +39,7 @@ project/assembly_name="hd2dtest"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
+enabled=PackedStringArray()
 
 [input]
 
