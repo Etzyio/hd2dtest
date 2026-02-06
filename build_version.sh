@@ -1,11 +1,9 @@
 #!/bin/bash
-"""
-构建版本管理脚本
-该脚本用于在构建时生成version.json文件，包含版本号、构建日期和Git提交哈希
-"""
+# 构建版本管理脚本
+# 该脚本用于在构建时生成version.json文件，包含版本号、构建日期和Git提交哈希
 
 # 项目根目录
-PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
 # 版本文件路径
 VERSION_FILE="${PROJECT_ROOT}/version.json"
 # 默认版本号
@@ -18,15 +16,15 @@ get_git_commit() {
     local current_dir="${PROJECT_ROOT}"
     
     # 尝试向上查找.git目录
-    while [[ "${current_dir}" != "$(dirname "${current_dir}")" ]]; do
-        if [[ -d "${current_dir}/.git" ]]; then
+    while [ "${current_dir}" != "$(dirname "${current_dir}")" ]; do
+        if [ -d "${current_dir}/.git" ]; then
             break
         fi
         current_dir="$(dirname "${current_dir}")"
     done
     
     # 执行git命令
-    if git -C "${current_dir}" rev-parse HEAD &>/dev/null; then
+    if git -C "${current_dir}" rev-parse HEAD >/dev/null 2>&1; then
         git -C "${current_dir}" rev-parse HEAD
     else
         echo "Git命令执行失败" >&2
@@ -39,15 +37,15 @@ get_git_tag() {
     local current_dir="${PROJECT_ROOT}"
     
     # 尝试向上查找.git目录
-    while [[ "${current_dir}" != "$(dirname "${current_dir}")" ]]; do
-        if [[ -d "${current_dir}/.git" ]]; then
+    while [ "${current_dir}" != "$(dirname "${current_dir}")" ]; do
+        if [ -d "${current_dir}/.git" ]; then
             break
         fi
         current_dir="$(dirname "${current_dir}")"
     done
     
     # 执行git命令
-    if git -C "${current_dir}" describe --tags --exact-match &>/dev/null; then
+    if git -C "${current_dir}" describe --tags --exact-match >/dev/null 2>&1; then
         git -C "${current_dir}" describe --tags --exact-match
     else
         echo ""
@@ -60,24 +58,15 @@ ensure_version_format() {
     local git_commit="$2"
     
     # 分割版本号
-    IFS='.' read -ra parts <<< "${base_version}"
-    local major=0
-    local minor=0
-    local patch=0
+    IFS='.' read -r major minor patch <<< "${base_version}"
     
-    # 解析现有版本号
-    if [[ ${#parts[@]} -gt 0 ]] && [[ "${parts[0]}" =~ ^[0-9]+$ ]]; then
-        major="${parts[0]}"
-    fi
-    if [[ ${#parts[@]} -gt 1 ]] && [[ "${parts[1]}" =~ ^[0-9]+$ ]]; then
-        minor="${parts[1]}"
-    fi
-    if [[ ${#parts[@]} -gt 2 ]] && [[ "${parts[2]}" =~ ^[0-9]+$ ]]; then
-        patch="${parts[2]}"
-    fi
+    # 设置默认值
+    major=${major:-0}
+    minor=${minor:-0}
+    patch=${patch:-0}
     
     # 使用实际的Git提交哈希
-    if [[ -z "${git_commit}" ]] || [[ "${git_commit}" == "unknown" ]]; then
+    if [ -z "${git_commit}" ] || [ "${git_commit}" = "unknown" ]; then
         git_commit="${DEFAULT_GIT_COMMIT}"
     fi
     
@@ -109,13 +98,16 @@ generate_version_file() {
     
     # 确定基础版本号
     local base_version
-    if [[ -n "${git_tag}" ]]; then
+    if [ -n "${git_tag}" ]; then
         # 移除tag前缀v（如果存在）
-        if [[ "${git_tag}" == v* ]]; then
-            base_version="${git_tag:1}"
-        else
-            base_version="${git_tag}"
-        fi
+        case "${git_tag}" in
+            v*)
+                base_version="${git_tag:1}"
+                ;;
+            *)
+                base_version="${git_tag}"
+                ;;
+        esac
     else
         base_version="${DEFAULT_VERSION}"
     fi
@@ -127,18 +119,13 @@ generate_version_file() {
     game_version=$(ensure_version_format "${base_version}" "${git_commit}")
     
     # 创建JSON内容
-    local json_content
-    json_content=$(cat <<EOF
+    cat > "${VERSION_FILE}" <<EOF
 {
   "version": "${game_version}",
   "build_date": "${build_date}",
   "git_commit": "${git_commit}"
 }
 EOF
-)
-    
-    # 保存到文件
-    echo "${json_content}" > "${VERSION_FILE}"
     
     echo "版本信息已保存到: ${VERSION_FILE}"
     echo "版本号: ${game_version}"
