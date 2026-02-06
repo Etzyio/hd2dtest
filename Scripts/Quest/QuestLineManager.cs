@@ -88,7 +88,7 @@ namespace hd2dtest.Scripts.Quest
             }
             catch (System.Exception e)
             {
-                GD.PrintErr($"Error loading quest lines: {e.Message}");
+                Log.Error($"Error loading quest lines: {e.Message}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace hd2dtest.Scripts.Quest
             }
             catch (System.Exception e)
             {
-                GD.PrintErr($"Error loading quest line save data: {e.Message}");
+                Log.Error($"Error loading quest line save data: {e.Message}");
             }
         }
 
@@ -132,7 +132,7 @@ namespace hd2dtest.Scripts.Quest
             }
             catch (System.Exception e)
             {
-                GD.PrintErr($"Error saving quest line data: {e.Message}");
+                Log.Error($"Error saving quest line data: {e.Message}");
             }
         }
 
