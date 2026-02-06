@@ -57,8 +57,10 @@ ensure_version_format() {
     local base_version="$1"
     local git_commit="$2"
     
-    # 分割版本号
-    IFS='.' read -r major minor patch <<< "${base_version}"
+    # 分割版本号 - 使用更兼容的方法
+    local major=$(echo "${base_version}" | cut -d'.' -f1)
+    local minor=$(echo "${base_version}" | cut -d'.' -f2)
+    local patch=$(echo "${base_version}" | cut -d'.' -f3)
     
     # 设置默认值
     major=${major:-0}
@@ -71,7 +73,7 @@ ensure_version_format() {
     fi
     
     # 获取git提交号前8位
-    local commit_short="${git_commit:0:8}"
+    local commit_short=$(echo "${git_commit}" | cut -c1-8)
     
     # 构建四位数字版本号
     local version="${major}.${minor}.${patch}.${commit_short}"
@@ -102,7 +104,7 @@ generate_version_file() {
         # 移除tag前缀v（如果存在）
         case "${git_tag}" in
             v*)
-                base_version="${git_tag:1}"
+                base_version=$(echo "${git_tag}" | cut -c2-)
                 ;;
             *)
                 base_version="${git_tag}"
