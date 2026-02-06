@@ -130,7 +130,7 @@ namespace hd2dtest.Scripts.Managers
         /// 该方法通过执行git命令获取当前的Git提交哈希，使用当前工作目录。
         /// 如果执行失败或发生异常，会记录错误并返回"unknown"。
         /// </remarks>
-        private string GetGitCommitSimple()
+        private static string GetGitCommitSimple()
         {
             try
             {
@@ -224,7 +224,7 @@ namespace hd2dtest.Scripts.Managers
                     gitCommit = "b8efa1cf6cc30f9618a3f1de10687fdd0c9346be";
                 }
                 // 获取git提交号前8位
-                string commitShort = gitCommit.Substring(0, Math.Min(8, gitCommit.Length));
+                string commitShort = gitCommit[..Math.Min(8, gitCommit.Length)];
                 
                 // 构建四位数字版本号
                 string version = $"{major}.{minor}.{patch}.{commitShort}";
@@ -240,7 +240,7 @@ namespace hd2dtest.Scripts.Managers
                 {
                     gitCommit = "b8efa1cf6cc30f9618a3f1de10687fdd0c9346be";
                 }
-                string commitShort = gitCommit.Substring(0, Math.Min(8, gitCommit.Length));
+                string commitShort = gitCommit[..Math.Min(8, gitCommit.Length)];
                 return $"0.1.0.{commitShort}";
             }
         }
