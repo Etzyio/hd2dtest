@@ -29,7 +29,7 @@ namespace hd2dtest.Scripts.Managers
         /// <summary>
         /// 默认版本号
         /// </summary>
-        private const string DEFAULT_VERSION = "0.0.1";
+        private const string DEFAULT_VERSION = "0.1.0";
 
         /// <summary>
         /// 游戏版本号
@@ -127,23 +127,37 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         /// <returns>Git提交哈希，如果获取失败则返回"unknown"</returns>
         /// <remarks>
-        /// 该方法通过执行git命令获取当前的Git提交哈希，使用直接指定的项目目录和git可执行文件路径。
+        /// 该方法通过执行git命令获取当前的Git提交哈希，使用当前工作目录。
         /// 如果执行失败或发生异常，会记录错误并返回"unknown"。
         /// </remarks>
-        private string GetGitCommitSimple()
+        private static string GetGitCommitSimple()
         {
             try
             {
                 Log.Info("Trying to get git commit using simple method...");
                 
-                // 直接指定项目目录
-                string projectDir = "/Users/lixiaofeng/Documents/test/hd2dtest";
+                // 使用当前工作目录
+                string projectDir = Directory.GetCurrentDirectory();
                 Log.Info($"Project directory: {projectDir}");
+                
+                // 尝试向上查找.git目录
+                string currentDir = projectDir;
+                while (currentDir != null)
+                {
+                    if (Directory.Exists(Path.Combine(currentDir, ".git")))
+                    {
+                        projectDir = currentDir;
+                        break;
+                    }
+                    currentDir = Directory.GetParent(currentDir)?.FullName;
+                }
+                
+                Log.Info($"Git repository directory: {projectDir}");
                 
                 // 执行git命令
                 ProcessStartInfo psi = new()
                 {
-                    FileName = "/usr/bin/git",
+                    FileName = "git",
                     Arguments = "rev-parse HEAD",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -173,7 +187,6 @@ namespace hd2dtest.Scripts.Managers
             catch (Exception e)
             {
                 Log.Error($"Exception getting git commit: {e.Message}");
-                Log.Error($"Exception stack: {e.StackTrace}");
                 return "unknown";
             }
         }
@@ -211,7 +224,7 @@ namespace hd2dtest.Scripts.Managers
                     gitCommit = "b8efa1cf6cc30f9618a3f1de10687fdd0c9346be";
                 }
                 // 获取git提交号前8位
-                string commitShort = gitCommit.Substring(0, Math.Min(8, gitCommit.Length));
+                string commitShort = gitCommit[..Math.Min(8, gitCommit.Length)];
                 
                 // 构建四位数字版本号
                 string version = $"{major}.{minor}.{patch}.{commitShort}";
@@ -227,8 +240,8 @@ namespace hd2dtest.Scripts.Managers
                 {
                     gitCommit = "b8efa1cf6cc30f9618a3f1de10687fdd0c9346be";
                 }
-                string commitShort = gitCommit.Substring(0, Math.Min(8, gitCommit.Length));
-                return $"0.0.1.{commitShort}";
+                string commitShort = gitCommit[..Math.Min(8, gitCommit.Length)];
+                return $"0.1.0.{commitShort}";
             }
         }
 
@@ -372,7 +385,7 @@ namespace hd2dtest.Scripts.Managers
                 { "git_commit", gitCommitHash }
             };
 
-                // 保存到用户目录
+                // 保存到项目根目录
                 string versionPath = "res://version.json";
 
                 // 使用Godot的FileAccess正确方法保存文件
