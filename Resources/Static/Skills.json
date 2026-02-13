@@ -1,3 +1,20 @@
-{
-    
-}
+[
+    {
+        "id": 1,
+        "name": "The_Unfettered_Nine",
+        "description": "A powerful fire spell that deals damage to enemies.",
+        "cooldown": 5,
+        "manaCost": 50,
+        "SkillDefs": {
+            "Type": "Attack",
+            "DamageCoefficient": 0.5,
+            "Duration": 0
+        },
+        "Extart": [
+            "Weapon",
+            "Count",
+            "multiplication",
+            "SkillDefs"
+        ]
+    }
+]
