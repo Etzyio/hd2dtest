@@ -36,7 +36,7 @@ namespace hd2dtest.Scripts.Modules
         public class SkillDefent
         {
             public SkillType Type = SkillType.Attack;
-            public float data = 0.1f;
+            public float DamageCoefficient = 0.1f;
             public int Duration = 0;
             
             /// <summary>
