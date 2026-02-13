@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b7x3o73cy4leu"]
+[gd_scene load_steps=8 format=3 uid="uid://b7x3o73cy4leu"]
 
-[ext_resource type="Terrain3DMaterial" uid="uid://d0agrawuuoa0o" path="res://Scenes/FirstTerr/Terr/FirstTerr.tres" id="1_o6ics"]
 [ext_resource type="PackedScene" uid="uid://cu88pkc8etwxo" path="res://Scenes/Player/Player.tscn" id="2_61gui"]
-[ext_resource type="Terrain3DAssets" uid="uid://k3erfxwivgyq" path="res://Scenes/FirstTerr/Terr/Assets.tres" id="2_o6ics"]
 [ext_resource type="PackedScene" uid="uid://cpj3kjbd86hf1" path="res://Module/House/house.tscn" id="3_61gui"]
-[ext_resource type="MeshLibrary" uid="uid://d0sj7xmshni2t" path="res://Module/House/house.tres" id="4_fuko2"]
+[ext_resource type="MeshLibrary" uid="uid://c2373ktvb0irv" path="res://Module/terrain/terrain.tres" id="4_fuko2"]
+[ext_resource type="AudioStream" uid="uid://djx7iyhprmv6d" path="res://Resources/Music/Amberlight-chosic.com_.mp3" id="6_oea27"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6jo4j"]
 sky_top_color = Color(0.25967735, 0.4616056, 0.6728425, 1)
@@ -42,8 +41,6 @@ adjustment_brightness = 0.94
 adjustment_contrast = 1.56
 adjustment_saturation = 1.18
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n1kxm"]
-
 [node name="FirstTerr" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -59,23 +56,21 @@ shadow_normal_bias = 0.069
 shadow_blur = 1.069
 shadow_caster_mask = 4294966303
 
-[node name="Terrain3D" type="Terrain3D" parent="."]
-data_directory = "res://Scenes/FirstTerr/Terr"
-material = ExtResource("1_o6ics")
-assets = ExtResource("2_o6ics")
-label_size = 24
-physics_material = SubResource("PhysicsMaterial_n1kxm")
-top_level = true
-metadata/_edit_lock_ = true
-
 [node name="Player" parent="." instance=ExtResource("2_61gui")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18407363, 0)
 
 [node name="House" parent="." instance=ExtResource("3_61gui")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_oea27")
+autoplay = true
 
 [node name="GridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh_library = ExtResource("4_fuko2")
+cell_size = Vector3(5, 5, 5)
+cell_center_y = false
 data = {
-"cells": PackedInt32Array(65530, 65534, 0, 65530, 65535, 0, 65530, 0, 0, 65530, 1, 0, 65531, 65534, 0, 65531, 65535, 0, 65531, 0, 0, 65531, 1, 0, 65532, 65534, 0, 65532, 65535, 0, 65532, 0, 0, 65532, 1, 0, 65533, 65534, 0, 65533, 65535, 0, 65533, 0, 0, 65533, 1, 0, 65534, 65534, 0, 65534, 65535, 0, 65534, 0, 0, 65534, 1, 0, 65535, 65534, 0, 65535, 65535, 0, 65535, 0, 0, 65535, 1, 0, 0, 65534, 0, 0, 65535, 0, 0, 0, 0, 0, 1, 0, 1, 65534, 0, 1, 65535, 0, 1, 0, 0, 1, 1, 0, 2, 65534, 0, 2, 65535, 0, 2, 0, 0, 2, 1, 0, 3, 65534, 0, 3, 65535, 0, 3, 0, 0, 3, 1, 0, 4, 65534, 0, 4, 65535, 0, 4, 0, 0, 4, 1, 0, 65532, 65533, 0)
+"cells": PackedInt32Array(65533, 0, 0, 65534, 0, 0, 65535, 0, 0, 65535, 65535, 0, 65534, 65535, 0, 65533, 65535, 0, 0, 0, 0, 0, 65535, 0, 1, 65535, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 5, 65535, 0, 4, 65535, 0, 4, 65534, 0, 3, 65534, 0, 3, 65535, 0, 2, 65535, 0, 5, 65534, 0, 2, 65534, 0, 1, 65534, 0, 0, 65534, 0, 65535, 65534, 0, 65534, 65534, 0, 65533, 65534, 0, 65533, 65533, 0, 65534, 65533, 0, 65535, 65533, 0, 65535, 65532, 0, 0, 65532, 0, 1, 65532, 0, 2, 65532, 0, 3, 65532, 0, 4, 65532, 0, 5, 65532, 0, 6, 65532, 0, 6, 65533, 0, 5, 65533, 0, 4, 65533, 0, 3, 65533, 0, 2, 65533, 0, 1, 65533, 0, 0, 65533, 0, 65534, 65532, 0, 65533, 65532, 0, 65533, 65531, 0, 65532, 65531, 0, 65532, 65532, 0, 65532, 65533, 0, 65532, 65534, 0, 65532, 65535, 0, 65532, 0, 0, 65531, 0, 0, 65531, 65535, 0, 65531, 65534, 0, 65530, 65534, 0, 65530, 65533, 0, 65530, 65532, 0, 65530, 65531, 0, 65531, 65532, 0, 65531, 65533, 0, 65531, 65531, 0, 65534, 65531, 0, 65535, 65531, 0, 0, 65531, 0, 1, 65531, 0, 2, 65531, 0, 3, 65531, 0, 4, 65531, 0, 5, 65531, 0, 6, 65531, 0, 5, 1, 0, 6, 65535, 0, 6, 65534, 0, 65530, 0, 0, 65529, 0, 0, 65528, 0, 0, 65530, 65535, 0, 65529, 65535, 0, 65527, 0, 0, 65527, 65535, 0, 65528, 65535, 0, 65528, 65534, 0, 65527, 65534, 0, 65527, 65533, 0, 65527, 65532, 0, 65527, 65531, 0, 65528, 65531, 0, 65529, 65532, 0, 65529, 65533, 0, 65529, 65534, 0, 65528, 65533, 0, 65528, 65532, 0, 65529, 65531, 0, 6, 0, 0, 7, 0, 0, 7, 65535, 0, 7, 65534, 0, 7, 65533, 0, 7, 65532, 0, 7, 65531, 0, 8, 65531, 0, 8, 65532, 0, 8, 65533, 0, 8, 65534, 0, 8, 65535, 0, 8, 0, 0)
 }

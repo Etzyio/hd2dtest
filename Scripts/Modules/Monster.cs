@@ -2,29 +2,46 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using hd2dtest.Scripts.Core;
+using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Modules
 {
     /// <summary>
-    /// 怪物类
+    /// 怪物类，继承自Creature类，定义游戏中怪物的属性和行为
     /// </summary>
+    /// <remarks>
+    /// 怪物类包含怪物的基本属性、AI状态、巡逻行为、攻击逻辑和掉落系统
+    /// 支持多种怪物类型（普通、精英、BOSS）和AI状态（空闲、巡逻、追逐、攻击、逃跑）
+    /// </remarks>
     public partial class Monster : Creature
     {
-        // 怪物类型枚举
+        /// <summary>
+        /// 怪物类型枚举
+        /// </summary>
         public enum MonsterType
         {
+            /// <summary>普通怪物</summary>
             Normal,
+            /// <summary>精英怪物</summary>
             Elite,
+            /// <summary>BOSS怪物</summary>
             Boss
         }
 
-        // 怪物AI状态枚举
+        /// <summary>
+        /// 怪物AI状态枚举
+        /// </summary>
         public enum MonsterState
         {
+            /// <summary>空闲状态</summary>
             Idle,
+            /// <summary>巡逻状态</summary>
             Patrol,
+            /// <summary>追逐状态</summary>
             Chase,
+            /// <summary>攻击状态</summary>
             Attack,
+            /// <summary>逃跑状态</summary>
             Flee
         }
 
@@ -32,56 +49,64 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 怪物类型
         /// </summary>
+        /// <value>怪物的类型枚举值，默认为Normal</value>
         public MonsterType Type { get; set; } = MonsterType.Normal;
 
         /// <summary>
         /// 仇恨范围
         /// </summary>
+        /// <value>怪物发现玩家的范围，默认为100f</value>
         public float AggroRange { get; set; } = 100f;
 
         /// <summary>
         /// 攻击范围
         /// </summary>
+        /// <value>怪物可以攻击玩家的范围，默认为40f</value>
         public float AttackRange { get; set; } = 40f;
 
         /// <summary>
         /// 追逐速度
         /// </summary>
+        /// <value>怪物追逐玩家时的移动速度，默认为60f</value>
         public float ChaseSpeed { get; set; } = 60f;
 
         /// <summary>
         /// 巡逻速度
         /// </summary>
+        /// <value>怪物巡逻时的移动速度，默认为30f</value>
         public float PatrolSpeed { get; set; } = 30f;
 
         // AI属性
         /// <summary>
         /// 当前AI状态
         /// </summary>
+        /// <value>怪物当前的AI状态枚举值，默认为Idle</value>
         public MonsterState CurrentState { get; set; } = MonsterState.Idle;
 
         /// <summary>
         /// 是否可以追逐
         /// </summary>
+        /// <value>true 表示怪物可以追逐玩家，false 表示怪物不能追逐玩家</value>
         public bool CanChase { get; set; } = true;
 
         /// <summary>
         /// 是否可以逃跑
         /// </summary>
+        /// <value>true 表示怪物可以逃跑，false 表示怪物不能逃跑</value>
         public bool CanFlee { get; set; } = false;
-
-
 
         // 巡逻点
         /// <summary>
         /// 巡逻点列表
         /// </summary>
+        /// <value>怪物的巡逻点坐标集合</value>
         public List<Vector2> PatrolPoints { get; set; } = [];
 
         // 掉落物品
         /// <summary>
         /// 掉落物品列表
         /// </summary>
+        /// <value>怪物死亡时可能掉落的物品ID集合</value>
         public List<string> DropItems { get; set; } = [];
 
         /// <summary>
@@ -117,6 +142,10 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 初始化怪物
         /// </summary>
+        /// <remarks>
+        /// 重置怪物状态，并根据怪物类型设置默认属性
+        /// 精英和BOSS怪物具有更高的属性值
+        /// </remarks>
         public override void Initialize()
         {
             base.Initialize();
@@ -156,7 +185,11 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// AI更新逻辑
         /// </summary>
-        /// <param name="delta">时间增量</param>
+        /// <param name="delta">时间增量（秒）</param>
+        /// <remarks>
+        /// 更新怪物的AI状态，处理状态转换和行为逻辑
+        /// 包括攻击冷却更新、玩家检测和状态处理
+        /// </remarks>
         public virtual void UpdateAI(float delta)
         {
             if (!IsAlive)
@@ -196,7 +229,10 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 检测玩家
         /// </summary>
-        /// <returns>检测到的玩家</returns>
+        /// <returns>检测到的玩家对象</returns>
+        /// <remarks>
+        /// 简化处理，实际应该通过场景树查找玩家
+        /// </remarks>
         private Creature DetectPlayer()
         {
             // 这里简化处理，实际应该通过场景树查找玩家
@@ -206,8 +242,11 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 处理空闲状态
         /// </summary>
-        /// <param name="delta">时间增量</param>
-        /// <param name="player">玩家</param>
+        /// <param name="delta">时间增量（秒）</param>
+        /// <param name="player">检测到的玩家</param>
+        /// <remarks>
+        /// 检查玩家是否进入仇恨范围，空闲一段时间后开始巡逻
+        /// </remarks>
         private void HandleIdleState(float delta, Creature player)
         {
             // 检查玩家是否在攻击范围内
@@ -231,8 +270,11 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 处理巡逻状态
         /// </summary>
-        /// <param name="delta">时间增量</param>
-        /// <param name="player">玩家</param>
+        /// <param name="delta">时间增量（秒）</param>
+        /// <param name="player">检测到的玩家</param>
+        /// <remarks>
+        /// 检查玩家是否进入仇恨范围，移动到巡逻点，到达后切换到空闲状态
+        /// </remarks>
         private void HandlePatrolState(float delta, Creature player)
         {
             // 检查玩家是否在攻击范围内
@@ -271,8 +313,11 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 处理追逐状态
         /// </summary>
-        /// <param name="delta">时间增量</param>
-        /// <param name="player">玩家</param>
+        /// <param name="delta">时间增量（秒）</param>
+        /// <param name="player">检测到的玩家</param>
+        /// <remarks>
+        /// 检查玩家是否超出追逐范围，是否进入攻击范围，否则追逐玩家
+        /// </remarks>
         private void HandleChaseState(float delta, Creature player)
         {
             if (player == null)
@@ -306,8 +351,11 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 处理攻击状态
         /// </summary>
-        /// <param name="delta">时间增量</param>
-        /// <param name="player">玩家</param>
+        /// <param name="delta">时间增量（秒）</param>
+        /// <param name="player">检测到的玩家</param>
+        /// <remarks>
+        /// 检查玩家是否超出攻击范围，否则在攻击冷却结束后攻击玩家
+        /// </remarks>
         private void HandleAttackState(float delta, Creature player)
         {
             if (player == null)
@@ -336,8 +384,11 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 处理逃跑状态
         /// </summary>
-        /// <param name="delta">时间增量</param>
-        /// <param name="player">玩家</param>
+        /// <param name="delta">时间增量（秒）</param>
+        /// <param name="player">检测到的玩家</param>
+        /// <remarks>
+        /// 检查玩家是否超出范围，否则远离玩家
+        /// </remarks>
         private void HandleFleeState(float delta, Creature player)
         {
             if (player == null)
@@ -366,6 +417,10 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <param name="target">攻击目标</param>
         /// <returns>是否攻击成功</returns>
+        /// <remarks>
+        /// 使用默认技能攻击目标，设置攻击冷却
+        /// 攻击条件：攻击者和目标都存活
+        /// </remarks>
         public bool AttackTarget(Creature target)
         {
             if (!IsAlive || target == null || !target.IsAlive)
@@ -391,6 +446,9 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 怪物死亡
         /// </summary>
+        /// <remarks>
+        /// 调用父类Die方法，掉落物品，通知玩家
+        /// </remarks>
         protected new void Die()
         {
             base.Die();
@@ -408,6 +466,9 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 掉落物品
         /// </summary>
+        /// <remarks>
+        /// 随机选择一个物品掉落，掉落金币
+        /// </remarks>
         private void DropLoot()
         {
             // 简单的掉落逻辑
@@ -431,7 +492,10 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 获取怪物信息
         /// </summary>
-        /// <returns>怪物信息</returns>
+        /// <returns>怪物信息字符串</returns>
+        /// <remarks>
+        /// 格式化输出怪物的基本属性、类型和当前状态
+        /// </remarks>
         public override string GetCreatureInfo()
         {
             return $"{base.GetCreatureInfo()} - Type: {Type} - State: {CurrentState}";

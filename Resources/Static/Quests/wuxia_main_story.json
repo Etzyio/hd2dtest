@@ -1,0 +1,599 @@
+{
+  "quests": [
+    {
+      "id": "main_story_001",
+      "name": "初入江湖",
+      "description": "你是华山派的一名年轻弟子，师傅命你下山前往洛阳城，寻找失踪的师兄",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 1,
+      "dependencies": [],
+      "objectives": [
+        {
+          "id": "talk_to_master",
+          "description": "与华山派掌门对话"
+        },
+        {
+          "id": "go_to_洛阳",
+          "description": "前往洛阳城"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 100
+        },
+        {
+          "type": "Item",
+          "itemId": "healing_potion",
+          "count": 5
+        }
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {
+          "npcId": "master_hua_shan",
+          "talkTypes": ["Accept"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "mount_hua",
+          "triggerType": "OnStart",
+          "animationName": "",
+          "skipable": true
+        }
+      ]
+    },
+    {
+      "id": "main_story_002",
+      "name": "洛阳寻踪",
+      "description": "到达洛阳城后，你需要向城里的居民打听师兄的下落",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 2,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_001",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "talk_to_innkeeper",
+          "description": "与洛阳客栈老板对话"
+        },
+        {
+          "id": "talk_to_blacksmith",
+          "description": "与洛阳铁匠对话"
+        },
+        {
+          "id": "find_brother_trace",
+          "description": "发现师兄的踪迹"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 150
+        },
+        {
+          "type": "Currency",
+          "currencyType": "silver",
+          "amount": 50
+        }
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {
+          "npcId": "innkeeper_luoyang",
+          "talkTypes": ["Progress"]
+        },
+        {
+          "npcId": "blacksmith_luoyang",
+          "talkTypes": ["Progress"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "luoyang",
+          "triggerType": "OnStart",
+          "animationName": "",
+          "skipable": true
+        }
+      ]
+    },
+    {
+      "id": "main_story_003",
+      "name": "夜探镖局",
+      "description": "根据线索，师兄可能被卷入了镖局的纠纷中，你需要夜探洛阳镖局",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 3,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_002",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "sneak_into_b镖局",
+          "description": "潜入洛阳镖局"
+        },
+        {
+          "id": "defeat_guards",
+          "description": "击败镖局守卫（5名）"
+        },
+        {
+          "id": "find_brother",
+          "description": "找到被囚禁的师兄"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 250
+        },
+        {
+          "type": "Equipment",
+          "equipmentId": "light_sword"
+        }
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {
+          "npcId": "brother_hua_shan",
+          "talkTypes": ["HandIn"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "luoyang_b镖局",
+          "triggerType": "OnStart",
+          "animationName": "night_scene",
+          "skipable": false
+        }
+      ]
+    },
+    {
+      "id": "main_story_004",
+      "name": "镖局恩怨",
+      "description": "镖局总镖头告诉你，他们与黑道组织'黑鹰帮'有过节，黑鹰帮近期在洛阳附近活动频繁",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 4,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_003",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "talk_to_chief",
+          "description": "与镖局总镖头对话"
+        },
+        {
+          "id": "collect_evidence",
+          "description": "收集黑鹰帮的证据"
+        },
+        {
+          "id": "report_to_magistrate",
+          "description": "向洛阳知府报告"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 200
+        },
+        {
+          "type": "Currency",
+          "currencyType": "silver",
+          "amount": 100
+        }
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {
+          "npcId": "chief_b镖局",
+          "talkTypes": ["Accept", "Progress"]
+        },
+        {
+          "npcId": "magistrate_luoyang",
+          "talkTypes": ["HandIn"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "luoyang_b镖局",
+          "triggerType": "OnStart",
+          "animationName": "",
+          "skipable": true
+        }
+      ]
+    },
+    {
+      "id": "main_story_005",
+      "name": "黑鹰帮巢穴",
+      "description": "知府命你带领官兵攻打黑鹰帮的巢穴，解救被绑架的人质",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 5,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_004",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "rally_troops",
+          "description": "集结官兵"
+        },
+        {
+          "id": "defeat_black_eagle_leader",
+          "description": "击败黑鹰帮帮主"
+        },
+        {
+          "id": "rescue_hostages",
+          "description": "解救所有人质"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 400
+        },
+        {
+          "type": "Equipment",
+          "equipmentId": "heavy_armor"
+        },
+        {
+          "type": "Item",
+          "itemId": "strength_potion",
+          "count": 3
+        }
+      ],
+      "achievements": [
+        "first_boss_victory"
+      ],
+      "npcAssociations": [
+        {
+          "npcId": "magistrate_luoyang",
+          "talkTypes": ["Accept"]
+        },
+        {
+          "npcId": "brother_hua_shan",
+          "talkTypes": ["Progress"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "black_eagle_den",
+          "triggerType": "OnStart",
+          "animationName": "battle_scene",
+          "skipable": false
+        }
+      ]
+    },
+    {
+      "id": "main_story_006",
+      "name": "神秘女子",
+      "description": "在返回华山的途中，你遇到了一位神秘的女子，她似乎在躲避什么人的追杀",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 6,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_005",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "help_woman",
+          "description": "帮助神秘女子击退追兵"
+        },
+        {
+          "id": "talk_to_woman",
+          "description": "与神秘女子对话"
+        },
+        {
+          "id": "escort_to_safety",
+          "description": "护送神秘女子到安全地点"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 300
+        },
+        {
+          "type": "Item",
+          "itemId": "speed_potion",
+          "count": 2
+        }
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {
+          "npcId": "mysterious_woman",
+          "talkTypes": ["Accept", "Progress", "Complete"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "mountain_road",
+          "triggerType": "OnStart",
+          "animationName": "encounter_scene",
+          "skipable": false
+        }
+      ]
+    },
+    {
+      "id": "main_story_007",
+      "name": "身世之谜",
+      "description": "神秘女子告诉你，她是峨眉派的弟子，名叫周芷若，正在调查一件关于你身世的秘密",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 7,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_006",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "listen_to_story",
+          "description": "聆听周芷若讲述身世之谜"
+        },
+        {
+          "id": "go_to_峨眉",
+          "description": "前往峨眉派求证"
+        },
+        {
+          "id": "talk_to_峨眉_master",
+          "description": "与峨眉派掌门对话"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 350
+        },
+        {
+          "type": "Item",
+          "itemId": "knowledge_scroll",
+          "count": 1
+        }
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {
+          "npcId": "zhou_zhiruo",
+          "talkTypes": ["Accept", "Progress"]
+        },
+        {
+          "npcId": "master_峨眉",
+          "talkTypes": ["HandIn"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "mount_峨眉",
+          "triggerType": "OnStart",
+          "animationName": "temple_scene",
+          "skipable": true
+        }
+      ]
+    },
+    {
+      "id": "main_story_008",
+      "name": "正邪之战",
+      "description": "峨眉派掌门证实了你是武林盟主的后人，现在魔教正在四处搜寻你，你必须尽快回到华山派",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 8,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_007",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "return_to_hua_shan",
+          "description": "返回华山派"
+        },
+        {
+          "id": "warn_master",
+          "description": "警告师傅魔教的阴谋"
+        },
+        {
+          "id": "prepare_for_battle",
+          "description": "准备迎击魔教来袭"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 450
+        },
+        {
+          "type": "Equipment",
+          "equipmentId": "sword_of_hero"
+        }
+      ],
+      "achievements": [
+        "learned_identity"
+      ],
+      "npcAssociations": [
+        {
+          "npcId": "master_hua_shan",
+          "talkTypes": ["HandIn"]
+        },
+        {
+          "npcId": "zhou_zhiruo",
+          "talkTypes": ["Progress"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "mount_hua",
+          "triggerType": "OnStart",
+          "animationName": "mountain_scene",
+          "skipable": true
+        }
+      ]
+    },
+    {
+      "id": "main_story_009",
+      "name": "华山守卫战",
+      "description": "魔教果然来袭，你需要与华山派弟子一起守卫山门，抵御魔教的进攻",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 9,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_008",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "defend_gate",
+          "description": "守卫华山山门"
+        },
+        {
+          "id": "defeat_m魔教_leader",
+          "description": "击败魔教教主"
+        },
+        {
+          "id": "protect_master",
+          "description": "保护师傅安危"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 600
+        },
+        {
+          "type": "Currency",
+          "currencyType": "gold",
+          "amount": 50
+        }
+      ],
+      "achievements": [
+        "defended_hua_shan"
+      ],
+      "npcAssociations": [
+        {
+          "npcId": "master_hua_shan",
+          "talkTypes": ["Progress"]
+        },
+        {
+          "npcId": "zhou_zhiruo",
+          "talkTypes": ["Progress"]
+        },
+        {
+          "npcId": "brother_hua_shan",
+          "talkTypes": ["Progress"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "mount_hua",
+          "triggerType": "OnStart",
+          "animationName": "battle_scene",
+          "skipable": false
+        }
+      ]
+    },
+    {
+      "id": "main_story_010",
+      "name": "武林盟主",
+      "description": "魔教被击退，各大门派推举你为新的武林盟主，你需要前往嵩山少林寺参加武林大会",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "questLineOrder": 10,
+      "dependencies": [
+        {
+          "type": "quest_completed",
+          "questId": "main_story_009",
+          "level": 0,
+          "operator": "AND"
+        }
+      ],
+      "objectives": [
+        {
+          "id": "go_to_shaolin",
+          "description": "前往少林寺"
+        },
+        {
+          "id": "participate_meeting",
+          "description": "参加武林大会"
+        },
+        {
+          "id": "accept_title",
+          "description": "接受武林盟主称号"
+        }
+      ],
+      "rewards": [
+        {
+          "type": "Experience",
+          "amount": 800
+        },
+        {
+          "type": "Equipment",
+          "equipmentId": "盟主_robe"
+        },
+        {
+          "type": "Item",
+          "itemId": "hero_medal",
+          "count": 1
+        }
+      ],
+      "achievements": [
+        "became_alliance_leader"
+      ],
+      "npcAssociations": [
+        {
+          "npcId": "master_shaolin",
+          "talkTypes": ["Accept", "Complete"]
+        },
+        {
+          "npcId": "zhou_zhiruo",
+          "talkTypes": ["Progress"]
+        }
+      ],
+      "sceneTriggers": [
+        {
+          "sceneId": "mount_shaolin",
+          "triggerType": "OnStart",
+          "animationName": "meeting_scene",
+          "skipable": false
+        }
+      ]
+    }
+  ]
+}

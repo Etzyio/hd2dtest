@@ -1,0 +1,281 @@
+{
+  "questLines": [
+    {
+      "id": "wuxia_main_story",
+      "name": "江湖风云",
+      "description": "从华山派弟子到武林盟主，一段充满挑战与成长的江湖旅程",
+      "nodes": [
+        {
+          "id": "start_node",
+          "name": "初入江湖",
+          "description": "华山派掌门命你下山寻找失踪的师兄，这是你江湖之路的开始",
+          "questIds": ["main_story_001"],
+          "nextNodes": ["luoyang_investigation_node"],
+          "requirements": [],
+          "isBranchPoint": false
+        },
+        {
+          "id": "luoyang_investigation_node",
+          "name": "洛阳寻踪",
+          "description": "到达洛阳城后，向居民打听师兄的下落",
+          "questIds": ["main_story_002"],
+          "nextNodes": ["night_biaoju_node"],
+          "requirements": [
+            "quest_completed:main_story_001"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "night_biaoju_node",
+          "name": "夜探镖局",
+          "description": "根据线索，夜探洛阳镖局寻找师兄",
+          "questIds": ["main_story_003"],
+          "nextNodes": ["biaoju_grudge_node"],
+          "requirements": [
+            "quest_completed:main_story_002"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "biaoju_grudge_node",
+          "name": "镖局恩怨",
+          "description": "调查镖局与黑鹰帮的恩怨，收集证据",
+          "questIds": ["main_story_004"],
+          "nextNodes": ["black_eagle_den_node"],
+          "requirements": [
+            "quest_completed:main_story_003"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "black_eagle_den_node",
+          "name": "黑鹰帮巢穴",
+          "description": "带领官兵攻打黑鹰帮巢穴，解救人质",
+          "questIds": ["main_story_005"],
+          "nextNodes": ["mysterious_woman_node"],
+          "requirements": [
+            "quest_completed:main_story_004"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "mysterious_woman_node",
+          "name": "神秘女子",
+          "description": "在返回华山途中遇到神秘女子，帮助她击退追兵",
+          "questIds": ["main_story_006"],
+          "nextNodes": ["identity_mystery_node"],
+          "requirements": [
+            "quest_completed:main_story_005"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "identity_mystery_node",
+          "name": "身世之谜",
+          "description": "神秘女子周芷若告诉你关于身世的秘密，前往峨眉派求证",
+          "questIds": ["main_story_007"],
+          "nextNodes": ["good_evil_battle_node"],
+          "requirements": [
+            "quest_completed:main_story_006"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "good_evil_battle_node",
+          "name": "正邪之战",
+          "description": "得知自己是武林盟主后人，魔教正在搜寻你，返回华山准备迎敌",
+          "questIds": ["main_story_008"],
+          "nextNodes": ["hua_shan_defense_node"],
+          "requirements": [
+            "quest_completed:main_story_007"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "hua_shan_defense_node",
+          "name": "华山守卫战",
+          "description": "魔教来袭，与华山派弟子一起守卫山门，抵御魔教进攻",
+          "questIds": ["main_story_009"],
+          "nextNodes": ["alliance_leader_node"],
+          "requirements": [
+            "quest_completed:main_story_008"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "alliance_leader_node",
+          "name": "武林盟主",
+          "description": "魔教被击退，各大门派推举你为新的武林盟主，前往少林寺参加武林大会",
+          "questIds": ["main_story_010"],
+          "nextNodes": [],
+          "requirements": [
+            "quest_completed:main_story_009"
+          ],
+          "isBranchPoint": false
+        }
+      ]
+    },
+    {
+      "id": "wuxia_side_quests",
+      "name": "江湖轶事",
+      "description": "江湖中的支线任务，帮助有需要的人，获得额外奖励",
+      "nodes": [
+        {
+          "id": "help_innkeeper_node",
+          "name": "客栈老板的困扰",
+          "description": "洛阳客栈老板遇到了麻烦，需要你的帮助",
+          "questIds": ["side_quest_001"],
+          "nextNodes": ["blacksmith_request_node"],
+          "requirements": [
+            "level:5"
+          ],
+          "isBranchPoint": true
+        },
+        {
+          "id": "blacksmith_request_node",
+          "name": "铁匠的请求",
+          "description": "洛阳铁匠需要稀有矿石来打造武器",
+          "questIds": ["side_quest_002"],
+          "nextNodes": ["merchant_mission_node"],
+          "requirements": [
+            "level:8"
+          ],
+          "isBranchPoint": true
+        },
+        {
+          "id": "merchant_mission_node",
+          "name": "商人的委托",
+          "description": "商人的货物被强盗劫走，需要你帮忙找回",
+          "questIds": ["side_quest_003"],
+          "nextNodes": [],
+          "requirements": [
+            "level:10"
+          ],
+          "isBranchPoint": true
+        }
+      ]
+    },
+    {
+      "id": "wuxia_character_growth",
+      "name": "人物成长",
+      "description": "通过完成特定任务和挑战，提升角色的能力和地位",
+      "nodes": [
+        {
+          "id": "first_blood_node",
+          "name": "初露锋芒",
+          "description": "首次击败敌人，证明自己的实力",
+          "questIds": [],
+          "nextNodes": ["martial_arts_master_node"],
+          "requirements": [
+            "kill_count:1"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "martial_arts_master_node",
+          "name": "武学大师",
+          "description": "掌握多种武学，成为武林高手",
+          "questIds": [],
+          "nextNodes": ["reputation_spread_node"],
+          "requirements": [
+            "skill_count:5",
+            "level:15"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "reputation_spread_node",
+          "name": "声名远扬",
+          "description": "在江湖中建立了良好的声誉，许多人知道你的名字",
+          "questIds": [],
+          "nextNodes": [],
+          "requirements": [
+            "completed_quests:10",
+            "gold:1000"
+          ],
+          "isBranchPoint": false
+        }
+      ]
+    },
+    {
+      "id": "wuxia_alliance_building",
+      "name": "盟友相助",
+      "description": "结识江湖中的朋友和盟友，在关键时刻获得他们的帮助",
+      "nodes": [
+        {
+          "id": "meet_brother_node",
+          "name": "师兄重逢",
+          "description": "成功救出师兄，他成为你最可靠的盟友",
+          "questIds": [],
+          "nextNodes": ["meet_zhiruo_node"],
+          "requirements": [
+            "quest_completed:main_story_003"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "meet_zhiruo_node",
+          "name": "周芷若相遇",
+          "description": "遇到峨眉派弟子周芷若，她成为你的重要盟友",
+          "questIds": [],
+          "nextNodes": ["shaolin_support_node"],
+          "requirements": [
+            "quest_completed:main_story_006"
+          ],
+          "isBranchPoint": false
+        },
+        {
+          "id": "shaolin_support_node",
+          "name": "少林援手",
+          "description": "少林派愿意支持你成为武林盟主",
+          "questIds": [],
+          "nextNodes": [],
+          "requirements": [
+            "quest_completed:main_story_009"
+          ],
+          "isBranchPoint": false
+        }
+      ]
+    },
+    {
+      "id": "wuxia_secret_chapters",
+      "name": "秘境奇遇",
+      "description": "在江湖中探索各种秘境，遇到奇遇和挑战",
+      "nodes": [
+        {
+          "id": "ancient_ruins_node",
+          "name": "古老遗迹",
+          "description": "发现一处古老的遗迹，里面隐藏着珍贵的武学秘籍",
+          "questIds": ["secret_quest_001"],
+          "nextNodes": ["mystic_cave_node"],
+          "requirements": [
+            "level:12"
+          ],
+          "isBranchPoint": true
+        },
+        {
+          "id": "mystic_cave_node",
+          "name": "神秘洞穴",
+          "description": "探索一个神秘的洞穴，里面住着传说中的野兽",
+          "questIds": ["secret_quest_002"],
+          "nextNodes": ["hidden_valley_node"],
+          "requirements": [
+            "level:18"
+          ],
+          "isBranchPoint": true
+        },
+        {
+          "id": "hidden_valley_node",
+          "name": "隐秘山谷",
+          "description": "发现一个隐秘的山谷，里面住着隐世的高人",
+          "questIds": ["secret_quest_003"],
+          "nextNodes": [],
+          "requirements": [
+            "level:25"
+          ],
+          "isBranchPoint": true
+        }
+      ]
+    }
+  ]
+}
