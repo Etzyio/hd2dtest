@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using hd2dtest.Scripts.Core;
+using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts
 {

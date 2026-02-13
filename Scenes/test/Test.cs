@@ -1,6 +1,7 @@
 using Godot;
 using hd2dtest.Scripts.Player;
 using hd2dtest.Scripts.Core;
+using hd2dtest.Scripts.Utilities;
 
 public partial class Test : Node2D
 {
