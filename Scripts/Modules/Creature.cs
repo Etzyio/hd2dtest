@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
+using System.Linq;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -124,17 +125,17 @@ namespace hd2dtest.Scripts.Modules
         /// 计算并应用伤害，检查生物是否死亡
         /// 对于基础生物，不考虑弱点，只考虑防御值
         /// </remarks>
-        public virtual float TakeDamage(Creature creature, Skill skill)
+        public virtual List<int> TakeDamage(Creature creature, Skill skill)
         {
             if (!IsAlive)
             {
-                return 0f;
+                return [0];
             }
 
             // 对于基础生物，不考虑弱点，只考虑防御
-            float actualDamage = DamageCalculator.CalculateDamage(creature, this, skill);
+            List<int> actualDamage = DamageCalculator.CalculateDamage(creature, this, skill);
 
-            Health -= actualDamage;
+            Health -= actualDamage.Sum();
 
             // 检查是否死亡
             if (Health <= 0f)
@@ -155,15 +156,15 @@ namespace hd2dtest.Scripts.Modules
         /// <remarks>
         /// 计算并应用治疗效果，确保生命值不超过最大值
         /// </remarks>
-        public virtual float Heal(Creature creature, Skill skill)
+        public virtual List<int> Heal(Creature creature, Skill skill)
         {
             if (!IsAlive)
             {
-                return 0;
+                return [0];
             }
 
-            float healAmount = DamageCalculator.CalculateDamage(creature, this, skill);
-            Health = Math.Min(Health + healAmount, MaxHealth);
+            List<int> healAmount = DamageCalculator.CalculateDamage(creature, this, skill);
+            Health = Math.Min(Health + healAmount.Sum(), MaxHealth);
             return healAmount;
         }
 

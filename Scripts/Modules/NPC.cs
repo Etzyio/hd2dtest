@@ -5,6 +5,7 @@ using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Utilities;
+using System.Linq;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -509,10 +510,10 @@ namespace hd2dtest.Scripts.Modules
         {
             // 治疗玩家
             // float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
-            float healAmount = player.Heal(this, ResourcesManager.SkillsCache["Heal"]); // 使用NPC的第一个技能进行治疗
+            List<int> healAmount = player.Heal(this, ResourcesManager.SkillsCache["Heal"]); // 使用NPC的第一个技能进行治疗
 
             Log.Info($"{CreatureName}: Feel better now?");
-            Log.Info($"{player.CreatureName} recovered {healAmount:F0} HP!");
+            Log.Info($"{player.CreatureName} recovered {healAmount.Sum():F0} HP!");
         }
 
         /// <summary>

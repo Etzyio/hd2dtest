@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
+using System.Linq;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -178,17 +179,9 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         private void InitializeSkills()
         {
-            // 创建初始技能
-            Skill defaultSkill = new()
-            {
-                SkillName = "Basic Attack",
-                SkillTypeValue = Skill.SkillType.Attack,
-                Damage = 10f,
-                Cooldown = 0f,
-                ManaCost = 0
-            };
 
-            Skills.Add(defaultSkill);
+            //TODO：增加skill
+            // Skills.Add(defaultSkill);
         }
 
         /// <summary>
@@ -267,16 +260,20 @@ namespace hd2dtest.Scripts.Modules
 
             Skill skill = Skills[skillIndex];
 
+            // TODO：区分攻击技能
             // 使用技能 - 直接调用目标的TakeDamage或Heal方法
-            float damage = 0f;
-            if (skill.SkillTypeValue == Skill.SkillType.Attack)
-            {
-                damage = target.TakeDamage(this, skill);
+            List<int> damage = [];
+            foreach(var skillDefent in skill.SkillDefs){
+                if (skillDefent.Type == Skill.SkillType.Attack)
+                {
+                    damage = target.TakeDamage(this, skill);
+                }
+                else if (skillDefent.Type == Skill.SkillType.Healing)
+                {
+                    damage = this.Heal(this, skill);
+                }
             }
-            else if (skill.SkillTypeValue == Skill.SkillType.Healing)
-            {
-                damage = this.Heal(this, skill);
-            }
+            
 
             Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, dealing {damage:F1} damage.");
 

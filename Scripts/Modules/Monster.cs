@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
+using System.Linq;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -433,8 +434,11 @@ namespace hd2dtest.Scripts.Modules
             Skill defaultSkill = new Skill
             {
                 SkillName = "Monster Attack",
-                SkillTypeValue = Skill.SkillType.Attack,
-                Damage = Attack,
+                SkillDefs = [new Skill.SkillDefent{
+                    Type=Skill.SkillType.Attack,
+                    data = 1,
+                    DamageType = new Weakness("Physical")
+                }],
                 Cooldown = 1f
             };
 

@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using hd2dtest.Scripts.Core;
 
 namespace hd2dtest.Scripts.Modules
 {
+    // SkillType and SkillDefent are defined inside the Skill class below
+
     /// <summary>
     /// 技能类，定义游戏中技能的属性和行为
     /// </summary>
@@ -13,7 +16,7 @@ namespace hd2dtest.Scripts.Modules
     public class Skill
     {
         /// <summary>
-        /// 技能类型枚举
+        /// 技能类型枚举（作为 Skill 的嵌套类型，外部使用 `Skill.SkillType` 访问）
         /// </summary>
         public enum SkillType
         {
@@ -28,28 +31,29 @@ namespace hd2dtest.Scripts.Modules
         }
 
         /// <summary>
+        /// 技能效果项（嵌套类）
+        /// </summary>
+        public class SkillDefent
+        {
+            public SkillType Type = SkillType.Attack;
+            public float data = 0.1f;
+            public int Duration = 0;
+            
+            /// <summary>
+            /// 技能伤害类型
+            /// </summary>
+            /// <value>技能的伤害类型，如：物理、魔法、火、水、雷、冰等</value>
+            public Weakness DamageType { get; set; } = new Weakness("Physical");
+        }
+
+        // 技能效果列表，存放多个 SkillDefent
+        public List<SkillDefent> SkillDefs { get; set; } = new List<SkillDefent>();
+
+        /// <summary>
         /// 技能ID
         /// </summary>
         /// <value>技能的唯一标识符</value>
         public string Id { get; set; } = "";
-
-        /// <summary>
-        /// 技能名称Key（用于国际化）
-        /// </summary>
-        /// <value>用于国际化的技能名称键值</value>
-        public string NameKey { get; set; } = "";
-
-        /// <summary>
-        /// 技能描述Key（用于国际化）
-        /// </summary>
-        /// <value>用于国际化的技能描述键值</value>
-        public string DescriptionKey { get; set; } = "";
-
-        /// <summary>
-        /// 技能效果Key（用于国际化）
-        /// </summary>
-        /// <value>用于国际化的技能效果键值</value>
-        public string EffectKey { get; set; } = "";
 
         // 技能属性
         /// <summary>
@@ -65,51 +69,9 @@ namespace hd2dtest.Scripts.Modules
         public string Description { get; set; } = "";
 
         /// <summary>
-        /// 技能类型
-        /// </summary>
-        /// <value>技能的类型枚举值</value>
-        public SkillType SkillTypeValue { get; set; } = SkillType.Attack;
-
-        /// <summary>
-        /// 技能类型字符串（用于JSON序列化）
-        /// </summary>
-        /// <value>技能类型的字符串表示，用于JSON序列化</value>
-        public string Type { get; set; } = "";
-
-        /// <summary>
-        /// 技能伤害
-        /// </summary>
-        /// <value>技能的伤害值</value>
-        public float Damage { get; set; } = 0f;
-
-        /// <summary>
-        /// 技能治疗量
-        /// </summary>
-        /// <value>技能的治疗值</value>
-        public float Healing { get; set; } = 0f;
-
-        /// <summary>
-        /// 技能防御加成
-        /// </summary>
-        /// <value>技能提供的防御加成值</value>
-        public float DefenseBoost { get; set; } = 0f;
-
-        /// <summary>
-        /// 技能速度加成
-        /// </summary>
-        /// <value>技能提供的速度加成值</value>
-        public float SpeedBoost { get; set; } = 0f;
-
-        /// <summary>
-        /// 技能持续时间
-        /// </summary>
-        /// <value>技能效果的持续时间，单位为秒</value>
-        public float Duration { get; set; } = 0f;
-
-        /// <summary>
         /// 技能冷却时间
         /// </summary>
-        /// <value>技能的冷却时间，单位为秒</value>
+        /// <value>技能的冷却时间，单位为回合</value>
         public float Cooldown { get; set; } = 1f;
 
         /// <summary>
@@ -118,11 +80,6 @@ namespace hd2dtest.Scripts.Modules
         /// <value>使用技能所需的魔法值</value>
         public int ManaCost { get; set; } = 0;
 
-        /// <summary>
-        /// 技能伤害类型
-        /// </summary>
-        /// <value>技能的伤害类型，如：物理、魔法、火、水、雷、冰等</value>
-        public Weakness DamageType { get; set; } = new Weakness("Physical");
 
         /// <summary>
         /// 技能是否已解锁
@@ -155,20 +112,31 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public string GetInfo()
         {
-            string typeStr = SkillTypeValue switch
+            // 尝试汇总技能效果（SkillDefent 列表），避免抛出异常
+            string effectsSummary = "None";
+            try
             {
-                SkillType.Attack => "Attack",
-                SkillType.Defense => "Defense",
-                SkillType.Support => "Support",
-                SkillType.Healing => "Healing",
-                _ => "Unknown"
-            };
+                if (SkillDefs != null && SkillDefs.Count > 0)
+                {
+                    effectsSummary = string.Empty;
+                    foreach (var e in SkillDefs)
+                    {
+                        if (effectsSummary.Length > 0) effectsSummary += ", ";
+                        effectsSummary += $"{e.Type}:{e.data:F1}({e.Duration}t/{e.DamageType})";
+                    }
+                }
+            }
+            catch
+            {
+                // 在无法读取效果时使用占位文本
+                effectsSummary = "N/A";
+            }
 
-            return $"{SkillName} ({typeStr})\n" +
-                   $"Description: {Description}\n" +
-                   $"Damage: {Damage:F1} | Healing: {Healing:F1}\n" +
-                   $"Cooldown: {Cooldown:F1}s | Mana Cost: {ManaCost}\n" +
-                   $"Damage Type: {DamageType} | Status: {GetStatus()}";
+            // 返回更完整的技能信息，包含 ID、解锁状态和效果汇总
+            return $"ID: {Id}\n" +
+                   $"Name: {SkillName}\n" +
+                   $"Unlocked: {IsUnlocked} | Status: {GetStatus()}\n" +
+                   $"Description: {Description}";
         }
     }
 }
