@@ -60,14 +60,14 @@ namespace hd2dtest.Scripts.Utilities
                 float weaknessMultiplier = defender.Weaknesses != null && defender.Weaknesses.Contains(skilldefent.DamageType) ? 1.3f : 1.0f;
 
                 if(skilldefent.Type == Skill.SkillType.Attack){
-                    baseDamageAfterDefense += skilldefent.data * weaknessMultiplier;
+                    baseDamageAfterDefense += skilldefent.DamageCoefficient * weaknessMultiplier;
                     list1.Add((int)baseDamageAfterDefense);
                 } else if(skilldefent.Type == Skill.SkillType.Defense){
                     // TODO: 防御技能可能减少伤害，这里简单处理为减少攻击力
-                    baseDamageAfterDefense -= skilldefent.data * weaknessMultiplier;
+                    baseDamageAfterDefense -= skilldefent.DamageCoefficient * weaknessMultiplier;
                 } else if(skilldefent.Type == Skill.SkillType.Support){
                     // TODO: 支持技能可能增加攻击力或防御力，这里简单处理为增加攻击力
-                    baseDamageAfterDefense += skilldefent.data * weaknessMultiplier;
+                    baseDamageAfterDefense += skilldefent.DamageCoefficient * weaknessMultiplier;
                 } else if(skilldefent.Type == Skill.SkillType.Healing){
                     // TODO: 治疗技能不影响伤害计算，这里可以根据需要进行调整
                     baseDamageAfterDefense += 0 * weaknessMultiplier; // 治疗技能不增加伤害

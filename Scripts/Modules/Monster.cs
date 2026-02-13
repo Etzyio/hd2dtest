@@ -436,7 +436,7 @@ namespace hd2dtest.Scripts.Modules
                 SkillName = "Monster Attack",
                 SkillDefs = [new Skill.SkillDefent{
                     Type=Skill.SkillType.Attack,
-                    data = 1,
+                    DamageCoefficient = 1,
                     DamageType = new Weakness("Physical")
                 }],
                 Cooldown = 1f

@@ -122,7 +122,7 @@ namespace hd2dtest.Scripts.Modules
                     foreach (var e in SkillDefs)
                     {
                         if (effectsSummary.Length > 0) effectsSummary += ", ";
-                        effectsSummary += $"{e.Type}:{e.data:F1}({e.Duration}t/{e.DamageType})";
+                        effectsSummary += $"{e.Type}:{e.DamageCoefficient:F1}({e.Duration}t/{e.DamageType})";
                     }
                 }
             }
