@@ -98,6 +98,10 @@ namespace hd2dtest.Scripts.Utilities
 
         public static T LoadJsonFile<T>(string filePath, JsonSerializerOptions options, out bool success)
         {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            var weaks = new List<WeakReference<AssemblyLoadContext>>();
+            UnloadAssemblyRecursive(assembly, weaks, true, true);
+            clearCacheMethod?.Invoke(null, new object?[] { null }); 
             success = false;
             try
             {
