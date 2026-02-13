@@ -1,0 +1,393 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3a0h7a8cac12"]
+
+[ext_resource type="Script" uid="uid://c4k8qmeh36rme" path="res://Scenes/Popup/PopupMenu.cs" id="1_2w2qg"]
+
+[node name="PopupMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_2w2qg")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.2
+anchor_right = 0.75
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Menu"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="InventoryButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Inventory"
+
+[node name="MapButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Map"
+
+[node name="StatusButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Status"
+
+[node name="EquipmentButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Equipment"
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="SaveButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Save Game"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Exit to Title"
+
+[node name="BackButton" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="InventoryPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="InventoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "Inventory"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemDescription" type="Label" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "Select an item to see details"
+
+[node name="BackButton" type="Button" parent="InventoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="MapPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="MapPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MapPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+text = "Map"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="MapTexture" type="TextureRect" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="MapPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="StatusPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="StatusPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatusPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="StatusPanel/VBoxContainer"]
+layout_mode = 2
+text = "Status"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="StatusPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerStatus" type="VBoxContainer" parent="StatusPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="StatusPanel/VBoxContainer/PlayerStatus"]
+layout_mode = 2
+text = "Player Name"
+
+[node name="HealthLabel" type="Label" parent="StatusPanel/VBoxContainer/PlayerStatus"]
+layout_mode = 2
+text = "Health: 100/100"
+
+[node name="ManaLabel" type="Label" parent="StatusPanel/VBoxContainer/PlayerStatus"]
+layout_mode = 2
+text = "Mana: 100/100"
+
+[node name="LevelLabel" type="Label" parent="StatusPanel/VBoxContainer/PlayerStatus"]
+layout_mode = 2
+text = "Level: 1"
+
+[node name="HSeparator2" type="HSeparator" parent="StatusPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="StatusPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="EquipmentPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="EquipmentPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EquipmentPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "Equipment"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="WeaponSlot" type="Button" parent="EquipmentPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Weapon"
+
+[node name="ArmorSlot" type="Button" parent="EquipmentPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Armor"
+
+[node name="HelmSlot" type="Button" parent="EquipmentPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Helm"
+
+[node name="ShieldSlot" type="Button" parent="EquipmentPanel/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Shield"
+
+[node name="BackButton" type="Button" parent="EquipmentPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[node name="SettingsPanel" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+value = 80.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Music Volume"
+
+[node name="HSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+value = 70.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "SFX Volume"
+
+[node name="HSlider" type="HSlider" parent="SettingsPanel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+value = 90.0
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsPanel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Graphics Quality"
+
+[node name="OptionButton" type="OptionButton" parent="SettingsPanel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="SettingsPanel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="SettingsPanel/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Save Settings"
+
+[node name="ResetButton" type="Button" parent="SettingsPanel/VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+text = "Reset to Default"
+
+[node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"

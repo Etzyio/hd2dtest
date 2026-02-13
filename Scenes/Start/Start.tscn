@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bc1234568aa"]
+[gd_scene load_steps=4 format=3 uid="uid://bc1234568aa"]
 
 [ext_resource type="Script" uid="uid://bby33sgo7wyte" path="res://Scenes/Start/Start.cs" id="1"]
-[ext_resource type="AudioStream" uid="uid://ly3v2o85ufuf" path="res://Resources/Music/Powerful(chosic.com).mp3" id="2_7adfa"]
+[ext_resource type="AudioStream" uid="uid://djx7iyhprmv6d" path="res://Resources/Music/Amberlight-chosic.com_.mp3" id="2_7adfa"]
+[ext_resource type="Theme" uid="uid://b3fm4jw65qk0c" path="res://Resources/Theme/mainbutton.tres" id="2_x3rvt"]
 
 [node name="Start" type="Node2D"]
 script = ExtResource("1")
@@ -18,51 +19,456 @@ color = Color(0.1, 0.1, 0.2, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource("2_x3rvt")
 
 [node name="Panel" type="Panel" parent="CanvasLayer/CenterContainer"]
 custom_minimum_size = Vector2(400, 500)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MainButton" type="VBoxContainer" parent="CanvasLayer/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.5
+offset_top = -173.5
+offset_right = 140.5
+offset_bottom = 173.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 9
 alignment = 1
 
-[node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "HD2D Test Game"
+text = "game_name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="StartButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "开始游戏"
+text = "start"
 
-[node name="ContinueButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="ContinueButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "继续游戏"
+text = "continue"
 
-[node name="SettingsButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "设置"
+text = "settings"
 
-[node name="ExitButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="CanvasLayer/CenterContainer/Panel/MainButton"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "退出"
+text = "exit"
+
+[node name="CenterContainer2" type="CenterContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="SettingMenu" type="VBoxContainer" parent="CanvasLayer/CenterContainer2"]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "settings"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/CenterContainer2/SettingMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SettingsContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LanguageSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "language_settings"
+
+[node name="LanguageSelectorHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "language"
+
+[node name="LanguageSelector" type="OptionButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LanguageMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="AudioSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="AudioLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "audio_settings"
+
+[node name="MasterVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="MasterVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "master_volume"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="MusicVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="MusicVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "music_volume"
+
+[node name="MusicVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.8
+
+[node name="SFXVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="SFXVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "sfx_volume"
+
+[node name="SFXVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="VoiceVolumeHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+layout_mode = 2
+
+[node name="VoiceVolumeLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "voice_volume"
+
+[node name="VoiceVolumeSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="AudioMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="GraphicsSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="GraphicsLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "graphics_settings"
+
+[node name="BrightnessHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="BrightnessLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "brightness"
+
+[node name="BrightnessSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="ContrastHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="ContrastLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "contrast"
+
+[node name="ContrastSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="SaturationHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="SaturationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "saturation"
+
+[node name="SaturationSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="FullscreenHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="FullscreenLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "fullscreen"
+
+[node name="FullscreenToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox"]
+layout_mode = 2
+
+[node name="VSyncHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+layout_mode = 2
+
+[node name="VSyncLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "vsync"
+
+[node name="VSyncToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox"]
+layout_mode = 2
+
+[node name="GraphicsMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="GameSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="GameLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "game_settings"
+
+[node name="AutoSaveHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+
+[node name="AutoSaveLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "auto_save"
+
+[node name="AutoSaveToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox"]
+layout_mode = 2
+
+[node name="TextSpeedHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+
+[node name="TextSpeedLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "text_speed"
+
+[node name="TextSpeedSlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 0.5
+
+[node name="ShowFPSHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+layout_mode = 2
+
+[node name="ShowFPSLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "show_fps"
+
+[node name="ShowFPSToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox"]
+layout_mode = 2
+
+[node name="GameMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ControlSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="ControlLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "control_settings"
+
+[node name="SensitivityHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
+layout_mode = 2
+
+[node name="SensitivityLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/SensitivityHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "sensitivity"
+
+[node name="SensitivitySlider" type="HSlider" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/SensitivityHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.1
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="InvertYHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
+layout_mode = 2
+
+[node name="InvertYLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/InvertYHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "invert_y"
+
+[node name="InvertYToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection/InvertYHBox"]
+layout_mode = 2
+
+[node name="ControlMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/ControlSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="NotificationSection" type="VBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer"]
+layout_mode = 2
+
+[node name="NotificationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "notification_settings"
+
+[node name="GameNotificationHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection"]
+layout_mode = 2
+
+[node name="GameNotificationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/GameNotificationHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "game_notifications"
+
+[node name="GameNotificationToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/GameNotificationHBox"]
+layout_mode = 2
+
+[node name="AchievementNotificationHBox" type="HBoxContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection"]
+layout_mode = 2
+
+[node name="AchievementNotificationLabel" type="Label" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/AchievementNotificationHBox"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "achievement_notifications"
+
+[node name="AchievementNotificationToggle" type="CheckButton" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection/AchievementNotificationHBox"]
+layout_mode = 2
+
+[node name="NotificationMargin" type="MarginContainer" parent="CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/NotificationSection"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="CanvasLayer/CenterContainer2/SettingMenu"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "back"
+
+[node name="SaveListPanel" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0, 0, 0, 0.8)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/SaveListPanel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="CanvasLayer/SaveListPanel/CenterContainer"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -180.0
+offset_right = 280.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "select_save"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SaveListContainer" type="VBoxContainer" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BackButton" type="Button" parent="CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "back"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_7adfa")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://wxn18egs8grl"]
+
+[ext_resource type="Material" path="res://Resources/Material/Ground037_1K-PNG/Ground037_1K-PNG.tres" id="1_tsc4b"]
+[ext_resource type="PackedScene" uid="uid://cu88pkc8etwxo" path="res://Scenes/Player/Player.tscn" id="2_vs4aj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vs4aj"]
+material = ExtResource("1_tsc4b")
+size = Vector3(5, 1, 5)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5muka"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vs4aj"]
+points = PackedVector3Array(-2.5, -0.5, -2.5, -2.5, 0.5, -2.5, 2.5, -0.5, -2.5, -2.5, -0.5, 2.5, -2.5, 0.5, 2.5, 2.5, 0.5, -2.5, 2.5, -0.5, 2.5, 2.5, 0.5, 2.5)
+
+[node name="Terrain" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vs4aj")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+physics_material_override = SubResource("PhysicsMaterial_5muka")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_vs4aj")
+
+[node name="Player" parent="." instance=ExtResource("2_vs4aj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

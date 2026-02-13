@@ -2,27 +2,78 @@ using Godot;
 
 namespace hd2dtest.Scripts.Player
 {
+	/// <summary>
+	/// 玩家类
+	/// 处理玩家移动、动画更新和方向控制
+	/// </summary>
 	public partial class Player : CharacterBody3D
 	{
+		/// <summary>
+		/// 移动速度
+		/// </summary>
 		private float _speed = 10.0f;
+		
+		/// <summary>
+		/// 是否启用重力
+		/// </summary>
 		private bool _gravityEnabled = true;
+		
+		/// <summary>
+		/// 重力加速度
+		/// </summary>
 		private const float GRAVITY_ACCELERATION = 40.0f;
-		private readonly bool[] _disabledDirections = new bool[4]; // 0: up, 1: down, 2: left, 3: right
+		
+		/// <summary>
+		/// 禁用的方向数组
+		/// 0: up, 1: down, 2: left, 3: right
+		/// </summary>
+		private readonly bool[] _disabledDirections = new bool[4];
+		
+		/// <summary>
+		/// 动画精灵
+		/// </summary>
 		private AnimatedSprite3D _animatedSprite;
+		
+		/// <summary>
+		/// 最后移动方向
+		/// </summary>
 		private Vector3 _lastDirection = Vector3.Zero;
 
+		/// <summary>
+		/// 移动暂停信号
+		/// </summary>
 		[Signal]
 		public delegate void MovementPausedEventHandler();
 
+		/// <summary>
+		/// 移动恢复信号
+		/// </summary>
 		[Signal]
 		public delegate void MovementResumedEventHandler();
 
+		/// <summary>
+		/// 方向禁用信号
+		/// </summary>
+		/// <param name="directionIndex">方向索引</param>
 		[Signal]
 		public delegate void DirectionDisabledEventHandler(int directionIndex);
 
+		/// <summary>
+		/// 方向启用信号
+		/// </summary>
+		/// <param name="directionIndex">方向索引</param>
 		[Signal]
 		public delegate void DirectionEnabledEventHandler(int directionIndex);
 
+		/// <summary>
+		/// 是否可以移动
+		/// </summary>
+		public bool CanMove { get; set; } = true;
+
+		/// <summary>
+		/// 节点就绪时的回调
+		/// 获取动画精灵引用并添加输入映射
+		/// </summary>
 		public override void _Ready()
 		{
 			// 获取动画精灵引用
@@ -38,6 +89,11 @@ namespace hd2dtest.Scripts.Player
 			InputMap.ActionAddEvent("toggle_gravity", new InputEventKey() { Keycode = Key.G });
 		}
 
+		/// <summary>
+		/// 物理处理回调
+		/// 处理重力、移动和碰撞
+		/// </summary>
+		/// <param name="delta">时间增量</param>
 		public override void _PhysicsProcess(double delta)
 		{
 			// 切换重力开关
@@ -73,6 +129,11 @@ namespace hd2dtest.Scripts.Player
 			_ = MoveAndSlide();
 		}
 
+		/// <summary>
+		/// 处理移动
+		/// 响应WASD输入并更新移动方向
+		/// </summary>
+		/// <param name="delta">时间增量</param>
 		private void HandleMovement(double delta)
 		{
 			Vector3 direction = Vector3.Zero;
@@ -117,6 +178,11 @@ namespace hd2dtest.Scripts.Player
 			}
 		}
 
+		/// <summary>
+		/// 更新动画
+		/// 根据移动方向播放相应的动画
+		/// </summary>
+		/// <param name="direction">移动方向</param>
 		private void UpdateAnimation(Vector3 direction)
 		{
 			if (_animatedSprite == null)
@@ -206,7 +272,10 @@ namespace hd2dtest.Scripts.Player
 			}
 		}
 
-		// 禁用指定方向
+		/// <summary>
+		/// 禁用指定方向
+		/// </summary>
+		/// <param name="directionIndex">方向索引</param>
 		public void DisableDirection(int directionIndex)
 		{
 			if (directionIndex is >= 0 and < 4)
@@ -216,7 +285,10 @@ namespace hd2dtest.Scripts.Player
 			}
 		}
 
-		// 启用指定方向
+		/// <summary>
+		/// 启用指定方向
+		/// </summary>
+		/// <param name="directionIndex">方向索引</param>
 		public void EnableDirection(int directionIndex)
 		{
 			if (directionIndex is >= 0 and < 4)
@@ -226,7 +298,9 @@ namespace hd2dtest.Scripts.Player
 			}
 		}
 
-		// 禁用所有方向
+		/// <summary>
+		/// 禁用所有方向
+		/// </summary>
 		public void DisableAllDirections()
 		{
 			for (int i = 0; i < 4; i++)
@@ -235,7 +309,9 @@ namespace hd2dtest.Scripts.Player
 			}
 		}
 
-		// 启用所有方向
+		/// <summary>
+		/// 启用所有方向
+		/// </summary>
 		public void EnableAllDirections()
 		{
 			for (int i = 0; i < 4; i++)
@@ -244,30 +320,41 @@ namespace hd2dtest.Scripts.Player
 			}
 		}
 
-		// 检查方向是否被禁用
+		/// <summary>
+		/// 检查方向是否被禁用
+		/// </summary>
+		/// <param name="directionIndex">方向索引</param>
+		/// <returns>方向是否被禁用</returns>
 		public bool IsDirectionDisabled(int directionIndex)
 		{
 			return directionIndex is >= 0 and < 4 && _disabledDirections[directionIndex];
 		}
 
+		/// <summary>
+		/// 暂停移动
+		/// </summary>
 		public void PauseMovement()
 		{
 			CanMove = false;
 			_ = EmitSignal(SignalName.MovementPaused);
 		}
 
+		/// <summary>
+		/// 恢复移动
+		/// </summary>
 		public void ResumeMovement()
 		{
 			CanMove = true;
 			_ = EmitSignal(SignalName.MovementResumed);
 		}
 
-		// 外部调用方法，用于控制移动状态
+		/// <summary>
+		/// 外部调用方法，用于控制移动状态
+		/// </summary>
+		/// <param name="canMove">是否可以移动</param>
 		public void SetCanMove(bool canMove)
 		{
 			CanMove = canMove;
 		}
-
-		public bool CanMove { get; set; } = true;
 	}
 }

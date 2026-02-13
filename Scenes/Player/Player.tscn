@@ -149,10 +149,10 @@ animations = [{
 }]
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_s0eop"]
-frustum_focus_distance = 30.0
-frustum_focal_length = 50.0
-frustum_near = 0.127
-frustum_far = 558.26
+frustum_focus_distance = 40.0
+frustum_focal_length = 85.0
+frustum_near = 0.313
+frustum_far = 300.0
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_s0eop")
@@ -173,5 +173,5 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.95527834, 0.29570806, 0, -0.29570803, 0.95527846, 0, 13.41, 30)
+transform = Transform3D(1, 0, 0, 0, 0.95527834, 0.29570806, 0, -0.29570803, 0.95527846, 0, 14, 40)
 attributes = SubResource("CameraAttributesPhysical_s0eop")
