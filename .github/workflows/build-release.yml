@@ -6,7 +6,7 @@ on:
     tags: [ 'v*.*.*' ]
 
 env:
-  GODOT_VERSION: mono-4.5.1
+  GODOT_VERSION: 4.5.1
   EXPORT_NAME: hd2dtest
   PROJECT_PATH: hd2dtest
 
