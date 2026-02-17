@@ -32,6 +32,7 @@ jobs:
 
       - name: Windows Build
         run: |
+          dotnet build
           godot --headless --verbose --export-release "Windows Desktop"
 
       - name: Upload Windows Artifact
@@ -64,6 +65,7 @@ jobs:
 
       - name: macOS Build
         run: |
+          dotnet build
           godot --headless --verbose --export-release "macOS"
 
       - name: Upload macOS Artifact
@@ -96,6 +98,7 @@ jobs:
 
       - name: Linux Build
         run: |
+          dotnet build
           godot --headless --verbose --export-release "Linux"
 
       - name: Upload Linux Artifact
