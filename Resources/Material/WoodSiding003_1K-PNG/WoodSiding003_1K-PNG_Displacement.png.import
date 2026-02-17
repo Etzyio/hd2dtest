@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c4ea76bowvok5"
 path.s3tc="res://.godot/imported/WoodSiding003_1K-PNG_Displacement.png-f25173d6c64241496751f502036b1c22.s3tc.ctex"
+path.etc2="res://.godot/imported/WoodSiding003_1K-PNG_Displacement.png-f25173d6c64241496751f502036b1c22.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Material/WoodSiding003_1K-PNG/WoodSiding003_1K-PNG_Displacement.png"
-dest_files=["res://.godot/imported/WoodSiding003_1K-PNG_Displacement.png-f25173d6c64241496751f502036b1c22.s3tc.ctex"]
+dest_files=["res://.godot/imported/WoodSiding003_1K-PNG_Displacement.png-f25173d6c64241496751f502036b1c22.s3tc.ctex", "res://.godot/imported/WoodSiding003_1K-PNG_Displacement.png-f25173d6c64241496751f502036b1c22.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cas12fo1ivpg2"
 path.s3tc="res://.godot/imported/broken_floor.res_normal.png-0f6bad024b7888928fe0a3f8194d9ba1.s3tc.ctex"
+path.etc2="res://.godot/imported/broken_floor.res_normal.png-0f6bad024b7888928fe0a3f8194d9ba1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Material/broken_floor/broken_floor.res_normal.png"
-dest_files=["res://.godot/imported/broken_floor.res_normal.png-0f6bad024b7888928fe0a3f8194d9ba1.s3tc.ctex"]
+dest_files=["res://.godot/imported/broken_floor.res_normal.png-0f6bad024b7888928fe0a3f8194d9ba1.s3tc.ctex", "res://.godot/imported/broken_floor.res_normal.png-0f6bad024b7888928fe0a3f8194d9ba1.etc2.ctex"]
 
 [params]
 

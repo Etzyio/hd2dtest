@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cy07brmjv70y0"
 path.s3tc="res://.godot/imported/WoodSiding003.png-805842e3f48098e830997524994751cc.s3tc.ctex"
+path.etc2="res://.godot/imported/WoodSiding003.png-805842e3f48098e830997524994751cc.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Material/WoodSiding003_1K-PNG/WoodSiding003.png"
-dest_files=["res://.godot/imported/WoodSiding003.png-805842e3f48098e830997524994751cc.s3tc.ctex"]
+dest_files=["res://.godot/imported/WoodSiding003.png-805842e3f48098e830997524994751cc.s3tc.ctex", "res://.godot/imported/WoodSiding003.png-805842e3f48098e830997524994751cc.etc2.ctex"]
 
 [params]
 
