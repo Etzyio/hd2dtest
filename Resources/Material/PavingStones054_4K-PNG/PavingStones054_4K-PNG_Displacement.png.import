@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c6l7puli5wvx8"
 path.s3tc="res://.godot/imported/PavingStones054_4K-PNG_Displacement.png-91b164fae8d01422f42d45e567842543.s3tc.ctex"
+path.etc2="res://.godot/imported/PavingStones054_4K-PNG_Displacement.png-91b164fae8d01422f42d45e567842543.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Material/PavingStones054_4K-PNG/PavingStones054_4K-PNG_Displacement.png"
-dest_files=["res://.godot/imported/PavingStones054_4K-PNG_Displacement.png-91b164fae8d01422f42d45e567842543.s3tc.ctex"]
+dest_files=["res://.godot/imported/PavingStones054_4K-PNG_Displacement.png-91b164fae8d01422f42d45e567842543.s3tc.ctex", "res://.godot/imported/PavingStones054_4K-PNG_Displacement.png-91b164fae8d01422f42d45e567842543.etc2.ctex"]
 
 [params]
 
