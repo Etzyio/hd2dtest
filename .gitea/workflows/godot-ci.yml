@@ -28,6 +28,7 @@ jobs:
           sh build_version.sh
           echo "Version file content:"
           cat version.json
+          mv version.json build/windows
 
       - name: Windows Build
         run: |
@@ -39,7 +40,6 @@ jobs:
           name: windows
           path: |
             build/windows
-            version.json
 
   macos-export:
     name: macOS Export
@@ -60,6 +60,7 @@ jobs:
           sh build_version.sh
           echo "Version file content:"
           cat version.json
+          mv version.json build/mac
 
       - name: macOS Build
         run: |
@@ -71,7 +72,6 @@ jobs:
           name: mac
           path: |
             build/mac
-            version.json
 
   linux-export:
     name: Linux Export
@@ -92,6 +92,7 @@ jobs:
           sh build_version.sh
           echo "Version file content:"
           cat version.json
+          mv version.json build/linux
 
       - name: Linux Build
         run: |
@@ -103,4 +104,4 @@ jobs:
           name: linux
           path: |
             build/linux
-            version.json
+
