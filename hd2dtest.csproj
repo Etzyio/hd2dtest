@@ -10,6 +10,7 @@
   </ItemGroup>
  <ItemGroup>
    <Content Include="Resources\Static\*" />
+   <Content Include="version.json" />
  </ItemGroup>
 
 </Project>
