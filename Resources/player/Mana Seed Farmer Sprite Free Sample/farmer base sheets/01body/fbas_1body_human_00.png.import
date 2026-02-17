@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bo2x8jvcrsvg2"
 path.s3tc="res://.godot/imported/fbas_1body_human_00.png-b3276f476313bbf87fd56db84dd822c1.s3tc.ctex"
+path.etc2="res://.godot/imported/fbas_1body_human_00.png-b3276f476313bbf87fd56db84dd822c1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/player/Mana Seed Farmer Sprite Free Sample/farmer base sheets/01body/fbas_1body_human_00.png"
-dest_files=["res://.godot/imported/fbas_1body_human_00.png-b3276f476313bbf87fd56db84dd822c1.s3tc.ctex"]
+dest_files=["res://.godot/imported/fbas_1body_human_00.png-b3276f476313bbf87fd56db84dd822c1.s3tc.ctex", "res://.godot/imported/fbas_1body_human_00.png-b3276f476313bbf87fd56db84dd822c1.etc2.ctex"]
 
 [params]
 
