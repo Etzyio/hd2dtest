@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://benx75br5alog"
 path.s3tc="res://.godot/imported/WoodSiding003_1K-PNG_Metalness.png-0574ac6dd91d7eedd15993cc318442cb.s3tc.ctex"
+path.etc2="res://.godot/imported/WoodSiding003_1K-PNG_Metalness.png-0574ac6dd91d7eedd15993cc318442cb.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Resources/Material/WoodSiding003_1K-PNG/WoodSiding003_1K-PNG_Metalness.png"
-dest_files=["res://.godot/imported/WoodSiding003_1K-PNG_Metalness.png-0574ac6dd91d7eedd15993cc318442cb.s3tc.ctex"]
+dest_files=["res://.godot/imported/WoodSiding003_1K-PNG_Metalness.png-0574ac6dd91d7eedd15993cc318442cb.s3tc.ctex", "res://.godot/imported/WoodSiding003_1K-PNG_Metalness.png-0574ac6dd91d7eedd15993cc318442cb.etc2.ctex"]
 
 [params]
 
