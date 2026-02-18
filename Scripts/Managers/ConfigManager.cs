@@ -220,6 +220,30 @@ namespace hd2dtest.Scripts.Managers
                     var currentVsyncMode = DisplayServer.WindowGetVsyncMode();
                     CurrentConfig.VSync = currentVsyncMode == DisplayServer.VSyncMode.Enabled;
                     
+                    // 读取系统语言并设置相应的语言
+                    string systemLanguage = TranslationServer.GetLocale();
+                    Log.Info($"System language detected: {systemLanguage}");
+                    
+                    // 检查系统语言是否在支持的语言列表中
+                    // 支持的语言：en_US (英文), zh_CN (简体中文), ja_JP (日语)
+                    if (systemLanguage.StartsWith("zh"))
+                    {
+                        // 中文系统使用简体中文
+                        CurrentConfig.Language = "zh_CN";
+                    }
+                    else if (systemLanguage.StartsWith("ja"))
+                    {
+                        // 日语系统使用日语
+                        CurrentConfig.Language = "ja_JP";
+                    }
+                    else
+                    {
+                        // 其他系统使用英文
+                        CurrentConfig.Language = "en_US";
+                    }
+                    
+                    Log.Info($"Language set to: {CurrentConfig.Language}");
+                    
                     // 保存配置
                     SaveConfig();
                     Log.Info("Config created from current game settings");
