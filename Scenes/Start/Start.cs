@@ -122,7 +122,8 @@ namespace hd2dtest.Scenes.Start
 				ConfigManager.GetInstance();
 				
 				// 从配置加载设置
-			// 初始化存档列表UI
+				LoadSettings();
+				// 初始化存档列表UI
 			InitializeSaveListUI();
 			GameViewManager.TriggerSceneReady();
 			
@@ -185,21 +186,26 @@ namespace hd2dtest.Scenes.Start
 				}
 				
 				// 初始化语言选择器
-				if (_languageSelector != null)
+			if (_languageSelector != null)
+			{
+				// 清除现有选项
+				_languageSelector.Clear();
+				// 添加语言选项
+				_languageSelector.AddItem("简体中文");
+				_languageSelector.AddItem("English");
+				_languageSelector.AddItem("日本語");
+				// 从配置加载语言设置
+				string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
+				int selectedIndex = savedLanguage switch
 				{
-					// 清除现有选项
-					_languageSelector.Clear();
-					// 添加语言选项
-					_languageSelector.AddItem("简体中文");
-					_languageSelector.AddItem("English");
-					// _languageSelector.AddItem("日本語");
-					// 从配置加载语言设置
-					string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
-					int selectedIndex = savedLanguage == "en_US" ? 1 : 0;
-					_languageSelector.Selected = selectedIndex;
-					// 应用语言设置
-					ConfigManager.Instance.SetLanguage(savedLanguage);
-				}
+					"en_US" => 1,
+					"ja_JP" => 2,
+					_ => 0
+				};
+				_languageSelector.Selected = selectedIndex;
+				// 应用语言设置
+				TranslationServer.SetLocale(savedLanguage);
+			}
 			}
 			catch (Exception e)
 			{
@@ -397,9 +403,17 @@ namespace hd2dtest.Scenes.Start
 		// 语言选择事件
 		private void OnLanguageSelected(long index)
 		{
-			string language = index == 0 ? "zh_CN" : "en_US";
+			string language = index switch
+			{
+				0 => "zh_CN",
+				1 => "en_US",
+				2 => "ja_JP",
+				_ => "zh_CN"
+			};
 			Log.Info($"Language selected: {language}");
 			ConfigManager.Instance.SetLanguage(language);
+			// 重新加载设置以更新UI文本
+			LoadSettings();
 		}
 
 		// 退出按钮点击事件
