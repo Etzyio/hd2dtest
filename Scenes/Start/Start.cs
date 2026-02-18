@@ -270,6 +270,9 @@ namespace hd2dtest.Scenes.Start
 				}
 			}
 
+			// 隐藏主菜单的CenterContainer
+			GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = false;
+			
 			// 显示存档列表面板
 			_saveListPanel.Visible = true;
 		}
@@ -429,6 +432,9 @@ namespace hd2dtest.Scenes.Start
 		{
 			// 隐藏存档列表
 			_saveListPanel.Visible = false;
+			
+			// 重新显示主菜单的CenterContainer
+			GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = true;
 		}
 
 		// 清空存档列表
