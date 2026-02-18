@@ -115,9 +115,9 @@ namespace hd2dtest.Scripts.Managers
             public bool VSync { get; set; } = true;
             
             /// <summary>
-            /// 语言设置，默认为简体中文
+            /// 语言设置，默认为英文
             /// </summary>
-            public string Language { get; set; } = "zh_CN";
+            public string Language { get; set; } = "en_US";
             #endregion
 
             #region 控制设置

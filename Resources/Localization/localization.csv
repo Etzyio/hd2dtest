@@ -1,77 +1,77 @@
-key,en_US,zh_CN
-game_name,Game Name,游戏名称
-start,Start,开始游戏
-continue,Continue,继续游戏
-settings,Settings,设置
-exit,Exit,退出
-back,Back,返回
-audio_settings,Audio Settings,音量设置
-master_volume,Master Volume,主音量
-music_volume,Music Volume,音乐音量
-sfx_volume,SFX Volume,音效音量
-voice_volume,Voice Volume,语音音量
-graphics_settings,Graphics Settings,图形设置
-brightness,Brightness,亮度
-contrast,Contrast,对比度
-saturation,Saturation,饱和度
-fullscreen,Fullscreen,全屏
-vsync,VSync,垂直同步
-game_settings,Game Settings,游戏设置
-auto_save,Auto Save,自动保存
-text_speed,Text Speed,文本速度
-show_fps,Show FPS,显示FPS
-control_settings,Control Settings,控制设置
-sensitivity,Sensitivity,灵敏度
-invert_y,Invert Y-Axis,反转Y轴
-language_settings,Language Settings,语言设置
-language,Language,语言
-notification_settings,Notification Settings,通知设置
-game_notifications,Game Notifications,游戏通知
-achievement_notifications,Achievement Notifications,成就通知
-select_save,Select Save,选择存档
-no_saves,No Saves Found,没有找到存档
-load,Load,加载
-delete,Delete,删除
-load_save_failed,Failed to load save,加载存档失败
-delete_save_success,Save deleted successfully,删除存档成功
-delete_save_failed,Failed to delete save,删除存档失败
-level,Level,等级
-play_time,Play Time,游戏时间
-save_time,Save Time,保存时间
-paused,PAUSED,暂停
-health_label,Health: {0}/{1},生命值: {0}/{1}
-mana_label,Mana: {0}/{1},魔法值: {0}/{1}
-level_label,Level: {0},等级: {0}
-item_description,Item: {0}\nCount: {1}\nDescription: This is a {0}.,道具: {0}\n数量: {1}\n描述: 这是一个{0}。
-game_saved_successfully,Game saved successfully!,游戏保存成功！
-game_save_failed,Failed to save game!,游戏保存失败！
-settings_saved,Settings saved!,设置已保存！
-settings_reset,Settings reset to default!,设置已重置为默认值！
-low,Low,低
-medium,Medium,中
-high,High,高
-ultra,Ultra,超高
-inventory,Inventory,道具
-map,Map,地图
-status,Status,状态
-equipment,Equipment,装备
-save,Save,保存
+key,en_US,zh_CN,ja_JP
+game_name,Game Name,游戏名称,ゲーム名
+start,Start,开始游戏,スタート
+continue,Continue,继续游戏,コンティニュー
+settings,Settings,设置,設定
+exit,Exit,退出,終了
+back,Back,返回,戻る
+audio_settings,Audio Settings,音量设置,オーディオ設定
+master_volume,Master Volume,主音量,マスターボリューム
+music_volume,Music Volume,音乐音量,音楽ボリューム
+sfx_volume,SFX Volume,音效音量,効果音ボリューム
+voice_volume,Voice Volume,语音音量,音声ボリューム
+graphics_settings,Graphics Settings,图形设置,グラフィック設定
+brightness,Brightness,亮度,明るさ
+contrast,Contrast,对比度,コントラスト
+saturation,Saturation,饱和度,彩度
+fullscreen,Fullscreen,全屏,フルスクリーン
+vsync,VSync,垂直同步,垂直同期
+game_settings,Game Settings,游戏设置,ゲーム設定
+auto_save,Auto Save,自动保存,オートセーブ
+text_speed,Text Speed,文本速度,テキスト速度
+show_fps,Show FPS,显示FPS,FPS表示
+control_settings,Control Settings,控制设置,コントロール設定
+sensitivity,Sensitivity,灵敏度,感度
+invert_y,Invert Y-Axis,反转Y轴,Y軸反転
+language_settings,Language Settings,语言设置,言語設定
+language,Language,语言,言語
+notification_settings,Notification Settings,通知设置,通知設定
+game_notifications,Game Notifications,游戏通知,ゲーム通知
+achievement_notifications,Achievement Notifications,成就通知,実績通知
+select_save,Select Save,选择存档,セーブ選択
+no_saves,No Saves Found,没有找到存档,セーブが見つかりません
+load,Load,加载,ロード
+delete,Delete,删除,削除
+load_save_failed,Failed to load save,加载存档失败,セーブの読み込みに失敗しました
+delete_save_success,Save deleted successfully,删除存档成功,セーブの削除に成功しました
+delete_save_failed,Failed to delete save,删除存档失败,セーブの削除に失敗しました
+level,Level,等级,レベル
+play_time,Play Time,游戏时间,プレイ時間
+save_time,Save Time,保存时间,保存時間
+paused,PAUSED,暂停,ポーズ
+health_label,Health: {0}/{1},生命值: {0}/{1},HP: {0}/{1}
+mana_label,Mana: {0}/{1},魔法值: {0}/{1},MP: {0}/{1}
+level_label,Level: {0},等级: {0},レベル: {0}
+item_description,Item: {0}\nCount: {1}\nDescription: This is a {0}.,道具: {0}\n数量: {1}\n描述: 这是一个{0}。,アイテム: {0}\n数: {1}\n説明: これは{0}です。
+game_saved_successfully,Game saved successfully!,游戏保存成功！,ゲームの保存に成功しました！
+game_save_failed,Failed to save game!,游戏保存失败！,ゲームの保存に失敗しました！
+settings_saved,Settings saved!,设置已保存！,設定が保存されました！
+settings_reset,Settings reset to default!,设置已重置为默认值！,設定がデフォルトにリセットされました！
+low,Low,低,低
+medium,Medium,中,中
+high,High,高,高
+ultra,Ultra,超高,超高
+inventory,Inventory,道具,アイテム
+map,Map,地图,マップ
+status,Status,状态,ステータス
+equipment,Equipment,装备,装備
+save,Save,保存,保存
 
 # Shader Compilation - Common Terms
-shader_compilation,Shader Compilation,着色器编译
-compiling,Compiling,编译中
-compilation_complete,Compilation Complete,编译完成
-compilation_failed,Compilation Failed,编译失败
-compilation_cancelled,Compilation Cancelled,编译取消
-progress,Progress,进度
-remaining_time,Remaining Time,剩余时间
-current_shader,Current Shader,当前着色器
+shader_compilation,Shader Compilation,着色器编译,シェーダーコンパイル
+compiling,Compiling,编译中,コンパイル中
+compilation_complete,Compilation Complete,编译完成,コンパイル完了
+compilation_failed,Compilation Failed,编译失败,コンパイル失敗
+compilation_cancelled,Compilation Cancelled,编译取消,コンパイルキャンセル
+progress,Progress,进度,進行状況
+remaining_time,Remaining Time,剩余时间,残り時間
+current_shader,Current Shader,当前着色器,現在のシェーダー
 
 # Shader Compilation - Specific Messages
-shader_compilation_start,Starting shader compilation...,开始编译着色器...
-shader_compilation_preparing,Preparing...,准备中...
-shader_compiling,Compiling: {0},正在编译: {0}
-shader_compilation_complete,Shader compilation complete!,着色器编译完成！
-shader_compilation_failed,Failed to compile shader: {0},编译着色器失败: {0}
-shader_compilation_cancelled,Compilation cancelled,编译已取消
-shader_compilation_error,Error during compilation: {0},编译过程中发生错误: {0}
+shader_compilation_start,Starting shader compilation...,开始编译着色器...,シェーダーのコンパイルを開始します...
+shader_compilation_preparing,Preparing...,准备中...,準備中...
+shader_compiling,Compiling: {0},正在编译: {0},コンパイル中: {0}
+shader_compilation_complete,Shader compilation complete!,着色器编译完成！,シェーダーのコンパイルが完了しました！
+shader_compilation_failed,Failed to compile shader: {0},编译着色器失败: {0},シェーダーのコンパイルに失敗しました: {0}
+shader_compilation_cancelled,Compilation cancelled,编译已取消,コンパイルがキャンセルされました
+shader_compilation_error,Error during compilation: {0},编译过程中发生错误: {0},コンパイル中にエラーが発生しました: {0}
