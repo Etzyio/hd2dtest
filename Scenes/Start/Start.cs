@@ -286,6 +286,7 @@ namespace hd2dtest.Scenes.Start
 			Log.Info("Settings button pressed");
 			// 隐藏主菜单，显示设置页面
 			_mainButton.Visible = false;
+			GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = false;
 			_centerContainer2.Visible = true;
 			_settingMenu.Visible = true;
 		}
@@ -298,6 +299,7 @@ namespace hd2dtest.Scenes.Start
 			_settingMenu.Visible = false;
 			_centerContainer2.Visible = false;
 			_mainButton.Visible = true;
+			GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = true;
 			ConfigManager.Instance.SaveConfig();
 		}
 
