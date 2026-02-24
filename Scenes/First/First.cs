@@ -2,6 +2,7 @@ using Godot;
 using System;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
+using hd2dtest.Scripts.Managers;
 
 namespace hd2dtest.Scripts
 {
@@ -137,14 +138,14 @@ namespace hd2dtest.Scripts
 				// 创建标题标签
 				_popupTitle = new Label();
 				_popupTitle.Name = "TitleLabel";
-				_popupTitle.Text = "弹窗标题";
+				_popupTitle.Text = ResourcesManager.GetLocalizedString("popup_title");
 				_popupTitle.HorizontalAlignment = HorizontalAlignment.Center;
 				vBoxContainer.AddChild(_popupTitle);
 
 				// 创建内容标签
 				_popupContent = new Label();
 				_popupContent.Name = "ContentLabel";
-				_popupContent.Text = "弹窗内容";
+				_popupContent.Text = ResourcesManager.GetLocalizedString("popup_content");
 				vBoxContainer.AddChild(_popupContent);
 
 				// 创建水平容器
@@ -156,13 +157,13 @@ namespace hd2dtest.Scripts
 				// 创建确定按钮
 				_yesButton = new Button();
 				_yesButton.Name = "YesButton";
-				_yesButton.Text = "确定";
+				_yesButton.Text = ResourcesManager.GetLocalizedString("confirm");
 				hBoxContainer.AddChild(_yesButton);
 
 				// 创建取消按钮
 				_noButton = new Button();
 				_noButton.Name = "NoButton";
-				_noButton.Text = "取消";
+				_noButton.Text = ResourcesManager.GetLocalizedString("cancel");
 				hBoxContainer.AddChild(_noButton);
 
 				// 连接信号
@@ -204,7 +205,7 @@ namespace hd2dtest.Scripts
 		{
 			if (Input.IsActionJustPressed("open_first_scene"))
 			{
-				ShowPopup("切换场景", "确定要刷新当前场景吗？", (result) =>
+				ShowPopup(ResourcesManager.GetLocalizedString("switch_scene"), ResourcesManager.GetLocalizedString("confirm_refresh"), (result) =>
 				{
 					if (result)
 					{
@@ -214,7 +215,7 @@ namespace hd2dtest.Scripts
 			}
 			else if (Input.IsActionJustPressed("open_main_scene"))
 			{
-				ShowPopup("切换场景", "确定要切换回主场景吗？", (result) =>
+				ShowPopup(ResourcesManager.GetLocalizedString("switch_scene"), ResourcesManager.GetLocalizedString("confirm_main_menu"), (result) =>
 				{
 					if (result)
 					{

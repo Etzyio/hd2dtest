@@ -8,12 +8,16 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="hd2dtest"
 config/version="v0.0.1"
 run/main_scene="res://main.tscn"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="uid://wwrjchujk8rf"
 config/macos_native_icon="uid://wwrjchujk8rf"
 config/windows_native_icon="uid://wwrjchujk8rf"
@@ -74,7 +78,7 @@ ui_down={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Resources/Localization/localization.zh_CN.translation", "res://Resources/Localization/localization.en_US.translation", "res://Resources/Localization/skills.en_US.translation", "res://Resources/Localization/skills.zh_CN.translation")
+locale/translations=PackedStringArray("res://Resources/Localization/localization.zh_CN.translation", "res://Resources/Localization/localization.en_US.translation", "res://Resources/Localization/localization.ja_JP.translation", "res://Resources/Localization/skills.en_US.translation", "res://Resources/Localization/skills.zh_CN.translation", "res://Resources/Localization/ui.en_US.translation", "res://Resources/Localization/ui.zh_CN.translation", "res://Resources/Localization/ui.ja_JP.translation")
 
 [rendering]
 

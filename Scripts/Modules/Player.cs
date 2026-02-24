@@ -104,6 +104,19 @@ namespace hd2dtest.Scripts.Modules
         /// <value>玩家的最大魔法值</value>
         public float MaxMana { get; set; } = 50f;
 
+        // 职业与被动
+        public string MainProfessionId { get; private set; } = "";
+        public List<string> SubProfessionIds { get; private set; } = [];
+        public HashSet<string> UnlockedProfessionIds { get; private set; } = [];
+        public Dictionary<string, PassiveOwnership> OwnedPassives { get; private set; } = new();
+        public List<string> ActiveCrossPassiveIds { get; private set; } = [];
+        public int MaxActiveCrossPassives { get; set; } = 4;
+        public double ProfessionSwitchCooldownSeconds { get; set; } = 30.0;
+        private DateTime _nextSwitchAllowedAt = DateTime.MinValue;
+        private readonly Dictionary<string, float> _statModifiers = new(); // Attack/Defense/Speed/MaxHealth/MaxMana
+        private float _baseAttack, _baseDefense, _baseSpeed, _baseMaxHealth, _baseMaxMana;
+        private readonly Dictionary<string, double> _skillCooldownRemaining = new(); // skillId -> seconds
+
         /// <summary>
         /// 初始化玩家
         /// </summary>
@@ -129,6 +142,15 @@ namespace hd2dtest.Scripts.Modules
             InitializeWeapons();
             InitializeEquipments();
             InitializeSkills();
+            // 初始化职业系统默认值
+            _statModifiers.Clear();
+            ActiveCrossPassiveIds.Clear();
+            // 记录基础属性
+            _baseAttack = Attack;
+            _baseDefense = Defense;
+            _baseSpeed = Speed;
+            _baseMaxHealth = MaxHealth;
+            _baseMaxMana = MaxMana;
         }
 
         /// <summary>
@@ -259,6 +281,13 @@ namespace hd2dtest.Scripts.Modules
             }
 
             Skill skill = Skills[skillIndex];
+            if (!string.IsNullOrEmpty(skill.Id))
+            {
+                if (_skillCooldownRemaining.TryGetValue(skill.Id, out var remain) && remain > 0.0)
+                {
+                    return false;
+                }
+            }
 
             // TODO：区分攻击技能
             // 使用技能 - 直接调用目标的TakeDamage或Heal方法
@@ -274,6 +303,10 @@ namespace hd2dtest.Scripts.Modules
                 }
             }
             
+            if (!string.IsNullOrEmpty(skill.Id))
+            {
+                _skillCooldownRemaining[skill.Id] = Math.Max(skill.Cooldown, 0.0f);
+            }
 
             Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, dealing {damage:F1} damage.");
 
@@ -361,6 +394,188 @@ namespace hd2dtest.Scripts.Modules
         public override string GetCreatureInfo()
         {
             return $"{base.GetCreatureInfo()} - Gold: {Gold} - Kills: {KillCount} - Deaths: {DeathCount}";
+        }
+
+        public bool UnlockProfession(string professionId)
+        {
+            if (string.IsNullOrWhiteSpace(professionId)) return false;
+            UnlockedProfessionIds.Add(professionId);
+            Log.Info($"Unlocked profession: {professionId}");
+            return true;
+        }
+
+        public bool SetMainProfession(string professionId)
+        {
+            if (string.IsNullOrWhiteSpace(professionId)) return false;
+            if (!UnlockedProfessionIds.Contains(professionId)) return false;
+            if (DateTime.UtcNow < _nextSwitchAllowedAt) return false;
+            MainProfessionId = professionId;
+            _nextSwitchAllowedAt = DateTime.UtcNow.AddSeconds(ProfessionSwitchCooldownSeconds);
+            Log.Info($"Switched main profession to: {professionId}");
+            RebuildActivePassives();
+            RecalculateDerivedStats();
+            return true;
+        }
+
+        public bool AddSubProfession(string professionId)
+        {
+            if (string.IsNullOrWhiteSpace(professionId)) return false;
+            if (!UnlockedProfessionIds.Contains(professionId)) return false;
+            if (SubProfessionIds.Contains(professionId)) return false;
+            SubProfessionIds.Add(professionId);
+            Log.Info($"Added sub profession: {professionId}");
+            RebuildActivePassives();
+            RecalculateDerivedStats();
+            return true;
+        }
+
+        public bool RemoveSubProfession(string professionId)
+        {
+            if (!SubProfessionIds.Remove(professionId)) return false;
+            Log.Info($"Removed sub profession: {professionId}");
+            RebuildActivePassives();
+            RecalculateDerivedStats();
+            return true;
+        }
+
+        public bool LearnPassive(string professionId, string passiveId, bool inSubProfessionState)
+        {
+            if (string.IsNullOrWhiteSpace(passiveId)) return false;
+            var def = ProfessionRegistry.GetPassive(passiveId);
+            if (def == null) return false;
+            var owned = new PassiveOwnership
+            {
+                PassiveId = passiveId,
+                SourceProfessionId = professionId ?? "",
+                Mastered = inSubProfessionState
+            };
+            OwnedPassives[passiveId] = owned;
+            Log.Info($"Learned passive {passiveId} from {professionId}, mastered={owned.Mastered}");
+            RebuildActivePassives();
+            RecalculateDerivedStats();
+            return true;
+        }
+
+        public IReadOnlyList<string> GetAllActivePassiveIds()
+        {
+            List<string> result = [];
+            if (!string.IsNullOrEmpty(MainProfessionId))
+            {
+                var p = ProfessionRegistry.GetProfession(MainProfessionId);
+                if (p != null)
+                {
+                    foreach (var ps in p.Passives)
+                    {
+                        // 主职业专属和通用都可生效
+                        if (ps.Category == PassiveCategory.MainExclusive || ps.Category == PassiveCategory.General)
+                            result.Add(ps.Id);
+                    }
+                }
+            }
+            // 已掌握的跨职业被动（来自其他职业）
+            var cross = ActiveCrossPassiveIds.Where(id =>
+            {
+                if (!OwnedPassives.TryGetValue(id, out var own)) return false;
+                return own.Mastered && own.SourceProfessionId != MainProfessionId;
+            }).ToList();
+            result.AddRange(FilterConflictsByPriority(cross));
+            return result;
+        }
+
+        private List<string> FilterConflictsByPriority(List<string> ids)
+        {
+            var sorted = ids
+                .Select(id => (id, def: ProfessionRegistry.GetPassive(id)))
+                .Where(t => t.def != null)
+                .OrderByDescending(t => t.def.Priority)
+                .Select(t => t.id)
+                .ToList();
+
+            var chosen = new List<string>();
+            var conflicts = new HashSet<string>();
+            foreach (var id in sorted)
+            {
+                var def = ProfessionRegistry.GetPassive(id);
+                if (def == null) continue;
+                if (def.ConflictsWith.Any(c => conflicts.Contains(c)) ||
+                    def.ConflictsWith.Contains(id))
+                {
+                    continue;
+                }
+                chosen.Add(id);
+                foreach (var c in def.ConflictsWith) conflicts.Add(c);
+                conflicts.Add(id);
+            }
+            return chosen;
+        }
+
+        public void SetActiveCrossPassives(IEnumerable<string> desiredIds)
+        {
+            var pool = desiredIds?
+                .Select(id => ProfessionRegistry.GetPassive(id))
+                .Where(def => def != null)
+                .OrderByDescending(def => def.Priority)
+                .Select(def => def.Id)
+                .ToList() ?? [];
+
+            var filtered = FilterConflictsByPriority(pool);
+            ActiveCrossPassiveIds = filtered
+                .Take(MaxActiveCrossPassives)
+                .ToList();
+            Log.Info($"Active cross passives: {string.Join(",", ActiveCrossPassiveIds)}");
+            RecalculateDerivedStats();
+        }
+
+        private void RebuildActivePassives()
+        {
+            // 自动修正超限和冲突
+            SetActiveCrossPassives(ActiveCrossPassiveIds);
+        }
+
+        private void RecalculateDerivedStats()
+        {
+            _statModifiers.Clear();
+            // 汇总所有生效被动的效果
+            var active = GetAllActivePassiveIds();
+            var appliedByGroup = new Dictionary<string, (int priority, PassiveEffect effect)>();
+            foreach (var id in active)
+            {
+                var def = ProfessionRegistry.GetPassive(id);
+                if (def == null) continue;
+                foreach (var eff in def.Effects)
+                {
+                    var key = eff.StackGroup ?? "";
+                    if (!appliedByGroup.TryGetValue(key, out var exist) || def.Priority > exist.priority)
+                    {
+                        appliedByGroup[key] = (def.Priority, eff);
+                    }
+                }
+            }
+            foreach (var kv in appliedByGroup.Values)
+            {
+                var eff = kv.effect;
+                if (!_statModifiers.ContainsKey(eff.Stat)) _statModifiers[eff.Stat] = 0f;
+                _statModifiers[eff.Stat] += eff.Value;
+            }
+            // 应用到可见属性（基于基础值）
+            Attack = Math.Max(0f, _baseAttack + GetStatMod("Attack"));
+            Defense = Math.Max(0f, _baseDefense + GetStatMod("Defense"));
+            Speed = Math.Max(0f, _baseSpeed + GetStatMod("Speed"));
+            MaxHealth = Math.Max(1f, _baseMaxHealth + GetStatMod("MaxHealth"));
+            MaxMana = Math.Max(0f, _baseMaxMana + GetStatMod("MaxMana"));
+        }
+
+        private float GetStatMod(string stat) => _statModifiers.TryGetValue(stat, out var v) ? v : 0f;
+
+        public void TickSkillCooldowns(double deltaSeconds)
+        {
+            var keys = _skillCooldownRemaining.Keys.ToList();
+            foreach (var k in keys)
+            {
+                var v = _skillCooldownRemaining[k];
+                v = Math.Max(0.0, v - deltaSeconds);
+                _skillCooldownRemaining[k] = v;
+            }
         }
     }
 }

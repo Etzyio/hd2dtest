@@ -186,30 +186,71 @@ namespace hd2dtest.Scenes.Start
 				}
 				
 				// 初始化语言选择器
-			if (_languageSelector != null)
-			{
-				// 清除现有选项
-				_languageSelector.Clear();
-				// 添加语言选项
-				_languageSelector.AddItem("简体中文");
-				_languageSelector.AddItem("English");
-				_languageSelector.AddItem("日本語");
-				// 从配置加载语言设置
-				string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
-				int selectedIndex = savedLanguage switch
+				if (_languageSelector != null)
 				{
-					"en_US" => 1,
-					"ja_JP" => 2,
-					_ => 0
-				};
-				_languageSelector.Selected = selectedIndex;
-				// 应用语言设置
-				TranslationServer.SetLocale(savedLanguage);
-			}
+					// 清除现有选项
+					_languageSelector.Clear();
+					// 添加语言选项
+					_languageSelector.AddItem(ResourcesManager.GetLocalizedString("language_zh"));
+					_languageSelector.AddItem(ResourcesManager.GetLocalizedString("language_en"));
+					_languageSelector.AddItem(ResourcesManager.GetLocalizedString("language_ja"));
+					// 从配置加载语言设置
+					string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
+					int selectedIndex = savedLanguage switch
+					{
+						"en_US" => 1,
+						"ja_JP" => 2,
+						_ => 0
+					};
+					_languageSelector.Selected = selectedIndex;
+					// 应用语言设置
+					TranslationServer.SetLocale(savedLanguage);
+				}
+				
+				// 调整设置标签宽度，确保多语言下对齐
+				UpdateSettingLabelsWidth();
 			}
 			catch (Exception e)
 			{
 				Log.Error($"Error loading settings: {e.Message}");
+			}
+		}
+
+		// 统一调整设置项标签宽度
+		private void UpdateSettingLabelsWidth()
+		{
+			// 设置统一的最小宽度，确保最长的文本也能放下
+			float minWidth = 250f;
+			
+			string basePath = "CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer";
+			string[] labelPaths = new[]
+			{
+				$"{basePath}/LanguageSection/LanguageSelectorHBox/LanguageLabel",
+				$"{basePath}/AudioSection/MasterVolumeHBox/MasterVolumeLabel",
+				$"{basePath}/AudioSection/MusicVolumeHBox/MusicVolumeLabel",
+				$"{basePath}/AudioSection/SFXVolumeHBox/SFXVolumeLabel",
+				$"{basePath}/AudioSection/VoiceVolumeHBox/VoiceVolumeLabel",
+				$"{basePath}/GraphicsSection/BrightnessHBox/BrightnessLabel",
+				$"{basePath}/GraphicsSection/ContrastHBox/ContrastLabel",
+				$"{basePath}/GraphicsSection/SaturationHBox/SaturationLabel",
+				$"{basePath}/GraphicsSection/FullscreenHBox/FullscreenLabel",
+				$"{basePath}/GraphicsSection/VSyncHBox/VSyncLabel",
+				$"{basePath}/GameSection/AutoSaveHBox/AutoSaveLabel",
+				$"{basePath}/GameSection/TextSpeedHBox/TextSpeedLabel",
+				$"{basePath}/GameSection/ShowFPSHBox/ShowFPSLabel",
+				$"{basePath}/ControlSection/SensitivityHBox/SensitivityLabel",
+				$"{basePath}/ControlSection/InvertYHBox/InvertYLabel",
+				$"{basePath}/NotificationSection/GameNotificationHBox/GameNotificationLabel",
+				$"{basePath}/NotificationSection/AchievementNotificationHBox/AchievementNotificationLabel"
+			};
+
+			foreach (string path in labelPaths)
+			{
+				var label = GetNodeOrNull<Label>(path);
+				if (label != null)
+				{
+					label.CustomMinimumSize = new Vector2(minWidth, 0);
+				}
 			}
 		}
 
@@ -252,7 +293,7 @@ namespace hd2dtest.Scenes.Start
 				// 如果没有存档，显示提示
 				Label noSaveLabel = new()
 				{
-					Text = TranslationServer.Translate("no_saves"),
+					Text = ResourcesManager.GetLocalizedString("no_saves"),
 					HorizontalAlignment = HorizontalAlignment.Center
 				};
 				noSaveLabel.AddThemeFontSizeOverride("font_size", 20);
@@ -486,9 +527,9 @@ namespace hd2dtest.Scenes.Start
 			// 存档信息
 			Label infoLabel = new();
 			string playTime = FormatPlayTime(saveInfo.PlayTime);
-			string levelText = TranslationServer.Translate("level");
-			string playTimeText = TranslationServer.Translate("play_time");
-			string saveTimeText = TranslationServer.Translate("save_time");
+			string levelText = ResourcesManager.GetLocalizedString("level");
+			string playTimeText = ResourcesManager.GetLocalizedString("play_time");
+			string saveTimeText = ResourcesManager.GetLocalizedString("save_time");
 			infoLabel.Text = $"{levelText}: {saveInfo.AveragePlayerLevel} | {playTimeText}: {playTime} | {saveTimeText}: {saveInfo.SaveTime:yyyy-MM-dd HH:mm}";
 			infoLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			infoLabel.AddThemeFontSizeOverride("font_size", 16);
@@ -505,7 +546,7 @@ namespace hd2dtest.Scenes.Start
 			// 加载按钮
 			Button loadButton = new()
 			{
-				Text = TranslationServer.Translate("load"),
+				Text = ResourcesManager.GetLocalizedString("load"),
 				CustomMinimumSize = new Vector2(100, 30)
 			};
 			loadButton.AddThemeFontSizeOverride("font_size", 16);
@@ -537,7 +578,11 @@ namespace hd2dtest.Scenes.Start
 			int minutes = seconds % 3600 / 60;
 			int secs = seconds % 60;
 
-			return hours > 0 ? $"{hours}h {minutes}m" : minutes > 0 ? $"{minutes}m {secs}s" : $"{secs}s";
+            string h = ResourcesManager.GetLocalizedString("time_h");
+            string m = ResourcesManager.GetLocalizedString("time_m");
+            string s = ResourcesManager.GetLocalizedString("time_s");
+
+			return hours > 0 ? $"{hours}{h} {minutes}{m}" : minutes > 0 ? $"{minutes}{m} {secs}{s}" : $"{secs}{s}";
 		}
 
 		// 加载存档按钮点击事件
@@ -557,7 +602,7 @@ namespace hd2dtest.Scenes.Start
 			}
 			else
 			{
-				string failedText = TranslationServer.Translate("load_save_failed");
+				string failedText = ResourcesManager.GetLocalizedString("load_save_failed");
 				ShowToast($"{failedText} {saveId}");
 			}
 		}
