@@ -474,3 +474,4 @@ text = "back"
 stream = ExtResource("2_7adfa")
 volume_db = -3.0
 autoplay = true
+bus = &"Music"
