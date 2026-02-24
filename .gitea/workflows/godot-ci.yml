@@ -11,7 +11,7 @@ env:
 jobs:
   windows-export:
     name: Windows Export
-    runs-on: godot-ci-4.6.1
+    runs-on: godot-ci-${{ env.GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
 
   macos-export:
     name: macOS Export
-    runs-on: godot-ci-4.5.1
+    runs-on: godot-ci-${{ env.GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -75,7 +75,7 @@ jobs:
 
   linux-export:
     name: Linux Export
-    runs-on: godot-ci-4.5.1
+    runs-on: godot-ci-${{ env.GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
