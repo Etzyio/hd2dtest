@@ -1,16 +1,8 @@
-<Project Sdk="Godot.NET.Sdk/4.6.0">
+<Project Sdk="Godot.NET.Sdk/4.6.1">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <AssemblyName>hd2dtest</AssemblyName>
   </PropertyGroup>
-   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
- <ItemGroup>
-   <Content Include="Resources\Static\*" />
-   <Content Include="version.json" />
- </ItemGroup>
-
 </Project>
