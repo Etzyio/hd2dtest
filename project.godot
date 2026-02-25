@@ -24,6 +24,7 @@ ConfigManager="*res://Scripts/Managers/ConfigManager.cs"
 GameManager="*res://Scripts/Managers/GameManager.cs"
 ResourcesManager="*res://Scripts/Managers/ResourcesManager.cs"
 SaveManager="*res://Scripts/Managers/SaveManager.cs"
+DialogueManager="*res://Scripts/Managers/DialogueManager.cs"
 VersionManager="*res://Scripts/Managers/VersionManager.cs"
 
 [display]

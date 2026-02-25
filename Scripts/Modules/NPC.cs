@@ -89,6 +89,11 @@ namespace hd2dtest.Scripts.Modules
         public string Dialogue { get; set; } = "Hello!";
 
         /// <summary>
+        /// ID of the dialogue graph to use.
+        /// </summary>
+        public string DialogueGraphId { get; set; }
+
+        /// <summary>
         /// 是否可以交互
         /// </summary>
         /// <value>true 表示NPC可以交互，false 表示NPC不能交互</value>
@@ -414,7 +419,14 @@ namespace hd2dtest.Scripts.Modules
             // 朝向玩家
             Direction = (player.Position - Position).Normalized();
 
-            Log.Info($"{CreatureName}: {Dialogue}");
+            if (!string.IsNullOrEmpty(DialogueGraphId) && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.StartDialogue(DialogueGraphId);
+            }
+            else
+            {
+                Log.Info($"{CreatureName}: {Dialogue}");
+            }
         }
 
         /// <summary>
