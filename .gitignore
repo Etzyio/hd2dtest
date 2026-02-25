@@ -5,3 +5,7 @@
 .vscode/
 .DS_Store
 build/
+version.json
+Tests/
+.trae/
+Resources/Dialogue/test_dialogue.json
