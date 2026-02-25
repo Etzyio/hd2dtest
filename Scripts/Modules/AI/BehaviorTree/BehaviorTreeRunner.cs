@@ -7,6 +7,7 @@ namespace hd2dtest.Scripts.Modules.AI.BehaviorTree
     public partial class BehaviorTreeRunner : Node
     {
         private BTNode _root;
+        public Dictionary<string, object> Blackboard => _blackboard;
         private Dictionary<string, object> _blackboard = new Dictionary<string, object>();
         
         [Export] public bool IsActive { get; set; } = true;

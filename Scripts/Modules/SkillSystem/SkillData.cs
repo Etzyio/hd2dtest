@@ -47,6 +47,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
     {
         public Creature Caster { get; set; }
         public Creature Target { get; set; }
+        public Node3D CasterNode { get; set; } // Visual node
+        public Node3D TargetNode { get; set; } // Visual node
         public Vector2 TargetPosition { get; set; }
         public SkillData Skill { get; set; }
     }
