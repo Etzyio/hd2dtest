@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
+using Godot;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -104,6 +104,137 @@ namespace hd2dtest.Scripts.Modules
         /// <value>玩家的最大魔法值</value>
         public float MaxMana { get; set; } = 50f;
 
+        // Class System
+        /// <summary>
+        /// 主职业（固定）
+        /// </summary>
+        public Battle.BattleClass MainClass { get; private set; }
+
+        /// <summary>
+        /// 副职业（可切换）
+        /// </summary>
+        public Battle.BattleClass SubClass { get; private set; }
+
+        /// <summary>
+        /// 装备的被动技能（最多4个）
+        /// </summary>
+        public List<Battle.PassiveSkill> EquippedPassives { get; } = new List<Battle.PassiveSkill>();
+
+        /// <summary>
+        /// 被动技能最大槽位数
+        /// </summary>
+        public const int MaxPassiveSlots = 4;
+
+        /// <summary>
+        /// 设置主职业
+        /// </summary>
+        public void SetMainClass(Battle.BattleClass mainClass)
+        {
+            MainClass = mainClass;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 设置副职业
+        /// </summary>
+        public void SetSubClass(Battle.BattleClass subClass)
+        {
+            SubClass = subClass;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 装备被动技能
+        /// </summary>
+        public bool EquipPassive(Battle.PassiveSkill passive)
+        {
+            if (EquippedPassives.Count >= MaxPassiveSlots) return false;
+            if (EquippedPassives.Contains(passive)) return false;
+            
+            EquippedPassives.Add(passive);
+            CalculateStats();
+            return true;
+        }
+
+        /// <summary>
+        /// 卸下被动技能
+        /// </summary>
+        public void UnequipPassive(Battle.PassiveSkill passive)
+        {
+            if (EquippedPassives.Remove(passive))
+            {
+                CalculateStats();
+            }
+        }
+
+        /// <summary>
+        /// 计算并更新玩家属性
+        /// </summary>
+        private void CalculateStats()
+        {
+            // 基础属性 (基于等级)
+            float baseHealth = 100f + (Level - 1) * 10f;
+            float baseAttack = 15f + (Level - 1) * 2f;
+            float baseDefense = 8f + (Level - 1) * 1f;
+            float baseSpeed = 75f; // Fixed base speed for now
+
+            // 职业修正
+            float classHealthMult = 1f;
+            float classAttackMult = 1f;
+            float classDefenseMult = 1f;
+            float classSpeedMult = 1f;
+
+            if (MainClass != null)
+            {
+                classHealthMult *= MainClass.HealthGrowth;
+                classAttackMult *= MainClass.AttackGrowth;
+                classDefenseMult *= MainClass.DefenseGrowth;
+                classSpeedMult *= MainClass.SpeedGrowth;
+            }
+
+            // 被动技能修正
+            float passiveHealthAdd = 0f;
+            float passiveAttackAdd = 0f;
+            float passiveDefenseAdd = 0f;
+            float passiveSpeedAdd = 0f;
+
+            float passiveHealthMult = 1f;
+            float passiveAttackMult = 1f;
+            float passiveDefenseMult = 1f;
+
+            foreach (var p in EquippedPassives)
+            {
+                passiveHealthAdd += p.HealthBonus;
+                passiveAttackAdd += p.AttackBonus;
+                passiveDefenseAdd += p.DefenseBonus;
+                passiveSpeedAdd += p.SpeedBonus;
+
+                passiveHealthMult *= p.HealthMultiplier;
+                passiveAttackMult *= p.AttackMultiplier;
+                passiveDefenseMult *= p.DefenseMultiplier;
+            }
+
+            // 装备修正
+            float equipmentAttack = CurrentWeapon?.AttackPower ?? 0f;
+            float equipmentDefense = 0f;
+            float equipmentHealth = 0f;
+
+            foreach (var eq in Equipments)
+            {
+                equipmentDefense += eq.Defense;
+                equipmentHealth += eq.Health;
+            }
+
+            // 最终计算
+            MaxHealth = (baseHealth * classHealthMult + equipmentHealth + passiveHealthAdd) * passiveHealthMult;
+            Attack = (baseAttack * classAttackMult + equipmentAttack + passiveAttackAdd) * passiveAttackMult;
+            Defense = (baseDefense * classDefenseMult + equipmentDefense + passiveDefenseAdd) * passiveDefenseMult;
+            Speed = (baseSpeed * classSpeedMult + passiveSpeedAdd); // Speed usually simpler
+
+            // 确保当前生命值不超过最大生命值
+            if (Health > MaxHealth) Health = MaxHealth;
+        }
+
         /// <summary>
         /// 初始化玩家
         /// </summary>
@@ -116,19 +247,20 @@ namespace hd2dtest.Scripts.Modules
 
             // 设置默认属性
             CreatureName = "Player";
-            Health = 100f;
-            MaxHealth = 100f;
+            
+            // Stats are now handled by CalculateStats, but we need initial values
+            Level = 1;
             Mana = 50f;
             MaxMana = 50f;
-            Attack = 15f;
-            Defense = 8f;
-            Speed = 75f;
-            Level = 1;
 
             // 初始化装备和技能
             InitializeWeapons();
             InitializeEquipments();
             InitializeSkills();
+
+            // Initial calculation
+            CalculateStats();
+            Health = MaxHealth;
         }
 
         /// <summary>
@@ -208,7 +340,7 @@ namespace hd2dtest.Scripts.Modules
             CurrentWeapon = weapon;
 
             // 更新攻击属性
-            Attack = weapon.AttackPower;
+            CalculateStats();
 
             Log.Info($"Equipped weapon: {weapon.WeaponName}");
         }
@@ -234,9 +366,7 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 更新属性
-            Defense += equipment.Defense;
-            MaxHealth += equipment.Health;
-            Health += equipment.Health;
+            CalculateStats();
 
             Log.Info($"Equipped equipment: {equipment.EquipmentName}");
         }
@@ -327,10 +457,9 @@ namespace hd2dtest.Scripts.Modules
                 Experience -= requiredExp;
 
                 // 升级属性
-                MaxHealth += 10f;
-                Health = MaxHealth;
-                Attack += 2f;
-                Defense += 1f;
+                CalculateStats();
+                Health = MaxHealth; // Heal on level up? Or just increase max? Usually restore full in some RPGs.
+                // Let's just restore full for now as per original code implication (Health = MaxHealth)
 
                 Log.Info($"Level up! Now level {Level}");
             }

@@ -358,7 +358,7 @@ namespace hd2dtest.Scenes.Popup
 							playerData.Health = _player.Health;
 							playerData.Mana = _player.Mana;
 							playerData.Inventory = _player.Inventory;
-							playerData.Position = new System.Numerics.Vector2(_player.Position.X, _player.Position.Y);
+							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
 						}
 					}
 
