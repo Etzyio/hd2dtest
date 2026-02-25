@@ -1,0 +1,27 @@
+{
+    "Colors": {
+        "primary": { "r": 0.2, "g": 0.6, "b": 0.86, "a": 1.0 },
+        "secondary": { "r": 0.18, "g": 0.8, "b": 0.44, "a": 1.0 },
+        "danger": { "r": 0.9, "g": 0.3, "b": 0.23, "a": 1.0 },
+        "warning": { "r": 0.94, "g": 0.77, "b": 0.06, "a": 1.0 },
+        "text_primary": { "r": 0.93, "g": 0.94, "b": 0.95, "a": 1.0 },
+        "text_secondary": { "r": 0.74, "g": 0.76, "b": 0.78, "a": 1.0 },
+        "background": { "r": 0.17, "g": 0.24, "b": 0.31, "a": 1.0 },
+        "surface": { "r": 0.2, "g": 0.29, "b": 0.37, "a": 1.0 }
+    },
+    "Spacing": {
+        "small": 8.0,
+        "medium": 16.0,
+        "large": 24.0
+    },
+    "CornerRadius": {
+        "small": 4,
+        "medium": 8,
+        "large": 12
+    },
+    "AnimationDuration": {
+        "fast": 0.1,
+        "normal": 0.2,
+        "slow": 0.3
+    }
+}
