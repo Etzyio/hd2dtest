@@ -47,10 +47,19 @@ namespace hd2dtest.Scripts.Core.UI
                 return;
             }
 
-            // In a real scenario, we would parse JSON and update Tokens
-            // string json = FileAccess.GetFileAsString(jsonPath);
-            // Tokens = JsonHelper.Deserialize<DesignTokens>(json);
-            Log.Info($"Loaded Design Tokens from {jsonPath}");
+            try
+            {
+                var loadedTokens = JsonHelper.LoadJsonFile<DesignTokens>(jsonPath);
+                if (loadedTokens != null)
+                {
+                    Tokens = loadedTokens;
+                    Log.Info($"Loaded Design Tokens from {jsonPath}");
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.Error($"Failed to load Design Tokens: {e.Message}");
+            }
         }
 
         public static Color GetColor(string key) => Tokens.Colors.ContainsKey(key) ? Tokens.Colors[key] : Colors.Magenta;
