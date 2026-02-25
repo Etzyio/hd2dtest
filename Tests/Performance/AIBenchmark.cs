@@ -25,7 +25,7 @@ namespace hd2dtest.Tests.Performance
         private void SetupScene()
         {
             // Create floor
-            var floor = new CSGBox3D();
+            var floor = new CsgBox3D();
             floor.Size = new Vector3(100, 1, 100);
             floor.UseCollision = true;
             AddChild(floor);
