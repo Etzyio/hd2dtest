@@ -1,30 +1,36 @@
-[gd_scene load_steps=4 format=3 uid="uid://dk3oyjhpn4eje"]
+[gd_scene format=3 uid="uid://dk3oyjhpn4eje"]
 
 [ext_resource type="Script" uid="uid://baj87yb2xmw0b" path="res://Main.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://c2a0h7a8cac11" path="res://Scenes/UI/GameUI.tscn" id="2_2w2qg"]
 [ext_resource type="PackedScene" uid="uid://c3a0h7a8cac12" path="res://Scenes/Popup/PopupMenu.tscn" id="2_h2yge"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=368322991]
 script = ExtResource("1_ig7tw")
 
-[node name="sceneLayer" type="Control" parent="."]
+[node name="sceneLayer" type="Control" parent="." unique_id=1046667864]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="popupLayer" type="Control" parent="."]
+[node name="popupLayer" type="Control" parent="." unique_id=1109629704]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1880.0
+offset_bottom = -1040.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="PopupMenu" parent="popupLayer" instance=ExtResource("2_h2yge")]
+[node name="PopupMenu" parent="popupLayer" unique_id=394402318 instance=ExtResource("2_h2yge")]
 layout_mode = 1
 offset_left = 872.0
 offset_top = 352.0
 offset_right = 872.0
 offset_bottom = 352.0
 
-[node name="GameUI" parent="." instance=ExtResource("2_2w2qg")]
+[node name="GameUI" parent="." unique_id=1163325919 instance=ExtResource("2_2w2qg")]
 visible = false

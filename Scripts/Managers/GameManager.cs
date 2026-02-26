@@ -47,14 +47,20 @@ namespace hd2dtest.Scripts.Managers
         /// <remarks>
         /// 该方法每帧被调用，根据当前游戏状态处理对应的输入逻辑。
         /// </remarks>
-        public override void _Process(double delta)
+        public override void _UnhandledInput(InputEvent @event)
         {
-            if (Input.IsActionJustPressed("ui_cancel"))
+            if (@event.IsActionPressed("ui_cancel"))
             {
                 // 检查当前场景是否不是Start场景
-                if (GameViewManager.NowScene != null && GameViewManager.NowScene.Name != "Start" && GameViewManager.NowScene.Name != "PopupMenu")
+                if (GameViewManager.NowScene != null && GameViewManager.NowScene.Name != "Start")
                 {
-                    GameViewManager.OpenPopup();
+                    // 仅当弹窗未显示时打开弹窗
+                    // 弹窗显示时的关闭逻辑由PopupMenu处理
+                    if (!GameViewManager.PopupStatus)
+                    {
+                        GameViewManager.OpenPopup();
+                        GetViewport().SetInputAsHandled();
+                    }
                 }
             }
         }

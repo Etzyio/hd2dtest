@@ -412,15 +412,23 @@ namespace hd2dtest.Scenes.Popup
 		}
 
 		/// <summary>
-		/// 处理未处理的输入事件
+		/// 处理输入事件
 		/// </summary>
 		/// <param name="@event">输入事件</param>
-		public override void _UnhandledInput(InputEvent @event)
+		public override void _Input(InputEvent @event)
 		{
+			// 如果菜单不可见，不处理输入
+			if (!IsVisibleInTree())
+			{
+				return;
+			}
+
 			// 处理Esc键输入
 			if (@event.IsActionPressed("ui_cancel"))
 			{
 				OnBackButtonPressed();
+				// 标记输入已处理，防止传递给其他节点
+				GetViewport().SetInputAsHandled();
 			}
 		}
 

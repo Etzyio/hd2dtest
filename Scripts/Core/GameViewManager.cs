@@ -215,28 +215,36 @@ namespace hd2dtest.Scripts.Core
 				MouseFilter = Control.MouseFilterEnum.Ignore
 			};
 			darkenEffect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-
-			// 添加暂停图标
-			var pauseLabel = new Label
-			{
-				Name = "PauseLabel",
-				Text = TranslationServer.Translate("paused"),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				VerticalAlignment = VerticalAlignment.Center,
-				MouseFilter = Control.MouseFilterEnum.Ignore
-			};
-			pauseLabel.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-			pauseLabel.AddThemeColorOverride("font_color", Colors.White);
-			pauseLabel.AddThemeFontSizeOverride("font_size", 32);
-
-			// 添加到场景层
-			_sceneLayer.AddChild(darkenEffect);
-			_sceneLayer.AddChild(pauseLabel);
+            
+            // 确保覆盖整个屏幕，包括可能存在的相机偏移
+            // 使用CanvasLayer可以确保覆盖整个视口，但这里我们是添加到_sceneLayer
+            // 所以我们手动设置大小为视口大小，并考虑到_sceneLayer可能的变换
+            // 更简单的方法是让darkenEffect作为CanvasLayer的子节点，或者确保它覆盖整个视口
+            
+            // 尝试使用CanvasLayer来确保全屏覆盖
+            // 但考虑到架构，我们还是在_sceneLayer中处理，但要确保它位于最上层且覆盖全屏
+            
+            // 如果_sceneLayer是Node2D或者受Camera影响，简单的SetAnchorsPreset可能不够
+            // 这里我们假设_sceneLayer是一个Control或者CanvasLayer
+            // 如果是Node2D，我们需要创建一个CanvasLayer来放置暂停效果
+            
+            // 检查_sceneLayer类型
+            // 注意：_sceneLayer被定义为Control类型，所以它不可能是Node2D（除非Node2D继承自Control，但Godot中不是这样）
+            // 如果_sceneLayer实际上可能是一个CanvasLayer的子节点，或者我们需要覆盖整个屏幕
+            // 最好的方法是始终创建一个CanvasLayer来放置暂停效果
+            
+            var canvasLayer = new CanvasLayer
+            {
+                Name = "PauseEffectLayer",
+                Layer = 100 // 确保在最上层
+            };
+            _sceneLayer.AddChild(canvasLayer);
+            canvasLayer.AddChild(darkenEffect);
 
 			// 创建淡入动画
 			var tween = _sceneLayer.CreateTween();
 			tween.TweenProperty(darkenEffect, "color:a", 0.5f, 0.3f);
-			tween.TweenProperty(pauseLabel, "modulate:a", 1.0f, 0.3f);
+			// tween.TweenProperty(pauseLabel, "modulate:a", 1.0f, 0.3f);
 		}
 
 		/// <summary>
@@ -254,18 +262,24 @@ namespace hd2dtest.Scripts.Core
 			// 查找并移除暂停效果
 			foreach (Node child in _sceneLayer.GetChildren())
 			{
-				if (child.Name == "PauseEffect" || child.Name == "PauseLabel")
+				if (child.Name == "PauseEffect" || child.Name == "PauseEffectLayer")
 				{
 					// 创建淡出动画
 					var tween = _sceneLayer.CreateTween();
-					if (child is ColorRect colorRect)
+                    
+                    if (child.Name == "PauseEffectLayer" && child is CanvasLayer layer)
+                    {
+                        var rect = layer.GetNodeOrNull<ColorRect>("PauseEffect");
+                        if (rect != null)
+                        {
+                            tween.TweenProperty(rect, "color:a", 0, 0.3f);
+                        }
+                    }
+					else if (child is ColorRect colorRect)
 					{
 						tween.TweenProperty(colorRect, "color:a", 0, 0.3f);
 					}
-					else if (child is Label label)
-					{
-						tween.TweenProperty(label, "modulate:a", 0, 0.3f);
-					}
+                    
 					tween.TweenCallback(Callable.From(() => child.QueueFree()));
 				}
 			}
@@ -334,6 +348,7 @@ namespace hd2dtest.Scripts.Core
 			finally
 			{
 				ShowSceneLayer();
+                ResumeSceneLayer();
 			}
 		}
 
@@ -376,7 +391,8 @@ namespace hd2dtest.Scripts.Core
 		{
 			if (_popupLayer != null)
 			{
-				_popupLayer.Visible=true;
+				_popupLayer.Visible = true;
+				PauseSceneLayer();
 			}
 		}
 
@@ -391,6 +407,7 @@ namespace hd2dtest.Scripts.Core
 			if (_popupLayer != null)
 			{
 				_popupLayer.Visible = false;
+				ResumeSceneLayer();
 			}
 		}
 
