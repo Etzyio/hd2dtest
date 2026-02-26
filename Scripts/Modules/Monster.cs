@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Godot;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
@@ -193,7 +193,7 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public virtual void UpdateAI(float delta)
         {
-            if (!IsAlive)
+            if (!IsAlive || IsInBattle)
             {
                 return;
             }

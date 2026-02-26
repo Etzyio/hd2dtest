@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
+using Godot;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -104,18 +104,136 @@ namespace hd2dtest.Scripts.Modules
         /// <value>玩家的最大魔法值</value>
         public float MaxMana { get; set; } = 50f;
 
-        // 职业与被动
-        public string MainProfessionId { get; private set; } = "";
-        public List<string> SubProfessionIds { get; private set; } = [];
-        public HashSet<string> UnlockedProfessionIds { get; private set; } = [];
-        public Dictionary<string, PassiveOwnership> OwnedPassives { get; private set; } = new();
-        public List<string> ActiveCrossPassiveIds { get; private set; } = [];
-        public int MaxActiveCrossPassives { get; set; } = 4;
-        public double ProfessionSwitchCooldownSeconds { get; set; } = 30.0;
-        private DateTime _nextSwitchAllowedAt = DateTime.MinValue;
-        private readonly Dictionary<string, float> _statModifiers = new(); // Attack/Defense/Speed/MaxHealth/MaxMana
-        private float _baseAttack, _baseDefense, _baseSpeed, _baseMaxHealth, _baseMaxMana;
-        private readonly Dictionary<string, double> _skillCooldownRemaining = new(); // skillId -> seconds
+        // Class System
+        /// <summary>
+        /// 主职业（固定）
+        /// </summary>
+        public Battle.BattleClass MainClass { get; private set; }
+
+        /// <summary>
+        /// 副职业（可切换）
+        /// </summary>
+        public Battle.BattleClass SubClass { get; private set; }
+
+        /// <summary>
+        /// 装备的被动技能（最多4个）
+        /// </summary>
+        public List<Battle.PassiveSkill> EquippedPassives { get; } = new List<Battle.PassiveSkill>();
+
+        /// <summary>
+        /// 被动技能最大槽位数
+        /// </summary>
+        public const int MaxPassiveSlots = 4;
+
+        /// <summary>
+        /// 设置主职业
+        /// </summary>
+        public void SetMainClass(Battle.BattleClass mainClass)
+        {
+            MainClass = mainClass;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 设置副职业
+        /// </summary>
+        public void SetSubClass(Battle.BattleClass subClass)
+        {
+            SubClass = subClass;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 装备被动技能
+        /// </summary>
+        public bool EquipPassive(Battle.PassiveSkill passive)
+        {
+            if (EquippedPassives.Count >= MaxPassiveSlots) return false;
+            if (EquippedPassives.Contains(passive)) return false;
+            
+            EquippedPassives.Add(passive);
+            CalculateStats();
+            return true;
+        }
+
+        /// <summary>
+        /// 卸下被动技能
+        /// </summary>
+        public void UnequipPassive(Battle.PassiveSkill passive)
+        {
+            if (EquippedPassives.Remove(passive))
+            {
+                CalculateStats();
+            }
+        }
+
+        /// <summary>
+        /// 计算并更新玩家属性
+        /// </summary>
+        private void CalculateStats()
+        {
+            // 基础属性 (基于等级)
+            float baseHealth = 100f + (Level - 1) * 10f;
+            float baseAttack = 15f + (Level - 1) * 2f;
+            float baseDefense = 8f + (Level - 1) * 1f;
+            float baseSpeed = 75f; // Fixed base speed for now
+
+            // 职业修正
+            float classHealthMult = 1f;
+            float classAttackMult = 1f;
+            float classDefenseMult = 1f;
+            float classSpeedMult = 1f;
+
+            if (MainClass != null)
+            {
+                classHealthMult *= MainClass.HealthGrowth;
+                classAttackMult *= MainClass.AttackGrowth;
+                classDefenseMult *= MainClass.DefenseGrowth;
+                classSpeedMult *= MainClass.SpeedGrowth;
+            }
+
+            // 被动技能修正
+            float passiveHealthAdd = 0f;
+            float passiveAttackAdd = 0f;
+            float passiveDefenseAdd = 0f;
+            float passiveSpeedAdd = 0f;
+
+            float passiveHealthMult = 1f;
+            float passiveAttackMult = 1f;
+            float passiveDefenseMult = 1f;
+
+            foreach (var p in EquippedPassives)
+            {
+                passiveHealthAdd += p.HealthBonus;
+                passiveAttackAdd += p.AttackBonus;
+                passiveDefenseAdd += p.DefenseBonus;
+                passiveSpeedAdd += p.SpeedBonus;
+
+                passiveHealthMult *= p.HealthMultiplier;
+                passiveAttackMult *= p.AttackMultiplier;
+                passiveDefenseMult *= p.DefenseMultiplier;
+            }
+
+            // 装备修正
+            float equipmentAttack = CurrentWeapon?.AttackPower ?? 0f;
+            float equipmentDefense = 0f;
+            float equipmentHealth = 0f;
+
+            foreach (var eq in Equipments)
+            {
+                equipmentDefense += eq.Defense;
+                equipmentHealth += eq.Health;
+            }
+
+            // 最终计算
+            MaxHealth = (baseHealth * classHealthMult + equipmentHealth + passiveHealthAdd) * passiveHealthMult;
+            Attack = (baseAttack * classAttackMult + equipmentAttack + passiveAttackAdd) * passiveAttackMult;
+            Defense = (baseDefense * classDefenseMult + equipmentDefense + passiveDefenseAdd) * passiveDefenseMult;
+            Speed = (baseSpeed * classSpeedMult + passiveSpeedAdd); // Speed usually simpler
+
+            // 确保当前生命值不超过最大生命值
+            if (Health > MaxHealth) Health = MaxHealth;
+        }
 
         /// <summary>
         /// 初始化玩家
@@ -129,28 +247,20 @@ namespace hd2dtest.Scripts.Modules
 
             // 设置默认属性
             CreatureName = "Player";
-            Health = 100f;
-            MaxHealth = 100f;
+            
+            // Stats are now handled by CalculateStats, but we need initial values
+            Level = 1;
             Mana = 50f;
             MaxMana = 50f;
-            Attack = 15f;
-            Defense = 8f;
-            Speed = 75f;
-            Level = 1;
 
             // 初始化装备和技能
             InitializeWeapons();
             InitializeEquipments();
             InitializeSkills();
-            // 初始化职业系统默认值
-            _statModifiers.Clear();
-            ActiveCrossPassiveIds.Clear();
-            // 记录基础属性
-            _baseAttack = Attack;
-            _baseDefense = Defense;
-            _baseSpeed = Speed;
-            _baseMaxHealth = MaxHealth;
-            _baseMaxMana = MaxMana;
+
+            // Initial calculation
+            CalculateStats();
+            Health = MaxHealth;
         }
 
         /// <summary>
@@ -230,7 +340,7 @@ namespace hd2dtest.Scripts.Modules
             CurrentWeapon = weapon;
 
             // 更新攻击属性
-            Attack = weapon.AttackPower;
+            CalculateStats();
 
             Log.Info($"Equipped weapon: {weapon.WeaponName}");
         }
@@ -256,9 +366,7 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 更新属性
-            Defense += equipment.Defense;
-            MaxHealth += equipment.Health;
-            Health += equipment.Health;
+            CalculateStats();
 
             Log.Info($"Equipped equipment: {equipment.EquipmentName}");
         }
@@ -281,13 +389,6 @@ namespace hd2dtest.Scripts.Modules
             }
 
             Skill skill = Skills[skillIndex];
-            if (!string.IsNullOrEmpty(skill.Id))
-            {
-                if (_skillCooldownRemaining.TryGetValue(skill.Id, out var remain) && remain > 0.0)
-                {
-                    return false;
-                }
-            }
 
             // TODO：区分攻击技能
             // 使用技能 - 直接调用目标的TakeDamage或Heal方法
@@ -303,10 +404,6 @@ namespace hd2dtest.Scripts.Modules
                 }
             }
             
-            if (!string.IsNullOrEmpty(skill.Id))
-            {
-                _skillCooldownRemaining[skill.Id] = Math.Max(skill.Cooldown, 0.0f);
-            }
 
             Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, dealing {damage:F1} damage.");
 
@@ -360,10 +457,9 @@ namespace hd2dtest.Scripts.Modules
                 Experience -= requiredExp;
 
                 // 升级属性
-                MaxHealth += 10f;
-                Health = MaxHealth;
-                Attack += 2f;
-                Defense += 1f;
+                CalculateStats();
+                Health = MaxHealth; // Heal on level up? Or just increase max? Usually restore full in some RPGs.
+                // Let's just restore full for now as per original code implication (Health = MaxHealth)
 
                 Log.Info($"Level up! Now level {Level}");
             }
@@ -394,188 +490,6 @@ namespace hd2dtest.Scripts.Modules
         public override string GetCreatureInfo()
         {
             return $"{base.GetCreatureInfo()} - Gold: {Gold} - Kills: {KillCount} - Deaths: {DeathCount}";
-        }
-
-        public bool UnlockProfession(string professionId)
-        {
-            if (string.IsNullOrWhiteSpace(professionId)) return false;
-            UnlockedProfessionIds.Add(professionId);
-            Log.Info($"Unlocked profession: {professionId}");
-            return true;
-        }
-
-        public bool SetMainProfession(string professionId)
-        {
-            if (string.IsNullOrWhiteSpace(professionId)) return false;
-            if (!UnlockedProfessionIds.Contains(professionId)) return false;
-            if (DateTime.UtcNow < _nextSwitchAllowedAt) return false;
-            MainProfessionId = professionId;
-            _nextSwitchAllowedAt = DateTime.UtcNow.AddSeconds(ProfessionSwitchCooldownSeconds);
-            Log.Info($"Switched main profession to: {professionId}");
-            RebuildActivePassives();
-            RecalculateDerivedStats();
-            return true;
-        }
-
-        public bool AddSubProfession(string professionId)
-        {
-            if (string.IsNullOrWhiteSpace(professionId)) return false;
-            if (!UnlockedProfessionIds.Contains(professionId)) return false;
-            if (SubProfessionIds.Contains(professionId)) return false;
-            SubProfessionIds.Add(professionId);
-            Log.Info($"Added sub profession: {professionId}");
-            RebuildActivePassives();
-            RecalculateDerivedStats();
-            return true;
-        }
-
-        public bool RemoveSubProfession(string professionId)
-        {
-            if (!SubProfessionIds.Remove(professionId)) return false;
-            Log.Info($"Removed sub profession: {professionId}");
-            RebuildActivePassives();
-            RecalculateDerivedStats();
-            return true;
-        }
-
-        public bool LearnPassive(string professionId, string passiveId, bool inSubProfessionState)
-        {
-            if (string.IsNullOrWhiteSpace(passiveId)) return false;
-            var def = ProfessionRegistry.GetPassive(passiveId);
-            if (def == null) return false;
-            var owned = new PassiveOwnership
-            {
-                PassiveId = passiveId,
-                SourceProfessionId = professionId ?? "",
-                Mastered = inSubProfessionState
-            };
-            OwnedPassives[passiveId] = owned;
-            Log.Info($"Learned passive {passiveId} from {professionId}, mastered={owned.Mastered}");
-            RebuildActivePassives();
-            RecalculateDerivedStats();
-            return true;
-        }
-
-        public IReadOnlyList<string> GetAllActivePassiveIds()
-        {
-            List<string> result = [];
-            if (!string.IsNullOrEmpty(MainProfessionId))
-            {
-                var p = ProfessionRegistry.GetProfession(MainProfessionId);
-                if (p != null)
-                {
-                    foreach (var ps in p.Passives)
-                    {
-                        // 主职业专属和通用都可生效
-                        if (ps.Category == PassiveCategory.MainExclusive || ps.Category == PassiveCategory.General)
-                            result.Add(ps.Id);
-                    }
-                }
-            }
-            // 已掌握的跨职业被动（来自其他职业）
-            var cross = ActiveCrossPassiveIds.Where(id =>
-            {
-                if (!OwnedPassives.TryGetValue(id, out var own)) return false;
-                return own.Mastered && own.SourceProfessionId != MainProfessionId;
-            }).ToList();
-            result.AddRange(FilterConflictsByPriority(cross));
-            return result;
-        }
-
-        private List<string> FilterConflictsByPriority(List<string> ids)
-        {
-            var sorted = ids
-                .Select(id => (id, def: ProfessionRegistry.GetPassive(id)))
-                .Where(t => t.def != null)
-                .OrderByDescending(t => t.def.Priority)
-                .Select(t => t.id)
-                .ToList();
-
-            var chosen = new List<string>();
-            var conflicts = new HashSet<string>();
-            foreach (var id in sorted)
-            {
-                var def = ProfessionRegistry.GetPassive(id);
-                if (def == null) continue;
-                if (def.ConflictsWith.Any(c => conflicts.Contains(c)) ||
-                    def.ConflictsWith.Contains(id))
-                {
-                    continue;
-                }
-                chosen.Add(id);
-                foreach (var c in def.ConflictsWith) conflicts.Add(c);
-                conflicts.Add(id);
-            }
-            return chosen;
-        }
-
-        public void SetActiveCrossPassives(IEnumerable<string> desiredIds)
-        {
-            var pool = desiredIds?
-                .Select(id => ProfessionRegistry.GetPassive(id))
-                .Where(def => def != null)
-                .OrderByDescending(def => def.Priority)
-                .Select(def => def.Id)
-                .ToList() ?? [];
-
-            var filtered = FilterConflictsByPriority(pool);
-            ActiveCrossPassiveIds = filtered
-                .Take(MaxActiveCrossPassives)
-                .ToList();
-            Log.Info($"Active cross passives: {string.Join(",", ActiveCrossPassiveIds)}");
-            RecalculateDerivedStats();
-        }
-
-        private void RebuildActivePassives()
-        {
-            // 自动修正超限和冲突
-            SetActiveCrossPassives(ActiveCrossPassiveIds);
-        }
-
-        private void RecalculateDerivedStats()
-        {
-            _statModifiers.Clear();
-            // 汇总所有生效被动的效果
-            var active = GetAllActivePassiveIds();
-            var appliedByGroup = new Dictionary<string, (int priority, PassiveEffect effect)>();
-            foreach (var id in active)
-            {
-                var def = ProfessionRegistry.GetPassive(id);
-                if (def == null) continue;
-                foreach (var eff in def.Effects)
-                {
-                    var key = eff.StackGroup ?? "";
-                    if (!appliedByGroup.TryGetValue(key, out var exist) || def.Priority > exist.priority)
-                    {
-                        appliedByGroup[key] = (def.Priority, eff);
-                    }
-                }
-            }
-            foreach (var kv in appliedByGroup.Values)
-            {
-                var eff = kv.effect;
-                if (!_statModifiers.ContainsKey(eff.Stat)) _statModifiers[eff.Stat] = 0f;
-                _statModifiers[eff.Stat] += eff.Value;
-            }
-            // 应用到可见属性（基于基础值）
-            Attack = Math.Max(0f, _baseAttack + GetStatMod("Attack"));
-            Defense = Math.Max(0f, _baseDefense + GetStatMod("Defense"));
-            Speed = Math.Max(0f, _baseSpeed + GetStatMod("Speed"));
-            MaxHealth = Math.Max(1f, _baseMaxHealth + GetStatMod("MaxHealth"));
-            MaxMana = Math.Max(0f, _baseMaxMana + GetStatMod("MaxMana"));
-        }
-
-        private float GetStatMod(string stat) => _statModifiers.TryGetValue(stat, out var v) ? v : 0f;
-
-        public void TickSkillCooldowns(double deltaSeconds)
-        {
-            var keys = _skillCooldownRemaining.Keys.ToList();
-            foreach (var k in keys)
-            {
-                var v = _skillCooldownRemaining[k];
-                v = Math.Max(0.0, v - deltaSeconds);
-                _skillCooldownRemaining[k] = v;
-            }
         }
     }
 }

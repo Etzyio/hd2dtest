@@ -34,21 +34,21 @@ subdivide_depth = 10
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0"]
 
-[node name="First" type="Node" unique_id=70429550]
+[node name="First" type="Node" unique_id=1916760282]
 script = ExtResource("1_w0tih")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1628802709]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1510661169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.74757, 14.889641, 7.133486)
 light_color = Color(0.8437817, 0.6801794, 0.60681045, 1)
 
-[node name="player" type="CharacterBody3D" parent="." unique_id=295868962]
+[node name="player" type="CharacterBody3D" parent="." unique_id=1435723394]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2235584, 9.019119)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="player" unique_id=435410414]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player" unique_id=934605664]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 4.7683716e-07, 0)
 shape = SubResource("CylinderShape3D_r08f3")
 
-[node name="Camera3D" type="Camera3D" parent="player" unique_id=374754087]
+[node name="Camera3D" type="Camera3D" parent="player" unique_id=1335598232]
 transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0.03022194, 2.3575783, 7.0428123)
 environment = SubResource("Environment_r08f3")
 attributes = SubResource("CameraAttributesPractical_68kv2")
@@ -56,19 +56,19 @@ compositor = SubResource("Compositor_psmp4")
 projection = 1
 size = 8.281
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="player" unique_id=752792065]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="player" unique_id=1164162008]
 mesh = SubResource("BoxMesh_r08f3")
 skin = SubResource("Skin_68kv2")
 surface_material_override/0 = SubResource("StandardMaterial3D_psmp4")
 
-[node name="floor" type="StaticBody3D" parent="." unique_id=1135258666]
+[node name="floor" type="StaticBody3D" parent="." unique_id=1353661710]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=1746992871]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=1438560629]
 mesh = SubResource("PlaneMesh_0")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="floor" unique_id=1816851295]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor" unique_id=315311461]
 shape = SubResource("BoxShape3D_0")
 
-[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=179832514]
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1150336499]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.202199, 1.6819268, -0.026011467)
 polygon = PackedVector2Array(-1.6727376, -1.8377997, -0.97376084, 2.7815237, 2.5757556, 1.8790753, 1.1638846, -0.8182658)
