@@ -63,18 +63,56 @@ namespace hd2dtest.Scripts.Utilities
                     baseDamageAfterDefense += skilldefent.DamageCoefficient * weaknessMultiplier;
                     list1.Add((int)baseDamageAfterDefense);
                 } else if(skilldefent.Type == Skill.SkillType.Defense){
-                    // TODO: 防御技能可能减少伤害，这里简单处理为减少攻击力
-                    baseDamageAfterDefense -= skilldefent.DamageCoefficient * weaknessMultiplier;
+                    // 防御技能：临时提升防御力，不直接参与伤害计算
+                    // 防御效果通过Buff系统实现
+                    continue;
                 } else if(skilldefent.Type == Skill.SkillType.Support){
-                    // TODO: 支持技能可能增加攻击力或防御力，这里简单处理为增加攻击力
-                    baseDamageAfterDefense += skilldefent.DamageCoefficient * weaknessMultiplier;
+                    // 支持技能：提供增益效果，通过Buff系统实现
+                    // 支持效果通过Buff系统实现
+                    continue;
                 } else if(skilldefent.Type == Skill.SkillType.Healing){
-                    // TODO: 治疗技能不影响伤害计算，这里可以根据需要进行调整
-                    baseDamageAfterDefense += 0 * weaknessMultiplier; // 治疗技能不增加伤害
+                    // 治疗技能：不造成伤害，通过治疗系统实现
+                    // 治疗技能不增加伤害，跳过伤害计算
+                    continue;
                 }
             }
 
             return list1;
+        }
+
+        /// <summary>
+        /// 计算技能伤害（用于技能事件系统）
+        /// </summary>
+        /// <param name="caster">施法者</param>
+        /// <param name="target">目标</param>
+        /// <param name="baseDamage">基础伤害</param>
+        /// <param name="damageType">伤害类型</param>
+        /// <returns>最终伤害值</returns>
+        public static float CalculateSkillDamage(Creature caster, Creature target, float baseDamage, string damageType)
+        {
+            if (caster == null || target == null) return 0f;
+
+            // 计算基础伤害（考虑防御）
+            float finalDamage = Math.Max(1f, baseDamage - target.Defense * 0.1f);
+
+            // 检查弱点加成
+            var weaknessMultiplier = 1.0f;
+            if (target.Weaknesses != null)
+            {
+                var targetWeakness = target.Weaknesses.FirstOrDefault(w => w.Type.Equals(damageType, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrEmpty(targetWeakness.Type))
+                {
+                    weaknessMultiplier = 1.3f; // 弱点伤害加成30%
+                }
+            }
+
+            finalDamage *= weaknessMultiplier;
+
+            // 添加随机波动（±10%）
+            float randomMultiplier = RandRange(0.9f, 1.1f);
+            finalDamage *= randomMultiplier;
+
+            return Math.Max(0f, finalDamage);
         }
     }
 }
