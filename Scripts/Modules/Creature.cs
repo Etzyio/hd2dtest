@@ -156,6 +156,28 @@ namespace hd2dtest.Scripts.Modules
         }
 
         /// <summary>
+        /// 受到伤害（指定伤害值和类型）
+        /// </summary>
+        /// <param name="amount">伤害值</param>
+        /// <param name="damageType">伤害类型</param>
+        public virtual void TakeDamage(float amount, string damageType)
+        {
+            if (!IsAlive) return;
+
+            // 这里可以添加伤害类型相关的逻辑，例如抗性计算
+            // 目前简化处理，直接扣除生命值
+            
+            Health -= amount;
+
+            // 检查是否死亡
+            if (Health <= 0f)
+            {
+                Health = 0f;
+                Die();
+            }
+        }
+
+        /// <summary>
         /// 恢复生命值
         /// </summary>
         /// <param name="creature">治疗来源生物</param>

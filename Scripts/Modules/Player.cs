@@ -4,6 +4,7 @@ using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
 using Godot;
+using hd2dtest.Scripts.Modules.SkillSystem;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -311,9 +312,17 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         private void InitializeSkills()
         {
+            // 初始化技能管理器
+            SkillManager.Initialize();
 
-            //TODO：增加skill
-            // Skills.Add(defaultSkill);
+            // 获取玩家初始技能
+            var initialSkills = SkillManager.CreatePlayerInitialSkills();
+            foreach (var skill in initialSkills)
+            {
+                Skills.Add(skill);
+            }
+
+            Log.Info($"Initialized player with {Skills.Count} skills");
         }
 
         /// <summary>
@@ -390,22 +399,61 @@ namespace hd2dtest.Scripts.Modules
 
             Skill skill = Skills[skillIndex];
 
-            // TODO：区分攻击技能
-            // 使用技能 - 直接调用目标的TakeDamage或Heal方法
-            List<int> damage = [];
-            foreach(var skillDefent in skill.SkillDefs){
-                if (skillDefent.Type == Skill.SkillType.Attack)
+            // 区分不同技能类型并处理相应效果
+            List<int> damageResults = new List<int>();
+            List<string> effectDescriptions = new List<string>();
+            
+            foreach(var skillDefent in skill.SkillDefs)
+            {
+                switch (skillDefent.Type)
                 {
-                    damage = target.TakeDamage(this, skill);
-                }
-                else if (skillDefent.Type == Skill.SkillType.Healing)
-                {
-                    damage = this.Heal(this, skill);
+                    case Skill.SkillType.Attack:
+                        // 攻击技能：造成伤害
+                        var attackDamage = target.TakeDamage(this, skill);
+                        damageResults.AddRange(attackDamage);
+                        effectDescriptions.Add($"造成 {string.Join(", ", attackDamage)} 点伤害");
+                        break;
+                        
+                    case Skill.SkillType.Healing:
+                        // 治疗技能：恢复生命值
+                        var healAmount = this.Heal(this, skill);
+                        damageResults.AddRange(healAmount);
+                        effectDescriptions.Add($"恢复 {string.Join(", ", healAmount)} 点生命值");
+                        break;
+                        
+                    case Skill.SkillType.Defense:
+                        // 防御技能：应用防御Buff
+                        if (BuffManagerInstance.Instance != null)
+                        {
+                            string defenseBuffId = $"defense_boost_{this.GetInstanceId()}";
+                            var defenseBuff = PlayerSkillHelper.CreateDefenseBuff(defenseBuffId, skillDefent.DamageCoefficient, skillDefent.Duration);
+                            BuffManagerInstance.Instance.RegisterBuffTemplate(defenseBuff);
+                            this.AddBuff(defenseBuffId, this);
+                            effectDescriptions.Add($"提升防御力 {skillDefent.DamageCoefficient * 100:F0}%");
+                        }
+                        break;
+                        
+                    case Skill.SkillType.Support:
+                        // 支持技能：应用支持Buff
+                        if (BuffManagerInstance.Instance != null)
+                        {
+                            string supportBuffId = $"attack_boost_{this.GetInstanceId()}";
+                            var supportBuff = PlayerSkillHelper.CreateAttackBuff(supportBuffId, skillDefent.DamageCoefficient, skillDefent.Duration);
+                            BuffManagerInstance.Instance.RegisterBuffTemplate(supportBuff);
+                            this.AddBuff(supportBuffId, this);
+                            effectDescriptions.Add($"提升攻击力 {skillDefent.DamageCoefficient * 100:F0}%");
+                        }
+                        break;
+                        
+                    default:
+                        Log.Warning($"Unknown skill type: {skillDefent.Type}");
+                        break;
                 }
             }
             
-
-            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, dealing {damage:F1} damage.");
+            // 记录技能使用日志
+            string effectsText = effectDescriptions.Count > 0 ? string.Join(", ", effectDescriptions) : "无效果";
+            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, effects: {effectsText}");
 
             return true;
         }

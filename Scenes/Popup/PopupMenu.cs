@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Core;
@@ -43,36 +44,68 @@ namespace hd2dtest.Scenes.Popup
 		/// 主菜单面板
 		/// </summary>
 		private Control _mainMenuPanel;
-
-		/// <summary>
-		/// 物品列表
-		/// </summary>
-		private ItemList _itemList;
 		
 		/// <summary>
-		/// 物品描述
+		/// 主菜单按钮
 		/// </summary>
-		private Label _itemDescription;
+		private Button _inventoryButton;
+		
+		/// <summary>
+		/// 地图按钮
+		/// </summary>
+		private Button _mapButton;
+		
+		/// <summary>
+		/// 状态按钮
+		/// </summary>
+		private Button _statusButton;
+		
+		/// <summary>
+		/// 装备按钮
+		/// </summary>
+		private Button _equipmentButton;
+		
+		/// <summary>
+		/// 设置按钮
+		/// </summary>
+		private Button _settingsButton;
+		
+		/// <summary>
+		/// 保存按钮
+		/// </summary>
+		private Button _saveButton;
+		
+		/// <summary>
+		/// 返回按钮
+		/// </summary>
+		private Button _backButton;
 		
 		/// <summary>
 		/// 玩家实例
 		/// </summary>
 		private Player _player;
+		
+		/// <summary>
+		/// 存档选择器
+		/// </summary>
+		private SaveSlotSelector _saveSlotSelector;
 
 		/// <summary>
-		/// 节点就绪时的回调
-		/// 初始化面板、UI元素、按钮连接和设置
+		/// 初始化方法，在节点进入场景树时调用
 		/// </summary>
 		public override void _Ready()
 		{
-			// 初始化面板引用
+			// 初始化面板
 			InitializePanels();
-
+			
 			// 初始化UI元素引用
 			InitializeUIReferences();
 
 			// 尝试获取玩家实例
 			FindPlayer();
+
+			// 初始化存档选择器
+			InitializeSaveSlotSelector();
 
 			// 连接按钮信号
 			ConnectButtons();
@@ -85,8 +118,111 @@ namespace hd2dtest.Scenes.Popup
 		}
 
 		/// <summary>
+		/// 初始化存档选择器
+		/// </summary>
+		private void InitializeSaveSlotSelector()
+		{
+			_saveSlotSelector = new SaveSlotSelector
+			{
+				Name = "SaveSlotSelector",
+				Visible = false,
+				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+				SizeFlagsVertical = Control.SizeFlags.ExpandFill
+			};
+			
+			AddChild(_saveSlotSelector);
+			
+			// 连接存档选择器的信号
+			_saveSlotSelector.SaveSlotSelected += OnSaveSlotSelected;
+			_saveSlotSelector.SaveSlotDeleted += OnSaveSlotDeleted;
+		}
+
+		/// <summary>
+		/// 存档槽位选择事件
+		/// </summary>
+		private void OnSaveSlotSelected(string slotId)
+		{
+			// 使用Godot的日志系统
+			GD.Print($"Selected save slot: {slotId}");
+			
+			// 执行保存操作
+			PerformSaveGame(slotId);
+			
+			// 隐藏存档选择器
+			_saveSlotSelector.HideSelector();
+		}
+
+		/// <summary>
+		/// 存档删除事件
+		/// </summary>
+		private void OnSaveSlotDeleted(string slotId)
+		{
+			// 使用Godot的日志系统
+			GD.Print($"Deleted save slot: {slotId}");
+			// 可以在这里添加删除成功的提示
+			ShowToast($"存档 {slotId} 已删除");
+		}
+
+		/// <summary>
+		/// 执行游戏保存
+		/// </summary>
+		private void PerformSaveGame(string slotId)
+		{
+			if (SaveManager.Instance != null)
+			{
+				var saveData = SaveManager.CreateDefaultSaveData(slotId);
+				if (saveData != null)
+				{
+					// 更新玩家数据
+					if (_player != null)
+					{
+						if (saveData.Players.Count > 0)
+						{
+							var playerData = saveData.Players[0];
+							playerData.Health = _player.Health;
+							playerData.Mana = _player.Mana;
+							playerData.Inventory = _player.Inventory;
+							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
+							
+							// 更新扩展属性
+							playerData.Level = _player.Level;
+							playerData.Experience = _player.Experience;
+							playerData.Gold = _player.Gold;
+							playerData.KillCount = _player.KillCount;
+							playerData.DeathCount = _player.DeathCount;
+							playerData.MainClassName = _player.MainClass?.ClassName;
+							playerData.SubClassName = _player.SubClass?.ClassName;
+							playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
+							playerData.Attack = (int)_player.Attack;
+							playerData.Defense = (int)_player.Defense;
+							playerData.Speed = _player.Speed;
+							playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
+							playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
+							playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
+						}
+					}
+
+					bool success = SaveManager.Instance.SaveGame(saveData, slotId);
+					if (success)
+					{
+						// 显示保存成功提示
+						ShowToast($"游戏已保存到 {slotId}");
+						// 使用Godot的日志系统
+						GD.Print($"Game saved successfully to slot: {slotId}");
+					}
+					else
+					{
+						// 显示保存失败提示
+						ShowToast("游戏保存失败");
+						// 使用Godot的日志系统
+						GD.PrintErr($"Failed to save game to slot: {slotId}");
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		/// 初始化面板引用
-		/// 获取所有面板的引用并设置默认可见性
 		/// </summary>
 		private void InitializePanels()
 		{
@@ -96,204 +232,95 @@ namespace hd2dtest.Scenes.Popup
 			_statusPanel = GetNode<Control>("StatusPanel");
 			_equipmentPanel = GetNode<Control>("EquipmentPanel");
 			_settingsPanel = GetNode<Control>("SettingsPanel");
-
-			// 默认隐藏所有面板，除了主菜单
-			_inventoryPanel.Visible = false;
-			_mapPanel.Visible = false;
-			_statusPanel.Visible = false;
-			_equipmentPanel.Visible = false;
-			_settingsPanel.Visible = false;
+			
+			// 初始时隐藏所有面板
+			_inventoryPanel.Hide();
+			_mapPanel.Hide();
+			_statusPanel.Hide();
+			_equipmentPanel.Hide();
+			_settingsPanel.Hide();
 		}
 
 		/// <summary>
 		/// 初始化UI元素引用
-		/// 获取物品列表和描述的引用并连接信号
 		/// </summary>
 		private void InitializeUIReferences()
 		{
-			// 获取物品列表和描述
-			_itemList = _inventoryPanel.GetNode<ItemList>("VBoxContainer/ItemList");
-			_itemDescription = _inventoryPanel.GetNode<Label>("VBoxContainer/ItemDescription");
-
-			// 连接物品列表信号
-			if (_itemList != null)
-			{
-				_itemList.ItemSelected += OnItemSelected;
-			}
+			_inventoryButton = GetNode<Button>("VBoxContainer/GridContainer/InventoryButton");
+			_mapButton = GetNode<Button>("VBoxContainer/GridContainer/MapButton");
+			_statusButton = GetNode<Button>("VBoxContainer/GridContainer/StatusButton");
+			_equipmentButton = GetNode<Button>("VBoxContainer/GridContainer/EquipmentButton");
+			_settingsButton = GetNode<Button>("VBoxContainer/GridContainer/SettingsButton");
+			_saveButton = GetNode<Button>("VBoxContainer/GridContainer/SaveButton");
+			_backButton = GetNode<Button>("VBoxContainer/GridContainer/BackButton");
 		}
 
 		/// <summary>
 		/// 查找玩家实例
-		/// 尝试从场景树或SaveManager获取玩家实例
 		/// </summary>
 		private void FindPlayer()
 		{
-			// 尝试从场景树中获取玩家实例
-			var root = GetTree().Root;
-			_player = null;
-
-			// 简化查找过程，直接使用SaveManager中的玩家实例
-			if (SaveManager.Instance != null)
+			// 尝试从场景中查找玩家节点
+			_player = GetTree().Root.GetNodeOrNull<Player>("Main/Player");
+			if (_player == null)
 			{
-				// 这里可以从SaveManager获取玩家实例
-				// 或者使用其他方式获取玩家
-				Log.Info("Using SaveManager to find player in PopupMenu");
-			}
-
-			if (_player != null)
-			{
-				Log.Info("Player found in PopupMenu");
-				UpdateInventoryList();
-				UpdateStatusPanel();
-			}
-			else
-			{
-				Log.Info("Player not found in PopupMenu");
+				// 使用Godot的日志系统
+				GD.PrintErr("Player not found in scene. Some functionality may be limited.");
 			}
 		}
 
 		/// <summary>
 		/// 连接按钮信号
-		/// 连接所有面板的按钮信号
 		/// </summary>
 		private void ConnectButtons()
 		{
-			// 主菜单按钮
-			var inventoryButton = GetNode<Button>("VBoxContainer/GridContainer/InventoryButton");
-			var mapButton = GetNode<Button>("VBoxContainer/GridContainer/MapButton");
-			var statusButton = GetNode<Button>("VBoxContainer/GridContainer/StatusButton");
-			var equipmentButton = GetNode<Button>("VBoxContainer/GridContainer/EquipmentButton");
-			var settingsButton = GetNode<Button>("VBoxContainer/GridContainer/SettingsButton");
-			var saveButton = GetNode<Button>("VBoxContainer/GridContainer/SaveButton");
-			var backButton = GetNode<Button>("VBoxContainer/GridContainer/BackButton");
-			var exitButton = GetNode<Button>("VBoxContainer/GridContainer/ExitButton");
-
-			// 连接主菜单按钮信号
-			inventoryButton.Pressed += OnInventoryButtonPressed;
-			mapButton.Pressed += OnMapButtonPressed;
-			statusButton.Pressed += OnStatusButtonPressed;
-			equipmentButton.Pressed += OnEquipmentButtonPressed;
-			settingsButton.Pressed += OnSettingsButtonPressed;
-			saveButton.Pressed += OnSaveButtonPressed;
-			backButton.Pressed += OnBackButtonPressed;
-			exitButton.Pressed += OnExitButtonPressed;
-
-			// 连接各个面板的返回按钮
-			var inventoryBackButton = _inventoryPanel.GetNode<Button>("VBoxContainer/BackButton");
-			var mapBackButton = _mapPanel.GetNode<Button>("VBoxContainer/BackButton");
-			var statusBackButton = _statusPanel.GetNode<Button>("VBoxContainer/BackButton");
-			var equipmentBackButton = _equipmentPanel.GetNode<Button>("VBoxContainer/BackButton");
-			var settingsBackButton = _settingsPanel.GetNode<Button>("VBoxContainer/BackButton");
-
-			inventoryBackButton.Pressed += OnBackButtonPressed;
-			mapBackButton.Pressed += OnBackButtonPressed;
-			statusBackButton.Pressed += OnBackButtonPressed;
-			equipmentBackButton.Pressed += OnBackButtonPressed;
-			settingsBackButton.Pressed += OnBackButtonPressed;
-
-			// 连接设置面板按钮
-			var saveSettingsButton = _settingsPanel.GetNode<Button>("VBoxContainer/HBoxContainer4/SaveButton");
-			var resetSettingsButton = _settingsPanel.GetNode<Button>("VBoxContainer/HBoxContainer4/ResetButton");
-
-			saveSettingsButton.Pressed += OnSaveSettingsButtonPressed;
-			resetSettingsButton.Pressed += OnResetSettingsButtonPressed;
+			_inventoryButton.Pressed += OnInventoryButtonPressed;
+			_mapButton.Pressed += OnMapButtonPressed;
+			_statusButton.Pressed += OnStatusButtonPressed;
+			_equipmentButton.Pressed += OnEquipmentButtonPressed;
+			_settingsButton.Pressed += OnSettingsButtonPressed;
+			_saveButton.Pressed += OnSaveButtonPressed;
+			_backButton.Pressed += OnBackButtonPressed;
 		}
 
 		/// <summary>
-		/// 初始化设置面板
-		/// 设置图形质量选项
-		/// </summary>
-		private void InitializeSettingsPanel()
-		{
-			// 初始化设置面板的选项
-			var optionButton = _settingsPanel.GetNode<OptionButton>("VBoxContainer/VBoxContainer/OptionButton");
-			optionButton.Clear();
-			optionButton.AddItem(TranslationServer.Translate("low"));
-			optionButton.AddItem(TranslationServer.Translate("medium"));
-			optionButton.AddItem(TranslationServer.Translate("high"));
-			optionButton.AddItem(TranslationServer.Translate("ultra"));
-			optionButton.Selected = 2; // 默认选择 High
-		}
-
-		/// <summary>
-		/// 显示主菜单
+		/// 显示主菜单面板
 		/// </summary>
 		private void ShowMainMenu()
 		{
 			// 隐藏所有面板
-			_inventoryPanel.Visible = false;
-			_mapPanel.Visible = false;
-			_statusPanel.Visible = false;
-			_equipmentPanel.Visible = false;
-			_settingsPanel.Visible = false;
-
+			HideAllPanels();
+			
 			// 显示主菜单
-			_mainMenuPanel.Visible = true;
+			_mainMenuPanel.Show();
+		}
+
+		/// <summary>
+		/// 隐藏所有面板
+		/// </summary>
+		private void HideAllPanels()
+		{
+			_mainMenuPanel.Hide();
+			_inventoryPanel.Hide();
+			_mapPanel.Hide();
+			_statusPanel.Hide();
+			_equipmentPanel.Hide();
+			_settingsPanel.Hide();
+			
+			// 隐藏存档选择器
+			if (_saveSlotSelector != null)
+			{
+				_saveSlotSelector.HideSelector();
+			}
 		}
 
 		/// <summary>
 		/// 显示指定面板
 		/// </summary>
-		/// <param name="panel">要显示的面板</param>
 		private void ShowPanel(Control panel)
 		{
-			// 隐藏所有面板
-			_mainMenuPanel.Visible = false;
-			_inventoryPanel.Visible = false;
-			_mapPanel.Visible = false;
-			_statusPanel.Visible = false;
-			_equipmentPanel.Visible = false;
-			_settingsPanel.Visible = false;
-
-			// 显示指定面板
-			panel.Visible = true;
-		}
-
-		/// <summary>
-		/// 更新物品列表
-		/// </summary>
-		private void UpdateInventoryList()
-		{
-			if (_player != null && _player.Inventory != null)
-			{
-				_itemList.Clear();
-				foreach (var item in _player.Inventory)
-				{
-					_itemList.AddItem($"{item.Key} x{item.Value}");
-				}
-			}
-		}
-
-		/// <summary>
-		/// 更新状态面板
-		/// </summary>
-		private void UpdateStatusPanel()
-		{
-			if (_player != null)
-			{
-				var nameLabel = _statusPanel.GetNode<Label>("VBoxContainer/PlayerStatus/NameLabel");
-				var healthLabel = _statusPanel.GetNode<Label>("VBoxContainer/PlayerStatus/HealthLabel");
-				var manaLabel = _statusPanel.GetNode<Label>("VBoxContainer/PlayerStatus/ManaLabel");
-				var levelLabel = _statusPanel.GetNode<Label>("VBoxContainer/PlayerStatus/LevelLabel");
-
-				nameLabel.Text = _player.CreatureName;
-				healthLabel.Text = string.Format(TranslationServer.Translate("health_label"), _player.Health.ToString("F0"), _player.MaxHealth.ToString("F0"));
-				manaLabel.Text = string.Format(TranslationServer.Translate("mana_label"), _player.Mana.ToString("F0"), _player.MaxMana.ToString("F0"));
-				levelLabel.Text = string.Format(TranslationServer.Translate("level_label"), _player.Level);
-			}
-		}
-
-		/// <summary>
-		/// 物品选择事件
-		/// </summary>
-		/// <param name="index">物品索引</param>
-		private void OnItemSelected(long index)
-		{
-			if (_player != null && _player.Inventory != null && index < _player.Inventory.Count)
-			{
-				var item = _player.Inventory.ElementAt((int)index);
-				_itemDescription.Text = string.Format(TranslationServer.Translate("item_description"), item.Key, item.Value);
-			}
+			HideAllPanels();
+			panel.Show();
 		}
 
 		/// <summary>
@@ -302,6 +329,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnInventoryButtonPressed()
 		{
 			ShowPanel(_inventoryPanel);
+			// 使用Godot的日志系统
+			GD.Print("Inventory panel opened");
 		}
 
 		/// <summary>
@@ -310,6 +339,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnMapButtonPressed()
 		{
 			ShowPanel(_mapPanel);
+			// 使用Godot的日志系统
+			GD.Print("Map panel opened");
 		}
 
 		/// <summary>
@@ -317,8 +348,9 @@ namespace hd2dtest.Scenes.Popup
 		/// </summary>
 		private void OnStatusButtonPressed()
 		{
-			UpdateStatusPanel();
 			ShowPanel(_statusPanel);
+			// 使用Godot的日志系统
+			GD.Print("Status panel opened");
 		}
 
 		/// <summary>
@@ -327,6 +359,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnEquipmentButtonPressed()
 		{
 			ShowPanel(_equipmentPanel);
+			// 使用Godot的日志系统
+			GD.Print("Equipment panel opened");
 		}
 
 		/// <summary>
@@ -335,15 +369,36 @@ namespace hd2dtest.Scenes.Popup
 		private void OnSettingsButtonPressed()
 		{
 			ShowPanel(_settingsPanel);
+			// 使用Godot的日志系统
+			GD.Print("Settings panel opened");
 		}
 
 		/// <summary>
-		/// 保存按钮点击事件
+		/// 保存按钮点击事件 - 现在显示存档选择器
 		/// </summary>
 		private void OnSaveButtonPressed()
 		{
-			//TODO: 在保存游戏时可以任意选择存档。
-			// 保存游戏
+			// 显示存档选择器而不是直接保存
+			if (_saveSlotSelector != null)
+			{
+				_saveSlotSelector.ShowSelector();
+				// 使用Godot的日志系统
+				GD.Print("Save slot selector opened");
+			}
+			else
+			{
+				// 如果存档选择器未初始化，回退到原来的保存逻辑
+				// 使用Godot的日志系统
+				GD.PrintErr("Save slot selector not available, falling back to quick save");
+				PerformQuickSave();
+			}
+		}
+
+		/// <summary>
+		/// 快速保存（回退方案）
+		/// </summary>
+		private void PerformQuickSave()
+		{
 			if (SaveManager.Instance != null)
 			{
 				var saveData = SaveManager.CreateDefaultSaveData("quick_save");
@@ -359,22 +414,22 @@ namespace hd2dtest.Scenes.Popup
 							playerData.Mana = _player.Mana;
 							playerData.Inventory = _player.Inventory;
 							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
-                            
-                            // 更新扩展属性
-                            playerData.Level = _player.Level;
-                            playerData.Experience = _player.Experience;
-                            playerData.Gold = _player.Gold;
-                            playerData.KillCount = _player.KillCount;
-                            playerData.DeathCount = _player.DeathCount;
-                            playerData.MainClassName = _player.MainClass?.ClassName;
-                            playerData.SubClassName = _player.SubClass?.ClassName;
-                            playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
-                            playerData.Attack = (int)_player.Attack;
-                            playerData.Defense = (int)_player.Defense;
-                            playerData.Speed = _player.Speed;
-                            playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
-                            playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
-                            playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
+							
+							// 更新扩展属性
+							playerData.Level = _player.Level;
+							playerData.Experience = _player.Experience;
+							playerData.Gold = _player.Gold;
+							playerData.KillCount = _player.KillCount;
+							playerData.DeathCount = _player.DeathCount;
+							playerData.MainClassName = _player.MainClass?.ClassName;
+							playerData.SubClassName = _player.SubClass?.ClassName;
+							playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
+							playerData.Attack = (int)_player.Attack;
+							playerData.Defense = (int)_player.Defense;
+							playerData.Speed = _player.Speed;
+							playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
+							playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
+							playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
 						}
 					}
 
@@ -382,12 +437,12 @@ namespace hd2dtest.Scenes.Popup
 					if (success)
 					{
 						// 显示保存成功提示
-						ShowToast(TranslationServer.Translate("game_saved_successfully"));
+						ShowToast("游戏已保存");
 					}
 					else
 					{
 						// 显示保存失败提示
-						ShowToast(TranslationServer.Translate("game_save_failed"));
+						ShowToast("游戏保存失败");
 					}
 				}
 			}
@@ -398,94 +453,56 @@ namespace hd2dtest.Scenes.Popup
 		/// </summary>
 		private void OnBackButtonPressed()
 		{
-			// 检查当前是否显示的是主菜单
-			if (_mainMenuPanel.Visible)
+			// 如果当前显示的是子面板，返回主菜单
+			if (_inventoryPanel.Visible || _mapPanel.Visible || _statusPanel.Visible || 
+			    _equipmentPanel.Visible || _settingsPanel.Visible || 
+			    (_saveSlotSelector != null && _saveSlotSelector.Visible))
 			{
-				// 如果是主菜单，则关闭整个弹窗
-				GameViewManager.ClosePopup();
+				ShowMainMenu();
+				// 使用Godot的日志系统
+				GD.Print("Returned to main menu");
 			}
 			else
 			{
-				// 如果是子面板，则返回到主菜单
-				ShowMainMenu();
+				// 如果已经在主菜单，关闭整个菜单
+				Hide();
+				// 使用Godot的日志系统
+				GD.Print("Popup menu closed");
 			}
 		}
 
 		/// <summary>
-		/// 处理输入事件
+		/// 初始化设置面板
 		/// </summary>
-		/// <param name="@event">输入事件</param>
-		public override void _Input(InputEvent @event)
+		private void InitializeSettingsPanel()
 		{
-			// 如果菜单不可见，不处理输入
-			if (!IsVisibleInTree())
-			{
-				return;
-			}
-
-			// 处理Esc键输入
-			if (@event.IsActionPressed("ui_cancel"))
-			{
-				OnBackButtonPressed();
-				// 标记输入已处理，防止传递给其他节点
-				GetViewport().SetInputAsHandled();
-			}
-		}
-
-		/// <summary>
-		/// 退出按钮点击事件
-		/// </summary>
-		private void OnExitButtonPressed()
-		{
-			// 退出到标题界面
-			GameViewManager.SwitchScene("start");
-		}
-
-		/// <summary>
-		/// 保存设置按钮点击事件
-		/// </summary>
-		private void OnSaveSettingsButtonPressed()
-		{
-			// 保存设置
-			ShowToast(TranslationServer.Translate("settings_saved"));
-		}
-
-		/// <summary>
-		/// 重置设置按钮点击事件
-		/// </summary>
-		private void OnResetSettingsButtonPressed()
-		{
-			// 重置设置到默认值
-			ShowToast(TranslationServer.Translate("settings_reset"));
+			// 这里可以添加设置面板的初始化逻辑
+			// 例如：音量控制、画质设置等
 		}
 
 		/// <summary>
 		/// 显示提示信息
 		/// </summary>
-		/// <param name="message">提示信息内容</param>
 		private void ShowToast(string message)
 		{
-			// 创建一个简单的提示信息
-			var toast = new Label
+			// 这里可以实现一个Toast提示功能
+			// 暂时使用日志记录
+			// 使用Godot的日志系统
+			GD.Print($"Toast: {message}");
+		}
+
+		/// <summary>
+		/// 输入事件处理
+		/// </summary>
+		public override void _Input(InputEvent @event)
+		{
+			if (!IsVisibleInTree()) return;
+			
+			if (@event.IsActionPressed("ui_cancel"))
 			{
-				Text = message,
-				Modulate = new Color(1, 1, 1, 0),
-				HorizontalAlignment = HorizontalAlignment.Center,
-				VerticalAlignment = VerticalAlignment.Center
-			};
-
-			AddChild(toast);
-			toast.AnchorBottom = 0.1f;
-			toast.AnchorLeft = 0.3f;
-			toast.AnchorRight = 0.7f;
-			toast.AnchorTop = 0.05f;
-
-			// 添加淡入淡出动画
-			var tween = CreateTween();
-			tween.TweenProperty(toast, "modulate:a", 1, 0.5f);
-			tween.TweenInterval(1.0f);
-			tween.TweenProperty(toast, "modulate:a", 0, 0.5f);
-			tween.Finished += () => toast.QueueFree();
+				OnBackButtonPressed();
+				GetViewport().SetInputAsHandled();
+			}
 		}
 	}
 }

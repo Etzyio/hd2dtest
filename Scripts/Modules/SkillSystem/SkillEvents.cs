@@ -17,8 +17,9 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                 float baseDamage = context.Caster.Attack * DamageMultiplier;
                 Log.Info($"[SkillEvent] Dealing {baseDamage} {DamageType} damage to {context.Target.CreatureName}");
                 
-                // TODO: Integrate with actual DamageCalculator
-                // context.Target.TakeDamage(baseDamage, DamageType); 
+                // 集成实际伤害计算器
+                var damageResult = DamageCalculator.CalculateSkillDamage(context.Caster, context.Target, baseDamage, DamageType);
+                context.Target.TakeDamage(damageResult, DamageType); 
             }
         }
     }
@@ -56,8 +57,11 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             if (context.Target != null)
             {
                 Log.Info($"[SkillEvent] Applying Buff {BuffId} (Value: {Value}) for {Duration}s to {context.Target.CreatureName}");
-                // TODO: Integrate with BuffSystem
-                // context.Target.AddBuff(BuffId, Duration, Value);
+                // 集成Buff系统
+                if (BuffManagerInstance.Instance != null)
+                {
+                    BuffManagerInstance.Instance.ApplyBuff(BuffId, context.Caster, context.Target);
+                }
             }
         }
     }
