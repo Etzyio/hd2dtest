@@ -171,17 +171,10 @@ namespace hd2dtest.Scenes.UI
                 SetManaBarColor(ManaBar, manaPercentage);
                 if (_crossPassivesLabel != null)
                 {
-                    var list = _player.GetAllActivePassiveIds();
-                    var cross = list.Where(id =>
-                    {
-                        if (_player.OwnedPassives.TryGetValue(id, out var own))
-                        {
-                            return own.SourceProfessionId != _player.MainProfessionId;
-                        }
-                        return false;
-                    });
+                    var passives = _player.EquippedPassives;
+                    var passiveNames = passives.Select(p => p.PassiveName);
+                    var passiveText = string.Join(", ", passiveNames);
                     
-                    var passiveText = string.Join(",", cross);
                     if (string.IsNullOrEmpty(passiveText))
                     {
                          _crossPassivesLabel.Text = ResourcesManager.GetLocalizedString("cross_passives_empty");

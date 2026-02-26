@@ -358,7 +358,23 @@ namespace hd2dtest.Scenes.Popup
 							playerData.Health = _player.Health;
 							playerData.Mana = _player.Mana;
 							playerData.Inventory = _player.Inventory;
-							playerData.Position = new System.Numerics.Vector2(_player.Position.X, _player.Position.Y);
+							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
+                            
+                            // 更新扩展属性
+                            playerData.Level = _player.Level;
+                            playerData.Experience = _player.Experience;
+                            playerData.Gold = _player.Gold;
+                            playerData.KillCount = _player.KillCount;
+                            playerData.DeathCount = _player.DeathCount;
+                            playerData.MainClassName = _player.MainClass?.ClassName;
+                            playerData.SubClassName = _player.SubClass?.ClassName;
+                            playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
+                            playerData.Attack = (int)_player.Attack;
+                            playerData.Defense = (int)_player.Defense;
+                            playerData.Speed = _player.Speed;
+                            playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
+                            playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
+                            playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
 						}
 					}
 
@@ -396,15 +412,23 @@ namespace hd2dtest.Scenes.Popup
 		}
 
 		/// <summary>
-		/// 处理未处理的输入事件
+		/// 处理输入事件
 		/// </summary>
 		/// <param name="@event">输入事件</param>
-		public override void _UnhandledInput(InputEvent @event)
+		public override void _Input(InputEvent @event)
 		{
+			// 如果菜单不可见，不处理输入
+			if (!IsVisibleInTree())
+			{
+				return;
+			}
+
 			// 处理Esc键输入
 			if (@event.IsActionPressed("ui_cancel"))
 			{
 				OnBackButtonPressed();
+				// 标记输入已处理，防止传递给其他节点
+				GetViewport().SetInputAsHandled();
 			}
 		}
 

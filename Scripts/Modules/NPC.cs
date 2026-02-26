@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Godot;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Managers;
@@ -87,6 +87,11 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <value>NPC的默认对话文本，默认为"Hello!"</value>
         public string Dialogue { get; set; } = "Hello!";
+
+        /// <summary>
+        /// ID of the dialogue graph to use.
+        /// </summary>
+        public string DialogueGraphId { get; set; }
 
         /// <summary>
         /// 是否可以交互
@@ -414,7 +419,14 @@ namespace hd2dtest.Scripts.Modules
             // 朝向玩家
             Direction = (player.Position - Position).Normalized();
 
-            Log.Info($"{CreatureName}: {Dialogue}");
+            if (!string.IsNullOrEmpty(DialogueGraphId) && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.StartDialogue(DialogueGraphId);
+            }
+            else
+            {
+                Log.Info($"{CreatureName}: {Dialogue}");
+            }
         }
 
         /// <summary>

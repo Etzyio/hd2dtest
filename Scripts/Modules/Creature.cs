@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Godot;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
@@ -29,61 +29,62 @@ namespace hd2dtest.Scripts.Modules
     /// <remarks>
     /// 作为游戏中所有生物（包括玩家、怪物、NPC等）的基础类，提供通用的属性和行为
     /// </remarks>
-    public class Creature
+    [GlobalClass]
+    public partial class Creature : Resource
     {
         /// <summary>
         /// 生物名称
         /// </summary>
         /// <value>生物的显示名称</value>
-        public string CreatureName { get; set; } = "Creature";
+        [Export] public string CreatureName { get; set; } = "Creature";
         
         /// <summary>
         /// 当前生命值
         /// </summary>
         /// <value>当前生命值，范围：0 到 MaxHealth</value>
-        public float Health { get; set; } = 100f;
+        [Export] public float Health { get; set; } = 100f;
         
         /// <summary>
         /// 最大生命值
         /// </summary>
         /// <value>生物的最大生命值上限</value>
-        public float MaxHealth { get; set; } = 100f;
+        [Export] public float MaxHealth { get; set; } = 100f;
         
         /// <summary>
         /// 攻击力
         /// </summary>
         /// <value>生物的基础攻击力</value>
-        public float Attack { get; set; } = 10f;
+        [Export] public float Attack { get; set; } = 10f;
         
         /// <summary>
         /// 防御力
         /// </summary>
         /// <value>生物的基础防御力</value>
-        public float Defense { get; set; } = 5f;
+        [Export] public float Defense { get; set; } = 5f;
         
         /// <summary>
         /// 速度
         /// </summary>
         /// <value>生物的移动速度和行动顺序相关属性</value>
-        public float Speed { get; set; } = 50f;
+        [Export] public float Speed { get; set; } = 50f;
         
         /// <summary>
         /// 等级
         /// </summary>
         /// <value>生物的当前等级</value>
-        public int Level { get; set; } = 1;
+        [Export] public int Level { get; set; } = 1;
         
         /// <summary>
         /// 经验值
         /// </summary>
         /// <value>生物当前积累的经验值</value>
-        public int Experience { get; set; } = 0;
+        [Export] public int Experience { get; set; } = 0;
         
         /// <summary>
         /// 技能ID列表
         /// </summary>
         /// <value>生物拥有的技能ID集合</value>
-        public List<string> SkillIDs { get; set; } = [];
+        [Export] public Godot.Collections.Array<string> SkillIDs { get; set; } = new Godot.Collections.Array<string>();
 
         /// <summary>
         /// 是否存活
@@ -95,13 +96,20 @@ namespace hd2dtest.Scripts.Modules
         /// 弱点列表
         /// </summary>
         /// <value>生物的弱点类型集合</value>
+        // Weakness is struct, hard to export directly as array of structs in Godot
         public List<Weakness> Weaknesses { get; set; } = [];
         
         /// <summary>
         /// 位置信息
         /// </summary>
         /// <value>生物在游戏世界中的坐标位置</value>
-        public Vector2 Position { get; set; } = Vector2.Zero;
+        [Export] public Vector2 Position { get; set; } = Vector2.Zero;
+
+        /// <summary>
+        /// 是否在战斗中
+        /// </summary>
+        /// <value>true 表示生物处于战斗状态，暂停大地图AI</value>
+        public bool IsInBattle { get; set; } = false;
 
         /// <summary>
         /// 初始化生物

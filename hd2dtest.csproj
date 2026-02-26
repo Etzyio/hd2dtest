@@ -5,4 +5,10 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <AssemblyName>hd2dtest</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Static\*" />
+    <Content Include="version.json" />
+  </ItemGroup>
+
 </Project>
