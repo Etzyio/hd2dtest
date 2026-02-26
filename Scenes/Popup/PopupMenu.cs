@@ -359,6 +359,22 @@ namespace hd2dtest.Scenes.Popup
 							playerData.Mana = _player.Mana;
 							playerData.Inventory = _player.Inventory;
 							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
+                            
+                            // 更新扩展属性
+                            playerData.Level = _player.Level;
+                            playerData.Experience = _player.Experience;
+                            playerData.Gold = _player.Gold;
+                            playerData.KillCount = _player.KillCount;
+                            playerData.DeathCount = _player.DeathCount;
+                            playerData.MainClassName = _player.MainClass?.ClassName;
+                            playerData.SubClassName = _player.SubClass?.ClassName;
+                            playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
+                            playerData.Attack = (int)_player.Attack;
+                            playerData.Defense = (int)_player.Defense;
+                            playerData.Speed = _player.Speed;
+                            playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
+                            playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
+                            playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
 						}
 					}
 

@@ -455,6 +455,32 @@ namespace hd2dtest.Scripts.Managers
                 
                 // 初始化玩家
                 defaultPlayer.Initialize();
+
+                var playerSaveData = new PlayerSaveData
+                {
+                    PlayerId = 0,
+                    PlayerName = defaultPlayer.CreatureName,
+                    Level = defaultPlayer.Level,
+                    Experience = defaultPlayer.Experience,
+                    Health = defaultPlayer.Health,
+                    MaxHealth = defaultPlayer.MaxHealth,
+                    Mana = defaultPlayer.Mana,
+                    MaxMana = defaultPlayer.MaxMana,
+                    Attack = (int)defaultPlayer.Attack,
+                    Defense = (int)defaultPlayer.Defense,
+                    Speed = defaultPlayer.Speed,
+                    Gold = defaultPlayer.Gold,
+                    KillCount = defaultPlayer.KillCount,
+                    DeathCount = defaultPlayer.DeathCount,
+                    MainClassName = defaultPlayer.MainClass?.ClassName,
+                    SubClassName = defaultPlayer.SubClass?.ClassName,
+                    EquippedPassiveNames = defaultPlayer.EquippedPassives.Select(p => p.PassiveName).ToList(),
+                    Position = defaultPlayer.Position,
+                    Inventory = defaultPlayer.Inventory,
+                    LearnedSkills = defaultPlayer.SkillIDs.ToList(),
+                    EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
+                    EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                };
                 
                 // 获取版本信息
                 string gameVersion = "0.0.1";
@@ -486,7 +512,7 @@ namespace hd2dtest.Scripts.Managers
                     DiscoveredAreas = [],
 
                     // 多个玩家状态
-                    Players = [defaultPlayer],
+                    Players = [playerSaveData],
 
                     // 自定义数据
                     CustomData = []
