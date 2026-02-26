@@ -85,6 +85,42 @@ namespace hd2dtest.Scripts.Modules
         /// <value>玩家的移动速度</value>
         public float Speed { get; set; }
 
+        /// <summary>
+        /// 金币数量
+        /// </summary>
+        /// <value>玩家拥有的金币数量</value>
+        public int Gold { get; set; }
+
+        /// <summary>
+        /// 击杀敌人数量
+        /// </summary>
+        /// <value>玩家击杀的敌人总数</value>
+        public int KillCount { get; set; }
+
+        /// <summary>
+        /// 死亡次数
+        /// </summary>
+        /// <value>玩家的死亡次数</value>
+        public int DeathCount { get; set; }
+
+        /// <summary>
+        /// 主职业名称
+        /// </summary>
+        /// <value>玩家的主职业名称</value>
+        public string MainClassName { get; set; }
+
+        /// <summary>
+        /// 副职业名称
+        /// </summary>
+        /// <value>玩家的副职业名称</value>
+        public string SubClassName { get; set; }
+
+        /// <summary>
+        /// 装备的被动技能名称列表
+        /// </summary>
+        /// <value>玩家装备的被动技能名称集合</value>
+        public List<string> EquippedPassiveNames { get; set; } = [];
+
         // 物品和装备
         /// <summary>
         /// 背包物品
@@ -213,7 +249,7 @@ namespace hd2dtest.Scripts.Modules
         /// 所有玩家状态数据
         /// </summary>
         /// <value>游戏中的玩家列表</value>
-        public List<Player> Players { get; set; } = [];
+        public List<PlayerSaveData> Players { get; set; } = [];
 
         // 自定义数据
         /// <summary>
