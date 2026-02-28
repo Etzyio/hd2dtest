@@ -1,0 +1,23 @@
+key,en_US,zh_CN,ja_JP
+teammate_name_1,Teammate 1,队友 1,チームメイト 1
+teammate_name_2,Teammate 2,队友 2,チームメイト 2
+teammate_name_3,Teammate 3,队友 3,チームメイト 3
+teammate_name_4,Teammate 4,队友 4,チームメイト 4
+cross_passives_label,Cross Passives: {0},跨职业被动: {0},クロス職業パッシブ: {0}
+cross_passives_empty,Cross Passives: -,跨职业被动: -,クロス職業パッシブ: -
+popup_title,Tip,提示,ヒント
+popup_content,Content,内容,内容
+confirm,Confirm,确定,確認
+cancel,Cancel,取消,キャンセル
+switch_scene,Switch Scene,切换场景,シーン切り替え
+confirm_refresh,Are you sure to refresh the current scene?,确定要刷新当前场景吗？,現在のシーンを更新してもよろしいですか？
+confirm_main_menu,Are you sure to switch back to the main scene?,确定要切换回主场景吗？,メインシーンに戻ってもよろしいですか？
+language_zh,简体中文,简体中文,简体中文
+language_en,English,English,English
+language_ja,日本語,日本語,日本語
+monster_elite,Elite Monster,精英怪,エリートモンスター
+monster_boss,Boss,Boss,ボス
+monster_normal,Normal Monster,普通怪,通常モンスター
+time_h,h,小时,時間
+time_m,m,分,分
+time_s,s,秒,秒

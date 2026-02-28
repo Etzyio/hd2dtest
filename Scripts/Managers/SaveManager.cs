@@ -151,7 +151,7 @@ namespace hd2dtest.Scripts.Managers
                 // 如果没有设置存档名称，使用默认名称
                 if (string.IsNullOrEmpty(saveData.SaveName))
                 {
-                    saveData.SaveName = $"Save {saveId}";
+                    saveData.SaveName = string.Format(TranslationServer.Translate("save_slot_default_name"), saveId);
                 }
                 
                 // 设置版本信息
@@ -315,7 +315,7 @@ namespace hd2dtest.Scripts.Managers
                         {
                             var questId = kvp.Key;
                             var status = (QuestManager.QuestStatus)kvp.Value;
-                            // 这里需要设置任务状态
+                            QuestManager.Instance.SetQuestStatus(questId, status);
                         }
 
                         // 加载任务进度
@@ -455,6 +455,32 @@ namespace hd2dtest.Scripts.Managers
                 
                 // 初始化玩家
                 defaultPlayer.Initialize();
+
+                var playerSaveData = new PlayerSaveData
+                {
+                    PlayerId = 0,
+                    PlayerName = defaultPlayer.CreatureName,
+                    Level = defaultPlayer.Level,
+                    Experience = defaultPlayer.Experience,
+                    Health = defaultPlayer.Health,
+                    MaxHealth = defaultPlayer.MaxHealth,
+                    Mana = defaultPlayer.Mana,
+                    MaxMana = defaultPlayer.MaxMana,
+                    Attack = (int)defaultPlayer.Attack,
+                    Defense = (int)defaultPlayer.Defense,
+                    Speed = defaultPlayer.Speed,
+                    Gold = defaultPlayer.Gold,
+                    KillCount = defaultPlayer.KillCount,
+                    DeathCount = defaultPlayer.DeathCount,
+                    MainClassName = defaultPlayer.MainClass?.ClassName,
+                    SubClassName = defaultPlayer.SubClass?.ClassName,
+                    EquippedPassiveNames = defaultPlayer.EquippedPassives.Select(p => p.PassiveName).ToList(),
+                    Position = defaultPlayer.Position,
+                    Inventory = defaultPlayer.Inventory,
+                    LearnedSkills = defaultPlayer.SkillIDs.ToList(),
+                    EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
+                    EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                };
                 
                 // 获取版本信息
                 string gameVersion = "0.0.1";
@@ -472,7 +498,7 @@ namespace hd2dtest.Scripts.Managers
                 {
                     // 基本存档信息
                     SaveId = saveId,
-                    SaveName = saveName ?? $"Save {saveId}",
+                    SaveName = saveName ?? string.Format(TranslationServer.Translate("save_slot_default_name"), saveId),
                     SaveTime = DateTime.Now,
                     GameVersion = gameVersion,
                     BuildDate = buildDate,
@@ -486,7 +512,7 @@ namespace hd2dtest.Scripts.Managers
                     DiscoveredAreas = [],
 
                     // 多个玩家状态
-                    Players = [defaultPlayer],
+                    Players = [playerSaveData],
 
                     // 自定义数据
                     CustomData = []

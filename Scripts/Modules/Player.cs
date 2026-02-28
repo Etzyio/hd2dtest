@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
+using Godot;
+using hd2dtest.Scripts.Modules.SkillSystem;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -104,6 +105,137 @@ namespace hd2dtest.Scripts.Modules
         /// <value>玩家的最大魔法值</value>
         public float MaxMana { get; set; } = 50f;
 
+        // Class System
+        /// <summary>
+        /// 主职业（固定）
+        /// </summary>
+        public Battle.BattleClass MainClass { get; private set; }
+
+        /// <summary>
+        /// 副职业（可切换）
+        /// </summary>
+        public Battle.BattleClass SubClass { get; private set; }
+
+        /// <summary>
+        /// 装备的被动技能（最多4个）
+        /// </summary>
+        public List<Battle.PassiveSkill> EquippedPassives { get; } = new List<Battle.PassiveSkill>();
+
+        /// <summary>
+        /// 被动技能最大槽位数
+        /// </summary>
+        public const int MaxPassiveSlots = 4;
+
+        /// <summary>
+        /// 设置主职业
+        /// </summary>
+        public void SetMainClass(Battle.BattleClass mainClass)
+        {
+            MainClass = mainClass;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 设置副职业
+        /// </summary>
+        public void SetSubClass(Battle.BattleClass subClass)
+        {
+            SubClass = subClass;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 装备被动技能
+        /// </summary>
+        public bool EquipPassive(Battle.PassiveSkill passive)
+        {
+            if (EquippedPassives.Count >= MaxPassiveSlots) return false;
+            if (EquippedPassives.Contains(passive)) return false;
+            
+            EquippedPassives.Add(passive);
+            CalculateStats();
+            return true;
+        }
+
+        /// <summary>
+        /// 卸下被动技能
+        /// </summary>
+        public void UnequipPassive(Battle.PassiveSkill passive)
+        {
+            if (EquippedPassives.Remove(passive))
+            {
+                CalculateStats();
+            }
+        }
+
+        /// <summary>
+        /// 计算并更新玩家属性
+        /// </summary>
+        private void CalculateStats()
+        {
+            // 基础属性 (基于等级)
+            float baseHealth = 100f + (Level - 1) * 10f;
+            float baseAttack = 15f + (Level - 1) * 2f;
+            float baseDefense = 8f + (Level - 1) * 1f;
+            float baseSpeed = 75f; // Fixed base speed for now
+
+            // 职业修正
+            float classHealthMult = 1f;
+            float classAttackMult = 1f;
+            float classDefenseMult = 1f;
+            float classSpeedMult = 1f;
+
+            if (MainClass != null)
+            {
+                classHealthMult *= MainClass.HealthGrowth;
+                classAttackMult *= MainClass.AttackGrowth;
+                classDefenseMult *= MainClass.DefenseGrowth;
+                classSpeedMult *= MainClass.SpeedGrowth;
+            }
+
+            // 被动技能修正
+            float passiveHealthAdd = 0f;
+            float passiveAttackAdd = 0f;
+            float passiveDefenseAdd = 0f;
+            float passiveSpeedAdd = 0f;
+
+            float passiveHealthMult = 1f;
+            float passiveAttackMult = 1f;
+            float passiveDefenseMult = 1f;
+
+            foreach (var p in EquippedPassives)
+            {
+                passiveHealthAdd += p.HealthBonus;
+                passiveAttackAdd += p.AttackBonus;
+                passiveDefenseAdd += p.DefenseBonus;
+                passiveSpeedAdd += p.SpeedBonus;
+
+                passiveHealthMult *= p.HealthMultiplier;
+                passiveAttackMult *= p.AttackMultiplier;
+                passiveDefenseMult *= p.DefenseMultiplier;
+            }
+
+            // 装备修正
+            float equipmentAttack = CurrentWeapon?.AttackPower ?? 0f;
+            float equipmentDefense = 0f;
+            float equipmentHealth = 0f;
+
+            foreach (var eq in Equipments)
+            {
+                equipmentDefense += eq.Defense;
+                equipmentHealth += eq.Health;
+            }
+
+            // 最终计算
+            MaxHealth = (baseHealth * classHealthMult + equipmentHealth + passiveHealthAdd) * passiveHealthMult;
+            Attack = (baseAttack * classAttackMult + equipmentAttack + passiveAttackAdd) * passiveAttackMult;
+            Defense = (baseDefense * classDefenseMult + equipmentDefense + passiveDefenseAdd) * passiveDefenseMult;
+            Speed = (baseSpeed * classSpeedMult + passiveSpeedAdd); // Speed usually simpler
+
+            // 确保当前生命值不超过最大生命值
+            if (Health > MaxHealth) Health = MaxHealth;
+        }
+
         /// <summary>
         /// 初始化玩家
         /// </summary>
@@ -115,20 +247,21 @@ namespace hd2dtest.Scripts.Modules
             base.Initialize();
 
             // 设置默认属性
-            CreatureName = "Player";
-            Health = 100f;
-            MaxHealth = 100f;
+            CreatureName = TranslationServer.Translate("player_default_name");
+            
+            // Stats are now handled by CalculateStats, but we need initial values
+            Level = 1;
             Mana = 50f;
             MaxMana = 50f;
-            Attack = 15f;
-            Defense = 8f;
-            Speed = 75f;
-            Level = 1;
 
             // 初始化装备和技能
             InitializeWeapons();
             InitializeEquipments();
             InitializeSkills();
+
+            // Initial calculation
+            CalculateStats();
+            Health = MaxHealth;
         }
 
         /// <summary>
@@ -142,7 +275,7 @@ namespace hd2dtest.Scripts.Modules
             // 创建初始武器
             Weapon defaultWeapon = new()
             {
-                WeaponName = "Default Sword",
+                WeaponName = TranslationServer.Translate("weapon_default_sword_name"),
                 WeaponTypeValue = Weapon.WeaponType.Sword,
                 AttackPower = 5f
             };
@@ -162,7 +295,7 @@ namespace hd2dtest.Scripts.Modules
             // 创建初始装备
             Equipment defaultArmor = new()
             {
-                EquipmentName = "Default Armor",
+                EquipmentName = TranslationServer.Translate("equipment_default_armor_name"),
                 EquipmentTypeValue = Equipment.EquipmentType.Armor,
                 Defense = 3f,
                 Health = 20f
@@ -179,9 +312,17 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         private void InitializeSkills()
         {
+            // 初始化技能管理器
+            SkillManager.Initialize();
 
-            //TODO：增加skill
-            // Skills.Add(defaultSkill);
+            // 获取玩家初始技能
+            var initialSkills = SkillManager.CreatePlayerInitialSkills();
+            foreach (var skill in initialSkills)
+            {
+                Skills.Add(skill);
+            }
+
+            Log.Info($"Initialized player with {Skills.Count} skills");
         }
 
         /// <summary>
@@ -208,9 +349,9 @@ namespace hd2dtest.Scripts.Modules
             CurrentWeapon = weapon;
 
             // 更新攻击属性
-            Attack = weapon.AttackPower;
+            CalculateStats();
 
-            Log.Info($"Equipped weapon: {weapon.WeaponName}");
+            Log.Info(string.Format(TranslationServer.Translate("log_equipped_weapon"), weapon.WeaponName));
         }
 
         /// <summary>
@@ -234,11 +375,9 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 更新属性
-            Defense += equipment.Defense;
-            MaxHealth += equipment.Health;
-            Health += equipment.Health;
+            CalculateStats();
 
-            Log.Info($"Equipped equipment: {equipment.EquipmentName}");
+            Log.Info(string.Format(TranslationServer.Translate("log_equipped_equipment"), equipment.EquipmentName));
         }
 
         /// <summary>
@@ -260,22 +399,61 @@ namespace hd2dtest.Scripts.Modules
 
             Skill skill = Skills[skillIndex];
 
-            // TODO：区分攻击技能
-            // 使用技能 - 直接调用目标的TakeDamage或Heal方法
-            List<int> damage = [];
-            foreach(var skillDefent in skill.SkillDefs){
-                if (skillDefent.Type == Skill.SkillType.Attack)
+            // 区分不同技能类型并处理相应效果
+            List<int> damageResults = new List<int>();
+            List<string> effectDescriptions = new List<string>();
+            
+            foreach(var skillDefent in skill.SkillDefs)
+            {
+                switch (skillDefent.Type)
                 {
-                    damage = target.TakeDamage(this, skill);
-                }
-                else if (skillDefent.Type == Skill.SkillType.Healing)
-                {
-                    damage = this.Heal(this, skill);
+                    case Skill.SkillType.Attack:
+                        // 攻击技能：造成伤害
+                        var attackDamage = target.TakeDamage(this, skill);
+                        damageResults.AddRange(attackDamage);
+                        effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_damage"), string.Join(", ", attackDamage)));
+                        break;
+                        
+                    case Skill.SkillType.Healing:
+                        // 治疗技能：恢复生命值
+                        var healAmount = this.Heal(this, skill);
+                        damageResults.AddRange(healAmount);
+                        effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_heal"), string.Join(", ", healAmount)));
+                        break;
+                        
+                    case Skill.SkillType.Defense:
+                        // 防御技能：应用防御Buff
+                        if (BuffManagerInstance.Instance != null)
+                        {
+                            string defenseBuffId = $"defense_boost_{this.GetInstanceId()}";
+                            var defenseBuff = PlayerSkillHelper.CreateDefenseBuff(defenseBuffId, skillDefent.DamageCoefficient, skillDefent.Duration);
+                            BuffManagerInstance.Instance.RegisterBuffTemplate(defenseBuff);
+                            this.AddBuff(defenseBuffId, this);
+                            effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_defense_boost"), skillDefent.DamageCoefficient * 100));
+                        }
+                        break;
+                        
+                    case Skill.SkillType.Support:
+                        // 支持技能：应用支持Buff
+                        if (BuffManagerInstance.Instance != null)
+                        {
+                            string supportBuffId = $"attack_boost_{this.GetInstanceId()}";
+                            var supportBuff = PlayerSkillHelper.CreateAttackBuff(supportBuffId, skillDefent.DamageCoefficient, skillDefent.Duration);
+                            BuffManagerInstance.Instance.RegisterBuffTemplate(supportBuff);
+                            this.AddBuff(supportBuffId, this);
+                            effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_attack_boost"), skillDefent.DamageCoefficient * 100));
+                        }
+                        break;
+                        
+                    default:
+                        Log.Warning($"Unknown skill type: {skillDefent.Type}");
+                        break;
                 }
             }
             
-
-            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, dealing {damage:F1} damage.");
+            // 记录技能使用日志
+            string effectsText = effectDescriptions.Count > 0 ? string.Join(", ", effectDescriptions) : TranslationServer.Translate("skill_effect_none");
+            Log.Info(string.Format(TranslationServer.Translate("log_used_skill"), skill.SkillName, target.CreatureName, effectsText));
 
             return true;
         }
@@ -290,7 +468,7 @@ namespace hd2dtest.Scripts.Modules
         public void CollectGold(int amount)
         {
             Gold += amount;
-            Log.Info($"Collected {amount} gold. Total: {Gold}");
+            Log.Info(string.Format(TranslationServer.Translate("log_collected_gold"), amount, Gold));
         }
 
         /// <summary>
@@ -308,7 +486,7 @@ namespace hd2dtest.Scripts.Modules
             // 检查是否升级
             CheckLevelUp();
 
-            Log.Info($"Killed {enemy.CreatureName}. Kill count: {KillCount}");
+            Log.Info(string.Format(TranslationServer.Translate("log_killed_enemy"), enemy.CreatureName, KillCount));
         }
 
         /// <summary>
@@ -327,12 +505,11 @@ namespace hd2dtest.Scripts.Modules
                 Experience -= requiredExp;
 
                 // 升级属性
-                MaxHealth += 10f;
-                Health = MaxHealth;
-                Attack += 2f;
-                Defense += 1f;
+                CalculateStats();
+                Health = MaxHealth; // Heal on level up? Or just increase max? Usually restore full in some RPGs.
+                // Let's just restore full for now as per original code implication (Health = MaxHealth)
 
-                Log.Info($"Level up! Now level {Level}");
+                Log.Info(string.Format(TranslationServer.Translate("log_level_up"), Level));
             }
         }
 
@@ -348,7 +525,7 @@ namespace hd2dtest.Scripts.Modules
 
             DeathCount++;
 
-            Log.Info($"Player died. Death count: {DeathCount}");
+            Log.Info(string.Format(TranslationServer.Translate("log_player_died"), DeathCount));
         }
 
         /// <summary>
@@ -360,7 +537,7 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public override string GetCreatureInfo()
         {
-            return $"{base.GetCreatureInfo()} - Gold: {Gold} - Kills: {KillCount} - Deaths: {DeathCount}";
+            return base.GetCreatureInfo() + string.Format(TranslationServer.Translate("player_info_suffix"), Gold, KillCount, DeathCount);
         }
     }
 }

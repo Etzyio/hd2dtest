@@ -189,6 +189,17 @@ namespace hd2dtest.Scripts.Quest
         }
 
         /// <summary>
+        /// 设置任务状态（用于加载存档）
+        /// </summary>
+        /// <param name="questId">任务ID</param>
+        /// <param name="status">任务状态</param>
+        public void SetQuestStatus(string questId, QuestStatus status)
+        {
+            _questStatuses[questId] = status;
+            EmitSignal(SignalName.QuestStatusChanged, questId, (int)status);
+        }
+
+        /// <summary>
         /// 检查是否可以开始任务
         /// </summary>
         /// <param name="questId">任务ID</param>

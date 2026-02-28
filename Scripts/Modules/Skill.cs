@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 using hd2dtest.Scripts.Core;
 
 namespace hd2dtest.Scripts.Modules
@@ -13,7 +14,8 @@ namespace hd2dtest.Scripts.Modules
     /// 技能类包含技能的基本属性、效果参数和状态信息
     /// 支持多种技能类型（攻击、防御、辅助、治疗）和效果（伤害、治疗、防御加成、速度加成）
     /// </remarks>
-    public class Skill
+    [GlobalClass]
+    public partial class Skill : Resource
     {
         /// <summary>
         /// 技能类型枚举（作为 Skill 的嵌套类型，外部使用 `Skill.SkillType` 访问）
@@ -33,59 +35,69 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 技能效果项（嵌套类）
         /// </summary>
-        public class SkillDefent
+        [GlobalClass]
+        public partial class SkillDefent : Resource
         {
-            public SkillType Type = SkillType.Attack;
-            public float DamageCoefficient = 0.1f;
-            public int Duration = 0;
+            [Export] public SkillType Type = SkillType.Attack;
+            [Export] public float DamageCoefficient = 0.1f;
+            [Export] public int Duration = 0;
             
             /// <summary>
             /// 技能伤害类型
             /// </summary>
             /// <value>技能的伤害类型，如：物理、魔法、火、水、雷、冰等</value>
+            // Weakness is a struct, not a Resource, so it won't export well directly without a custom editor or wrapper.
+            // For now, we'll keep it as a property but not exported directly to inspector unless wrapped.
             public Weakness DamageType { get; set; } = new Weakness("Physical");
+            
+            // Helper for inspector if needed, or just rely on code for now.
+            [Export] public string DamageTypeString 
+            {
+                get => DamageType.Type;
+                set => DamageType = new Weakness(value);
+            }
         }
 
         // 技能效果列表，存放多个 SkillDefent
-        public List<SkillDefent> SkillDefs { get; set; } = new List<SkillDefent>();
+        [Export] public Godot.Collections.Array<SkillDefent> SkillDefs { get; set; } = new Godot.Collections.Array<SkillDefent>();
 
         /// <summary>
         /// 技能ID
         /// </summary>
         /// <value>技能的唯一标识符</value>
-        public string Id { get; set; } = "";
+        [Export] public string Id { get; set; } = "";
 
         // 技能属性
         /// <summary>
         /// 技能名称
         /// </summary>
         /// <value>技能的显示名称</value>
-        public string SkillName { get; set; } = "New Skill";
+        [Export] public string SkillName { get; set; } = TranslationServer.Translate("skill_default_name");
 
         /// <summary>
         /// 技能描述
         /// </summary>
         /// <value>技能的详细描述信息</value>
-        public string Description { get; set; } = "";
+        [Export] public string Description { get; set; } = "";
 
         /// <summary>
         /// 技能冷却时间
         /// </summary>
         /// <value>技能的冷却时间，单位为回合</value>
-        public float Cooldown { get; set; } = 1f;
+        [Export] public float Cooldown { get; set; } = 1f;
 
         /// <summary>
         /// 技能魔法消耗
         /// </summary>
         /// <value>使用技能所需的魔法值</value>
-        public int ManaCost { get; set; } = 0;
+        [Export] public int ManaCost { get; set; } = 0;
 
 
         /// <summary>
         /// 技能是否已解锁
         /// </summary>
         /// <value>true 表示技能已解锁，false 表示技能未解锁</value>
-        public bool IsUnlocked { get; set; } = false;
+        [Export] public bool IsUnlocked { get; set; } = false;
 
         /// <summary>
         /// 获取技能状态描述
@@ -98,9 +110,9 @@ namespace hd2dtest.Scripts.Modules
         {
             if (!IsUnlocked)
             {
-                return "Locked";
+                return TranslationServer.Translate("skill_status_locked");
             }
-            return "Ready";
+            return TranslationServer.Translate("skill_status_ready");
         }
 
         /// <summary>
@@ -113,7 +125,7 @@ namespace hd2dtest.Scripts.Modules
         public string GetInfo()
         {
             // 尝试汇总技能效果（SkillDefent 列表），避免抛出异常
-            string effectsSummary = "None";
+            string effectsSummary = TranslationServer.Translate("none");
             try
             {
                 if (SkillDefs != null && SkillDefs.Count > 0)
@@ -122,21 +134,24 @@ namespace hd2dtest.Scripts.Modules
                     foreach (var e in SkillDefs)
                     {
                         if (effectsSummary.Length > 0) effectsSummary += ", ";
-                        effectsSummary += $"{e.Type}:{e.DamageCoefficient:F1}({e.Duration}t/{e.DamageType})";
+                        string typeStr = TranslationServer.Translate($"skill_type_{e.Type.ToString().ToLower()}");
+                        string damageTypeStr = TranslationServer.Translate($"damage_type_{e.DamageType.Type.ToLower()}");
+                        effectsSummary += $"{typeStr}:{e.DamageCoefficient:F1}({e.Duration}t/{damageTypeStr})";
                     }
                 }
             }
             catch
             {
                 // 在无法读取效果时使用占位文本
-                effectsSummary = "N/A";
+                effectsSummary = TranslationServer.Translate("skill_effect_na");
             }
 
             // 返回更完整的技能信息，包含 ID、解锁状态和效果汇总
-            return $"ID: {Id}\n" +
-                   $"Name: {SkillName}\n" +
-                   $"Unlocked: {IsUnlocked} | Status: {GetStatus()}\n" +
-                   $"Description: {Description}";
+            return TranslationServer.Translate("skill_info_id") + Id + "\n" +
+                   TranslationServer.Translate("skill_info_name") + SkillName + "\n" +
+                   TranslationServer.Translate("skill_info_unlocked") + IsUnlocked + 
+                   TranslationServer.Translate("skill_info_status") + GetStatus() + "\n" +
+                   TranslationServer.Translate("skill_info_desc") + Description;
         }
     }
 }
