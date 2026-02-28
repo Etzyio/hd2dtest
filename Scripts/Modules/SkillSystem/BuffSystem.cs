@@ -86,7 +86,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// Buff名称
         /// </summary>
-        [Export] public string BuffName { get; set; } = "New Buff";
+        /// <value>Buff的显示名称</value>
+        [Export] public string BuffName { get; set; } = TranslationServer.Translate("buff_default_name");
 
         /// <summary>
         /// Buff描述

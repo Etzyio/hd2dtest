@@ -59,17 +59,17 @@ namespace hd2dtest.Scenes.Popup
         /// </summary>
         public string GetFormattedTime()
         {
-            if (IsEmpty) return "空槽位";
+            if (IsEmpty) return TranslationServer.Translate("save_slot_empty");
             
             var timeSpan = DateTime.Now - SaveTime;
             if (timeSpan.TotalDays >= 1)
-                return $"{Math.Floor(timeSpan.TotalDays)}天前";
+                return string.Format(TranslationServer.Translate("time_days_ago"), Math.Floor(timeSpan.TotalDays));
             else if (timeSpan.TotalHours >= 1)
-                return $"{Math.Floor(timeSpan.TotalHours)}小时前";
+                return string.Format(TranslationServer.Translate("time_hours_ago"), Math.Floor(timeSpan.TotalHours));
             else if (timeSpan.TotalMinutes >= 1)
-                return $"{Math.Floor(timeSpan.TotalMinutes)}分钟前";
+                return string.Format(TranslationServer.Translate("time_minutes_ago"), Math.Floor(timeSpan.TotalMinutes));
             else
-                return "刚刚";
+                return TranslationServer.Translate("time_just_now");
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace hd2dtest.Scenes.Popup
             // 创建标题
             var titleLabel = new Label
             {
-                Text = "选择存档槽位",
+                Text = TranslationServer.Translate("save_slot_title"),
                 HorizontalAlignment = HorizontalAlignment.Center
             };
             titleLabel.AddThemeFontSizeOverride("font_size", 24);
@@ -157,7 +157,7 @@ namespace hd2dtest.Scenes.Popup
             // 创建刷新按钮
             var refreshButton = new Button
             {
-                Text = "刷新",
+                Text = TranslationServer.Translate("ui_refresh"),
                 CustomMinimumSize = new Vector2(100, 40)
             };
             refreshButton.Pressed += () => RefreshSaveSlots();
@@ -166,7 +166,7 @@ namespace hd2dtest.Scenes.Popup
             // 创建删除按钮
             _deleteButton = new Button
             {
-                Text = "删除选中存档",
+                Text = TranslationServer.Translate("ui_delete_selected"),
                 CustomMinimumSize = new Vector2(150, 40),
                 Disabled = true
             };
@@ -176,7 +176,7 @@ namespace hd2dtest.Scenes.Popup
             // 创建确认按钮
             _confirmButton = new Button
             {
-                Text = "确认选择",
+                Text = TranslationServer.Translate("ui_confirm_selection"),
                 CustomMinimumSize = new Vector2(120, 40),
                 Disabled = true
             };
@@ -210,7 +210,7 @@ namespace hd2dtest.Scenes.Popup
                     slotData = new SaveSlotData
                     {
                         SlotId = slotId,
-                        SaveName = $"存档 {i + 1}",
+                        SaveName = string.Format(TranslationServer.Translate("save_slot_default_name"), i + 1),
                         IsEmpty = true
                     };
                 }
@@ -254,9 +254,9 @@ namespace hd2dtest.Scenes.Popup
                                 var slotData = new SaveSlotData
                                 {
                                     SlotId = slotId,
-                                    SaveName = $"存档 {slotId}",
+                                    SaveName = string.Format(TranslationServer.Translate("save_slot_default_name"), slotId),
                                     SaveTime = DateTime.Now, // 这里应该从文件获取实际时间
-                                    PlayerName = playerData.PlayerName ?? "未知角色",
+                                    PlayerName = playerData.PlayerName ?? TranslationServer.Translate("player_unknown"),
                                     PlayerLevel = playerData.Level,
                                     GameTime = 0, // 这里应该从存档数据获取
                                     IsEmpty = false,
@@ -325,7 +325,7 @@ namespace hd2dtest.Scenes.Popup
             {
                 var detailsLabel = new Label
                 {
-                    Text = $"角色: {slotData.PlayerName} | 等级: {slotData.PlayerLevel} | {slotData.GetFormattedTime()}"
+                    Text = string.Format(TranslationServer.Translate("save_slot_details_format"), slotData.PlayerName, slotData.PlayerLevel, slotData.GetFormattedTime())
                 };
                 detailsLabel.AddThemeFontSizeOverride("font_size", 12);
                 detailsLabel.AddThemeColorOverride("font_color", new Color(0.8f, 0.8f, 0.8f));
@@ -333,7 +333,7 @@ namespace hd2dtest.Scenes.Popup
 
                 var gameTimeLabel = new Label
                 {
-                    Text = $"游戏时间: {slotData.GetGameTimeString()}"
+                    Text = string.Format(TranslationServer.Translate("save_slot_game_time"), slotData.GetGameTimeString())
                 };
                 gameTimeLabel.AddThemeFontSizeOverride("font_size", 10);
                 gameTimeLabel.AddThemeColorOverride("font_color", new Color(0.6f, 0.6f, 0.6f));
@@ -343,7 +343,7 @@ namespace hd2dtest.Scenes.Popup
             {
                 var emptyLabel = new Label
                 {
-                    Text = "空槽位"
+                    Text = TranslationServer.Translate("save_slot_empty")
                 };
                 emptyLabel.AddThemeFontSizeOverride("font_size", 12);
                 emptyLabel.AddThemeColorOverride("font_color", new Color(0.5f, 0.5f, 0.5f));
@@ -353,7 +353,7 @@ namespace hd2dtest.Scenes.Popup
             // 右侧选择按钮
             var selectButton = new Button
             {
-                Text = slotData.IsEmpty ? "新建存档" : "选择",
+                Text = slotData.IsEmpty ? TranslationServer.Translate("save_slot_new") : TranslationServer.Translate("save_slot_select"),
                 CustomMinimumSize = new Vector2(100, 60),
                 SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
             };

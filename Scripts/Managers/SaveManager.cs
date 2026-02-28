@@ -151,7 +151,7 @@ namespace hd2dtest.Scripts.Managers
                 // 如果没有设置存档名称，使用默认名称
                 if (string.IsNullOrEmpty(saveData.SaveName))
                 {
-                    saveData.SaveName = $"Save {saveId}";
+                    saveData.SaveName = string.Format(TranslationServer.Translate("save_slot_default_name"), saveId);
                 }
                 
                 // 设置版本信息
@@ -315,7 +315,7 @@ namespace hd2dtest.Scripts.Managers
                         {
                             var questId = kvp.Key;
                             var status = (QuestManager.QuestStatus)kvp.Value;
-                            // 这里需要设置任务状态
+                            QuestManager.Instance.SetQuestStatus(questId, status);
                         }
 
                         // 加载任务进度
@@ -498,7 +498,7 @@ namespace hd2dtest.Scripts.Managers
                 {
                     // 基本存档信息
                     SaveId = saveId,
-                    SaveName = saveName ?? $"Save {saveId}",
+                    SaveName = saveName ?? string.Format(TranslationServer.Translate("save_slot_default_name"), saveId),
                     SaveTime = DateTime.Now,
                     GameVersion = gameVersion,
                     BuildDate = buildDate,

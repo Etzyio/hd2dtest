@@ -1,191 +1,174 @@
-# HD2D Game Project
+# HD-2D RPG Project
 
-这是一个使用Godot引擎开发的HD2D（2D角色+3D背景）风格游戏项目。
+这是一个基于 Godot 4.x (C#) 开发的 HD-2D 风格 RPG 游戏项目。本项目采用了模块化的架构设计，集成了完整的战斗、技能、任务、存档和对话系统。
+
+## 目录
+
+- [项目结构](#项目结构)
+- [功能内部结构](#功能内部结构)
+  - [核心架构 (Core)](#核心架构-core)
+  - [技能与战斗系统 (Skill & Combat)](#技能与战斗系统-skill--combat)
+  - [存档系统 (Save System)](#存档系统-save-system)
+  - [任务系统 (Quest System)](#任务系统-quest-system)
+  - [AI 系统 (AI System)](#ai-系统-ai-system)
+  - [UI 系统 (UI System)](#ui-系统-ui-system)
+  - [资源管理 (Resource Management)](#资源管理-resource-management)
+
+---
 
 ## 项目结构
 
+以下是项目的目录层级结构及其主要作用说明：
+
 ```
-├── .github/                # GitHub Actions配置
-│   └── workflows/
-│       └── build-release.yml  # 构建和发布工作流
-├── .godot/                 # Godot引擎生成的文件
-├── Resources/              # 游戏资源
-│   ├── Examples/           # 示例资源文件
-│   │   ├── CharacterExample.json  # 角色示例
-│   │   ├── EquipmentExample.json  # 装备示例
-│   │   ├── ItemExample.json       # 道具示例
-│   │   ├── MonsterExample.json    # 怪物示例
-│   │   └── SkillExample.json      # 技能示例
-│   └── Localization/       # 本地化资源
-│       └── zh.json         # 中文翻译
-├── Scripts/                # 游戏脚本
-│   ├── Core/               # 核心系统
-│   │   ├── ConfigManager.cs    # 配置管理器
-│   │   ├── GameManager.cs      # 游戏管理器
-│   │   ├── Log.cs              # 日志系统
-│   │   ├── SaveManager.cs      # 存档管理器
-│   │   └── VersionManager.cs   # 版本管理器
-│   ├── Modules/            # 游戏模块
-│   │   ├── Character.cs        # 角色类
-│   │   ├── Creature.cs         # 生物基类
-│   │   ├── Equipment.cs        # 装备类
-│   │   ├── Monster.cs          # 怪物类
-│   │   ├── NPC.cs              # NPC类
-│   │   ├── Player.cs           # 玩家类（单例）
-│   │   ├── Skill.cs            # 技能类
-│   │   └── Weapon.cs           # 武器类
-│   ├── Player/             # 玩家相关
-│   │   ├── CameraController.cs # 相机控制器
-│   │   └── PlayerController.cs # 玩家控制器
-│   └── World/              # 世界相关
-│       ├── Background3D.cs     # 3D背景管理
-│       └── LevelManager.cs     # 关卡管理器
-├── main.cs                 # 主入口脚本
-├── main.tscn               # 主场景
-└── hd2dtest.csproj         # C#项目配置
-```
-
-## 核心功能
-
-### 1. 核心系统
-
-#### 配置管理（ConfigManager）
-- 音量设置（主音量、音乐、音效、语音）
-- 图形设置（亮度、对比度、饱和度）
-- 分辨率和全屏设置
-- 垂直同步设置
-- 游戏玩法设置（自动存档、文本速度、显示FPS）
-- 自定义按键绑定
-- 配置自动保存到`user://config.json`
-
-#### 游戏管理（GameManager）
-- 游戏初始化和状态管理
-- 场景切换和加载
-- 游戏暂停/继续
-
-#### 日志系统（Log）
-- 支持多种日志级别（Debug、Info、Warning、Error）
-- 单例模式，全局访问
-- 可扩展的日志处理
-
-#### 存档管理（SaveManager）
-- 支持多存档槽位
-- 存档自动按ID排序
-- 支持自定义数据保存
-- 存档文件保存到`user://saves/`目录
-- 存档信息包含：
-  - 基本信息（ID、名称、保存时间）
-  - 玩家状态（位置、等级、经验、属性）
-  - 游戏进度（当前场景、分数、游戏时间）
-  - 已完成任务和已发现区域
-  - 物品和装备
-  - 已学习技能和技能等级
-
-#### 版本管理（VersionManager）
-- 版本信息管理
-- 支持基于git tags的版本号
-- 版本信息显示
-
-### 2. 游戏模块
-
-#### 生物系统
-- **Creature（生物基类）**：包含生命值、攻击力、防御力、等级、经验值、是否存活等属性
-- **Character（角色类）**：继承自Creature，添加了移动、攻击、防御等功能
-- **NPC（非玩家角色类）**：继承自Character，添加了交互功能
-- **Player（玩家类）**：继承自Character，单例模式，玩家控制
-- **Monster（怪物类）**：继承自Character，添加了AI行为
-
-#### 装备系统
-- **Weapon（武器类）**：包含武器类型、攻击力、特殊效果等
-- **Equipment（装备类）**：包含装备类型、属性加成、特殊效果等
-
-#### 技能系统
-- **Skill（技能类）**：包含技能类型、伤害、冷却时间、效果等
-
-### 3. 世界系统
-
-#### 3D背景（Background3D）
-- 管理3D背景环境
-- 支持动态背景效果
-
-#### 关卡管理（LevelManager）
-- 关卡加载和切换
-- 关卡进度管理
-
-### 4. 玩家系统
-
-#### 相机控制（CameraController）
-- 跟随玩家移动
-- 平滑相机过渡
-
-#### 玩家控制（PlayerController）
-- 玩家输入处理
-- 移动、跳跃、攻击等动作
-
-## 技术特点
-
-1. **HD2D风格**：2D角色动画与3D背景结合
-2. **模块化设计**：清晰的代码结构，便于扩展和维护
-3. **单例模式**：核心管理器使用单例模式，便于全局访问
-4. **存档系统**：支持多存档，自动保存到用户目录
-5. **配置系统**：支持各种游戏设置，自动保存
-6. **国际化支持**：已准备好中文本地化
-7. **CI/CD集成**：GitHub Actions自动构建和发布
-
-## 开发环境
-
-- Godot 4.x
-- .NET 8.0
-- C#
-
-## 构建和运行
-
-### 构建项目
-```bash
-dotnet build
+/
+├── Module/                 # 独立的游戏模块资源
+│   ├── House/              # 房屋模块（场景、脚本、资源）
+│   └── terrain/            # 地形相关资源
+│
+├── Resources/              # 游戏静态资源与数据
+│   ├── Config/             # 全局配置文件 (如 DesignTokens.json)
+│   ├── Examples/           # JSON 数据结构示例 (用于开发参考)
+│   ├── Font/               # 字体文件
+│   ├── Localization/       # 本地化 CSV 文件 (多语言支持)
+│   ├── Material/           # 3D 材质与纹理资源
+│   ├── Music/              # 背景音乐与音效
+│   ├── Static/             # 静态游戏数据 (JSON格式: 任务、物品、技能、怪物等)
+│   ├── Theme/              # Godot UI 主题资源
+│   └── player/             # 玩家美术资源
+│
+├── Scenes/                 # 游戏场景文件 (.tscn)
+│   ├── Battle/             # 战斗场景
+│   ├── First/              # 初始加载场景
+│   ├── Player/             # 玩家预制件
+│   ├── Popup/              # 弹出窗口 (菜单、存档选择等)
+│   ├── Start/              # 游戏开始菜单
+│   ├── UI/                 # 通用 UI 界面 (对话框、HUD)
+│   └── test/               # 测试场景
+│
+├── Scripts/                # 核心 C# 源代码
+│   ├── Core/               # 核心系统框架
+│   │   ├── UI/             # UI 框架 (焦点管理、交互组件)
+│   │   └── [Managers]      # 视图管理、关卡管理等核心逻辑
+│   │
+│   ├── Managers/           # 全局管理器 (单例模式)
+│   │   ├── GameManager.cs      # 游戏主循环与状态管理
+│   │   ├── SaveManager.cs      # 存档管理
+│   │   ├── DialogueManager.cs  # 对话系统管理
+│   │   ├── ConfigManager.cs    # 配置读取
+│   │   └── ResourcesManager.cs # 资源加载管理
+│   │
+│   ├── Modules/            # 业务逻辑模块
+│   │   ├── AI/             # AI 行为树与感知系统
+│   │   ├── Battle/         # 战斗逻辑实现
+│   │   ├── Dialogue/       # 对话数据模型与处理
+│   │   ├── Quest/          # 任务系统逻辑
+│   │   ├── SkillSystem/    # 技能与 Buff 系统核心
+│   │   └── [Entities]      # 实体类 (Player, Creature, NPC, Item)
+│   │
+│   ├── Scenes/             # 场景特定的脚本逻辑
+│   ├── Tools/              # 开发工具 (如 DPS 计算器)
+│   └── Utilities/          # 通用工具类 (日志、JSON解析、数学扩展)
+│
+├── addons/                 # Godot 插件 (如自定义的 SkillEditor)
+├── doc/                    # 项目文档
+├── godot-ci/               # CI/CD 配置
+├── Main.cs                 # 游戏入口脚本
+├── project.godot           # Godot 项目配置文件
+└── README.md               # 项目说明文档
 ```
 
-### 运行游戏
-在Godot编辑器中打开项目，然后点击运行按钮。
+---
 
-## 存档系统说明
+## 功能内部结构
 
-### 存档位置
-存档文件保存到系统的用户目录，路径为：
-- Windows: `%APPDATA%/Godot/app_userdata/hd2dtest/saves/`
-- macOS: `~/Library/Application Support/Godot/app_userdata/hd2dtest/saves/`
-- Linux: `~/.local/share/godot/app_userdata/hd2dtest/saves/`
+### 核心架构 (Core)
 
-### 存档文件格式
-每个存档文件是一个JSON文件，命名格式为`save_{id}.json`，其中`{id}`是存档槽位ID。
+项目的核心架构负责生命周期管理、视图切换和全局配置。
 
-### 存档内容
-- 基本信息：ID、名称、保存时间
-- 玩家状态：位置、等级、经验、生命值、魔法值、属性
-- 游戏进度：当前场景、分数、游戏时间
-- 已完成任务和已发现区域
-- 物品和装备
-- 已学习技能和技能等级
+*   **GameManager**
+    *   **作用**: 全局单例，维护游戏状态（Playing, Paused, Menu 等）。
+    *   **依赖**: 协调其他管理器（SaveManager, SceneManager）。
+*   **GameViewManager**
+    *   **作用**: 管理 UI 视图的堆栈。支持视图的 Push（入栈）、Pop（出栈）和层级管理。
+    *   **核心组件**: `ViewRegister` (注册视图路径), `BaseView` (视图基类)。
+*   **VersionManager**
+    *   **作用**: 版本控制与更新检测，确保存档与游戏版本的兼容性。
 
-## 配置系统说明
+### 技能与战斗系统 (Skill & Combat)
 
-### 配置位置
-配置文件保存到：`user://config.json`
+基于事件驱动和数据驱动的设计，支持复杂的技能效果和 Buff 机制。
 
-### 配置内容
-- 音量设置
-- 图形设置
-- 游戏玩法设置
-- 按键绑定
+*   **SkillManager**
+    *   **核心职责**: 技能的释放流程控制（检查消耗 -> 播放动画 -> 触发效果 -> 进入冷却）。
+    *   **数据流**: 读取 `SkillData` -> 实例化 `SkillExecutor` -> 触发 `SkillEvents`。
+*   **BuffSystem**
+    *   **BuffManager**: 单例，维护所有实体上的 Buff 列表。负责 Buff 的生命周期（应用、Tick、移除）。
+    *   **BuffData**: 定义 Buff 属性（ID、类型、持续时间、叠加规则、属性修正值）。
+    *   **机制**: 支持 Buff 叠加（Stacking）、刷新持续时间（Refresh）、互斥覆盖。
+*   **DamageCalculator**
+    *   **作用**: 静态工具类，统一处理伤害公式。
+    *   **逻辑**: 基础伤害 * (1 + 攻击加成) - (防御 * (1 + 防御加成)) * 暴击倍率 * 属性克制系数。
+*   **SkillEvents**
+    *   **作用**: 事件总线，解耦战斗逻辑。
+    *   **钩子**: `OnSkillCast`, `OnDamageCalculated`, `OnBuffApplied` 等。
 
-## 版本控制
+### 存档系统 (Save System)
 
-版本号基于git tags，格式为`v{major}.{minor}.{patch}`，例如`v1.0.0`。
+采用 JSON 序列化的方式存储游戏进度，支持多存档槽位。
 
-## 贡献
+*   **SaveManager**
+    *   **核心职责**: 序列化/反序列化游戏数据，文件 I/O 操作。
+    *   **关键方法**: `SaveGame(slotId)`, `LoadGame(slotId)`, `DeleteSave(slotId)`, `GetSaveMetadata()`.
+*   **SaveModels**
+    *   **组成**: 
+        *   `SaveData`: 根对象，包含时间戳、版本号。
+        *   `PlayerData`: 玩家属性、位置、背包。
+        *   `QuestData`: 任务进度状态。
+        *   `WorldData`: 世界状态（如宝箱开启状态、NPC 状态）。
+*   **SaveSlotSelector (UI)**
+    *   **作用**: 扫描存档目录，动态生成存档列表 UI，提供加载、覆盖、删除交互。
 
-欢迎提交Issue和Pull Request！
+### 任务系统 (Quest System)
 
-## 许可证
+支持线性任务链和分支任务。
 
-MIT License
+*   **QuestManager**
+    *   **作用**: 运行时任务状态管理（接受任务、更新目标、完成任务）。
+    *   **数据**: 维护 `ActiveQuests` 和 `CompletedQuests` 列表。
+*   **QuestLineManager**
+    *   **作用**: 管理任务之间的依赖关系（前置任务、后续任务），处理剧情线的推进。
+*   **QuestData**
+    *   **定义**: 包含任务 ID、标题、描述、目标类型（杀怪/对话/收集）、奖励内容。
+
+### AI 系统 (AI System)
+
+基于行为树（Behavior Tree）和感知系统构建的智能体。
+
+*   **Behavior Tree**
+    *   **核心组件**: `BehaviorTreeRunner` (执行器), `BehaviorTreeCore` (节点基类)。
+    *   **节点类型**:
+        *   **Composites**: Selector, Sequence.
+        *   **Decorators**: Inverter, Repeater.
+        *   **Actions**: `MoveToTarget`, `DetectTarget`, `Attack`.
+*   **SensorySystem**
+    *   **作用**: 模拟视听感知，检测范围内的目标（Player）。
+    *   **输出**: 更新 AI 的 `Blackboard`（黑板数据），供行为树决策。
+
+### UI 系统 (UI System)
+
+*   **DesignSystem**
+    *   **作用**: 集中管理 UI 样式（颜色、字体、间距），确保视觉一致性。
+*   **DialogueManager**
+    *   **作用**: 解析对话数据，控制对话框的显示，处理玩家选项。
+    *   **特性**: 支持打字机效果、分支选项回调。
+*   **PopupMenu**
+    *   **作用**: 游戏内综合菜单，集成了状态查看、物品栏、任务列表、系统设置等子模块。
+
+### 资源管理 (Resource Management)
+
+*   **ResourcesManager**
+    *   **作用**: 统一加载路径，提供资源缓存（可选），封装 `GD.Load`。
+    *   **支持**: 预加载常用资源，按需加载大资源。
+*   **Localization**
+    *   **实现**: 基于 CSV 的键值对映射，支持动态切换语言（`TranslationServer`）。

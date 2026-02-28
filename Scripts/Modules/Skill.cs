@@ -72,7 +72,7 @@ namespace hd2dtest.Scripts.Modules
         /// 技能名称
         /// </summary>
         /// <value>技能的显示名称</value>
-        [Export] public string SkillName { get; set; } = "New Skill";
+        [Export] public string SkillName { get; set; } = TranslationServer.Translate("skill_default_name");
 
         /// <summary>
         /// 技能描述
@@ -110,9 +110,9 @@ namespace hd2dtest.Scripts.Modules
         {
             if (!IsUnlocked)
             {
-                return "Locked";
+                return TranslationServer.Translate("skill_status_locked");
             }
-            return "Ready";
+            return TranslationServer.Translate("skill_status_ready");
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace hd2dtest.Scripts.Modules
         public string GetInfo()
         {
             // 尝试汇总技能效果（SkillDefent 列表），避免抛出异常
-            string effectsSummary = "None";
+            string effectsSummary = TranslationServer.Translate("none");
             try
             {
                 if (SkillDefs != null && SkillDefs.Count > 0)
@@ -134,21 +134,24 @@ namespace hd2dtest.Scripts.Modules
                     foreach (var e in SkillDefs)
                     {
                         if (effectsSummary.Length > 0) effectsSummary += ", ";
-                        effectsSummary += $"{e.Type}:{e.DamageCoefficient:F1}({e.Duration}t/{e.DamageType})";
+                        string typeStr = TranslationServer.Translate($"skill_type_{e.Type.ToString().ToLower()}");
+                        string damageTypeStr = TranslationServer.Translate($"damage_type_{e.DamageType.Type.ToLower()}");
+                        effectsSummary += $"{typeStr}:{e.DamageCoefficient:F1}({e.Duration}t/{damageTypeStr})";
                     }
                 }
             }
             catch
             {
                 // 在无法读取效果时使用占位文本
-                effectsSummary = "N/A";
+                effectsSummary = TranslationServer.Translate("skill_effect_na");
             }
 
             // 返回更完整的技能信息，包含 ID、解锁状态和效果汇总
-            return $"ID: {Id}\n" +
-                   $"Name: {SkillName}\n" +
-                   $"Unlocked: {IsUnlocked} | Status: {GetStatus()}\n" +
-                   $"Description: {Description}";
+            return TranslationServer.Translate("skill_info_id") + Id + "\n" +
+                   TranslationServer.Translate("skill_info_name") + SkillName + "\n" +
+                   TranslationServer.Translate("skill_info_unlocked") + IsUnlocked + 
+                   TranslationServer.Translate("skill_info_status") + GetStatus() + "\n" +
+                   TranslationServer.Translate("skill_info_desc") + Description;
         }
     }
 }

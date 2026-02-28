@@ -21,8 +21,8 @@ namespace hd2dtest.Scripts.Modules
             var buff = new BuffData
             {
                 BuffId = buffId,
-                BuffName = "防御提升",
-                Description = $"提升防御力 {defenseBoost * 100:F0}%",
+                BuffName = TranslationServer.Translate("buff_defense_boost_name"),
+                Description = string.Format(TranslationServer.Translate("buff_defense_boost_desc"), defenseBoost * 100),
                 DurationType = BuffDurationType.Turns,
                 TurnCount = duration,
                 MaxStacks = 1,
@@ -36,7 +36,7 @@ namespace hd2dtest.Scripts.Modules
                 EffectType = BuffEffectType.DefenseBonus,
                 Value = defenseBoost * 100f, // 转换为百分比
                 IsPercentage = true,
-                Description = $"防御力 +{defenseBoost * 100:F0}%"
+                Description = string.Format(TranslationServer.Translate("buff_effect_defense_desc"), defenseBoost * 100)
             };
 
             buff.Effects.Add(effect);
@@ -51,8 +51,8 @@ namespace hd2dtest.Scripts.Modules
             var buff = new BuffData
             {
                 BuffId = buffId,
-                BuffName = "攻击提升",
-                Description = $"提升攻击力 {attackBoost * 100:F0}%",
+                BuffName = TranslationServer.Translate("buff_attack_boost_name"),
+                Description = string.Format(TranslationServer.Translate("buff_attack_boost_desc"), attackBoost * 100),
                 DurationType = BuffDurationType.Turns,
                 TurnCount = duration,
                 MaxStacks = 1,
@@ -66,7 +66,7 @@ namespace hd2dtest.Scripts.Modules
                 EffectType = BuffEffectType.AttackBonus,
                 Value = attackBoost * 100f, // 转换为百分比
                 IsPercentage = true,
-                Description = $"攻击力 +{attackBoost * 100:F0}%"
+                Description = string.Format(TranslationServer.Translate("buff_effect_attack_desc"), attackBoost * 100)
             };
 
             buff.Effects.Add(effect);
@@ -81,8 +81,8 @@ namespace hd2dtest.Scripts.Modules
             var buff = new BuffData
             {
                 BuffId = buffId,
-                BuffName = "速度提升",
-                Description = $"提升速度 {speedBoost * 100:F0}%",
+                BuffName = TranslationServer.Translate("buff_speed_boost_name"),
+                Description = string.Format(TranslationServer.Translate("buff_speed_boost_desc"), speedBoost * 100),
                 DurationType = BuffDurationType.Turns,
                 TurnCount = duration,
                 MaxStacks = 1,
@@ -96,7 +96,7 @@ namespace hd2dtest.Scripts.Modules
                 EffectType = BuffEffectType.SpeedBonus,
                 Value = speedBoost * 100f, // 转换为百分比
                 IsPercentage = true,
-                Description = $"速度 +{speedBoost * 100:F0}%"
+                Description = string.Format(TranslationServer.Translate("buff_effect_speed_desc"), speedBoost * 100)
             };
 
             buff.Effects.Add(effect);
@@ -111,8 +111,8 @@ namespace hd2dtest.Scripts.Modules
             var buff = new BuffData
             {
                 BuffId = buffId,
-                BuffName = "持续恢复",
-                Description = $"每回合恢复 {healPerTurn:F0} 点生命值",
+                BuffName = TranslationServer.Translate("buff_regeneration_name"),
+                Description = string.Format(TranslationServer.Translate("buff_regeneration_desc"), healPerTurn),
                 DurationType = BuffDurationType.Turns,
                 TurnCount = duration,
                 MaxStacks = 1,
@@ -126,7 +126,7 @@ namespace hd2dtest.Scripts.Modules
                 EffectType = BuffEffectType.HealthRegeneration,
                 Value = healPerTurn,
                 IsPercentage = false,
-                Description = $"每回合恢复 {healPerTurn:F0} 生命值"
+                Description = string.Format(TranslationServer.Translate("buff_effect_regeneration_desc"), healPerTurn)
             };
 
             buff.Effects.Add(effect);
@@ -141,8 +141,8 @@ namespace hd2dtest.Scripts.Modules
             var buff = new BuffData
             {
                 BuffId = buffId,
-                BuffName = "伤害减免",
-                Description = $"减少受到的伤害 {reductionPercent:F0}%",
+                BuffName = TranslationServer.Translate("buff_damage_reduction_name"),
+                Description = string.Format(TranslationServer.Translate("buff_damage_reduction_desc"), reductionPercent),
                 DurationType = BuffDurationType.Turns,
                 TurnCount = duration,
                 MaxStacks = 1,
@@ -156,7 +156,7 @@ namespace hd2dtest.Scripts.Modules
                 EffectType = BuffEffectType.DamageReduction,
                 Value = reductionPercent,
                 IsPercentage = true,
-                Description = $"伤害减免 {reductionPercent:F0}%"
+                Description = string.Format(TranslationServer.Translate("buff_effect_damage_reduction_desc"), reductionPercent)
             };
 
             buff.Effects.Add(effect);
@@ -171,8 +171,8 @@ namespace hd2dtest.Scripts.Modules
             var buff = new BuffData
             {
                 BuffId = buffId,
-                BuffName = "暴击提升",
-                Description = $"提升暴击率 {critRateBoost * 100:F0}%",
+                BuffName = TranslationServer.Translate("buff_crit_rate_boost_name"),
+                Description = string.Format(TranslationServer.Translate("buff_crit_rate_boost_desc"), critRateBoost * 100),
                 DurationType = BuffDurationType.Turns,
                 TurnCount = duration,
                 MaxStacks = 1,
@@ -186,7 +186,7 @@ namespace hd2dtest.Scripts.Modules
                 EffectType = BuffEffectType.CriticalRateBonus,
                 Value = critRateBoost * 100f, // 转换为百分比
                 IsPercentage = true,
-                Description = $"暴击率 +{critRateBoost * 100:F0}%"
+                Description = string.Format(TranslationServer.Translate("buff_effect_crit_rate_boost_desc"), critRateBoost * 100)
             };
 
             buff.Effects.Add(effect);
