@@ -1,3 +1,24 @@
-key,en_US,zh_CN
-The_Unfettered_Nine, The Unfettered Nine Sword,独孤九剑
-The_Unfettered_Nine_Description,"Preemptive Riposte, If the attack type matches your equipped weapon, it inflicts Armor Break","后发先入,若攻击类型与持有武器相同则破甲"
+key,en_US,zh_CN,jp
+The_Unfettered_Nine, The Unfettered Nine Sword,独孤九剑,独孤九剣
+The_Unfettered_Nine_Description,"Preemptive Riposte, If the attack type matches your equipped weapon, it inflicts Armor Break","后发先入,若攻击类型与持有武器相同则破甲","前衛の回復,攻撃タイプが武器と一致する場合,甲破壊"
+skill_basic_attack,Basic Attack,基础攻击,基本攻撃
+skill_fireball,Fireball,火球术,ファイアボール
+skill_heal,Heal,治疗,ヒール
+skill_defense_stance,Defense Stance,防御姿态,防御姿勢
+skill_strength_blessing,Strength Blessing,力量祝福,力の祝福
+buff_attack_boost,Attack Boost,攻击提升,攻撃力向上
+buff_defense_boost,Defense Boost,防御提升,防御力向上
+buff_speed_boost,Speed Boost,速度提升,速度向上
+buff_regeneration,Regeneration,持续恢复,再生
+buff_damage_reduction,Damage Reduction,伤害减免,ダメージ軽減
+buff_critical_rate,Critical Rate Boost,暴击提升,会心率向上
+save_slot_selector_title,Select Save Slot,选择存档槽位,セーブスロット選択
+save_slot_empty,Empty Slot,空槽位,空スロット
+save_slot_new,New Save,新建存档,新規セーブ
+save_slot_select,Select,选择,選択
+save_slot_delete,Delete Selected,删除选中存档,選択したセーブを削除
+save_slot_confirm,Confirm Selection,确认选择,選択を確認
+save_slot_game_time,Game Time: {0},游戏时间: {0},ゲーム時間: {0}
+save_slot_character_info,Character: {0} | Level: {1},角色: {0} | 等级: {1},キャラクター: {0} | レベル: {1}
+save_slot_deleted,Save slot {0} deleted,存档槽位 {0} 已删除,セーブスロット {0} を削除しました
+save_slot_saved,Game saved to {0},游戏已保存到 {0},ゲームを {0} にセーブしました
