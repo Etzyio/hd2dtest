@@ -160,7 +160,7 @@ namespace hd2dtest.Scenes.Popup
 			// 使用Godot的日志系统
 			GD.Print($"Deleted save slot: {slotId}");
 			// 可以在这里添加删除成功的提示
-			ShowToast($"存档 {slotId} 已删除");
+			ShowToast(string.Format(TranslationServer.Translate("save_slot_deleted_toast"), slotId));
 		}
 
 		/// <summary>
@@ -206,14 +206,14 @@ namespace hd2dtest.Scenes.Popup
 					if (success)
 					{
 						// 显示保存成功提示
-						ShowToast($"游戏已保存到 {slotId}");
+						ShowToast(string.Format(TranslationServer.Translate("save_success_toast"), slotId));
 						// 使用Godot的日志系统
 						GD.Print($"Game saved successfully to slot: {slotId}");
 					}
 					else
 					{
 						// 显示保存失败提示
-						ShowToast("游戏保存失败");
+						ShowToast(TranslationServer.Translate("save_fail_toast"));
 						// 使用Godot的日志系统
 						GD.PrintErr($"Failed to save game to slot: {slotId}");
 					}
@@ -247,12 +247,25 @@ namespace hd2dtest.Scenes.Popup
 		private void InitializeUIReferences()
 		{
 			_inventoryButton = GetNode<Button>("VBoxContainer/GridContainer/InventoryButton");
+			_inventoryButton.Text = TranslationServer.Translate("ui_inventory");
+			
 			_mapButton = GetNode<Button>("VBoxContainer/GridContainer/MapButton");
+			_mapButton.Text = TranslationServer.Translate("ui_map");
+			
 			_statusButton = GetNode<Button>("VBoxContainer/GridContainer/StatusButton");
+			_statusButton.Text = TranslationServer.Translate("ui_status");
+			
 			_equipmentButton = GetNode<Button>("VBoxContainer/GridContainer/EquipmentButton");
+			_equipmentButton.Text = TranslationServer.Translate("ui_equipment");
+			
 			_settingsButton = GetNode<Button>("VBoxContainer/GridContainer/SettingsButton");
+			_settingsButton.Text = TranslationServer.Translate("ui_settings");
+			
 			_saveButton = GetNode<Button>("VBoxContainer/GridContainer/SaveButton");
+			_saveButton.Text = TranslationServer.Translate("ui_save");
+			
 			_backButton = GetNode<Button>("VBoxContainer/GridContainer/BackButton");
+			_backButton.Text = TranslationServer.Translate("ui_back");
 		}
 
 		/// <summary>
@@ -437,12 +450,12 @@ namespace hd2dtest.Scenes.Popup
 					if (success)
 					{
 						// 显示保存成功提示
-						ShowToast("游戏已保存");
+						ShowToast(TranslationServer.Translate("game_saved_successfully"));
 					}
 					else
 					{
 						// 显示保存失败提示
-						ShowToast("游戏保存失败");
+						ShowToast(TranslationServer.Translate("game_save_failed"));
 					}
 				}
 			}

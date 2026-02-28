@@ -247,7 +247,7 @@ namespace hd2dtest.Scripts.Modules
             base.Initialize();
 
             // 设置默认属性
-            CreatureName = "Player";
+            CreatureName = TranslationServer.Translate("player_default_name");
             
             // Stats are now handled by CalculateStats, but we need initial values
             Level = 1;
@@ -275,7 +275,7 @@ namespace hd2dtest.Scripts.Modules
             // 创建初始武器
             Weapon defaultWeapon = new()
             {
-                WeaponName = "Default Sword",
+                WeaponName = TranslationServer.Translate("weapon_default_sword_name"),
                 WeaponTypeValue = Weapon.WeaponType.Sword,
                 AttackPower = 5f
             };
@@ -295,7 +295,7 @@ namespace hd2dtest.Scripts.Modules
             // 创建初始装备
             Equipment defaultArmor = new()
             {
-                EquipmentName = "Default Armor",
+                EquipmentName = TranslationServer.Translate("equipment_default_armor_name"),
                 EquipmentTypeValue = Equipment.EquipmentType.Armor,
                 Defense = 3f,
                 Health = 20f
@@ -351,7 +351,7 @@ namespace hd2dtest.Scripts.Modules
             // 更新攻击属性
             CalculateStats();
 
-            Log.Info($"Equipped weapon: {weapon.WeaponName}");
+            Log.Info(string.Format(TranslationServer.Translate("log_equipped_weapon"), weapon.WeaponName));
         }
 
         /// <summary>
@@ -377,7 +377,7 @@ namespace hd2dtest.Scripts.Modules
             // 更新属性
             CalculateStats();
 
-            Log.Info($"Equipped equipment: {equipment.EquipmentName}");
+            Log.Info(string.Format(TranslationServer.Translate("log_equipped_equipment"), equipment.EquipmentName));
         }
 
         /// <summary>
@@ -411,14 +411,14 @@ namespace hd2dtest.Scripts.Modules
                         // 攻击技能：造成伤害
                         var attackDamage = target.TakeDamage(this, skill);
                         damageResults.AddRange(attackDamage);
-                        effectDescriptions.Add($"造成 {string.Join(", ", attackDamage)} 点伤害");
+                        effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_damage"), string.Join(", ", attackDamage)));
                         break;
                         
                     case Skill.SkillType.Healing:
                         // 治疗技能：恢复生命值
                         var healAmount = this.Heal(this, skill);
                         damageResults.AddRange(healAmount);
-                        effectDescriptions.Add($"恢复 {string.Join(", ", healAmount)} 点生命值");
+                        effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_heal"), string.Join(", ", healAmount)));
                         break;
                         
                     case Skill.SkillType.Defense:
@@ -429,7 +429,7 @@ namespace hd2dtest.Scripts.Modules
                             var defenseBuff = PlayerSkillHelper.CreateDefenseBuff(defenseBuffId, skillDefent.DamageCoefficient, skillDefent.Duration);
                             BuffManagerInstance.Instance.RegisterBuffTemplate(defenseBuff);
                             this.AddBuff(defenseBuffId, this);
-                            effectDescriptions.Add($"提升防御力 {skillDefent.DamageCoefficient * 100:F0}%");
+                            effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_defense_boost"), skillDefent.DamageCoefficient * 100));
                         }
                         break;
                         
@@ -441,7 +441,7 @@ namespace hd2dtest.Scripts.Modules
                             var supportBuff = PlayerSkillHelper.CreateAttackBuff(supportBuffId, skillDefent.DamageCoefficient, skillDefent.Duration);
                             BuffManagerInstance.Instance.RegisterBuffTemplate(supportBuff);
                             this.AddBuff(supportBuffId, this);
-                            effectDescriptions.Add($"提升攻击力 {skillDefent.DamageCoefficient * 100:F0}%");
+                            effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_attack_boost"), skillDefent.DamageCoefficient * 100));
                         }
                         break;
                         
@@ -452,8 +452,8 @@ namespace hd2dtest.Scripts.Modules
             }
             
             // 记录技能使用日志
-            string effectsText = effectDescriptions.Count > 0 ? string.Join(", ", effectDescriptions) : "无效果";
-            Log.Info($"Used skill: {skill.SkillName} on {target.CreatureName}, effects: {effectsText}");
+            string effectsText = effectDescriptions.Count > 0 ? string.Join(", ", effectDescriptions) : TranslationServer.Translate("skill_effect_none");
+            Log.Info(string.Format(TranslationServer.Translate("log_used_skill"), skill.SkillName, target.CreatureName, effectsText));
 
             return true;
         }
@@ -468,7 +468,7 @@ namespace hd2dtest.Scripts.Modules
         public void CollectGold(int amount)
         {
             Gold += amount;
-            Log.Info($"Collected {amount} gold. Total: {Gold}");
+            Log.Info(string.Format(TranslationServer.Translate("log_collected_gold"), amount, Gold));
         }
 
         /// <summary>
@@ -486,7 +486,7 @@ namespace hd2dtest.Scripts.Modules
             // 检查是否升级
             CheckLevelUp();
 
-            Log.Info($"Killed {enemy.CreatureName}. Kill count: {KillCount}");
+            Log.Info(string.Format(TranslationServer.Translate("log_killed_enemy"), enemy.CreatureName, KillCount));
         }
 
         /// <summary>
@@ -509,7 +509,7 @@ namespace hd2dtest.Scripts.Modules
                 Health = MaxHealth; // Heal on level up? Or just increase max? Usually restore full in some RPGs.
                 // Let's just restore full for now as per original code implication (Health = MaxHealth)
 
-                Log.Info($"Level up! Now level {Level}");
+                Log.Info(string.Format(TranslationServer.Translate("log_level_up"), Level));
             }
         }
 
@@ -525,7 +525,7 @@ namespace hd2dtest.Scripts.Modules
 
             DeathCount++;
 
-            Log.Info($"Player died. Death count: {DeathCount}");
+            Log.Info(string.Format(TranslationServer.Translate("log_player_died"), DeathCount));
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public override string GetCreatureInfo()
         {
-            return $"{base.GetCreatureInfo()} - Gold: {Gold} - Kills: {KillCount} - Deaths: {DeathCount}";
+            return base.GetCreatureInfo() + string.Format(TranslationServer.Translate("player_info_suffix"), Gold, KillCount, DeathCount);
         }
     }
 }

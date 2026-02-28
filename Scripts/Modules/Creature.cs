@@ -36,7 +36,7 @@ namespace hd2dtest.Scripts.Modules
         /// 生物名称
         /// </summary>
         /// <value>生物的显示名称</value>
-        [Export] public string CreatureName { get; set; } = "Creature";
+        [Export] public string CreatureName { get; set; } = TranslationServer.Translate("creature_default_name");
         
         /// <summary>
         /// 当前生命值
@@ -218,7 +218,7 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public virtual string GetCreatureInfo()
         {
-            return $"{CreatureName} - Level {Level} - HP: {Health:F0}/{MaxHealth:F0} - ATK: {Attack:F0} - DEF: {Defense:F0} - SPD: {Speed:F0}";
+            return string.Format(TranslationServer.Translate("creature_info_format"), CreatureName, Level, Health, MaxHealth, Attack, Defense, Speed);
         }
     }
 }

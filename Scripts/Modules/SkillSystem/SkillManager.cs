@@ -61,8 +61,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             var skill = new Skill
             {
                 Id = "basic_attack",
-                SkillName = "基础攻击",
-                Description = "对目标造成物理伤害",
+                SkillName = TranslationServer.Translate("skill_basic_attack_name"),
+                Description = TranslationServer.Translate("skill_basic_attack_desc"),
                 Cooldown = 0f,
                 ManaCost = 0,
                 IsUnlocked = true
@@ -88,8 +88,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             var skill = new Skill
             {
                 Id = "basic_heal",
-                SkillName = "基础治疗",
-                Description = "恢复自身生命值",
+                SkillName = TranslationServer.Translate("skill_basic_heal_name"),
+                Description = TranslationServer.Translate("skill_basic_heal_desc"),
                 Cooldown = 2f,
                 ManaCost = 10,
                 IsUnlocked = true
@@ -115,8 +115,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             var skill = new Skill
             {
                 Id = "fireball",
-                SkillName = "火球术",
-                Description = "对目标造成火焰伤害",
+                SkillName = TranslationServer.Translate("skill_fireball_name"),
+                Description = TranslationServer.Translate("skill_fireball_desc"),
                 Cooldown = 1f,
                 ManaCost = 15,
                 IsUnlocked = true
@@ -142,8 +142,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             var skill = new Skill
             {
                 Id = "defense_stance",
-                SkillName = "防御姿态",
-                Description = "提升自身防御力",
+                SkillName = TranslationServer.Translate("skill_defense_stance_name"),
+                Description = TranslationServer.Translate("skill_defense_stance_desc"),
                 Cooldown = 5f,
                 ManaCost = 5,
                 IsUnlocked = true
@@ -169,8 +169,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             var skill = new Skill
             {
                 Id = "strength_blessing",
-                SkillName = "力量祝福",
-                Description = "提升自身攻击力",
+                SkillName = TranslationServer.Translate("skill_strength_blessing_name"),
+                Description = TranslationServer.Translate("skill_strength_blessing_desc"),
                 Cooldown = 4f,
                 ManaCost = 8,
                 IsUnlocked = true

@@ -86,7 +86,7 @@ namespace hd2dtest.Scripts.Modules
         /// NPC对话内容
         /// </summary>
         /// <value>NPC的默认对话文本，默认为"Hello!"</value>
-        public string Dialogue { get; set; } = "Hello!";
+        public string Dialogue { get; set; } = TranslationServer.Translate("npc_default_dialogue");
 
         /// <summary>
         /// ID of the dialogue graph to use.
@@ -208,26 +208,26 @@ namespace hd2dtest.Scripts.Modules
             switch (Type)
             {
                 case NPCType.Merchant:
-                    CreatureName = "Merchant";
+                    CreatureName = Tr("npc_type_merchant");
                     AvailableInteractions.AddRange([InteractionType.Talk, InteractionType.Trade]);
                     break;
                 case NPCType.QuestGiver:
-                    CreatureName = "Quest Giver";
+                    CreatureName = Tr("npc_type_quest_giver");
                     AvailableInteractions.AddRange([InteractionType.Talk, InteractionType.Quest]);
                     break;
                 case NPCType.Guard:
-                    CreatureName = "Guard";
+                    CreatureName = Tr("npc_type_guard");
                     Attack = 15f;
                     Defense = 10f;
                     DetectionRadius = 80f;
                     AvailableInteractions.Add(InteractionType.Talk);
                     break;
                 case NPCType.Healer:
-                    CreatureName = "Healer";
+                    CreatureName = Tr("npc_type_healer");
                     AvailableInteractions.AddRange([InteractionType.Talk, InteractionType.Heal]);
                     break;
                 default:
-                    CreatureName = "Villager";
+                    CreatureName = Tr("npc_type_villager");
                     AvailableInteractions.Add(InteractionType.Talk);
                     break;
             }
@@ -460,7 +460,7 @@ namespace hd2dtest.Scripts.Modules
             // 检查交互类型是否可用
             if (!AvailableInteractions.Contains(interactionType))
             {
-                Log.Info($"{CreatureName}: I can't do that.");
+                Log.Info($"{CreatureName}: {Tr("npc_interact_fail")}");
                 return;
             }
 
@@ -494,7 +494,7 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         private void StartTrade(Creature player)
         {
-            Log.Info($"{CreatureName}: Let's trade!");
+            Log.Info($"{CreatureName}: {TranslationServer.Translate("npc_trade_start")}");
             // 这里简化处理，实际应该打开交易界面
         }
 
@@ -507,7 +507,7 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         private void OfferQuest(Creature player)
         {
-            Log.Info($"{CreatureName}: I have a quest for you!");
+            Log.Info($"{CreatureName}: {TranslationServer.Translate("npc_quest_offer")}");
             // 这里简化处理，实际应该打开任务界面
         }
 
@@ -524,8 +524,8 @@ namespace hd2dtest.Scripts.Modules
             // float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
             List<int> healAmount = player.Heal(this, ResourcesManager.SkillsCache["Heal"]); // 使用NPC的第一个技能进行治疗
 
-            Log.Info($"{CreatureName}: Feel better now?");
-            Log.Info($"{player.CreatureName} recovered {healAmount.Sum():F0} HP!");
+            Log.Info($"{CreatureName}: {TranslationServer.Translate("npc_heal_done")}");
+            Log.Info(string.Format(TranslationServer.Translate("npc_heal_amount"), player.CreatureName, healAmount.Sum()));
         }
 
         /// <summary>
@@ -539,13 +539,13 @@ namespace hd2dtest.Scripts.Modules
         {
             if (CurrentState == NPCState.Following)
             {
-                Log.Info($"{CreatureName}: I'll stop following you now.");
+                Log.Info($"{CreatureName}: {TranslationServer.Translate("npc_follow_stop")}");
                 CurrentState = NPCState.Idle;
                 _target = null;
             }
             else
             {
-                Log.Info($"{CreatureName}: I'll follow you!");
+                Log.Info($"{CreatureName}: {TranslationServer.Translate("npc_follow_start")}");
                 CurrentState = NPCState.Following;
                 _target = player;
             }
@@ -578,7 +578,7 @@ namespace hd2dtest.Scripts.Modules
             // 检查NPC是否可以交互和对话
             if (!IsInteractive || !CanTalk || !IsAlive)
             {
-                return "你好！";
+                return Tr("npc_default_dialogue");
             }
 
             // 获取任务状态
@@ -596,17 +596,17 @@ namespace hd2dtest.Scripts.Modules
                         // 根据任务状态和对话类型返回不同的对话内容
                         return talkType switch
                         {
-                            NPCTalkType.Accept => $"你好，我需要你帮我完成一个任务：{quest.Description}",
-                            NPCTalkType.HandIn => "太好了！你完成了任务，这是你的奖励。",
-                            NPCTalkType.Progress => "任务进展如何了？",
-                            NPCTalkType.Complete => "任务已经完成了，谢谢你的帮助！",
-                            _ => "你好！",
+                            NPCTalkType.Accept => string.Format(TranslationServer.Translate("npc_quest_accept"), quest.Description),
+                            NPCTalkType.HandIn => TranslationServer.Translate("npc_quest_handin"),
+                            NPCTalkType.Progress => TranslationServer.Translate("npc_quest_progress"),
+                            NPCTalkType.Complete => TranslationServer.Translate("npc_quest_complete"),
+                            _ => TranslationServer.Translate("npc_default_dialogue")
                         };
                     }
                 }
             }
 
-            return "你好！";
+            return Tr("npc_default_dialogue");
         }
     }
 }
