@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://teammate_template"]
+
+[ext_resource type="Script" uid="uid://teammate_script" path="res://Scenes/UI/Teammate.cs" id="1_teammate"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_intyv"]
+albedo_color = Color(0.95216745, 0.5576304, 0.33927384, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_4284l"]
+material = SubResource("StandardMaterial3D_intyv")
+
+[sub_resource type="MeshTexture" id="MeshTexture_sinwf"]
+mesh = SubResource("QuadMesh_4284l")
+
+[node name="Teammate" type="VBoxContainer"]
+script = ExtResource("1_teammate")
+layout_mode = 2
+
+[node name="TeammateHeader" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TeammateLabel" type="Label" parent="TeammateHeader"]
+layout_mode = 2
+text = "Teammate"
+
+[node name="Status" type="Label" parent="TeammateHeader"]
+layout_mode = 2
+text = "Atk up"
+
+[node name="TeammateStats" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TeammateHealthValue" type="Label" parent="TeammateStats"]
+layout_mode = 2
+text = "50/100"
+
+[node name="Control" type="Control" parent="TeammateStats"]
+layout_mode = 2
+
+[node name="HPBar" type="TextureProgressBar" parent="TeammateStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+page = 5.0
+value = 50.0
+fill_mode = 1
+nine_patch_stretch = true
+texture_progress = SubResource("MeshTexture_sinwf")
+tint_under = Color(0.10622192, 0.21240366, 0.20880002, 1)
+tint_over = Color(0.89565396, 0.62573534, 0.5342379, 1)
+tint_progress = Color(0.85050595, 0, 0.025840001, 1)
+
+[node name="TeammateStats2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TeammateMpValue" type="Label" parent="TeammateStats2"]
+layout_mode = 2
+text = "MP"
+
+[node name="Control" type="Control" parent="TeammateStats2"]
+layout_mode = 2
+
+[node name="MPBar" type="TextureProgressBar" parent="TeammateStats2"]
+layout_mode = 2
+size_flags_horizontal = 3
+page = 5.0
+value = 50.0
+fill_mode = 1
+nine_patch_stretch = true
+texture_progress = SubResource("MeshTexture_sinwf")
+tint_under = Color(0.10622192, 0.21240366, 0.20880002, 1)
+tint_over = Color(0.89565396, 0.62573534, 0.5342379, 1)
+tint_progress = Color(0.17171198, 0.46970963, 0.71839845, 1)

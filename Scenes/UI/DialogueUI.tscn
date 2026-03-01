@@ -1,5 +1,45 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d0lijq8h7iggo"]
 
-[node name="root" type="Control" unique_id=831308224]
-layout_mode = 3
-anchors_preset = 0
+[ext_resource type="Script" uid="uid://bvhv7iv1pyeaa" path="res://Scenes/UI/DialogueUI.cs" id="1_4rmbr"]
+
+[node name="DialogueUI" type="CanvasLayer" unique_id=1259468241]
+script = ExtResource("1_4rmbr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1320513436]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Attack" type="HBoxContainer" parent="VBoxContainer" unique_id=1483998216]
+layout_mode = 2
+
+[node name="Attack" type="Button" parent="VBoxContainer/Attack" unique_id=1436475032]
+layout_mode = 2
+text = "攻击"
+
+[node name="Skill" type="HBoxContainer" parent="VBoxContainer" unique_id=316689245]
+layout_mode = 2
+
+[node name="Skill" type="Button" parent="VBoxContainer/Skill" unique_id=1375616661]
+layout_mode = 2
+text = "技能"
+
+[node name="Items" type="HBoxContainer" parent="VBoxContainer" unique_id=430026857]
+layout_mode = 2
+
+[node name="Items" type="Button" parent="VBoxContainer/Items" unique_id=1746865648]
+layout_mode = 2
+text = "道具"
+
+[node name="Defent" type="HBoxContainer" parent="VBoxContainer" unique_id=508900261]
+layout_mode = 2
+
+[node name="Defent" type="Button" parent="VBoxContainer/Defent" unique_id=718896002]
+layout_mode = 2
+text = "防御"
+
+[node name="Pass" type="HBoxContainer" parent="VBoxContainer" unique_id=1006648023]
+layout_mode = 2
+
+[node name="Pass" type="Button" parent="VBoxContainer/Pass" unique_id=1515385587]
+layout_mode = 2
+text = "跳过"
