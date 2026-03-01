@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dxt78fcra2mh2" path="res://Scripts/Scenes/Battle/BattleScene.cs" id="1_battle"]
 [ext_resource type="PackedScene" uid="uid://c2a0h7a8cac11" path="res://Scenes/UI/GameUI.tscn" id="2_jaxsk"]
-[ext_resource type="PackedScene" uid="uid://d0lijq8h7iggo" path="res://Scenes/UI/DialogueUI.tscn" id="3_k6flv"]
+[ext_resource type="PackedScene" uid="uid://d0lijq8h7iggo" path="res://Scenes/UI/BattleUI.tscn" id="3_k6flv"]
 
 [node name="BattleScene" type="Control" unique_id=1025672548]
 layout_mode = 3
@@ -15,4 +15,4 @@ script = ExtResource("1_battle")
 
 [node name="GameUI" parent="." unique_id=49785692 instance=ExtResource("2_jaxsk")]
 
-[node name="DialogueUI" parent="." unique_id=1259468241 instance=ExtResource("3_k6flv")]
+[node name="BattleUI" parent="." unique_id=1259468241 instance=ExtResource("3_k6flv")]

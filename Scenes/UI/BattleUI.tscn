@@ -1,20 +1,21 @@
 [gd_scene format=3 uid="uid://d0lijq8h7iggo"]
 
-[ext_resource type="Script" uid="uid://bvhv7iv1pyeaa" path="res://Scenes/UI/DialogueUI.cs" id="1_4rmbr"]
+[ext_resource type="Script" uid="uid://bvhv7iv1pyeaa" path="res://Scenes/UI/BattleUI.cs" id="1_4rmbr"]
 [ext_resource type="Theme" uid="uid://b3fm4jw65qk0c" path="res://Resources/Theme/mainbutton.tres" id="2_i7egk"]
 
-[node name="DialogueUI" type="CanvasLayer" unique_id=1259468241]
+[node name="BattleUI" type="CanvasLayer" unique_id=1259468241]
 script = ExtResource("1_4rmbr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1320513436]
-offset_right = 48.325
-offset_bottom = 171.0
+offset_right = 150.0
+offset_bottom = 241.0
 theme = ExtResource("2_i7egk")
 
 [node name="Attack" type="HBoxContainer" parent="VBoxContainer" unique_id=1483998216]
 layout_mode = 2
 
 [node name="Attack" type="Button" parent="VBoxContainer/Attack" unique_id=1436475032]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "攻击"
 
@@ -22,6 +23,7 @@ text = "攻击"
 layout_mode = 2
 
 [node name="Skill" type="Button" parent="VBoxContainer/Skill" unique_id=1375616661]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "技能"
 
@@ -29,6 +31,7 @@ text = "技能"
 layout_mode = 2
 
 [node name="Items" type="Button" parent="VBoxContainer/Items" unique_id=1746865648]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "道具"
 
@@ -36,6 +39,7 @@ text = "道具"
 layout_mode = 2
 
 [node name="Defent" type="Button" parent="VBoxContainer/Defent" unique_id=718896002]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "防御"
 
@@ -43,27 +47,42 @@ text = "防御"
 layout_mode = 2
 
 [node name="Pass" type="Button" parent="VBoxContainer/Pass" unique_id=1515385587]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "跳过"
 
-[node name="SkillList" type="VBoxContainer" parent="." unique_id=1865016510]
+[node name="SkillList" type="ScrollContainer" parent="." unique_id=1451775782]
 visible = false
-offset_left = 48.0
-offset_top = 45.0
-offset_right = 120.0
-offset_bottom = 85.0
+custom_minimum_size = Vector2(150, 450)
+offset_left = 161.0
+offset_top = 56.0
+offset_right = 311.0
+offset_bottom = 506.0
 
-[node name="NineSwordButton" type="Button" parent="SkillList" unique_id=1014751121]
+[node name="VBoxContainer" type="VBoxContainer" parent="SkillList" unique_id=1485666434]
+custom_minimum_size = Vector2(150, 45)
 layout_mode = 2
+
+[node name="NineSwordButton" type="Button" parent="SkillList/VBoxContainer" unique_id=89923179]
+custom_minimum_size = Vector2(150, 45)
+layout_mode = 2
+theme = ExtResource("2_i7egk")
 text = "独孤九剑"
 
-[node name="ItemlList" type="VBoxContainer" parent="." unique_id=952363528]
+[node name="ItemList" type="ScrollContainer" parent="." unique_id=2089432239]
 visible = false
-offset_left = 49.0
-offset_top = 80.0
-offset_right = 121.0
-offset_bottom = 120.0
+custom_minimum_size = Vector2(150, 450)
+offset_left = 159.0
+offset_top = 58.0
+offset_right = 309.0
+offset_bottom = 508.0
 
-[node name="NineSwordButton" type="Button" parent="ItemlList" unique_id=1355702639]
+[node name="VBoxContainer" type="VBoxContainer" parent="ItemList" unique_id=320262571]
+custom_minimum_size = Vector2(150, 45)
 layout_mode = 2
-text = "血药"
+
+[node name="NineSwordButton" type="Button" parent="ItemList/VBoxContainer" unique_id=20834680]
+custom_minimum_size = Vector2(150, 45)
+layout_mode = 2
+theme = ExtResource("2_i7egk")
+text = "独孤九剑"

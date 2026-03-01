@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Managers;
-using hd2dtest.Scripts.Modules.SkillSystem;
+using hd2dtest.Scripts.Utilities;
 
-namespace hd2dtest.Scripts.Modules
+namespace hd2dtest.Scripts.Modules.SkillSystem
 {
     /// <summary>
     /// 生物Buff管理扩展
@@ -22,12 +22,10 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         private static BuffManager GetBuffManager()
         {
-            if (_buffManager == null)
-            {
-                _buffManager = new BuffManager();
-                _buffManager.Name = "BuffManager";
-                // 这里需要添加到场景树中，实际使用时需要在合适的时机初始化
-            }
+            _buffManager ??= new BuffManager
+                {
+                    Name = "BuffManager"
+                };
             return _buffManager;
         }
 
@@ -91,11 +89,13 @@ namespace hd2dtest.Scripts.Modules
         {
             if (_buffManager == null)
             {
-                _buffManager = new BuffManager();
-                _buffManager.Name = "BuffManager";
+                _buffManager = new BuffManager
+                {
+                    Name = "BuffManager"
+                };
                 parent.AddChild(_buffManager);
-                // 使用Godot的日志系统
-                GD.Print("BuffManager initialized and added to scene");
+                // 使用日志系统
+                Log.Info("BuffManager initialized and added to scene");
             }
         }
 
@@ -109,79 +109,9 @@ namespace hd2dtest.Scripts.Modules
                 _buffManager.ClearAllBuffs();
                 _buffManager.QueueFree();
                 _buffManager = null;
-                // 使用Godot的日志系统
-                GD.Print("BuffManager cleaned up");
+                // 使用日志系统
+                Log.Info("BuffManager cleaned up");
             }
-        }
-    }
-
-    /// <summary>
-    /// 全局Buff管理器访问
-    /// </summary>
-    public static class BuffManagerInstance
-    {
-        private static BuffManager _instance;
-        private static Node _parentNode;
-
-        /// <summary>
-        /// 获取Buff管理器实例
-        /// </summary>
-        public static BuffManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new BuffManager();
-                    _instance.Name = "GlobalBuffManager";
-                    
-                    // 如果存在父节点，添加到场景中
-                    if (_parentNode != null && GodotObject.IsInstanceValid(_parentNode))
-                    {
-                        _parentNode.AddChild(_instance);
-                    }
-                }
-                return _instance;
-            }
-        }
-
-        /// <summary>
-        /// 初始化全局实例
-        /// </summary>
-        public static void Initialize(Node parent)
-        {
-            _parentNode = parent;
-            // 强制创建实例
-            var temp = Instance;
-            // 使用Godot的日志系统
-            GD.Print("Global BuffManager instance initialized");
-        }
-
-        /// <summary>
-        /// 清理实例
-        /// </summary>
-        public static void Cleanup()
-        {
-            if (_instance != null)
-            {
-                _instance.ClearAllBuffs();
-                if (GodotObject.IsInstanceValid(_instance))
-                {
-                    _instance.QueueFree();
-                }
-                _instance = null;
-                _parentNode = null;
-                // 使用Godot的日志系统
-                GD.Print("Global BuffManager instance cleaned up");
-            }
-        }
-
-        /// <summary>
-        /// 检查实例是否有效
-        /// </summary>
-        private static bool IsInstanceValid(GodotObject obj)
-        {
-            return obj != null && GodotObject.IsInstanceValid(obj);
         }
     }
 }

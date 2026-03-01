@@ -267,8 +267,8 @@ namespace hd2dtest.Scenes.Popup
                         }
                         catch (Exception ex)
                         {
-                            // 使用Godot的日志系统
-                            GD.PrintErr($"Failed to load save file {filePath}: {ex.Message}");
+                            // 使用日志系统
+                            Log.Error($"Failed to load save file {filePath}: {ex.Message}");
                         }
                     }
                     fileName = dir.GetNext();
@@ -276,8 +276,8 @@ namespace hd2dtest.Scenes.Popup
             }
             catch (Exception ex)
             {
-                // 使用Godot的日志系统
-                GD.PrintErr($"Failed to scan save files: {ex.Message}");
+                // 使用日志系统
+                Log.Error($"Failed to scan save files: {ex.Message}");
             }
         }
 
@@ -401,8 +401,8 @@ namespace hd2dtest.Scenes.Popup
             // 高亮选中的槽位
             HighlightSelectedSlot();
             
-            // 使用Godot的日志系统
-            GD.Print($"Selected save slot: {slotId}");
+            // 使用日志系统
+            Log.Info($"Selected save slot: {slotId}");
         }
 
         /// <summary>
@@ -410,11 +410,10 @@ namespace hd2dtest.Scenes.Popup
         /// </summary>
         private void HighlightSelectedSlot()
         {
-            foreach (PanelContainer slotPanel in _slotsContainer.GetChildren())
+            foreach (PanelContainer slotPanel in _slotsContainer.GetChildren().Cast<PanelContainer>())
             {
                 var isSelected = slotPanel.Name == $"Slot_{_selectedSlotId}";
-                var stylebox = slotPanel.GetThemeStylebox("panel") as StyleBoxFlat;
-                if (stylebox != null)
+                if (slotPanel.GetThemeStylebox("panel") is StyleBoxFlat stylebox)
                 {
                     stylebox.BorderColor = isSelected ? new Color(0.8f, 0.6f, 0.2f) : new Color(0.3f, 0.3f, 0.3f);
                     stylebox.BorderWidthLeft = isSelected ? 3 : 2;
@@ -469,8 +468,8 @@ namespace hd2dtest.Scenes.Popup
                     }
                 }
                 
-                // 使用Godot的日志系统
-                GD.Print($"Deleted save slot: {_selectedSlotId}");
+                // 使用日志系统
+                Log.Info($"Deleted save slot: {_selectedSlotId}");
                 
                 // 刷新列表
                 RefreshSaveSlots();
@@ -483,8 +482,8 @@ namespace hd2dtest.Scenes.Popup
             }
             catch (Exception ex)
             {
-                // 使用Godot的日志系统
-                GD.PrintErr($"Failed to delete save slot {_selectedSlotId}: {ex.Message}");
+                // 使用日志系统
+                Log.Error($"Failed to delete save slot {_selectedSlotId}: {ex.Message}");
             }
         }
 

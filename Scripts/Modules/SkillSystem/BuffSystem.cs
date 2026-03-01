@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Managers;
+using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Modules.SkillSystem
 {
@@ -102,7 +103,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// 效果列表
         /// </summary>
-        [Export] public Godot.Collections.Array<BuffEffect> Effects { get; set; } = new();
+        [Export] public Godot.Collections.Array<BuffEffect> Effects { get; set; } = [];
 
         /// <summary>
         /// 持续时间类型
@@ -249,8 +250,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
     /// </summary>
     public partial class BuffManager : Node
     {
-        private Dictionary<string, BuffData> _buffTemplates = new();
-        private List<BuffInstance> _activeBuffs = new();
+        private Dictionary<string, BuffData> _buffTemplates = [];
+        private List<BuffInstance> _activeBuffs = [];
 
         /// <summary>
         /// Buff更新信号
@@ -267,8 +268,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             if (buffData != null && !string.IsNullOrEmpty(buffData.BuffId))
             {
                 _buffTemplates[buffData.BuffId] = buffData;
-                // 使用Godot的日志系统
-                GD.Print($"Registered buff template: {buffData.BuffName} ({buffData.BuffId})");
+                // 使用日志系统
+                Log.Info($"Registered buff template: {buffData.BuffName} ({buffData.BuffId})");
             }
         }
 
@@ -288,8 +289,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             var template = GetBuffTemplate(buffId);
             if (template == null)
             {
-                // 使用Godot的日志系统
-                GD.PrintErr($"Buff template not found: {buffId}");
+                // 使用日志系统
+                Log.Error($"Buff template not found: {buffId}");
                 return false;
             }
 
@@ -302,14 +303,14 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                 // 尝试叠加
                 if (existingBuff.Stack())
                 {
-                    // 使用Godot的日志系统
-                    GD.Print($"Buff stacked: {template.BuffName} on {target.CreatureName} (stacks: {existingBuff.CurrentStacks})");
+                    // 使用日志系统
+                    Log.Info($"Buff stacked: {template.BuffName} on {target.CreatureName} (stacks: {existingBuff.CurrentStacks})");
                     EmitSignal(SignalName.BuffStacked, buffId, target, existingBuff.CurrentStacks);
                 }
                 else
                 {
                     // 使用Godot的日志系统
-                    GD.Print($"Buff refreshed: {template.BuffName} on {target.CreatureName}");
+                    Log.Info($"Buff refreshed: {template.BuffName} on {target.CreatureName}");
                 }
                 return true;
             }
@@ -321,8 +322,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             // 应用效果
             ApplyBuffEffects(newBuff);
 
-            // 使用Godot的日志系统
-            GD.Print($"Buff applied: {template.BuffName} to {target.CreatureName}");
+            // 使用日志系统
+            Log.Info($"Buff applied: {template.BuffName} to {target.CreatureName}");
             EmitSignal(SignalName.BuffApplied, buffId, target);
             return true;
         }
@@ -367,7 +368,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// </summary>
         public List<BuffInstance> GetActiveBuffs(Creature target)
         {
-            return _activeBuffs.Where(b => b.Target == target).ToList();
+            return [.. _activeBuffs.Where(b => b.Target == target)];
         }
 
         /// <summary>
@@ -513,8 +514,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                     break;
             }
 
-            // 使用Godot的日志系统
-            GD.Print($"Applied effect: {effect.EffectType} ({value}) to {target.CreatureName}");
+            // 使用日志系统
+            Log.Info($"Applied effect: {effect.EffectType} ({value}) to {target.CreatureName}");
         }
 
         /// <summary>
@@ -559,8 +560,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                     break;
             }
 
-            // 使用Godot的日志系统
-            GD.Print($"Removed effect: {effect.EffectType} ({value}) from {target.CreatureName}");
+            // 使用日志系统
+            Log.Info($"Removed effect: {effect.EffectType} ({value}) from {target.CreatureName}");
         }
 
         /// <summary>
@@ -575,8 +576,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
             _activeBuffs.Remove(buff);
 
-            // 使用Godot的日志系统
-            GD.Print($"Buff expired/removed: {buff.Data.BuffName} from {buff.Target.CreatureName}");
+            // 使用日志系统
+            Log.Info($"Buff expired/removed: {buff.Data.BuffName} from {buff.Target.CreatureName}");
             EmitSignal(SignalName.BuffExpired, buff.Data.BuffId, buff.Target);
         }
 
@@ -609,9 +610,11 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             {
                 if (_instance == null)
                 {
-                    _instance = new BuffManager();
-                    _instance.Name = "GlobalBuffManager";
-                    
+                    _instance = new BuffManager
+                    {
+                        Name = "GlobalBuffManager"
+                    };
+
                     // 如果存在父节点，添加到场景中
                     if (_parentNode != null && GodotObject.IsInstanceValid(_parentNode))
                     {
@@ -629,9 +632,9 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         {
             _parentNode = parent;
             // 强制创建实例
-            var temp = Instance;
-            // 使用Godot的日志系统
-            GD.Print("Global BuffManager instance initialized");
+            _ = Instance;
+            // 使用日志系统
+            Log.Info("Global BuffManager instance initialized");
         }
 
         /// <summary>
@@ -648,8 +651,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                 }
                 _instance = null;
                 _parentNode = null;
-                // 使用Godot的日志系统
-                GD.Print("Global BuffManager instance cleaned up");
+                // 使用日志系统
+                Log.Info("Global BuffManager instance cleaned up");
             }
         }
     }

@@ -58,10 +58,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             {
                 Log.Info($"[SkillEvent] Applying Buff {BuffId} (Value: {Value}) for {Duration}s to {context.Target.CreatureName}");
                 // 集成Buff系统
-                if (BuffManagerInstance.Instance != null)
-                {
-                    BuffManagerInstance.Instance.ApplyBuff(BuffId, context.Caster, context.Target);
-                }
+                BuffManagerInstance.Instance?.ApplyBuff(BuffId, context.Caster, context.Target);
             }
         }
     }

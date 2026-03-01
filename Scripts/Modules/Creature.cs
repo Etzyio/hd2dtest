@@ -84,7 +84,7 @@ namespace hd2dtest.Scripts.Modules
         /// 技能ID列表
         /// </summary>
         /// <value>生物拥有的技能ID集合</value>
-        [Export] public Godot.Collections.Array<string> SkillIDs { get; set; } = new Godot.Collections.Array<string>();
+        [Export] public Godot.Collections.Array<string> SkillIDs { get; set; } = [];
 
         /// <summary>
         /// 是否存活
@@ -103,7 +103,7 @@ namespace hd2dtest.Scripts.Modules
         /// 位置信息
         /// </summary>
         /// <value>生物在游戏世界中的坐标位置</value>
-        [Export] public Vector2 Position { get; set; } = Vector2.Zero;
+        [Export] public Vector3 Position { get; set; } = Vector3.Zero;
 
         /// <summary>
         /// 是否在战斗中
