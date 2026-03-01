@@ -26,8 +26,8 @@ namespace hd2dtest.Scripts.Modules.Battle
 
         public BattleState CurrentState { get; private set; } = BattleState.Setup;
 
-        private List<Creature> _allCombatants = new List<Creature>();
-        private List<Creature> _turnQueue = new List<Creature>();
+        private List<Creature> _allCombatants = [];
+        private List<Creature> _turnQueue = [];
         private Creature _activeCreature;
 
         // Dependencies
@@ -64,7 +64,7 @@ namespace hd2dtest.Scripts.Modules.Battle
             // but basic flow is Speed based.
             
             // Filter dead
-            _turnQueue = _allCombatants.Where(c => c.IsAlive).OrderByDescending(c => c.Speed).ToList();
+            _turnQueue = [.. _allCombatants.Where(c => c.IsAlive).OrderByDescending(c => c.Speed)];
 
             if (_turnQueue.Count > 0)
             {
@@ -132,7 +132,7 @@ namespace hd2dtest.Scripts.Modules.Battle
             // Here we just calculate immediately
             
             // Basic attack skill
-            var basicAttack = new Skill { SkillName = "Attack", SkillDefs = new Godot.Collections.Array<Skill.SkillDefent> { new Skill.SkillDefent() } };
+            var basicAttack = new Skill { SkillName = "Attack", SkillDefs = [new()] };
             target.TakeDamage(_activeCreature, basicAttack);
 
             Log.Info($"{_activeCreature.CreatureName} attacks {target.CreatureName}");
