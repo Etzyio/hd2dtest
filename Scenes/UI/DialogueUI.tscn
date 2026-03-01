@@ -1,13 +1,15 @@
 [gd_scene format=3 uid="uid://d0lijq8h7iggo"]
 
 [ext_resource type="Script" uid="uid://bvhv7iv1pyeaa" path="res://Scenes/UI/DialogueUI.cs" id="1_4rmbr"]
+[ext_resource type="Theme" uid="uid://b3fm4jw65qk0c" path="res://Resources/Theme/mainbutton.tres" id="2_i7egk"]
 
 [node name="DialogueUI" type="CanvasLayer" unique_id=1259468241]
 script = ExtResource("1_4rmbr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1320513436]
-offset_right = 40.0
+offset_right = 48.325
 offset_bottom = 171.0
+theme = ExtResource("2_i7egk")
 
 [node name="Attack" type="HBoxContainer" parent="VBoxContainer" unique_id=1483998216]
 layout_mode = 2

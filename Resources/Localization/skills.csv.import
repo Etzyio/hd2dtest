@@ -6,10 +6,10 @@ uid="uid://cfew0ta0frw6a"
 
 [deps]
 
-files=["res://Resources/Localization/skills.en_US.translation", "res://Resources/Localization/skills.zh_CN.translation"]
+files=["res://Resources/Localization/skills.en_US.translation", "res://Resources/Localization/skills.zh_CN.translation", "res://Resources/Localization/skills.jp.translation"]
 
 source_file="res://Resources/Localization/skills.csv"
-dest_files=["res://Resources/Localization/skills.en_US.translation", "res://Resources/Localization/skills.zh_CN.translation"]
+dest_files=["res://Resources/Localization/skills.en_US.translation", "res://Resources/Localization/skills.zh_CN.translation", "res://Resources/Localization/skills.jp.translation"]
 
 [params]
 

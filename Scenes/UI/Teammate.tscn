@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://teammate_template"]
+[gd_scene format=3 uid="uid://b5h6k7l8m9n0"]
 
-[ext_resource type="Script" uid="uid://teammate_script" path="res://Scenes/UI/Teammate.cs" id="1_teammate"]
+[ext_resource type="Script" uid="uid://vh6bh8mvcxgx" path="res://Scenes/UI/Teammate.cs" id="1_teammate"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_intyv"]
 albedo_color = Color(0.95216745, 0.5576304, 0.33927384, 1)
