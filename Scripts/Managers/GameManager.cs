@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Godot;
 using hd2dtest.Scripts.Core;
-using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts.Managers
 {
@@ -24,6 +22,11 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         /// <value>游戏管理器的单例实例</value>
         public static GameManager Instance => _instance;
+
+        /// <summary>
+        /// 小队管理对象
+        /// </summary>
+        public Teammates Teammates { get; private set; } = new();
 
         /// <summary>
         /// 节点准备就绪时调用的方法
