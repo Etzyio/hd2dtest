@@ -142,8 +142,8 @@ namespace hd2dtest.Scenes.Popup
 		/// </summary>
 		private void OnSaveSlotSelected(string slotId)
 		{
-			// 使用Godot的日志系统
-			GD.Print($"Selected save slot: {slotId}");
+			// 使用日志系统
+			Log.Info($"Selected save slot: {slotId}");
 			
 			// 执行保存操作
 			PerformSaveGame(slotId);
@@ -158,7 +158,7 @@ namespace hd2dtest.Scenes.Popup
 		private void OnSaveSlotDeleted(string slotId)
 		{
 			// 使用Godot的日志系统
-			GD.Print($"Deleted save slot: {slotId}");
+			Log.Info($"Deleted save slot: {slotId}");
 			// 可以在这里添加删除成功的提示
 			ShowToast(string.Format(TranslationServer.Translate("save_slot_deleted_toast"), slotId));
 		}
@@ -182,7 +182,7 @@ namespace hd2dtest.Scenes.Popup
 							playerData.Health = _player.Health;
 							playerData.Mana = _player.Mana;
 							playerData.Inventory = _player.Inventory;
-							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
+							playerData.Position = _player.Position;
 							
 							// 更新扩展属性
 							playerData.Level = _player.Level;
@@ -192,13 +192,13 @@ namespace hd2dtest.Scenes.Popup
 							playerData.DeathCount = _player.DeathCount;
 							playerData.MainClassName = _player.MainClass?.ClassName;
 							playerData.SubClassName = _player.SubClass?.ClassName;
-							playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
+							playerData.EquippedPassiveNames = [.. _player.EquippedPassives.Select(p => p.PassiveName)];
 							playerData.Attack = (int)_player.Attack;
 							playerData.Defense = (int)_player.Defense;
 							playerData.Speed = _player.Speed;
 							playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
 							playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
-							playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
+							playerData.LearnedSkills = [.. _player.Skills.Select(s => s.Id)];
 						}
 					}
 
@@ -207,15 +207,15 @@ namespace hd2dtest.Scenes.Popup
 					{
 						// 显示保存成功提示
 						ShowToast(string.Format(TranslationServer.Translate("save_success_toast"), slotId));
-						// 使用Godot的日志系统
-						GD.Print($"Game saved successfully to slot: {slotId}");
+						// 使用日志系统
+						Log.Info($"Game saved successfully to slot: {slotId}");
 					}
 					else
 					{
 						// 显示保存失败提示
 						ShowToast(TranslationServer.Translate("save_fail_toast"));
-						// 使用Godot的日志系统
-						GD.PrintErr($"Failed to save game to slot: {slotId}");
+						// 使用日志系统
+						Log.Error($"Failed to save game to slot: {slotId}");
 					}
 				}
 			}
@@ -277,8 +277,8 @@ namespace hd2dtest.Scenes.Popup
 			_player = GetTree().Root.GetNodeOrNull<Player>("Main/Player");
 			if (_player == null)
 			{
-				// 使用Godot的日志系统
-				GD.PrintErr("Player not found in scene. Some functionality may be limited.");
+				// 使用日志系统
+				Log.Error("Player not found in scene. Some functionality may be limited.");
 			}
 		}
 
@@ -321,10 +321,7 @@ namespace hd2dtest.Scenes.Popup
 			_settingsPanel.Hide();
 			
 			// 隐藏存档选择器
-			if (_saveSlotSelector != null)
-			{
-				_saveSlotSelector.HideSelector();
-			}
+			_saveSlotSelector?.HideSelector();
 		}
 
 		/// <summary>
@@ -342,8 +339,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnInventoryButtonPressed()
 		{
 			ShowPanel(_inventoryPanel);
-			// 使用Godot的日志系统
-			GD.Print("Inventory panel opened");
+			// 使用日志系统
+			Log.Info("Inventory panel opened");
 		}
 
 		/// <summary>
@@ -352,8 +349,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnMapButtonPressed()
 		{
 			ShowPanel(_mapPanel);
-			// 使用Godot的日志系统
-			GD.Print("Map panel opened");
+			// 使用日志系统
+			Log.Info("Map panel opened");
 		}
 
 		/// <summary>
@@ -362,8 +359,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnStatusButtonPressed()
 		{
 			ShowPanel(_statusPanel);
-			// 使用Godot的日志系统
-			GD.Print("Status panel opened");
+			// 使用日志系统
+			Log.Info("Status panel opened");
 		}
 
 		/// <summary>
@@ -372,8 +369,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnEquipmentButtonPressed()
 		{
 			ShowPanel(_equipmentPanel);
-			// 使用Godot的日志系统
-			GD.Print("Equipment panel opened");
+			// 使用日志系统
+			Log.Info("Equipment panel opened");
 		}
 
 		/// <summary>
@@ -382,8 +379,8 @@ namespace hd2dtest.Scenes.Popup
 		private void OnSettingsButtonPressed()
 		{
 			ShowPanel(_settingsPanel);
-			// 使用Godot的日志系统
-			GD.Print("Settings panel opened");
+			// 使用日志系统
+			Log.Info("Settings panel opened");
 		}
 
 		/// <summary>
@@ -395,14 +392,14 @@ namespace hd2dtest.Scenes.Popup
 			if (_saveSlotSelector != null)
 			{
 				_saveSlotSelector.ShowSelector();
-				// 使用Godot的日志系统
-				GD.Print("Save slot selector opened");
+				// 使用日志系统
+				Log.Info("Save slot selector opened");
 			}
 			else
 			{
 				// 如果存档选择器未初始化，回退到原来的保存逻辑
-				// 使用Godot的日志系统
-				GD.PrintErr("Save slot selector not available, falling back to quick save");
+				// 使用日志系统
+				Log.Error("Save slot selector not available, falling back to quick save");
 				PerformQuickSave();
 			}
 		}
@@ -426,23 +423,23 @@ namespace hd2dtest.Scenes.Popup
 							playerData.Health = _player.Health;
 							playerData.Mana = _player.Mana;
 							playerData.Inventory = _player.Inventory;
-							playerData.Position = new Vector2(_player.Position.X, _player.Position.Y);
-							
-							// 更新扩展属性
-							playerData.Level = _player.Level;
-							playerData.Experience = _player.Experience;
-							playerData.Gold = _player.Gold;
-							playerData.KillCount = _player.KillCount;
-							playerData.DeathCount = _player.DeathCount;
-							playerData.MainClassName = _player.MainClass?.ClassName;
-							playerData.SubClassName = _player.SubClass?.ClassName;
-							playerData.EquippedPassiveNames = _player.EquippedPassives.Select(p => p.PassiveName).ToList();
-							playerData.Attack = (int)_player.Attack;
-							playerData.Defense = (int)_player.Defense;
-							playerData.Speed = _player.Speed;
+							playerData.Position = _player.Position;
+						
+						// 更新扩展属性
+						playerData.Level = _player.Level;
+						playerData.Experience = _player.Experience;
+						playerData.Gold = _player.Gold;
+						playerData.KillCount = _player.KillCount;
+						playerData.DeathCount = _player.DeathCount;
+						playerData.MainClassName = _player.MainClass?.ClassName;
+						playerData.SubClassName = _player.SubClass?.ClassName;
+						playerData.EquippedPassiveNames = [.. _player.EquippedPassives.Select(p => p.PassiveName)];
+						playerData.Attack = (int)_player.Attack;
+						playerData.Defense = (int)_player.Defense;
+						playerData.Speed = _player.Speed;
 							playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
 							playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
-							playerData.LearnedSkills = _player.Skills.Select(s => s.Id).ToList();
+							playerData.LearnedSkills = [.. _player.Skills.Select(s => s.Id)];
 						}
 					}
 
@@ -490,7 +487,7 @@ namespace hd2dtest.Scenes.Popup
 		/// </summary>
 		private void InitializeSettingsPanel()
 		{
-			// 这里可以添加设置面板的初始化逻辑
+			// TODO: 这里可以添加设置面板的初始化逻辑
 			// 例如：音量控制、画质设置等
 		}
 
@@ -499,10 +496,10 @@ namespace hd2dtest.Scenes.Popup
 		/// </summary>
 		private void ShowToast(string message)
 		{
-			// 这里可以实现一个Toast提示功能
+			// TODO: 这里可以实现一个Toast提示功能
 			// 暂时使用日志记录
-			// 使用Godot的日志系统
-			GD.Print($"Toast: {message}");
+			// 使用日志系统
+			Log.Info($"Toast: {message}");
 		}
 
 		/// <summary>

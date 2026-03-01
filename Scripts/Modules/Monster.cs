@@ -101,7 +101,7 @@ namespace hd2dtest.Scripts.Modules
         /// 巡逻点列表
         /// </summary>
         /// <value>怪物的巡逻点坐标集合</value>
-        public List<Vector2> PatrolPoints { get; set; } = [];
+        public List<Vector3> PatrolPoints { get; set; } = [];
 
         // 掉落物品
         /// <summary>
@@ -293,8 +293,8 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 移动到当前巡逻点
-            Vector2 targetPos = PatrolPoints[_currentPatrolIndex];
-            Vector2 direction = (targetPos - Position).Normalized();
+            Vector3 targetPos = PatrolPoints[_currentPatrolIndex];
+            Vector3 direction = (targetPos - Position).Normalized();
 
             // 检查是否到达巡逻点
             if (Position.DistanceTo(targetPos) < 5f)
@@ -345,7 +345,7 @@ namespace hd2dtest.Scripts.Modules
 
             // 追逐玩家，直接移动
             Speed = ChaseSpeed;
-            Vector2 direction = (player.Position - Position).Normalized();
+            Vector3 direction = (player.Position - Position).Normalized();
             Position += direction * Speed * delta;
         }
 
@@ -409,7 +409,7 @@ namespace hd2dtest.Scripts.Modules
 
             // 远离玩家
             Speed = ChaseSpeed;
-            Vector2 direction = (Position - player.Position).Normalized();
+            Vector3 direction = (Position - player.Position).Normalized();
             Position += direction * Speed * delta;
         }
 

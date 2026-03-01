@@ -91,7 +91,7 @@ namespace hd2dtest.Scripts.Modules
         /// 道具库存
         /// </summary>
         /// <value>玩家的道具库存，键为道具ID，值为数量</value>
-        public Dictionary<string, int> Inventory { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int> Inventory { get; set; } = [];
 
         /// <summary>
         /// 魔法值
@@ -119,7 +119,7 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 装备的被动技能（最多4个）
         /// </summary>
-        public List<Battle.PassiveSkill> EquippedPassives { get; } = new List<Battle.PassiveSkill>();
+        public List<Battle.PassiveSkill> EquippedPassives { get; } = [];
 
         /// <summary>
         /// 被动技能最大槽位数
@@ -400,8 +400,8 @@ namespace hd2dtest.Scripts.Modules
             Skill skill = Skills[skillIndex];
 
             // 区分不同技能类型并处理相应效果
-            List<int> damageResults = new List<int>();
-            List<string> effectDescriptions = new List<string>();
+            List<int> damageResults = [];
+            List<string> effectDescriptions = [];
             
             foreach(var skillDefent in skill.SkillDefs)
             {

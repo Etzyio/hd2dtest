@@ -4,7 +4,7 @@ namespace hd2dtest.Scripts.Managers
 {
     public class Teammates
     {
-        private List<Modules.Player> _teammateList = new();
+        private List<Modules.Player> _teammateList = [];
 
         public Modules.Player Player { get; set; }
 
@@ -23,12 +23,12 @@ namespace hd2dtest.Scripts.Managers
 
         public void Set(List<Modules.Player> teammates)
         {
-            _teammateList = teammates ?? new List<Modules.Player>();
+            _teammateList = teammates ?? [];
         }
 
         public List<Modules.Player> Get()
         {
-            return new List<Modules.Player>(_teammateList);
+            return [.. _teammateList];
         }
     }
 }

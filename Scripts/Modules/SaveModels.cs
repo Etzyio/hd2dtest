@@ -29,7 +29,7 @@ namespace hd2dtest.Scripts.Modules
         /// 玩家位置
         /// </summary>
         /// <value>玩家在游戏世界中的坐标位置</value>
-        public Vector2 Position { get; set; }
+        public Vector3 Position { get; set; }
         
         /// <summary>
         /// 玩家等级

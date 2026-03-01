@@ -1,11 +1,6 @@
 using Godot;
-using System;
 using hd2dtest.Scripts.Managers;
-using hd2dtest.Scripts.Core;
-using hd2dtest.Scripts.Modules;
-using hd2dtest.Scripts.Utilities;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace hd2dtest.Scenes.UI
 {
@@ -13,7 +8,7 @@ namespace hd2dtest.Scenes.UI
 	{
 		private VBoxContainer _teammatesContainer;
 		private PackedScene _teammateScene;
-		private List<Teammate> _teammateUIs = new();
+		private List<Teammate> _teammateUIs = [];
 
 		public override void _Ready()
 		{

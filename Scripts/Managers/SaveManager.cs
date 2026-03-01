@@ -474,10 +474,10 @@ namespace hd2dtest.Scripts.Managers
                     DeathCount = defaultPlayer.DeathCount,
                     MainClassName = defaultPlayer.MainClass?.ClassName,
                     SubClassName = defaultPlayer.SubClass?.ClassName,
-                    EquippedPassiveNames = defaultPlayer.EquippedPassives.Select(p => p.PassiveName).ToList(),
+                    EquippedPassiveNames = [.. defaultPlayer.EquippedPassives.Select(p => p.PassiveName)],
                     Position = defaultPlayer.Position,
                     Inventory = defaultPlayer.Inventory,
-                    LearnedSkills = defaultPlayer.SkillIDs.ToList(),
+                    LearnedSkills = [.. defaultPlayer.SkillIDs],
                     EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
                     EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
                 };

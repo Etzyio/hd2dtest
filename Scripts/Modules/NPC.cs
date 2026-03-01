@@ -171,7 +171,7 @@ namespace hd2dtest.Scripts.Modules
         /// 巡逻点列表
         /// </summary>
         /// <value>NPC的巡逻点坐标集合</value>
-        public List<Vector2> PatrolPoints { get; set; } = [];
+        public List<Vector3> PatrolPoints { get; set; } = [];
 
         /// <summary>
         /// 当前巡逻点索引
@@ -316,8 +316,8 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 移动到当前巡逻点
-            Vector2 targetPos = PatrolPoints[_currentPatrolIndex];
-            Vector2 direction = (targetPos - Position).Normalized();
+            Vector3 targetPos = PatrolPoints[_currentPatrolIndex];
+            Vector3 direction = (targetPos - Position).Normalized();
 
             // 检查是否到达巡逻点
             if (Position.DistanceTo(targetPos) < 5f)
@@ -332,7 +332,7 @@ namespace hd2dtest.Scripts.Modules
                 // 移动
                 Speed = PatrolSpeed;
                 IsMoving = true;
-                Direction = direction;
+                Direction = new Vector2(direction.X, direction.Z);
                 Position += direction * Speed * delta;
             }
         }
@@ -356,13 +356,13 @@ namespace hd2dtest.Scripts.Modules
 
             // 保持一定距离跟随
             float followDistance = 30f;
-            Vector2 direction = (target.Position - Position).Normalized();
+            Vector3 direction = (target.Position - Position).Normalized();
 
             if (Position.DistanceTo(target.Position) > followDistance)
             {
                 Speed = PatrolSpeed;
                 IsMoving = true;
-                Direction = direction;
+                Direction = new Vector2(direction.X, direction.Z);
                 Position += direction * Speed * delta;
             }
             else
@@ -394,7 +394,8 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 朝向目标
-            Direction = (target.Position - Position).Normalized();
+            Vector3 dir = (target.Position - Position).Normalized();
+            Direction = new Vector2(dir.X, dir.Z);
         }
 
         /// <summary>
@@ -417,7 +418,8 @@ namespace hd2dtest.Scripts.Modules
             IsMoving = false;
 
             // 朝向玩家
-            Direction = (player.Position - Position).Normalized();
+            Vector3 talkDir = (player.Position - Position).Normalized();
+            Direction = new Vector2(talkDir.X, talkDir.Z);
 
             if (!string.IsNullOrEmpty(DialogueGraphId) && DialogueManager.Instance != null)
             {

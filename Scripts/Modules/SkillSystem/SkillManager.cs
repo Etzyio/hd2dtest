@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Managers;
+using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Modules.SkillSystem
 {
@@ -23,8 +24,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
             CreateDefaultSkills();
             _initialized = true;
-            // 使用Godot的日志系统
-            GD.Print("SkillManager initialized with default skills");
+            // 使用日志系统
+            Log.Info("SkillManager initialized with default skills");
         }
 
         /// <summary>
@@ -273,8 +274,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             if (string.IsNullOrEmpty(skillId) || skill == null) return;
             
             _skillTemplates[skillId] = skill;
-            // 使用Godot的日志系统
-            GD.Print($"Added custom skill template: {skill.SkillName} ({skillId})");
+            // 使用日志系统
+            Log.Info($"Added custom skill template: {skill.SkillName} ({skillId})");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace hd2dtest.Scripts.Managers
         /// <summary>
         /// 缓存的Json序列化选项，用于提高序列化性能
         /// </summary>
-        private readonly JsonSerializerOptions _cachedJsonOptions = new JsonSerializerOptions
+        private readonly JsonSerializerOptions _cachedJsonOptions = new()
         {
             WriteIndented = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
