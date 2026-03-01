@@ -473,14 +473,15 @@ namespace hd2dtest.Scenes.Popup
 			{
 				ShowMainMenu();
 				// 使用Godot的日志系统
-				GD.Print("Returned to main menu");
+				Log.Info("Returned to main menu");
 			}
 			else
 			{
 				// 如果已经在主菜单，关闭整个菜单
 				Hide();
+				HideAllPanels();
 				// 使用Godot的日志系统
-				GD.Print("Popup menu closed");
+				Log.Info("Popup menu closed");
 			}
 		}
 
