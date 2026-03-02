@@ -2,6 +2,7 @@ using Godot;
 using hd2dtest.Scripts.Player;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;
+using hd2dtest;
 
 public partial class Test : Node2D
 {
@@ -21,7 +22,7 @@ public partial class Test : Node2D
 
         // 场景就绪，触发信号显示场景层
         Log.Info("Test scene ready, triggered SceneReady signal");
-        GameViewManager.TriggerSceneReady();
+        Main.Instance.TriggerSceneReady();
 
         Visible = true;
     }

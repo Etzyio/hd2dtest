@@ -13,6 +13,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="shade" type="ColorRect" parent="." unique_id=1582776224]
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 0.5019608)
+
 [node name="popupLayer" type="Control" parent="." unique_id=1109629704]
 layout_mode = 3
 anchors_preset = 15

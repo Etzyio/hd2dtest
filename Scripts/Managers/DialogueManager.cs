@@ -176,9 +176,10 @@ namespace hd2dtest.Scripts.Managers
                 foreach (var key in nodesDict.Keys)
                 {
                     var nodeData = nodesDict[key].AsGodotDictionary();
-                    var node = new DialogueNode();
-                    
-                    node.Id = key.AsString();
+                    var node = new DialogueNode
+                    {
+                        Id = key.AsString()
+                    };
                     if (nodeData.ContainsKey("speaker_name")) node.SpeakerName = nodeData["speaker_name"].AsString();
                     if (nodeData.ContainsKey("text")) node.Text = nodeData["text"].AsString();
                     if (nodeData.ContainsKey("next_node_id")) node.NextNodeId = nodeData["next_node_id"].AsString();
