@@ -26,25 +26,25 @@ namespace hd2dtest.Scenes.Start
 		private VBoxContainer _settingMenu;
 		private Button _settingBackButton;
 		private CenterContainer _centerContainer2;
-		
+
 		// 音量设置节点
 		private HSlider _masterVolumeSlider;
 		private HSlider _musicVolumeSlider;
 		private HSlider _sfxVolumeSlider;
 		private HSlider _voiceVolumeSlider;
-		
+
 		// 图形设置节点
 		private HSlider _brightnessSlider;
 		private HSlider _contrastSlider;
 		private HSlider _saturationSlider;
 		private CheckButton _fullscreenToggle;
 		private CheckButton _vsyncToggle;
-		
+
 		// 游戏设置节点
 		private CheckButton _autoSaveToggle;
 		private HSlider _textSpeedSlider;
 		private CheckButton _showFPSToggle;
-		
+
 		// 语言设置节点
 		private OptionButton _languageSelector;
 
@@ -64,25 +64,25 @@ namespace hd2dtest.Scenes.Start
 				_centerContainer2 = GetNode<CenterContainer>("CanvasLayer/CenterContainer2");
 				_settingMenu = GetNode<VBoxContainer>("CanvasLayer/CenterContainer2/SettingMenu");
 				_settingBackButton = GetNode<Button>("CanvasLayer/CenterContainer2/SettingMenu/BackButton");
-				
+
 				// 音量设置节点
 				_masterVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox/MasterVolumeSlider");
 				_musicVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox/MusicVolumeSlider");
 				_sfxVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox/SFXVolumeSlider");
 				_voiceVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox/VoiceVolumeSlider");
-				
+
 				// 图形设置节点
 				_brightnessSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox/BrightnessSlider");
 				_contrastSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox/ContrastSlider");
 				_saturationSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox/SaturationSlider");
 				_fullscreenToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox/FullscreenToggle");
 				_vsyncToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox/VSyncToggle");
-				
+
 				// 游戏设置节点
 				_autoSaveToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox/AutoSaveToggle");
 				_textSpeedSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox/TextSpeedSlider");
 				_showFPSToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox/ShowFPSToggle");
-				
+
 				// 语言设置节点
 				_languageSelector = GetNode<OptionButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox/LanguageSelector");
 
@@ -94,25 +94,25 @@ namespace hd2dtest.Scenes.Start
 				_settingsButton.Pressed += OnSettingsButtonPressed;
 				_exitButton.Pressed += OnExitButtonPressed;
 				_settingBackButton.Pressed += OnSettingBackButtonPressed;
-				
+
 				// 音量设置信号
 				_masterVolumeSlider.ValueChanged += OnMasterVolumeChanged;
 				_musicVolumeSlider.ValueChanged += OnMusicVolumeChanged;
 				_sfxVolumeSlider.ValueChanged += OnSFXVolumeChanged;
 				_voiceVolumeSlider.ValueChanged += OnVoiceVolumeChanged;
-				
+
 				// 图形设置信号
 				_brightnessSlider.ValueChanged += OnBrightnessChanged;
 				_contrastSlider.ValueChanged += OnContrastChanged;
 				_saturationSlider.ValueChanged += OnSaturationChanged;
 				_fullscreenToggle.Toggled += OnFullscreenToggled;
 				_vsyncToggle.Toggled += OnVSyncToggled;
-				
+
 				// 游戏设置信号
 				_autoSaveToggle.Toggled += OnAutoSaveToggled;
 				_textSpeedSlider.ValueChanged += OnTextSpeedChanged;
 				_showFPSToggle.Toggled += OnShowFPSToggled;
-				
+
 				// 语言设置信号
 				_languageSelector.ItemSelected += OnLanguageSelected;
 
@@ -120,14 +120,15 @@ namespace hd2dtest.Scenes.Start
 
 				// 确保ConfigManager初始化
 				ConfigManager.GetInstance();
-				
+
 				// 从配置加载设置
 				LoadSettings();
 				// 初始化存档列表UI
-			InitializeSaveListUI();
-			GameViewManager.TriggerSceneReady();
-			
-			Log.Info("Start scene ready");
+				InitializeSaveListUI();
+				Main.Instance.TriggerSceneReady();
+
+
+				Log.Info("Start scene ready");
 			}
 			catch (Exception e)
 			{
@@ -147,7 +148,7 @@ namespace hd2dtest.Scenes.Start
 					Log.Error("ConfigManager instance is null");
 					return;
 				}
-				
+
 				// 从ConfigManager加载音量设置
 				if (_masterVolumeSlider != null)
 					_masterVolumeSlider.Value = ConfigManager.Instance.CurrentConfig.MasterVolume;
@@ -157,7 +158,7 @@ namespace hd2dtest.Scenes.Start
 					_sfxVolumeSlider.Value = ConfigManager.Instance.CurrentConfig.SoundEffectVolume;
 				if (_voiceVolumeSlider != null)
 					_voiceVolumeSlider.Value = ConfigManager.Instance.CurrentConfig.VoiceVolume;
-				
+
 				// 从ConfigManager加载图形设置
 				if (_brightnessSlider != null)
 					_brightnessSlider.Value = ConfigManager.Instance.CurrentConfig.Brightness;
@@ -169,7 +170,7 @@ namespace hd2dtest.Scenes.Start
 					_fullscreenToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.Fullscreen;
 				if (_vsyncToggle != null)
 					_vsyncToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.VSync;
-				
+
 				// 从ConfigManager加载游戏设置
 				if (_autoSaveToggle != null)
 					_autoSaveToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.AutoSave;
@@ -177,23 +178,23 @@ namespace hd2dtest.Scenes.Start
 					_textSpeedSlider.Value = ConfigManager.Instance.CurrentConfig.TextSpeed;
 				if (_showFPSToggle != null)
 					_showFPSToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.ShowFPS;
-				
+
 				// 应用音量设置到AudioStreamPlayer
 				AudioStreamPlayer audioPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 				if (audioPlayer != null)
 				{
 					audioPlayer.VolumeDb = Mathf.LinearToDb(ConfigManager.Instance.CurrentConfig.MasterVolume);
 				}
-				
+
 				// 初始化语言选择器
 				if (_languageSelector != null)
 				{
 					// 清除现有选项
 					_languageSelector.Clear();
 					// 添加语言选项
-					_languageSelector.AddItem(ResourcesManager.GetLocalizedString("language_zh"));
-					_languageSelector.AddItem(ResourcesManager.GetLocalizedString("language_en"));
-					_languageSelector.AddItem(ResourcesManager.GetLocalizedString("language_ja"));
+					_languageSelector.AddItem("language_zh");
+					_languageSelector.AddItem("language_en");
+					_languageSelector.AddItem("language_ja");
 					// 从配置加载语言设置
 					string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
 					int selectedIndex = savedLanguage switch
@@ -206,7 +207,7 @@ namespace hd2dtest.Scenes.Start
 					// 应用语言设置
 					TranslationServer.SetLocale(savedLanguage);
 				}
-				
+
 				// 调整设置标签宽度，确保多语言下对齐
 				UpdateSettingLabelsWidth();
 			}
@@ -221,7 +222,7 @@ namespace hd2dtest.Scenes.Start
 		{
 			// 设置统一的最小宽度，确保最长的文本也能放下
 			float minWidth = 250f;
-			
+
 			string basePath = "CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer";
 			string[] labelPaths = new[]
 			{
@@ -267,7 +268,7 @@ namespace hd2dtest.Scenes.Start
 		{
 			Log.Info("Start button pressed");
 			// 切换到First场景
-			GameViewManager.SwitchScene("first");
+			Main.Instance.SwitchScene("first");
 		}
 
 		// 继续游戏按钮点击事件
@@ -284,7 +285,7 @@ namespace hd2dtest.Scenes.Start
 		{
 			// 清空存档列表
 			ClearSaveList();
-			
+
 			// 获取所有存档信息
 			List<SaveInfo> saveInfos = SaveManager.Instance.GetAllSaveInfos();
 			Log.Info($"Found {saveInfos.Count} saves");
@@ -293,7 +294,7 @@ namespace hd2dtest.Scenes.Start
 				// 如果没有存档，显示提示
 				Label noSaveLabel = new()
 				{
-					Text = ResourcesManager.GetLocalizedString("no_saves"),
+					Text = "no_saves",
 					HorizontalAlignment = HorizontalAlignment.Center
 				};
 				noSaveLabel.AddThemeFontSizeOverride("font_size", 20);
@@ -313,7 +314,7 @@ namespace hd2dtest.Scenes.Start
 
 			// 隐藏主菜单的CenterContainer
 			GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = false;
-			
+
 			// 显示存档列表面板
 			_saveListPanel.Visible = true;
 		}
@@ -358,7 +359,7 @@ namespace hd2dtest.Scenes.Start
 		{
 			Log.Info($"Master volume changed to: {value}");
 			ConfigManager.Instance.SetMasterVolume((float)value);
-			
+
 			// 应用音量设置到AudioStreamPlayer
 			AudioStreamPlayer audioPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 			if (audioPlayer != null)
@@ -473,7 +474,7 @@ namespace hd2dtest.Scenes.Start
 		{
 			// 隐藏存档列表
 			_saveListPanel.Visible = false;
-			
+
 			// 重新显示主菜单的CenterContainer
 			GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = true;
 		}
@@ -527,9 +528,9 @@ namespace hd2dtest.Scenes.Start
 			// 存档信息
 			Label infoLabel = new();
 			string playTime = FormatPlayTime(saveInfo.PlayTime);
-			string levelText = ResourcesManager.GetLocalizedString("level");
-			string playTimeText = ResourcesManager.GetLocalizedString("play_time");
-			string saveTimeText = ResourcesManager.GetLocalizedString("save_time");
+			string levelText = "level";
+			string playTimeText = "play_time";
+			string saveTimeText = "save_time";
 			infoLabel.Text = $"{levelText}: {saveInfo.AveragePlayerLevel} | {playTimeText}: {playTime} | {saveTimeText}: {saveInfo.SaveTime:yyyy-MM-dd HH:mm}";
 			infoLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			infoLabel.AddThemeFontSizeOverride("font_size", 16);
@@ -546,7 +547,7 @@ namespace hd2dtest.Scenes.Start
 			// 加载按钮
 			Button loadButton = new()
 			{
-				Text = ResourcesManager.GetLocalizedString("load"),
+				Text = "load",
 				CustomMinimumSize = new Vector2(100, 30)
 			};
 			loadButton.AddThemeFontSizeOverride("font_size", 16);
@@ -578,9 +579,9 @@ namespace hd2dtest.Scenes.Start
 			int minutes = seconds % 3600 / 60;
 			int secs = seconds % 60;
 
-            string h = ResourcesManager.GetLocalizedString("time_h");
-            string m = ResourcesManager.GetLocalizedString("time_m");
-            string s = ResourcesManager.GetLocalizedString("time_s");
+			string h = "h";
+			string m = "m";
+			string s = "s";
 
 			return hours > 0 ? $"{hours}{h} {minutes}{m}" : minutes > 0 ? $"{minutes}{m} {secs}{s}" : $"{secs}{s}";
 		}
@@ -598,11 +599,11 @@ namespace hd2dtest.Scenes.Start
 				// 切换到存档中的场景
 				string targetScene = saveData.CurrentScene;
 				Log.Info($"Loading scene: {targetScene}");
-				GameViewManager.SwitchScene(targetScene);
+				Main.Instance.SwitchScene(targetScene);
 			}
 			else
 			{
-				string failedText = ResourcesManager.GetLocalizedString("load_save_failed");
+				string failedText = "load_save_failed";
 				ShowToast($"{failedText} {saveId}");
 			}
 		}

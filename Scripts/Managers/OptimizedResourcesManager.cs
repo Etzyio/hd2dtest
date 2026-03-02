@@ -137,11 +137,6 @@ namespace hd2dtest.Scripts.Managers
         private const string DefaultResourcesPath = "res://Resources/Static/";
 
         /// <summary>
-        /// 本地化资源路径
-        /// </summary>
-        private const string LocalizationPath = "res://Resources/Localization/";
-
-        /// <summary>
         /// JSON序列化选项
         /// </summary>
         private static readonly JsonSerializerOptions JsonOptions = new()

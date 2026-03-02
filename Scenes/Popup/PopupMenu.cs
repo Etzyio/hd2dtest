@@ -19,72 +19,67 @@ namespace hd2dtest.Scenes.Popup
 		/// 背包面板
 		/// </summary>
 		private Control _inventoryPanel;
-		
+
 		/// <summary>
 		/// 地图面板
 		/// </summary>
 		private Control _mapPanel;
-		
+
 		/// <summary>
 		/// 状态面板
 		/// </summary>
 		private Control _statusPanel;
-		
+
 		/// <summary>
 		/// 装备面板
 		/// </summary>
 		private Control _equipmentPanel;
-		
+
 		/// <summary>
 		/// 设置面板
 		/// </summary>
 		private Control _settingsPanel;
-		
+
 		/// <summary>
 		/// 主菜单面板
 		/// </summary>
 		private Control _mainMenuPanel;
-		
+
 		/// <summary>
 		/// 主菜单按钮
 		/// </summary>
 		private Button _inventoryButton;
-		
+
 		/// <summary>
 		/// 地图按钮
 		/// </summary>
 		private Button _mapButton;
-		
+
 		/// <summary>
 		/// 状态按钮
 		/// </summary>
 		private Button _statusButton;
-		
+
 		/// <summary>
 		/// 装备按钮
 		/// </summary>
 		private Button _equipmentButton;
-		
+
 		/// <summary>
 		/// 设置按钮
 		/// </summary>
 		private Button _settingsButton;
-		
+
 		/// <summary>
 		/// 保存按钮
 		/// </summary>
 		private Button _saveButton;
-		
+
 		/// <summary>
 		/// 返回按钮
 		/// </summary>
 		private Button _backButton;
-		
-		/// <summary>
-		/// 玩家实例
-		/// </summary>
-		private Player _player;
-		
+
 		/// <summary>
 		/// 存档选择器
 		/// </summary>
@@ -97,12 +92,9 @@ namespace hd2dtest.Scenes.Popup
 		{
 			// 初始化面板
 			InitializePanels();
-			
+
 			// 初始化UI元素引用
 			InitializeUIReferences();
-
-			// 尝试获取玩家实例
-			FindPlayer();
 
 			// 初始化存档选择器
 			InitializeSaveSlotSelector();
@@ -129,9 +121,9 @@ namespace hd2dtest.Scenes.Popup
 				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
 				SizeFlagsVertical = Control.SizeFlags.ExpandFill
 			};
-			
+
 			AddChild(_saveSlotSelector);
-			
+
 			// 连接存档选择器的信号
 			_saveSlotSelector.SaveSlotSelected += OnSaveSlotSelected;
 			_saveSlotSelector.SaveSlotDeleted += OnSaveSlotDeleted;
@@ -144,10 +136,10 @@ namespace hd2dtest.Scenes.Popup
 		{
 			// 使用日志系统
 			Log.Info($"Selected save slot: {slotId}");
-			
+
 			// 执行保存操作
 			PerformSaveGame(slotId);
-			
+
 			// 隐藏存档选择器
 			_saveSlotSelector.HideSelector();
 		}
@@ -173,35 +165,7 @@ namespace hd2dtest.Scenes.Popup
 				var saveData = SaveManager.CreateDefaultSaveData(slotId);
 				if (saveData != null)
 				{
-					// 更新玩家数据
-					if (_player != null)
-					{
-						if (saveData.Players.Count > 0)
-						{
-							var playerData = saveData.Players[0];
-							playerData.Health = _player.Health;
-							playerData.Mana = _player.Mana;
-							playerData.Inventory = _player.Inventory;
-							playerData.Position = _player.Position;
-							
-							// 更新扩展属性
-							playerData.Level = _player.Level;
-							playerData.Experience = _player.Experience;
-							playerData.Gold = _player.Gold;
-							playerData.KillCount = _player.KillCount;
-							playerData.DeathCount = _player.DeathCount;
-							playerData.MainClassName = _player.MainClass?.ClassName;
-							playerData.SubClassName = _player.SubClass?.ClassName;
-							playerData.EquippedPassiveNames = [.. _player.EquippedPassives.Select(p => p.PassiveName)];
-							playerData.Attack = (int)_player.Attack;
-							playerData.Defense = (int)_player.Defense;
-							playerData.Speed = _player.Speed;
-							playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
-							playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
-							playerData.LearnedSkills = [.. _player.Skills.Select(s => s.Id)];
-						}
-					}
-
+					// TODO: 保存数据
 					bool success = SaveManager.Instance.SaveGame(saveData, slotId);
 					if (success)
 					{
@@ -232,7 +196,7 @@ namespace hd2dtest.Scenes.Popup
 			_statusPanel = GetNode<Control>("StatusPanel");
 			_equipmentPanel = GetNode<Control>("EquipmentPanel");
 			_settingsPanel = GetNode<Control>("SettingsPanel");
-			
+
 			// 初始时隐藏所有面板
 			_inventoryPanel.Hide();
 			_mapPanel.Hide();
@@ -248,38 +212,24 @@ namespace hd2dtest.Scenes.Popup
 		{
 			_inventoryButton = GetNode<Button>("VBoxContainer/GridContainer/InventoryButton");
 			_inventoryButton.Text = TranslationServer.Translate("ui_inventory");
-			
+
 			_mapButton = GetNode<Button>("VBoxContainer/GridContainer/MapButton");
 			_mapButton.Text = TranslationServer.Translate("ui_map");
-			
+
 			_statusButton = GetNode<Button>("VBoxContainer/GridContainer/StatusButton");
 			_statusButton.Text = TranslationServer.Translate("ui_status");
-			
+
 			_equipmentButton = GetNode<Button>("VBoxContainer/GridContainer/EquipmentButton");
 			_equipmentButton.Text = TranslationServer.Translate("ui_equipment");
-			
+
 			_settingsButton = GetNode<Button>("VBoxContainer/GridContainer/SettingsButton");
 			_settingsButton.Text = TranslationServer.Translate("ui_settings");
-			
+
 			_saveButton = GetNode<Button>("VBoxContainer/GridContainer/SaveButton");
 			_saveButton.Text = TranslationServer.Translate("ui_save");
-			
+
 			_backButton = GetNode<Button>("VBoxContainer/GridContainer/BackButton");
 			_backButton.Text = TranslationServer.Translate("ui_back");
-		}
-
-		/// <summary>
-		/// 查找玩家实例
-		/// </summary>
-		private void FindPlayer()
-		{
-			// 尝试从场景中查找玩家节点
-			_player = GetTree().Root.GetNodeOrNull<Player>("Main/Player");
-			if (_player == null)
-			{
-				// 使用日志系统
-				Log.Error("Player not found in scene. Some functionality may be limited.");
-			}
 		}
 
 		/// <summary>
@@ -303,7 +253,7 @@ namespace hd2dtest.Scenes.Popup
 		{
 			// 隐藏所有面板
 			HideAllPanels();
-			
+
 			// 显示主菜单
 			_mainMenuPanel.Show();
 		}
@@ -319,7 +269,7 @@ namespace hd2dtest.Scenes.Popup
 			_statusPanel.Hide();
 			_equipmentPanel.Hide();
 			_settingsPanel.Hide();
-			
+
 			// 隐藏存档选择器
 			_saveSlotSelector?.HideSelector();
 		}
@@ -414,35 +364,7 @@ namespace hd2dtest.Scenes.Popup
 				var saveData = SaveManager.CreateDefaultSaveData("quick_save");
 				if (saveData != null)
 				{
-					// 更新玩家数据
-					if (_player != null)
-					{
-						if (saveData.Players.Count > 0)
-						{
-							var playerData = saveData.Players[0];
-							playerData.Health = _player.Health;
-							playerData.Mana = _player.Mana;
-							playerData.Inventory = _player.Inventory;
-							playerData.Position = _player.Position;
-						
-						// 更新扩展属性
-						playerData.Level = _player.Level;
-						playerData.Experience = _player.Experience;
-						playerData.Gold = _player.Gold;
-						playerData.KillCount = _player.KillCount;
-						playerData.DeathCount = _player.DeathCount;
-						playerData.MainClassName = _player.MainClass?.ClassName;
-						playerData.SubClassName = _player.SubClass?.ClassName;
-						playerData.EquippedPassiveNames = [.. _player.EquippedPassives.Select(p => p.PassiveName)];
-						playerData.Attack = (int)_player.Attack;
-						playerData.Defense = (int)_player.Defense;
-						playerData.Speed = _player.Speed;
-							playerData.EquippedWeapon = _player.CurrentWeapon?.WeaponName;
-							playerData.EquippedEquipment = _player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName);
-							playerData.LearnedSkills = [.. _player.Skills.Select(s => s.Id)];
-						}
-					}
-
+					// TODO： 更新玩家数据
 					bool success = SaveManager.Instance.SaveGame(saveData, "quick_save");
 					if (success)
 					{
@@ -464,9 +386,9 @@ namespace hd2dtest.Scenes.Popup
 		private void OnBackButtonPressed()
 		{
 			// 如果当前显示的是子面板，返回主菜单
-			if (_inventoryPanel.Visible || _mapPanel.Visible || _statusPanel.Visible || 
-			    _equipmentPanel.Visible || _settingsPanel.Visible || 
-			    (_saveSlotSelector != null && _saveSlotSelector.Visible))
+			if (_inventoryPanel.Visible || _mapPanel.Visible || _statusPanel.Visible ||
+				_equipmentPanel.Visible || _settingsPanel.Visible ||
+				(_saveSlotSelector != null && _saveSlotSelector.Visible))
 			{
 				ShowMainMenu();
 				// 使用Godot的日志系统
@@ -508,7 +430,7 @@ namespace hd2dtest.Scenes.Popup
 		public override void _Input(InputEvent @event)
 		{
 			if (!IsVisibleInTree()) return;
-			
+
 			if (@event.IsActionPressed("ui_cancel"))
 			{
 				OnBackButtonPressed();

@@ -6,13 +6,13 @@ namespace hd2dtest.Scripts.World
     public partial class Background3D : Node3D
 {
     [Export]
-    public Node2D Player;
+    public CharacterBody3D Player;
     
     [Export]
     public float ParallaxFactor = 0.1f;
     
     private Vector3 _initialPosition;
-    private Vector2 _playerLastPosition;
+    private Vector3 _playerLastPosition;
     
     public override void _Ready()
     {
@@ -28,7 +28,7 @@ namespace hd2dtest.Scripts.World
         if (Player == null)
             return;
         
-        Vector2 playerDelta = Player.Position - _playerLastPosition;
+        Vector3 playerDelta = Player.Position - _playerLastPosition;
         Vector3 backgroundDelta = new(playerDelta.X * ParallaxFactor, 0, 0);
         
         Position = _initialPosition + backgroundDelta;

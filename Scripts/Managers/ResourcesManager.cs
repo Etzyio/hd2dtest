@@ -168,11 +168,6 @@ namespace hd2dtest.Scripts.Managers
         /// 默认资源路径
         /// </summary>
         private const string DefaultResourcesPath = "res://Resources/Static/";
-
-        /// <summary>
-        /// 本地化资源路径
-        /// </summary>
-        private const string LocalizationPath = "res://Resources/Localization/";
         
         /// <summary>
         /// JSON序列化选项
@@ -806,45 +801,6 @@ namespace hd2dtest.Scripts.Managers
         private static readonly Dictionary<string, Dictionary<string, string>> _localizationCache = [];
 
         /// <summary>
-        /// 获取本地化字符串
-        /// </summary>
-        /// <param name="key">字符串键</param>
-        /// <param name="languageCode">语言代码（默认：zh）</param>
-        /// <returns>本地化字符串，如果未找到则返回原始键</returns>
-        /// <remarks>
-        /// 该方法从本地化缓存中获取指定键的本地化字符串，如果缓存中不存在则加载对应语言的本地化文件。
-        /// 如果加载失败或未找到对应键，会记录警告或错误日志并返回原始键。
-        /// </remarks>
-        public static string GetLocalizedString(string key, string languageCode = "zh")
-        {
-            try
-            {
-                // 检查本地化数据是否在缓存中
-                if (!_localizationCache.TryGetValue(languageCode, out var localizationData))
-                {
-                    // 加载本地化数据并添加到缓存
-                    string fileName = $"{languageCode}.json";
-                    localizationData = LoadResource<Dictionary<string, string>>(fileName, LocalizationPath);
-                    localizationData ??= [];
-                    _localizationCache[languageCode] = localizationData;
-                }
-                
-                if (localizationData.TryGetValue(key, out string value))
-                {
-                    return value;
-                }
-                
-                Log.Warning($"Localized string not found: {key}, Language: {languageCode}");
-                return key;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Failed to get localized string: {ex.Message}");
-                return key;
-            }
-        }
-        
-        /// <summary>
         /// 检查资源文件是否存在
         /// </summary>
         /// <param name="fileName">资源文件名</param>
@@ -1257,6 +1213,11 @@ namespace hd2dtest.Scripts.Managers
             }
 
             return stats.ToString();
+        }
+
+        internal static string GetLocalizedString(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

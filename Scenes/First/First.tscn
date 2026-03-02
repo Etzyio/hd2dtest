@@ -1,31 +1,7 @@
 [gd_scene format=3 uid="uid://rwgyhv8730ls"]
 
 [ext_resource type="Script" uid="uid://dgferg8uwo2v1" path="res://Scenes/First/First.cs" id="1_w0tih"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_r08f3"]
-
-[sub_resource type="Environment" id="Environment_r08f3"]
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_68kv2"]
-dof_blur_far_enabled = true
-dof_blur_far_transition = 35.0
-dof_blur_near_enabled = true
-
-[sub_resource type="Compositor" id="Compositor_psmp4"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_r08f3"]
-
-[sub_resource type="Skin" id="Skin_68kv2"]
-bind_count = 2
-bind/0/name = &""
-bind/0/bone = -1
-bind/0/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-bind/1/name = &""
-bind/1/bone = -1
-bind/1/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_psmp4"]
-shading_mode = 0
+[ext_resource type="PackedScene" uid="uid://cu88pkc8etwxo" path="res://Scenes/Player/Player.tscn" id="2_r08f3"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0"]
 size = Vector2(50, 50)
@@ -33,6 +9,7 @@ subdivide_width = 10
 subdivide_depth = 10
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0"]
+size = Vector3(100, 1, 100)
 
 [node name="First" type="Node" unique_id=1916760282]
 script = ExtResource("1_w0tih")
@@ -40,26 +17,6 @@ script = ExtResource("1_w0tih")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1510661169]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.74757, 14.889641, 7.133486)
 light_color = Color(0.8437817, 0.6801794, 0.60681045, 1)
-
-[node name="player" type="CharacterBody3D" parent="." unique_id=1435723394]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2235584, 9.019119)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="player" unique_id=934605664]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 4.7683716e-07, 0)
-shape = SubResource("CylinderShape3D_r08f3")
-
-[node name="Camera3D" type="Camera3D" parent="player" unique_id=1335598232]
-transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.9848077, 0.03022194, 2.3575783, 7.0428123)
-environment = SubResource("Environment_r08f3")
-attributes = SubResource("CameraAttributesPractical_68kv2")
-compositor = SubResource("Compositor_psmp4")
-projection = 1
-size = 8.281
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="player" unique_id=1164162008]
-mesh = SubResource("BoxMesh_r08f3")
-skin = SubResource("Skin_68kv2")
-surface_material_override/0 = SubResource("StandardMaterial3D_psmp4")
 
 [node name="floor" type="StaticBody3D" parent="." unique_id=1353661710]
 
@@ -72,3 +29,5 @@ shape = SubResource("BoxShape3D_0")
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="." unique_id=1150336499]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.202199, 1.6819268, -0.026011467)
 polygon = PackedVector2Array(-1.6727376, -1.8377997, -0.97376084, 2.7815237, 2.5757556, 1.8790753, 1.1638846, -0.8182658)
+
+[node name="Player" parent="." unique_id=1396398824 instance=ExtResource("2_r08f3")]
