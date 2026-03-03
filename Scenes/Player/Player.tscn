@@ -148,11 +148,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_s0eop"]
-frustum_focus_distance = 40.0
-frustum_focal_length = 85.0
-frustum_near = 0.313
-frustum_far = 300.0
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ft8w5"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 24.0
+dof_blur_far_transition = 10.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 8.79
 
 [node name="Player" type="CharacterBody3D" unique_id=13901303]
 script = ExtResource("1_s0eop")
@@ -173,5 +174,9 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1102125512]
-transform = Transform3D(1, 0, 0, 0, 0.9552784, 0.2957081, 0, -0.29570806, 0.9552784, 0, 60, 150)
-attributes = SubResource("CameraAttributesPhysical_s0eop")
+transform = Transform3D(1, 0, 0, 0, 0.9335804, 0.35836795, 0, -0.35836795, 0.9335804, 0, 9.13, 14)
+attributes = SubResource("CameraAttributesPractical_ft8w5")
+doppler_tracking = 1
+current = true
+fov = 94.9
+near = 1.525
