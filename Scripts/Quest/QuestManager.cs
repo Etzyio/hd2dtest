@@ -20,7 +20,7 @@ namespace hd2dtest.Scripts.Quest
         /// 单例实例
         /// </summary>
         private static QuestManager _instance;
-        
+
         /// <summary>
         /// 获取单例实例
         /// </summary>
@@ -48,7 +48,7 @@ namespace hd2dtest.Scripts.Quest
             /// 键：任务ID，值：任务状态
             /// </summary>
             public Dictionary<string, QuestStatus> QuestStatuses { get; set; } = new Dictionary<string, QuestStatus>();
-            
+
             /// <summary>
             /// 任务进度字典
             /// 键：任务ID，值：目标进度字典
@@ -60,13 +60,13 @@ namespace hd2dtest.Scripts.Quest
         /// 所有任务数据
         /// </summary>
         private List<QuestData> _allQuests = new List<QuestData>();
-        
+
         /// <summary>
         /// 任务状态字典
         /// 键：任务ID，值：任务状态
         /// </summary>
         private Dictionary<string, QuestStatus> _questStatuses = new Dictionary<string, QuestStatus>();
-        
+
         /// <summary>
         /// 任务进度字典
         /// 键：任务ID，值：目标进度字典

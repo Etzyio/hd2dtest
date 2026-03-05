@@ -138,10 +138,13 @@ namespace hd2dtest.Scripts.Managers
             {
                 // 检查存档数量上限
                 int currentSaveCount = GetMaxSaveSlots();
-                if (currentSaveCount >= 20 && !SaveExists(saveId))
+                if (saveId != "auto")
                 {
-                    Log.Error("Save limit reached: maximum 20 saves allowed");
-                    return false;
+                    if (currentSaveCount >= 20 && !SaveExists(saveId))
+                    {
+                        Log.Error("Save limit reached: maximum 20 saves allowed");
+                        return false;
+                    }
                 }
 
                 // 设置保存时间和存档ID
@@ -153,7 +156,7 @@ namespace hd2dtest.Scripts.Managers
                 {
                     saveData.SaveName = string.Format(TranslationServer.Translate("save_slot_default_name"), saveId);
                 }
-                
+
                 // 设置版本信息
                 if (VersionManager.Instance != null)
                 {
@@ -161,7 +164,7 @@ namespace hd2dtest.Scripts.Managers
                     saveData.BuildDate = VersionManager.Instance.BuildDate;
                     saveData.GitCommit = VersionManager.Instance.GitCommit;
                 }
-                
+
                 // 如果VersionManager实例不可用，使用默认版本号
                 else
                 {
@@ -172,7 +175,7 @@ namespace hd2dtest.Scripts.Managers
 
                 // 保存任务数据
                 SaveQuestData(saveData);
-                
+
                 // 保存 GameDataManager 数据
                 SaveGameDataManagerData(saveData);
 
@@ -313,25 +316,25 @@ namespace hd2dtest.Scripts.Managers
                 {
                     // 保存道具列表
                     saveData.ItemList = new Dictionary<string, int>(GameDataManager.Instance.ItemList);
-                    
+
                     // 保存装备列表
                     saveData.EquipmentList = new Dictionary<string, int>(GameDataManager.Instance.EquipmentList);
-                    
+
                     // 保存 NPC 状态
                     saveData.NPCStatus = new Dictionary<string, int>(GameDataManager.Instance.NPCStatus);
-                    
+
                     // 保存已解锁的等级
                     saveData.UnlockedLevels = GameDataManager.Instance.LevelList
                         .Where(level => !level.Value.IsLocked)
                         .Select(level => level.Key)
                         .ToList();
-                    
+
                     // 保存已解锁的任务
                     saveData.UnlockedQuests = GameDataManager.Instance.QuestList
                         .Where(quest => !quest.Value.IsLocked)
                         .Select(quest => quest.Key)
                         .ToList();
-                    
+
                     // 保存小队成员
                     if (GameDataManager.Instance.Teammates != null)
                     {
@@ -435,7 +438,7 @@ namespace hd2dtest.Scripts.Managers
                             GameDataManager.Instance.ItemList[kvp.Key] = kvp.Value;
                         }
                     }
-                    
+
                     // 加载装备列表
                     if (saveData.EquipmentList != null)
                     {
@@ -445,7 +448,7 @@ namespace hd2dtest.Scripts.Managers
                             GameDataManager.Instance.EquipmentList[kvp.Key] = kvp.Value;
                         }
                     }
-                    
+
                     // 加载 NPC 状态
                     if (saveData.NPCStatus != null)
                     {
@@ -455,7 +458,7 @@ namespace hd2dtest.Scripts.Managers
                             GameDataManager.Instance.NPCStatus[kvp.Key] = kvp.Value;
                         }
                     }
-                    
+
                     // 加载已解锁的等级
                     if (saveData.UnlockedLevels != null)
                     {
@@ -464,7 +467,7 @@ namespace hd2dtest.Scripts.Managers
                             GameDataManager.Instance.UnlockLevel(levelId);
                         }
                     }
-                    
+
                     // 加载已解锁的任务
                     if (saveData.UnlockedQuests != null)
                     {
@@ -473,7 +476,7 @@ namespace hd2dtest.Scripts.Managers
                             GameDataManager.Instance.UnlockQuest(questId);
                         }
                     }
-                    
+
                     // 加载小队成员
                     // 这里需要根据 Teammates 的实际实现来加载小队成员
                     if (saveData.Teammates != null && GameDataManager.Instance.Teammates != null)
@@ -525,7 +528,7 @@ namespace hd2dtest.Scripts.Managers
 
                 // 加载任务数据
                 LoadQuestData(saveData);
-                
+
                 // 加载 GameDataManager 数据
                 LoadGameDataManagerData(saveData);
 
@@ -584,7 +587,7 @@ namespace hd2dtest.Scripts.Managers
             {
                 // 创建包含单个玩家的默认存档数据
                 var defaultPlayer = new hd2dtest.Scripts.Modules.Player();
-                
+
                 // 初始化玩家
                 defaultPlayer.Initialize();
 
@@ -613,12 +616,12 @@ namespace hd2dtest.Scripts.Managers
                     EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
                     EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
                 };
-                
+
                 // 获取版本信息
                 string gameVersion = "0.0.1";
                 string buildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string gitCommit = "unknown";
-                
+
                 if (VersionManager.Instance != null)
                 {
                     gameVersion = VersionManager.Instance.GameVersion;
@@ -828,7 +831,7 @@ namespace hd2dtest.Scripts.Managers
 
                     while ((fileName = dirAccess.GetNext()) != "")
                     {
-                        if (!dirAccess.CurrentIsDir() && fileName.EndsWith(SaveFileExtension))
+                        if (!dirAccess.CurrentIsDir() && fileName.EndsWith(SaveFileExtension) && fileName != "auto.json")
                         {
                             count++;
                         }
@@ -875,6 +878,10 @@ namespace hd2dtest.Scripts.Managers
                 Log.Error($"Failed to copy save from {sourceSaveId} to {targetSaveId}: {e.Message}");
                 return false;
             }
+        }
+        public void AutoSave()
+        {
+            SaveGame(CreateDefaultSaveData(), "auto");
         }
     }
 }

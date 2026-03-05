@@ -27,7 +27,7 @@ namespace hd2dtest.Scripts.Core.UI
             {
                 _focusStack.Push(_lastFocusedControl);
             }
-            
+
             // Find first focusable child in new root
             Control firstFocusable = FindFirstFocusable(root);
             if (firstFocusable != null)

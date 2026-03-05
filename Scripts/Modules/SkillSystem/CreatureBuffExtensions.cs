@@ -23,9 +23,9 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         private static BuffManager GetBuffManager()
         {
             _buffManager ??= new BuffManager
-                {
-                    Name = "BuffManager"
-                };
+            {
+                Name = "BuffManager"
+            };
             return _buffManager;
         }
 

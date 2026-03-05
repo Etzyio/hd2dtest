@@ -272,7 +272,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         public static void AddSkillTemplate(string skillId, Skill skill)
         {
             if (string.IsNullOrEmpty(skillId) || skill == null) return;
-            
+
             _skillTemplates[skillId] = skill;
             // 使用日志系统
             Log.Info($"Added custom skill template: {skill.SkillName} ({skillId})");

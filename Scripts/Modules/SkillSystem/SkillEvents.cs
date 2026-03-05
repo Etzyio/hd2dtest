@@ -14,14 +14,14 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// 伤害倍率，用于计算最终伤害值
         /// </summary>
         /// <value>伤害倍率，默认为 1.0</value>
-         public float DamageMultiplier { get; set; } = 1.0f;
-        
+        public float DamageMultiplier { get; set; } = 1.0f;
+
         /// <summary>
         /// 伤害类型，用于弱点判定
         /// </summary>
         /// <value>伤害类型字符串，如"Physical"、"Fire"、"Ice"等，默认为"Physical"</value>
-         public string DamageType { get; set; } = "Physical";
-        
+        public string DamageType { get; set; } = "Physical";
+
         /// <summary>
         /// 执行伤害技能事件
         /// </summary>
@@ -37,10 +37,10 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             {
                 float baseDamage = context.Caster.Attack * DamageMultiplier;
                 Log.Info($"[SkillEvent] Dealing {baseDamage} {DamageType} damage to {context.Target.CreatureName}");
-                
+
                 // 集成实际伤害计算器
                 var damageResult = DamageCalculator.CalculateSkillDamage(context.Caster, context.Target, baseDamage, DamageType);
-                context.Target.TakeDamage(damageResult, DamageType); 
+                context.Target.TakeDamage(damageResult, DamageType);
             }
         }
     }
@@ -55,13 +55,13 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// 治疗倍率，用于计算治疗量
         /// </summary>
         /// <value>治疗倍率，默认为 1.0</value>
-         public float HealMultiplier { get; set; } = 1.0f;
-        
+        public float HealMultiplier { get; set; } = 1.0f;
+
         /// <summary>
         /// 基础治疗量，固定增加的治疗值
         /// </summary>
         /// <value>基础治疗量，默认为 0</value>
-         public float BaseHeal { get; set; } = 0f;
+        public float BaseHeal { get; set; } = 0f;
 
         /// <summary>
         /// 执行治疗技能事件
@@ -79,7 +79,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                 // 简单治疗公式
                 float healAmount = BaseHeal + (context.Caster.Attack * 0.5f * HealMultiplier); // 暂时使用攻击力作为魔法强度的代理
                 Log.Info($"[SkillEvent] Healing {healAmount} to {context.Target.CreatureName}");
-                
+
                 context.Target.Health += healAmount;
                 if (context.Target.Health > context.Target.MaxHealth)
                     context.Target.Health = context.Target.MaxHealth;
@@ -97,19 +97,19 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// Buff 的唯一标识符
         /// </summary>
         /// <value>Buff ID 字符串</value>
-         public string BuffId { get; set; }
-        
+        public string BuffId { get; set; }
+
         /// <summary>
         /// Buff 持续时间（秒）
         /// </summary>
         /// <value>持续时间，默认为 3.0 秒</value>
-         public float Duration { get; set; } = 3.0f;
-        
+        public float Duration { get; set; } = 3.0f;
+
         /// <summary>
         /// Buff 效果值，例如增加的攻击力数值
         /// </summary>
         /// <value>效果值，默认为 0</value>
-         public float Value { get; set; } = 0f; // 通用值（例如，+10 攻击力）
+        public float Value { get; set; } = 0f; // 通用值（例如，+10 攻击力）
 
         /// <summary>
         /// 执行 Buff 技能事件
@@ -140,25 +140,25 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// 特效场景资源
         /// </summary>
         /// <value>PackedScene 类型的特效场景</value>
-         public PackedScene EffectScene { get; set; }
-        
+        public PackedScene EffectScene { get; set; }
+
         /// <summary>
         /// 是否将特效附加到目标节点
         /// </summary>
         /// <value>true 表示附加到目标，false 表示生成在世界坐标，默认为 false</value>
-         public bool AttachToTarget { get; set; } = false;
-        
+        public bool AttachToTarget { get; set; } = false;
+
         /// <summary>
         /// 特效相对于生成位置的偏移量
         /// </summary>
         /// <value>Vector3 类型的偏移量，默认为 Vector3.Zero</value>
-         public Vector3 Offset { get; set; } = Vector3.Zero;
-        
+        public Vector3 Offset { get; set; } = Vector3.Zero;
+
         /// <summary>
         /// 特效持续时间（秒）
         /// </summary>
         /// <value>持续时间，默认为 2.0 秒</value>
-         public float Duration { get; set; } = 2.0f;
+        public float Duration { get; set; } = 2.0f;
 
         /// <summary>
         /// 执行生成特效事件
@@ -176,7 +176,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
             Node root = context.CasterNode.GetTree().Root;
             Node3D effectInstance = EffectScene.Instantiate<Node3D>();
-            
+
             if (effectInstance == null)
             {
                 Log.Error("SpawnEffectEvent: EffectScene is not a Node3D");
@@ -199,7 +199,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             }
 
             Log.Info($"[SkillEvent] Spawning effect {EffectScene.ResourceName}");
-            
+
             // 如果脚本未处理，自动销毁逻辑
             SceneTreeTimer timer = context.CasterNode.GetTree().CreateTimer(Duration);
             timer.Timeout += () => { if (Godot.GodotObject.IsInstanceValid(effectInstance)) effectInstance.QueueFree(); };
@@ -216,13 +216,13 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// 要播放的音频流资源
         /// </summary>
         /// <value>AudioStream 类型的音频资源</value>
-         public AudioStream Sound { get; set; }
-        
+        public AudioStream Sound { get; set; }
+
         /// <summary>
         /// 音量（分贝）
         /// </summary>
         /// <value>音量值，默认为 0.0dB</value>
-         public float VolumeDb { get; set; } = 0.0f;
+        public float VolumeDb { get; set; } = 0.0f;
 
         /// <summary>
         /// 执行播放声音事件

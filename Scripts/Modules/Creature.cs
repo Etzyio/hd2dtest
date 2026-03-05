@@ -36,74 +36,74 @@ namespace hd2dtest.Scripts.Modules
         /// 生物名称
         /// </summary>
         /// <value>生物的显示名称</value>
-         public string CreatureName { get; set; } = TranslationServer.Translate("creature_default_name");
-        
+        public string CreatureName { get; set; } = TranslationServer.Translate("creature_default_name");
+
         /// <summary>
         /// 当前生命值
         /// </summary>
         /// <value>当前生命值，范围：0 到 MaxHealth</value>
-         public float Health { get; set; } = 100f;
-        
+        public float Health { get; set; } = 100f;
+
         /// <summary>
         /// 最大生命值
         /// </summary>
         /// <value>生物的最大生命值上限</value>
-         public float MaxHealth { get; set; } = 100f;
-        
+        public float MaxHealth { get; set; } = 100f;
+
         /// <summary>
         /// 攻击力
         /// </summary>
         /// <value>生物的基础攻击力</value>
-         public float Attack { get; set; } = 10f;
-        
+        public float Attack { get; set; } = 10f;
+
         /// <summary>
         /// 防御力
         /// </summary>
         /// <value>生物的基础防御力</value>
-         public float Defense { get; set; } = 5f;
-        
+        public float Defense { get; set; } = 5f;
+
         /// <summary>
         /// 速度
         /// </summary>
         /// <value>生物的移动速度和行动顺序相关属性</value>
-         public float Speed { get; set; } = 50f;
-        
+        public float Speed { get; set; } = 50f;
+
         /// <summary>
         /// 等级
         /// </summary>
         /// <value>生物的当前等级</value>
-         public int Level { get; set; } = 1;
-        
+        public int Level { get; set; } = 1;
+
         /// <summary>
         /// 经验值
         /// </summary>
         /// <value>生物当前积累的经验值</value>
-         public int Experience { get; set; } = 0;
-        
+        public int Experience { get; set; } = 0;
+
         /// <summary>
         /// 技能ID列表
         /// </summary>
         /// <value>生物拥有的技能ID集合</value>
-         public Godot.Collections.Array<string> SkillIDs { get; set; } = [];
+        public Godot.Collections.Array<string> SkillIDs { get; set; } = [];
 
         /// <summary>
         /// 是否存活
         /// </summary>
         /// <value>true 表示生物存活，false 表示生物死亡</value>
         public bool IsAlive { get; private set; } = true;
-        
+
         /// <summary>
         /// 弱点列表
         /// </summary>
         /// <value>生物的弱点类型集合</value>
         // Weakness 是结构体，在 Godot 中难以直接导出为结构体数组
         public List<Weakness> Weaknesses { get; set; } = [];
-        
+
         /// <summary>
         /// 位置信息
         /// </summary>
         /// <value>生物在游戏世界中的坐标位置</value>
-         public Vector3 Position { get; set; } = Vector3.Zero;
+        public Vector3 Position { get; set; } = Vector3.Zero;
 
         /// <summary>
         /// 是否在战斗中
@@ -166,7 +166,7 @@ namespace hd2dtest.Scripts.Modules
 
             // 这里可以添加伤害类型相关的逻辑，例如抗性计算
             // 目前简化处理，直接扣除生命值
-            
+
             Health -= amount;
 
             // 检查是否死亡

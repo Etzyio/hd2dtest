@@ -35,7 +35,7 @@ namespace hd2dtest.Scripts.Modules.AI.BehaviorTree.Actions
             // Assuming _agent handles movement (e.g. CharacterBody3D)
             // Or simple translation for now
             Vector3 direction = (target.GlobalPosition - _agent.GlobalPosition).Normalized();
-            
+
             // If agent is CharacterBody3D
             if (_agent is CharacterBody3D body)
             {

@@ -8,33 +8,33 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
     public partial class SkillData : Resource
     {
         [ExportCategory("Basic Info")]
-         public string SkillId { get; set; } = System.Guid.NewGuid().ToString();
-         public string SkillName { get; set; } = "New Skill";
-         public string Description { get; set; } = "";
-         public Texture2D Icon { get; set; }
+        public string SkillId { get; set; } = System.Guid.NewGuid().ToString();
+        public string SkillName { get; set; } = "New Skill";
+        public string Description { get; set; } = "";
+        public Texture2D Icon { get; set; }
 
         [ExportCategory("Properties")]
-         public float Cooldown { get; set; } = 1.0f;
-         public int ManaCost { get; set; } = 10;
-         public float Range { get; set; } = 5.0f;
-         public bool IsTargeted { get; set; } = true;
+        public float Cooldown { get; set; } = 1.0f;
+        public int ManaCost { get; set; } = 10;
+        public float Range { get; set; } = 5.0f;
+        public bool IsTargeted { get; set; } = true;
 
         [ExportCategory("Execution Timeline")]
-         public Array<SkillPhase> Phases { get; set; } = new Array<SkillPhase>();
+        public Array<SkillPhase> Phases { get; set; } = new Array<SkillPhase>();
     }
 
     [GlobalClass]
     public partial class SkillPhase : Resource
     {
-         public string PhaseName { get; set; } = "Cast";
-         public float Duration { get; set; } = 0.5f;
-         public Array<SkillEvent> Events { get; set; } = new Array<SkillEvent>();
+        public string PhaseName { get; set; } = "Cast";
+        public float Duration { get; set; } = 0.5f;
+        public Array<SkillEvent> Events { get; set; } = new Array<SkillEvent>();
     }
 
     [GlobalClass]
     public abstract partial class SkillEvent : Resource
     {
-         public float NormalizedTime { get; set; } = 0.0f; // 0.0 to 1.0 within phase
+        public float NormalizedTime { get; set; } = 0.0f; // 0.0 to 1.0 within phase
 
         public virtual void Execute(SkillExecutionContext context)
         {

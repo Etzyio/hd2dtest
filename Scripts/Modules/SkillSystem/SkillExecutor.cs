@@ -55,7 +55,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         private void NextPhase()
         {
             _currentPhaseIndex++;
-            
+
             if (_currentPhaseIndex >= _currentContext.Skill.Phases.Count)
             {
                 FinishSkill();
@@ -64,7 +64,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
             SkillPhase phase = _currentContext.Skill.Phases[_currentPhaseIndex];
             _phaseTimer = 0f;
-            
+
             // 为该阶段准备事件
             _pendingEvents.Clear();
             if (phase.Events != null)
@@ -76,7 +76,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
             Log.Info($"Starting Phase: {phase.PhaseName} (Duration: {phase.Duration}s)");
             EmitSignal(SignalName.SkillPhaseStarted, phase.PhaseName);
-            
+
             // 如果持续时间为 0，立即执行并进入下一阶段
             if (phase.Duration <= 0)
             {
@@ -97,7 +97,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             // 检查事件
             // 标准化时间：0 到 1
             float normalizedTime = (phase.Duration > 0) ? (_phaseTimer / phase.Duration) : 1.0f;
-            
+
             // 按顺序执行所有到期事件
             while (_pendingEvents.Count > 0)
             {

@@ -60,7 +60,7 @@ namespace hd2dtest.Scenes.Popup
         public string GetFormattedTime()
         {
             if (IsEmpty) return TranslationServer.Translate("save_slot_empty");
-            
+
             var timeSpan = DateTime.Now - SaveTime;
             if (timeSpan.TotalDays >= 1)
                 return string.Format(TranslationServer.Translate("time_days_ago"), Math.Floor(timeSpan.TotalDays));
@@ -78,7 +78,7 @@ namespace hd2dtest.Scenes.Popup
         public string GetGameTimeString()
         {
             if (IsEmpty) return "";
-            
+
             var time = TimeSpan.FromSeconds(GameTime);
             if (time.TotalHours >= 1)
                 return $"{Math.Floor(time.TotalHours)}h {time.Minutes}m";
@@ -204,7 +204,7 @@ namespace hd2dtest.Scenes.Popup
             {
                 var slotId = $"save_slot_{i + 1}";
                 var slotData = _saveSlots.FirstOrDefault(s => s.SlotId == slotId);
-                
+
                 if (slotData == null)
                 {
                     slotData = new SaveSlotData
@@ -238,14 +238,14 @@ namespace hd2dtest.Scenes.Popup
 
                 dir.ListDirBegin();
                 string fileName = dir.GetNext();
-                
+
                 while (fileName != "")
                 {
                     if (!dir.CurrentIsDir() && fileName.EndsWith(".json"))
                     {
                         var filePath = $"{saveDir}/{fileName}";
                         var slotId = fileName.Replace(".json", "");
-                        
+
                         try
                         {
                             var saveData = SaveManager.Instance.LoadGame(slotId);
@@ -395,13 +395,13 @@ namespace hd2dtest.Scenes.Popup
         private void SelectSlot(string slotId)
         {
             _selectedSlotId = slotId;
-            
+
             // 更新UI状态
             UpdateButtonStates();
-            
+
             // 高亮选中的槽位
             HighlightSelectedSlot();
-            
+
             // 使用日志系统
             Log.Info($"Selected save slot: {slotId}");
         }
@@ -468,17 +468,17 @@ namespace hd2dtest.Scenes.Popup
                         }
                     }
                 }
-                
+
                 // 使用日志系统
                 Log.Info($"Deleted save slot: {_selectedSlotId}");
-                
+
                 // 刷新列表
                 RefreshSaveSlots();
-                
+
                 // 清除选择
                 _selectedSlotId = null;
                 UpdateButtonStates();
-                
+
                 EmitSignal(SignalName.SaveSlotDeleted, _selectedSlotId);
             }
             catch (Exception ex)
@@ -496,7 +496,7 @@ namespace hd2dtest.Scenes.Popup
             if (string.IsNullOrEmpty(_selectedSlotId)) return;
 
             EmitSignal(SignalName.SaveSlotSelected, _selectedSlotId);
-            
+
             // 隐藏选择器
             Visible = false;
         }

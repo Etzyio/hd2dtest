@@ -71,7 +71,7 @@ namespace hd2dtest.Scripts.Managers
             }
 
             var option = _currentNode.Options[optionIndex];
-            
+
             if (_conditionChecker != null && !string.IsNullOrEmpty(option.Condition))
             {
                 if (!_conditionChecker.CheckCondition(option.Condition))
@@ -90,7 +90,7 @@ namespace hd2dtest.Scripts.Managers
             {
                 _history.Pop(); // Remove current
                 string previousId = _history.Peek(); // Get previous
-                
+
                 if (_currentGraph.Nodes.ContainsKey(previousId))
                 {
                     _currentNode = _currentGraph.Nodes[previousId];
@@ -110,7 +110,7 @@ namespace hd2dtest.Scripts.Managers
                 _currentNode = node;
                 _history.Push(nodeId);
                 OnNodeChanged?.Invoke(_currentNode);
-                
+
                 // Trigger events
                 foreach (var evt in _currentNode.Events)
                 {
@@ -166,10 +166,10 @@ namespace hd2dtest.Scripts.Managers
         private DialogueGraph ParseGraphData(Godot.Collections.Dictionary data)
         {
             var graph = new DialogueGraph();
-            
+
             if (data.ContainsKey("id")) graph.Id = data["id"].AsString();
             if (data.ContainsKey("start_node_id")) graph.StartNodeId = data["start_node_id"].AsString();
-            
+
             if (data.ContainsKey("nodes"))
             {
                 var nodesDict = data["nodes"].AsGodotDictionary();
@@ -209,7 +209,7 @@ namespace hd2dtest.Scripts.Managers
                             var evtDict = evt.AsGodotDictionary();
                             var dialogueEvent = new DialogueEvent();
                             if (evtDict.ContainsKey("type")) dialogueEvent.Type = evtDict["type"].AsString();
-                            
+
                             if (evtDict.ContainsKey("parameters"))
                             {
                                 var paramsDict = evtDict["parameters"].AsGodotDictionary();

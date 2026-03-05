@@ -61,12 +61,12 @@ namespace hd2dtest.Scripts.Managers
             // 初始化版本信息
             Log.Info("VersionManager._Ready() called");
             BuildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            
+
             // 获取Git提交哈希
             Log.Info("Getting Git commit hash...");
             GitCommit = GetGitCommitSimple();
             Log.Info($"Git commit hash obtained: {GitCommit}");
-            
+
             // 确保版本号格式为四位数字
             GameVersion = EnsureVersionFormat(DEFAULT_VERSION);
 
@@ -102,7 +102,7 @@ namespace hd2dtest.Scripts.Managers
             Log.Info("Checking for git tag...");
             string gitTag = GetGitTag();
             Log.Info($"Git tag obtained: {gitTag}");
-            
+
             if (!string.IsNullOrEmpty(gitTag))
             {
                 // 移除tag前缀v（如果存在）
@@ -121,7 +121,7 @@ namespace hd2dtest.Scripts.Managers
             // 保存版本信息到文件，以便游戏运行时读取
             SaveVersionInfo();
         }
-        
+
         /// <summary>
         /// 简单版本的获取git commit方法
         /// </summary>
@@ -135,11 +135,11 @@ namespace hd2dtest.Scripts.Managers
             try
             {
                 Log.Info("Trying to get git commit using simple method...");
-                
+
                 // 使用当前工作目录
                 string projectDir = Directory.GetCurrentDirectory();
                 Log.Info($"Project directory: {projectDir}");
-                
+
                 // 尝试向上查找.git目录
                 string currentDir = projectDir;
                 while (currentDir != null)
@@ -151,9 +151,9 @@ namespace hd2dtest.Scripts.Managers
                     }
                     currentDir = Directory.GetParent(currentDir)?.FullName;
                 }
-                
+
                 Log.Info($"Git repository directory: {projectDir}");
-                
+
                 // 执行git命令
                 ProcessStartInfo psi = new()
                 {
@@ -165,7 +165,7 @@ namespace hd2dtest.Scripts.Managers
                     CreateNoWindow = true,
                     WorkingDirectory = projectDir
                 };
-                
+
                 Log.Info("Starting git process...");
                 using Process process = Process.Start(psi);
                 if (process == null)
@@ -173,15 +173,15 @@ namespace hd2dtest.Scripts.Managers
                     Log.Error("Failed to start git process");
                     return "unknown";
                 }
-                
+
                 string output = process.StandardOutput.ReadToEnd().Trim();
                 string error = process.StandardError.ReadToEnd().Trim();
                 process.WaitForExit();
-                
+
                 Log.Info($"Git output: '{output}'");
                 Log.Info($"Git error: '{error}'");
                 Log.Info($"Git exit code: {process.ExitCode}");
-                
+
                 return string.IsNullOrEmpty(output) ? "unknown" : output;
             }
             catch (Exception e)
@@ -207,7 +207,7 @@ namespace hd2dtest.Scripts.Managers
                 // 分割版本号
                 string[] parts = baseVersion.Split('.');
                 int major = 0, minor = 0, patch = 0;
-                
+
                 // 解析现有版本号
                 if (parts.Length > 0 && int.TryParse(parts[0], out int m))
                     major = m;
@@ -215,7 +215,7 @@ namespace hd2dtest.Scripts.Managers
                     minor = mi;
                 if (parts.Length > 2 && int.TryParse(parts[2], out int p))
                     patch = p;
-                
+
                 // 使用实际的Git提交哈希
                 string gitCommit = GitCommit;
                 // 如果Git提交哈希获取失败，使用默认值
@@ -225,7 +225,7 @@ namespace hd2dtest.Scripts.Managers
                 }
                 // 获取git提交号前8位
                 string commitShort = gitCommit[..Math.Min(8, gitCommit.Length)];
-                
+
                 // 构建四位数字版本号
                 string version = $"{major}.{minor}.{patch}.{commitShort}";
                 Log.Info($"Generated version: {version}");
@@ -300,11 +300,11 @@ namespace hd2dtest.Scripts.Managers
                 // 获取当前工作目录
                 string currentDir = Directory.GetCurrentDirectory();
                 Log.Info($"Current directory: {currentDir}");
-                
+
                 // 检查是否在git仓库中
                 string gitDir = Path.Combine(currentDir, ".git");
                 Log.Info($"Checking git directory: {gitDir}");
-                
+
                 if (!Directory.Exists(gitDir))
                 {
                     // 尝试向上查找.git目录
@@ -320,7 +320,7 @@ namespace hd2dtest.Scripts.Managers
                         }
                         parentDir = Directory.GetParent(parentDir)?.FullName;
                     }
-                    
+
                     if (!Directory.Exists(gitDir))
                     {
                         Log.Info("No .git directory found");
@@ -344,11 +344,11 @@ namespace hd2dtest.Scripts.Managers
                 string output = process.StandardOutput.ReadToEnd().Trim();
                 string error = process.StandardError.ReadToEnd().Trim();
                 process.WaitForExit();
-                
+
                 Log.Info($"Git command output: {output}");
                 Log.Info($"Git command error: {error}");
                 Log.Info($"Git command exit code: {process.ExitCode}");
-                
+
                 return string.IsNullOrEmpty(output) ? "unknown" : output;
             }
             catch (Exception e)
@@ -376,7 +376,7 @@ namespace hd2dtest.Scripts.Managers
                 {
                     gitCommitHash = "b8efa1cf6cc30f9618a3f1de10687fdd0c9346be";
                 }
-                
+
                 // 创建版本信息字典
                 var versionData = new Godot.Collections.Dictionary
             {

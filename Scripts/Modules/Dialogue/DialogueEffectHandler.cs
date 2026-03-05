@@ -39,7 +39,7 @@ namespace hd2dtest.Scripts.Modules.Dialogue
         public void HandleEvent(DialogueEvent evt)
         {
             Log.Info($"Handling Dialogue Event: {evt.Type}");
-            
+
             switch (evt.Type)
             {
                 case "PlaySound":
@@ -74,7 +74,7 @@ namespace hd2dtest.Scripts.Modules.Dialogue
             {
                 // 在真实游戏中，这会调用 AudioManager.PlaySound(soundId)
                 Log.Info($"Playing Sound: {soundId}");
-                
+
                 // 如果上下文有 AudioStreamPlayer，尝试播放
                 if (_context.HasNode("AudioPlayer"))
                 {

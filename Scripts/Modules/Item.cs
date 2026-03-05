@@ -383,17 +383,17 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public string GetInfo()
         {
-            string typeInfo = ItemTypeValue == ItemType.Consumable ? 
-                $" ({GetTypeName()} - {GetConsumableTypeName()})" : 
+            string typeInfo = ItemTypeValue == ItemType.Consumable ?
+                $" ({GetTypeName()} - {GetConsumableTypeName()})" :
                 $" ({GetTypeName()})";
 
             string effectLine = string.Empty;
             if (EffectValue > 0)
             {
-                effectLine = ItemTypeValue == ItemType.Consumable ? 
-                    $"Effect: +{EffectValue:F0} " + 
-                    (ConsumableTypeValue == ConsumableType.HealthPotion ? "HP" : 
-                     ConsumableTypeValue == ConsumableType.ManaPotion ? "MP" : "") + "\n" : 
+                effectLine = ItemTypeValue == ItemType.Consumable ?
+                    $"Effect: +{EffectValue:F0} " +
+                    (ConsumableTypeValue == ConsumableType.HealthPotion ? "HP" :
+                     ConsumableTypeValue == ConsumableType.ManaPotion ? "MP" : "") + "\n" :
                     $"Effect: +{EffectValue:F0}\n";
             }
 

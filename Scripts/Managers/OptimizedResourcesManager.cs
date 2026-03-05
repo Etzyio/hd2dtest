@@ -49,7 +49,7 @@ namespace hd2dtest.Scripts.Managers
     /// <summary>
     /// 优化的资源管理器，支持异步加载和性能优化
     /// </summary>
-    public partial class OptimizedResourcesManager: Node
+    public partial class OptimizedResourcesManager : Node
     {
         /// <summary>
         /// 单例实例

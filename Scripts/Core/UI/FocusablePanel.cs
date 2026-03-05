@@ -20,7 +20,7 @@ namespace hd2dtest.Scripts.Core.UI
             InitializeStyles();
             ConnectSignals();
             ApplyDesignTokens();
-            
+
             FocusMode = FocusModeEnum.All; // Enable focus
         }
 
@@ -101,9 +101,9 @@ namespace hd2dtest.Scripts.Core.UI
 
             _tween = CreateTween();
             float duration = DesignSystem.GetAnimationDuration(AnimationDurationKey);
-            
+
             PivotOffset = Size / 2;
-            
+
             _tween.TweenProperty(this, "scale", targetScale, duration)
                 .SetTrans(Tween.TransitionType.Quad)
                 .SetEase(Tween.EaseType.Out);

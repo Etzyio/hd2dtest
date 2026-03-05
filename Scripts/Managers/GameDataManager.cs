@@ -33,25 +33,25 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         public Dictionary<string, int> ItemList => _itemList;
         private Dictionary<string, int> _itemList = [];
-        
+
         /// <summary>
         /// 等级列表
         /// </summary>
         public Dictionary<string, Level> LevelList => _levelList;
         private Dictionary<string, Level> _levelList;
-        
+
         /// <summary>
         /// 任务列表
         /// </summary>
         public Dictionary<string, QuestData> QuestList => _questList;
         private Dictionary<string, QuestData> _questList = [];
-        
+
         /// <summary>
         /// 装备列表
         /// </summary>
         public Dictionary<string, int> EquipmentList => _equipmentList;
         private Dictionary<string, int> _equipmentList = [];
-        
+
         /// <summary>
         /// NPC 状态列表
         /// </summary>

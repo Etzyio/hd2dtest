@@ -62,7 +62,7 @@ namespace hd2dtest.Scripts.Modules.Battle
             // 简单的 CTB 或回合制按速度排序
             // 对于女神异闻录风格，1 More 会立即增加一个额外回合，
             // 但基本流程是基于速度的
-            
+
             // 过滤死亡单位
             _turnQueue = [.. _allCombatants.Where(c => c.IsAlive).OrderByDescending(c => c.Speed)];
 
@@ -126,11 +126,11 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (CurrentState != BattleState.PlayerTurn) return;
 
             CurrentState = BattleState.ActionExecution;
-            
+
             // 执行攻击
             // 在真实场景中，我们会播放动画，等待信号，然后造成伤害
             // 这里我们立即计算
-            
+
             // 基础攻击技能
             var basicAttack = new Skill { SkillName = "Attack", SkillDefs = [new()] };
             target.TakeDamage(_activeCreature, basicAttack);
@@ -158,40 +158,40 @@ namespace hd2dtest.Scripts.Modules.Battle
                 }
 
                 player.Mana -= skill.ManaCost;
-                
+
                 // 应用技能
                 // 遍历定义
-                foreach(var def in skill.SkillDefs)
+                foreach (var def in skill.SkillDefs)
                 {
-                     if (def.Type == Skill.SkillType.Attack)
-                     {
-                         target.TakeDamage(player, skill);
-                     }
-                     else if (def.Type == Skill.SkillType.Healing)
-                     {
-                         target.Heal(player, skill);
-                     }
-                     // 支持/防御技能...
+                    if (def.Type == Skill.SkillType.Attack)
+                    {
+                        target.TakeDamage(player, skill);
+                    }
+                    else if (def.Type == Skill.SkillType.Healing)
+                    {
+                        target.Heal(player, skill);
+                    }
+                    // 支持/防御技能...
                 }
-                
+
                 Log.Info($"{player.CreatureName} uses {skill.SkillName} on {target.CreatureName}");
             }
 
             CheckBattleEnd();
             EndTurn();
         }
-        
+
         // 切换成员动作
         public void PlayerAction_SwitchMember(Player incomingMember)
         {
-             // 验证
-             if (CurrentState != BattleState.PlayerTurn) return;
-             
-             // 交换逻辑在 PartyManager 中（尚未实现）
-             // PartyManager.Instance.SwapMember(_activeCreature as Player, incomingMember);
-             
-             Log.Info($"{_activeCreature.CreatureName} switched with {incomingMember.CreatureName}");
-             EndTurn();
+            // 验证
+            if (CurrentState != BattleState.PlayerTurn) return;
+
+            // 交换逻辑在 PartyManager 中（尚未实现）
+            // PartyManager.Instance.SwapMember(_activeCreature as Player, incomingMember);
+
+            Log.Info($"{_activeCreature.CreatureName} switched with {incomingMember.CreatureName}");
+            EndTurn();
         }
 
         public void EndTurn()
@@ -199,13 +199,13 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (CurrentState == BattleState.Victory || CurrentState == BattleState.Defeat) return;
 
             // 处理回合结束效果（持续伤害、Buff 到期）
-            
+
             // 移动到队列中的下一个？还是重新计算？
             // 对于简单的轮转制，我们可以直接索引++，但通常会重新计算或弹出。
             // 让我们假设我们移除活跃单位并选择下一个。
-            
+
             _turnQueue.Remove(_activeCreature);
-            
+
             if (_turnQueue.Count > 0)
             {
                 StartTurn(_turnQueue[0]);

@@ -56,21 +56,29 @@ namespace hd2dtest.Scripts.Utilities
             // 计算基础伤害（考虑防御）
             float baseDamageAfterDefense = Math.Max(1f, attacker.Attack - defender.Defense * 0.1f);
 
-            foreach(var skilldefent in skill.SkillDefs){
+            foreach (var skilldefent in skill.SkillDefs)
+            {
                 float weaknessMultiplier = defender.Weaknesses != null && defender.Weaknesses.Contains(skilldefent.DamageType) ? 1.3f : 1.0f;
 
-                if(skilldefent.Type == Skill.SkillType.Attack){
+                if (skilldefent.Type == Skill.SkillType.Attack)
+                {
                     baseDamageAfterDefense += skilldefent.DamageCoefficient * weaknessMultiplier;
                     list1.Add((int)baseDamageAfterDefense);
-                } else if(skilldefent.Type == Skill.SkillType.Defense){
+                }
+                else if (skilldefent.Type == Skill.SkillType.Defense)
+                {
                     // 防御技能：临时提升防御力，不直接参与伤害计算
                     // 防御效果通过Buff系统实现
                     continue;
-                } else if(skilldefent.Type == Skill.SkillType.Support){
+                }
+                else if (skilldefent.Type == Skill.SkillType.Support)
+                {
                     // 支持技能：提供增益效果，通过Buff系统实现
                     // 支持效果通过Buff系统实现
                     continue;
-                } else if(skilldefent.Type == Skill.SkillType.Healing){
+                }
+                else if (skilldefent.Type == Skill.SkillType.Healing)
+                {
                     // 治疗技能：不造成伤害，通过治疗系统实现
                     // 治疗技能不增加伤害，跳过伤害计算
                     continue;

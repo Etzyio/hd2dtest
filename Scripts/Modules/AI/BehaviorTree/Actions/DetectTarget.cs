@@ -25,7 +25,7 @@ namespace hd2dtest.Scripts.Modules.AI.BehaviorTree.Actions
                 blackboard[_targetKey] = _sensor.VisibleTargets[0];
                 return NodeStatus.Success;
             }
-            
+
             if (_sensor.AudibleTargets.Count > 0)
             {
                 // Can hear something, investigate

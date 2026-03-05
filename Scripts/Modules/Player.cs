@@ -49,25 +49,25 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <value>true 表示玩家正在移动，false 表示玩家静止</value>
         public bool IsMoving { get; set; } = false;
-        
+
         /// <summary>
         /// 是否正在攻击
         /// </summary>
         /// <value>true 表示玩家正在攻击，false 表示玩家未在攻击</value>
         public bool IsAttacking { get; set; } = false;
-        
+
         /// <summary>
         /// 是否正在防御
         /// </summary>
         /// <value>true 表示玩家正在防御，false 表示玩家未在防御</value>
         public bool IsDefending { get; set; } = false;
-        
+
         /// <summary>
         /// 移动方向
         /// </summary>
         /// <value>玩家的当前移动方向向量</value>
         public Vector2 Direction { get; set; } = Vector2.Zero;
-       
+
         // 玩家统计数据
         /// <summary>
         /// 金币数量
@@ -151,7 +151,7 @@ namespace hd2dtest.Scripts.Modules
         {
             if (EquippedPassives.Count >= MaxPassiveSlots) return false;
             if (EquippedPassives.Contains(passive)) return false;
-            
+
             EquippedPassives.Add(passive);
             CalculateStats();
             return true;
@@ -248,7 +248,7 @@ namespace hd2dtest.Scripts.Modules
 
             // 设置默认属性
             CreatureName = TranslationServer.Translate("player_default_name");
-            
+
             // 属性现在由 CalculateStats 处理，但我们需要初始值
             Level = 1;
             Mana = 50f;
@@ -402,8 +402,8 @@ namespace hd2dtest.Scripts.Modules
             // 区分不同技能类型并处理相应效果
             List<int> damageResults = [];
             List<string> effectDescriptions = [];
-            
-            foreach(var skillDefent in skill.SkillDefs)
+
+            foreach (var skillDefent in skill.SkillDefs)
             {
                 switch (skillDefent.Type)
                 {
@@ -413,14 +413,14 @@ namespace hd2dtest.Scripts.Modules
                         damageResults.AddRange(attackDamage);
                         effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_damage"), string.Join(", ", attackDamage)));
                         break;
-                        
+
                     case Skill.SkillType.Healing:
                         // 治疗技能：恢复生命值
                         var healAmount = this.Heal(this, skill);
                         damageResults.AddRange(healAmount);
                         effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_heal"), string.Join(", ", healAmount)));
                         break;
-                        
+
                     case Skill.SkillType.Defense:
                         // 防御技能：应用防御Buff
                         if (BuffManagerInstance.Instance != null)
@@ -432,7 +432,7 @@ namespace hd2dtest.Scripts.Modules
                             effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_defense_boost"), skillDefent.DamageCoefficient * 100));
                         }
                         break;
-                        
+
                     case Skill.SkillType.Support:
                         // 支持技能：应用支持Buff
                         if (BuffManagerInstance.Instance != null)
@@ -444,13 +444,13 @@ namespace hd2dtest.Scripts.Modules
                             effectDescriptions.Add(string.Format(TranslationServer.Translate("skill_effect_attack_boost"), skillDefent.DamageCoefficient * 100));
                         }
                         break;
-                        
+
                     default:
                         Log.Warning($"Unknown skill type: {skillDefent.Type}");
                         break;
                 }
             }
-            
+
             // 记录技能使用日志
             string effectsText = effectDescriptions.Count > 0 ? string.Join(", ", effectDescriptions) : TranslationServer.Translate("skill_effect_none");
             Log.Info(string.Format(TranslationServer.Translate("log_used_skill"), skill.SkillName, target.CreatureName, effectsText));

@@ -8,7 +8,7 @@ namespace hd2dtest.Scripts.Modules.AI
     public partial class SquadManager : Node
     {
         public static SquadManager Instance { get; private set; }
-        
+
         private List<Squad> _squads = new List<Squad>();
 
         public override void _Ready()

@@ -19,7 +19,7 @@ namespace hd2dtest.Scripts.Managers
         /// 单例实例
         /// </summary>
         private static ConfigManager _instance;
-        
+
         /// <summary>
         /// 缓存的Json序列化选项，用于提高序列化性能
         /// </summary>
@@ -44,17 +44,17 @@ namespace hd2dtest.Scripts.Managers
             /// 主音量，范围0.0-1.0
             /// </summary>
             public float MasterVolume { get; set; } = 1.0f;
-            
+
             /// <summary>
             /// 音乐音量，范围0.0-1.0
             /// </summary>
             public float MusicVolume { get; set; } = 0.8f;
-            
+
             /// <summary>
             /// 音效音量，范围0.0-1.0
             /// </summary>
             public float SoundEffectVolume { get; set; } = 1.0f;
-            
+
             /// <summary>
             /// 语音音量，范围0.0-1.0
             /// </summary>
@@ -66,27 +66,27 @@ namespace hd2dtest.Scripts.Managers
             /// 亮度，范围0.0-2.0
             /// </summary>
             public float Brightness { get; set; } = 1.0f;
-            
+
             /// <summary>
             /// 对比度，范围0.0-2.0
             /// </summary>
             public float Contrast { get; set; } = 1.0f;
-            
+
             /// <summary>
             /// 饱和度，范围0.0-2.0
             /// </summary>
             public float Saturation { get; set; } = 1.0f;
-            
+
             /// <summary>
             /// 分辨率宽度，最小值800
             /// </summary>
             public int ResolutionWidth { get; set; } = 720;
-            
+
             /// <summary>
             /// 分辨率高度，最小值600
             /// </summary>
             public int ResolutionHeight { get; set; } = 640;
-            
+
             /// <summary>
             /// 是否全屏
             /// </summary>
@@ -98,22 +98,22 @@ namespace hd2dtest.Scripts.Managers
             /// 是否自动保存
             /// </summary>
             public bool AutoSave { get; set; } = true;
-            
+
             /// <summary>
             /// 文本显示速度，范围0.1-2.0
             /// </summary>
             public float TextSpeed { get; set; } = 0.5f;
-            
+
             /// <summary>
             /// 是否显示FPS
             /// </summary>
             public bool ShowFPS { get; set; } = false;
-            
+
             /// <summary>
             /// 是否开启垂直同步
             /// </summary>
             public bool VSync { get; set; } = true;
-            
+
             /// <summary>
             /// 语言设置，默认为英文
             /// </summary>
@@ -206,24 +206,24 @@ namespace hd2dtest.Scripts.Managers
                 {
                     // 如果配置文件不存在，读取当前游戏设置并保存为配置
                     CurrentConfig = new ConfigData();
-                    
+
                     // 读取当前分辨率
                     var currentSize = DisplayServer.WindowGetSize();
                     CurrentConfig.ResolutionWidth = currentSize.X;
                     CurrentConfig.ResolutionHeight = currentSize.Y;
-                    
+
                     // 读取当前全屏状态
                     var currentMode = DisplayServer.WindowGetMode();
                     CurrentConfig.Fullscreen = currentMode == DisplayServer.WindowMode.Fullscreen;
-                    
+
                     // 读取当前垂直同步状态
                     var currentVsyncMode = DisplayServer.WindowGetVsyncMode();
                     CurrentConfig.VSync = currentVsyncMode == DisplayServer.VSyncMode.Enabled;
-                    
+
                     // 读取系统语言并设置相应的语言
                     string systemLanguage = TranslationServer.GetLocale();
                     Log.Info($"System language detected: {systemLanguage}");
-                    
+
                     // 检查系统语言是否在支持的语言列表中
                     // 支持的语言：en_US (英文), zh_CN (简体中文), ja_JP (日语)
                     if (systemLanguage.StartsWith("zh"))
@@ -241,9 +241,9 @@ namespace hd2dtest.Scripts.Managers
                         // 其他系统使用英文
                         CurrentConfig.Language = "en_US";
                     }
-                    
+
                     Log.Info($"Language set to: {CurrentConfig.Language}");
-                    
+
                     // 保存配置
                     SaveConfig();
                     Log.Info("Config created from current game settings");

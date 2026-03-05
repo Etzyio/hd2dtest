@@ -191,7 +191,7 @@ namespace hd2dtest.Scripts.Modules
         {
             IsEquipped = true;
             Log.Info($"Equipped equipment: {EquipmentName}");
-            
+
             // 触发装备特效
             TriggerEquipEffect();
         }
@@ -206,7 +206,7 @@ namespace hd2dtest.Scripts.Modules
         {
             IsEquipped = false;
             Log.Info($"Unequipped equipment: {EquipmentName}");
-            
+
             // 移除装备特效
             RemoveEquipEffect();
         }

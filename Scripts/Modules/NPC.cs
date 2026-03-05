@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Godot;
-using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Utilities;
@@ -584,8 +582,8 @@ namespace hd2dtest.Scripts.Modules
             }
 
             // 获取任务状态
-            var questStatus = hd2dtest.Scripts.Quest.QuestManager.Instance.GetQuestStatus(questId);
-            var quest = hd2dtest.Scripts.Quest.QuestManager.Instance.GetQuest(questId);
+            var questStatus = QuestManager.Instance.GetQuestStatus(questId);
+            var quest = QuestManager.Instance.GetQuest(questId);
 
             if (quest != null)
             {

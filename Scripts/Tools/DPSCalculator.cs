@@ -19,12 +19,12 @@ namespace hd2dtest.Scripts.Tools
             /// 模拟期间的总伤害值
             /// </summary>
             public float TotalDamage;
-            
+
             /// <summary>
             /// 每秒伤害（Damage Per Second）
             /// </summary>
             public float DPS;
-            
+
             /// <summary>
             /// 模拟持续时间（秒）
             /// </summary>
@@ -62,16 +62,16 @@ namespace hd2dtest.Scripts.Tools
                     // 施放技能
                     // 假设技能释放是瞬发的，用于 DPS 计算或占用阶段持续时间
                     float skillExecutionTime = 0f;
-                    foreach(var phase in skill.Phases)
+                    foreach (var phase in skill.Phases)
                     {
                         skillExecutionTime += phase.Duration;
-                        foreach(var evt in phase.Events)
+                        foreach (var evt in phase.Events)
                         {
                             if (evt is DamageSkillEvent dmgEvt)
                             {
                                 float damage = attacker.Attack * dmgEvt.DamageMultiplier;
                                 // 基础防御减免
-                                float mitigation = dummyTarget.Defense / (dummyTarget.Defense + 100); 
+                                float mitigation = dummyTarget.Defense / (dummyTarget.Defense + 100);
                                 damage *= 1.0f - mitigation;
                                 totalDamage += damage;
                             }

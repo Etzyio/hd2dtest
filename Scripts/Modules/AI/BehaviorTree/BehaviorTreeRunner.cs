@@ -9,9 +9,9 @@ namespace hd2dtest.Scripts.Modules.AI.BehaviorTree
         private BTNode _root;
         public Dictionary<string, object> Blackboard => _blackboard;
         private Dictionary<string, object> _blackboard = new Dictionary<string, object>();
-        
-         public bool IsActive { get; set; } = true;
-         public float TickInterval { get; set; } = 0.1f; // 10 times per second
+
+        public bool IsActive { get; set; } = true;
+        public float TickInterval { get; set; } = 0.1f; // 10 times per second
 
         private float _tickTimer = 0f;
 

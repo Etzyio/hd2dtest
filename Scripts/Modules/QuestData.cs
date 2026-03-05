@@ -13,57 +13,57 @@ namespace hd2dtest.Scripts.Modules
         /// 任务ID
         /// </summary>
         public string Id { get; set; }
-        
+
         /// <summary>
         /// 任务名称
         /// </summary>
         public string Name { get; set; }
-        
+
         /// <summary>
         /// 任务描述
         /// </summary>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// 任务类型
         /// </summary>
         public QuestType Type { get; set; }
-        
+
         /// <summary>
         /// 任务线ID
         /// </summary>
         public string QuestLineId { get; set; }
-        
+
         /// <summary>
         /// 任务在线路中的顺序
         /// </summary>
         public int QuestLineOrder { get; set; }
-        
+
         /// <summary>
         /// 任务依赖
         /// </summary>
         public List<QuestDependency> Dependencies { get; set; }
-        
+
         /// <summary>
         /// 任务目标
         /// </summary>
         public List<QuestObjective> Objectives { get; set; }
-        
+
         /// <summary>
         /// 任务奖励
         /// </summary>
         public List<QuestReward> Rewards { get; set; }
-        
+
         /// <summary>
         /// 关联的成就
         /// </summary>
         public List<string> Achievements { get; set; }
-        
+
         /// <summary>
         /// NPC关联
         /// </summary>
         public List<NPCAssociation> NPCAssociations { get; set; }
-        
+
         /// <summary>
         /// 场景触发器
         /// </summary>
@@ -90,17 +90,17 @@ namespace hd2dtest.Scripts.Modules
         /// 依赖类型 (quest_completed, quest_in_progress, level)
         /// </summary>
         public string Type { get; set; }  // quest_completed（任务完成）, quest_in_progress（任务进行中）, level（等级）
-        
+
         /// <summary>
         /// 依赖的任务ID
         /// </summary>
         public string QuestId { get; set; }
-        
+
         /// <summary>
         /// 依赖的等级
         /// </summary>
         public int Level { get; set; }
-        
+
         /// <summary>
         /// 操作符 (AND, OR)
         /// </summary>
@@ -116,12 +116,12 @@ namespace hd2dtest.Scripts.Modules
         /// 目标ID
         /// </summary>
         public string Id { get; set; }
-        
+
         /// <summary>
         /// 目标描述
         /// </summary>
         public string Description { get; set; }
-        
+
         /// <summary>
         /// 检查目标是否完成
         /// </summary>
@@ -139,12 +139,12 @@ namespace hd2dtest.Scripts.Modules
         /// 敌人ID
         /// </summary>
         public string EnemyId { get; set; }
-        
+
         /// <summary>
         /// 所需击杀数量
         /// </summary>
         public int RequiredCount { get; set; }
-        
+
         /// <summary>
         /// 敌人生成位置
         /// </summary>
@@ -174,12 +174,12 @@ namespace hd2dtest.Scripts.Modules
         /// 物品ID
         /// </summary>
         public string ItemId { get; set; }
-        
+
         /// <summary>
         /// 所需收集数量
         /// </summary>
         public int RequiredCount { get; set; }
-        
+
         /// <summary>
         /// 完成时是否消耗物品
         /// </summary>
@@ -230,7 +230,7 @@ namespace hd2dtest.Scripts.Modules
         /// 目标位置
         /// </summary>
         public Vector3Data Location { get; set; }
-        
+
         /// <summary>
         /// 判定半径
         /// </summary>
@@ -287,7 +287,7 @@ namespace hd2dtest.Scripts.Modules
         /// 物品ID
         /// </summary>
         public string ItemId { get; set; }
-        
+
         /// <summary>
         /// 物品数量
         /// </summary>
@@ -312,7 +312,7 @@ namespace hd2dtest.Scripts.Modules
         /// 货币类型
         /// </summary>
         public string CurrencyType { get; set; }
-        
+
         /// <summary>
         /// 货币数量
         /// </summary>
@@ -357,7 +357,7 @@ namespace hd2dtest.Scripts.Modules
         /// NPC ID
         /// </summary>
         public string NPCId { get; set; }
-        
+
         /// <summary>
         /// 对话类型
         /// </summary>
@@ -384,17 +384,17 @@ namespace hd2dtest.Scripts.Modules
         /// 场景ID
         /// </summary>
         public string SceneId { get; set; }
-        
+
         /// <summary>
         /// 触发类型
         /// </summary>
         public TriggerType TriggerType { get; set; }
-        
+
         /// <summary>
         /// 动画名称
         /// </summary>
         public string AnimationName { get; set; }
-        
+
         /// <summary>
         /// 是否可跳过
         /// </summary>
@@ -420,12 +420,12 @@ namespace hd2dtest.Scripts.Modules
         /// X坐标
         /// </summary>
         public float X { get; set; }
-        
+
         /// <summary>
         /// Y坐标
         /// </summary>
         public float Y { get; set; }
-        
+
         /// <summary>
         /// Z坐标
         /// </summary>

@@ -13,48 +13,48 @@ namespace hd2dtest.Scripts.Modules.Battle
         /// 职业名称
         /// </summary>
         /// <value>职业的名称字符串，默认为"New Class"</value>
-         public string ClassName { get; set; } = "New Class";
-        
+        public string ClassName { get; set; } = "New Class";
+
         /// <summary>
         /// 职业描述
         /// </summary>
         /// <value>职业的详细描述文本</value>
-         public string Description { get; set; } = "";
-        
+        public string Description { get; set; } = "";
+
         /// <summary>
         /// 生命值成长系数
         /// </summary>
         /// <value>成长系数，默认为 1.0</value>
         /// <remarks>用于计算升级时的生命值增加量</remarks>
-         public float HealthGrowth { get; set; } = 1.0f;
-        
+        public float HealthGrowth { get; set; } = 1.0f;
+
         /// <summary>
         /// 攻击力成长系数
         /// </summary>
         /// <value>成长系数，默认为 1.0</value>
         /// <remarks>用于计算升级时的攻击力增加量</remarks>
-         public float AttackGrowth { get; set; } = 1.0f;
-        
+        public float AttackGrowth { get; set; } = 1.0f;
+
         /// <summary>
         /// 防御力成长系数
         /// </summary>
         /// <value>成长系数，默认为 1.0</value>
         /// <remarks>用于计算升级时的防御力增加量</remarks>
-         public float DefenseGrowth { get; set; } = 1.0f;
-        
+        public float DefenseGrowth { get; set; } = 1.0f;
+
         /// <summary>
         /// 速度成长系数
         /// </summary>
         /// <value>成长系数，默认为 1.0</value>
         /// <remarks>用于计算升级时的速度增加量</remarks>
-         public float SpeedGrowth { get; set; } = 1.0f;
-        
+        public float SpeedGrowth { get; set; } = 1.0f;
+
         /// <summary>
         /// 魔法值成长系数
         /// </summary>
         /// <value>成长系数，默认为 1.0</value>
         /// <remarks>用于计算升级时的魔法值增加量</remarks>
-         public float ManaGrowth { get; set; } = 1.0f;
+        public float ManaGrowth { get; set; } = 1.0f;
 
         /// <summary>
         /// 可学习技能列表
@@ -64,7 +64,7 @@ namespace hd2dtest.Scripts.Modules.Battle
         /// 由于在 Godot C# 中导出 Dictionary 很困难，使用数组代替。
         /// 每个 SkillEntry 包含学习该技能所需的等级和技能资源。
         /// </remarks>
-         public Array<SkillEntry> SkillsToLearn { get; set; } = new Array<SkillEntry>();
+        public Array<SkillEntry> SkillsToLearn { get; set; } = new Array<SkillEntry>();
 
         /// <summary>
         /// 可学习被动技能列表
@@ -73,7 +73,7 @@ namespace hd2dtest.Scripts.Modules.Battle
         /// <remarks>
         /// 每个 PassiveSkillEntry 包含学习该被动技能所需的等级和被动技能资源。
         /// </remarks>
-         public Array<PassiveSkillEntry> PassivesToLearn { get; set; } = new Array<PassiveSkillEntry>();
+        public Array<PassiveSkillEntry> PassivesToLearn { get; set; } = new Array<PassiveSkillEntry>();
     }
 
     /// <summary>
@@ -86,13 +86,13 @@ namespace hd2dtest.Scripts.Modules.Battle
         /// 学习该技能所需的等级
         /// </summary>
         /// <value>等级要求，默认为 1</value>
-         public int LevelRequired { get; set; } = 1;
-        
+        public int LevelRequired { get; set; } = 1;
+
         /// <summary>
         /// 技能资源引用
         /// </summary>
         /// <value>Skill 类型的技能资源</value>
-         public Skill SkillResource { get; set; } // Assuming Skill will be a Resource
+        public Skill SkillResource { get; set; } // Assuming Skill will be a Resource
     }
 
     /// <summary>
@@ -105,12 +105,12 @@ namespace hd2dtest.Scripts.Modules.Battle
         /// 学习该被动技能所需的等级
         /// </summary>
         /// <value>等级要求，默认为 1</value>
-         public int LevelRequired { get; set; } = 1;
-        
+        public int LevelRequired { get; set; } = 1;
+
         /// <summary>
         /// 被动技能资源引用
         /// </summary>
         /// <value>PassiveSkill 类型的被动技能资源</value>
-         public PassiveSkill PassiveResource { get; set; }
+        public PassiveSkill PassiveResource { get; set; }
     }
 }

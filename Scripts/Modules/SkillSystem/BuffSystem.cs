@@ -55,22 +55,22 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// 效果类型
         /// </summary>
-         public BuffEffectType EffectType { get; set; } = BuffEffectType.AttackBonus;
+        public BuffEffectType EffectType { get; set; } = BuffEffectType.AttackBonus;
 
         /// <summary>
         /// 效果数值
         /// </summary>
-         public float Value { get; set; } = 0f;
+        public float Value { get; set; } = 0f;
 
         /// <summary>
         /// 是否为百分比效果
         /// </summary>
-         public bool IsPercentage { get; set; } = false;
+        public bool IsPercentage { get; set; } = false;
 
         /// <summary>
         /// 效果描述
         /// </summary>
-         public string Description { get; set; } = "";
+        public string Description { get; set; } = "";
     }
 
     /// <summary>
@@ -82,63 +82,63 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// Buff唯一标识符
         /// </summary>
-         public string BuffId { get; set; } = Guid.NewGuid().ToString();
+        public string BuffId { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Buff名称
         /// </summary>
         /// <value>Buff的显示名称</value>
-         public string BuffName { get; set; } = TranslationServer.Translate("buff_default_name");
+        public string BuffName { get; set; } = TranslationServer.Translate("buff_default_name");
 
         /// <summary>
         /// Buff描述
         /// </summary>
-         public string Description { get; set; } = "";
+        public string Description { get; set; } = "";
 
         /// <summary>
         /// Buff图标
         /// </summary>
-         public Texture2D Icon { get; set; }
+        public Texture2D Icon { get; set; }
 
         /// <summary>
         /// 效果列表
         /// </summary>
-         public Godot.Collections.Array<BuffEffect> Effects { get; set; } = [];
+        public Godot.Collections.Array<BuffEffect> Effects { get; set; } = [];
 
         /// <summary>
         /// 持续时间类型
         /// </summary>
-         public BuffDurationType DurationType { get; set; } = BuffDurationType.Duration;
+        public BuffDurationType DurationType { get; set; } = BuffDurationType.Duration;
 
         /// <summary>
         /// 持续时间（秒）
         /// </summary>
-         public float Duration { get; set; } = 10f;
+        public float Duration { get; set; } = 10f;
 
         /// <summary>
         /// 持续回合数
         /// </summary>
-         public int TurnCount { get; set; } = 3;
+        public int TurnCount { get; set; } = 3;
 
         /// <summary>
         /// 最大叠加层数
         /// </summary>
-         public int MaxStacks { get; set; } = 1;
+        public int MaxStacks { get; set; } = 1;
 
         /// <summary>
         /// 是否为增益效果
         /// </summary>
-         public bool IsPositive { get; set; } = true;
+        public bool IsPositive { get; set; } = true;
 
         /// <summary>
         /// 是否可以被驱散
         /// </summary>
-         public bool CanBeDispelled { get; set; } = true;
+        public bool CanBeDispelled { get; set; } = true;
 
         /// <summary>
         /// 是否刷新持续时间
         /// </summary>
-         public bool RefreshDurationOnReapply { get; set; } = true;
+        public bool RefreshDurationOnReapply { get; set; } = true;
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// 是否已过期
         /// </summary>
-        public bool IsExpired => 
+        public bool IsExpired =>
             Data.DurationType == BuffDurationType.Duration && RemainingTime <= 0f ||
             Data.DurationType == BuffDurationType.Turns && RemainingTurns <= 0;
 
@@ -295,7 +295,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             }
 
             // 检查是否已存在相同Buff
-            var existingBuff = _activeBuffs.FirstOrDefault(b => 
+            var existingBuff = _activeBuffs.FirstOrDefault(b =>
                 b.Data.BuffId == buffId && b.Target == target);
 
             if (existingBuff != null)
@@ -333,7 +333,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// </summary>
         public bool RemoveBuff(string buffId, Creature target)
         {
-            var buff = _activeBuffs.FirstOrDefault(b => 
+            var buff = _activeBuffs.FirstOrDefault(b =>
                 b.Data.BuffId == buffId && b.Target == target);
 
             if (buff != null)
@@ -350,8 +350,8 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// </summary>
         public int DispelBuffs(Creature target, bool positiveOnly = false)
         {
-            var buffsToRemove = _activeBuffs.Where(b => 
-                b.Target == target && 
+            var buffsToRemove = _activeBuffs.Where(b =>
+                b.Target == target &&
                 b.Data.CanBeDispelled &&
                 (!positiveOnly || b.Data.IsPositive)).ToList();
 
@@ -376,7 +376,7 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// </summary>
         public int GetBuffStacks(string buffId, Creature target)
         {
-            var buff = _activeBuffs.FirstOrDefault(b => 
+            var buff = _activeBuffs.FirstOrDefault(b =>
                 b.Data.BuffId == buffId && b.Target == target);
             return buff?.CurrentStacks ?? 0;
         }

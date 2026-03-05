@@ -7,10 +7,10 @@ namespace hd2dtest.Scripts.Core.UI
     [GlobalClass]
     public partial class InteractiveButton : Button
     {
-         public string BackgroundColorKey { get; set; } = "primary";
-         public string TextColorKey { get; set; } = "text_primary";
-         public string CornerRadiusKey { get; set; } = "medium";
-         public string AnimationDurationKey { get; set; } = "normal";
+        public string BackgroundColorKey { get; set; } = "primary";
+        public string TextColorKey { get; set; } = "text_primary";
+        public string CornerRadiusKey { get; set; } = "medium";
+        public string AnimationDurationKey { get; set; } = "normal";
 
         private StyleBoxFlat _normalStyle;
         private StyleBoxFlat _hoverStyle;
@@ -127,10 +127,10 @@ namespace hd2dtest.Scripts.Core.UI
 
             _tween = CreateTween();
             float duration = DesignSystem.GetAnimationDuration(AnimationDurationKey);
-            
+
             // Pivot center for scaling
             PivotOffset = Size / 2;
-            
+
             _tween.TweenProperty(this, "scale", targetScale, duration)
                 .SetTrans(Tween.TransitionType.Quad)
                 .SetEase(Tween.EaseType.Out);
