@@ -7,10 +7,10 @@ namespace hd2dtest.Scripts.Modules.AI
     [GlobalClass]
     public partial class SensorySystem : Node3D
     {
-        [Export] public float VisionRange { get; set; } = 15.0f;
-        [Export] public float VisionAngle { get; set; } = 90.0f; // Degrees
-        [Export] public float HearingRange { get; set; } = 20.0f;
-        [Export] public uint DetectionLayer { get; set; } = 1; // Default layer
+         public float VisionRange { get; set; } = 15.0f;
+         public float VisionAngle { get; set; } = 90.0f; // Degrees
+         public float HearingRange { get; set; } = 20.0f;
+         public uint DetectionLayer { get; set; } = 1; // Default layer
 
         private List<Node3D> _visibleTargets = new List<Node3D>();
         private List<Node3D> _audibleTargets = new List<Node3D>();

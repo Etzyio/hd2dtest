@@ -34,7 +34,7 @@ namespace hd2dtest.Scenes.UI
 
 		private void UpdateTeammateStatus()
 		{
-			var teammates = GameManager.Instance.Teammates.Get();
+			var teammates = GameDataManager.Instance.Teammates.Get();
 			
 			if (teammates.Count != _teammateUIs.Count)
 			{
@@ -66,7 +66,7 @@ namespace hd2dtest.Scenes.UI
 			}
 			_teammateUIs.Clear();
 
-			var teammates = GameManager.Instance.Teammates.Get();
+			var teammates = GameDataManager.Instance.Teammates.Get();
 			foreach (var teammate in teammates)
 			{
 				var teammateInstance = _teammateScene.Instantiate<Teammate>();

@@ -40,14 +40,14 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 出生位置
         /// </summary>
-        /// <value>关卡出生位置的坐标数组 [x, y, z]</value>
-        public float[] SpawnPosition { get; set; }
+        /// <value>关卡出生位置的坐标</value>
+        public Vector3 SpawnPosition { get; set; }
         
         /// <summary>
         /// 难度等级
         /// </summary>
         /// <value>关卡的难度等级，数值越大难度越高</value>
-        public int Difficulty { get; set; }
+        public uint Difficulty { get; set; }
         
         /// <summary>
         /// 时间限制
@@ -59,7 +59,7 @@ namespace hd2dtest.Scripts.Modules
         /// 可收集物品数量
         /// </summary>
         /// <value>关卡中可收集物品的数量</value>
-        public int Collectibles { get; set; }
+        public Dictionary<string, int> Collectibles { get; set; } = [];
         
         /// <summary>
         /// 敌人数量
@@ -77,21 +77,19 @@ namespace hd2dtest.Scripts.Modules
         /// 所需物品列表
         /// </summary>
         /// <value>解锁关卡所需的物品ID列表</value>
-        public List<string> RequiredItems { get; set; }
+        public Dictionary<string, int> RequiredItems { get; set; } = [];
 
         /// <summary>
         /// 获取Vector3格式的出生位置
         /// </summary>
         /// <returns>关卡出生位置的Vector3坐标</returns>
         /// <remarks>
-        /// 如果SpawnPosition为null或长度不足2，则返回默认位置 (100, 0, 0)
+        /// 如果SpawnPosition为Zero，则返回默认位置 (100, 0, 0)
         /// 否则返回SpawnPosition指定的位置
         /// </remarks>
         public Vector3 GetSpawnPosition()
         {
-            if (SpawnPosition == null || SpawnPosition.Length < 2)
-                return new Vector3(100, 0, 0);
-            return new Vector3(SpawnPosition[0], SpawnPosition[1], SpawnPosition[2]);
+            return SpawnPosition;
         }
     }
 }

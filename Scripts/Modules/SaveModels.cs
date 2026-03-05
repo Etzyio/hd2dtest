@@ -257,6 +257,43 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <value>自定义的存档数据，键为数据名称，值为数据对象</value>
         public Dictionary<string, object> CustomData { get; set; } = [];
+
+        // GameDataManager 数据
+        /// <summary>
+        /// 道具列表
+        /// </summary>
+        /// <value>游戏中的道具，键为道具ID，值为数量</value>
+        public Dictionary<string, int> ItemList { get; set; } = [];
+
+        /// <summary>
+        /// 装备列表
+        /// </summary>
+        /// <value>游戏中的装备，键为装备ID，值为数量</value>
+        public Dictionary<string, int> EquipmentList { get; set; } = [];
+
+        /// <summary>
+        /// NPC状态列表
+        /// </summary>
+        /// <value>游戏中的NPC状态，键为NPC ID，值为状态</value>
+        public Dictionary<string, int> NPCStatus { get; set; } = [];
+
+        /// <summary>
+        /// 已解锁的等级
+        /// </summary>
+        /// <value>已解锁的等级ID集合</value>
+        public List<string> UnlockedLevels { get; set; } = [];
+
+        /// <summary>
+        /// 已解锁的任务
+        /// </summary>
+        /// <value>已解锁的任务ID集合</value>
+        public List<string> UnlockedQuests { get; set; } = [];
+
+        /// <summary>
+        /// 小队成员
+        /// </summary>
+        /// <value>游戏中的小队成员列表</value>
+        public List<PlayerSaveData> Teammates { get; set; } = [];
     }
 
     /// <summary>

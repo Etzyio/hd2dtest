@@ -6,11 +6,11 @@ namespace hd2dtest.Scripts.Modules.AI.Environment
     [GlobalClass]
     public partial class CoverPoint : Node3D
     {
-        [Export] public bool IsOccupied { get; set; } = false;
-        [Export] public float Quality { get; set; } = 1.0f; // 0 to 1
+         public bool IsOccupied { get; set; } = false;
+         public float Quality { get; set; } = 1.0f; // 0 to 1
         
         // Direction of cover (normal of the wall it provides cover from)
-        [Export] public Vector3 CoverDirection { get; set; } = Vector3.Forward; 
+         public Vector3 CoverDirection { get; set; } = Vector3.Forward; 
     }
 
     [GlobalClass]

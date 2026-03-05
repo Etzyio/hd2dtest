@@ -19,7 +19,7 @@ namespace hd2dtest.Scripts.Managers
     /// 该类继承自Godot.Node，作为自动加载的单例使用，负责管理游戏中的所有资源，包括技能、物品、NPC、怪物、武器、装备、关卡、任务等。
     /// 它提供了资源的加载、保存、缓存管理和本地化等功能，确保资源的高效访问和管理。
     /// </remarks>
-    public partial class ResourcesManager: Node
+    public partial class ResourcesManager : Node
     {
         /// <summary>
         /// 资源加载优先级
@@ -66,7 +66,7 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         /// <value>资源管理器的单例实例</value>
         public static ResourcesManager Instance => _instance;
-        
+
         /// <summary>
         /// 技能缓存字典
         /// </summary>
@@ -168,7 +168,7 @@ namespace hd2dtest.Scripts.Managers
         /// 默认资源路径
         /// </summary>
         private const string DefaultResourcesPath = "res://Resources/Static/";
-        
+
         /// <summary>
         /// JSON序列化选项
         /// </summary>
@@ -204,7 +204,7 @@ namespace hd2dtest.Scripts.Managers
             // 然后异步初始化其他资源
             _ = InitializeResourcesAsync();
         }
-        
+
         /// <summary>
         /// 同步加载ViewRegister.json
         /// </summary>
@@ -214,9 +214,9 @@ namespace hd2dtest.Scripts.Managers
             try
             {
                 string filePath = DefaultResourcesPath + "ViewRegister.json";
-                
+
                 Log.Info("Sync loading ViewRegister.json...");
-                
+
                 // 检查文件是否存在
                 if (!FileAccess.FileExists(filePath))
                 {
@@ -229,7 +229,7 @@ namespace hd2dtest.Scripts.Managers
                 // 使用Godot的FileAccess API加载文件
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
                 string jsonContent = file.GetAsText();
-                
+
                 if (string.IsNullOrEmpty(jsonContent))
                 {
                     stopwatch.Stop();
@@ -268,7 +268,7 @@ namespace hd2dtest.Scripts.Managers
                 ViewRegister.Clear();
             }
         }
-        
+
         /// <summary>
         /// 异步初始化所有资源
         /// </summary>
@@ -337,7 +337,7 @@ namespace hd2dtest.Scripts.Managers
                 _isLoading = false;
             }
         }
-        
+
         /// <summary>
         /// 加载关键资源
         /// </summary>
@@ -355,7 +355,7 @@ namespace hd2dtest.Scripts.Managers
             };
             _loadInfoCache["ViewRegister.json"] = loadInfo;
             Log.Info("ViewRegister.json already loaded synchronously");
-            
+
             // 加载其他关键资源
             await Task.Run(() =>
             {
@@ -417,7 +417,7 @@ namespace hd2dtest.Scripts.Managers
         {
             string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
             var stopwatch = Stopwatch.StartNew();
-            
+
             // 检查文件是否存在
             if (!FileAccess.FileExists(filePath))
             {
@@ -431,7 +431,7 @@ namespace hd2dtest.Scripts.Managers
                 // 使用Godot的FileAccess API加载文件
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
                 string jsonContent = file.GetAsText();
-                
+
                 if (string.IsNullOrEmpty(jsonContent))
                 {
                     stopwatch.Stop();
@@ -443,7 +443,7 @@ namespace hd2dtest.Scripts.Managers
                 T result = JsonSerializer.Deserialize<T>(jsonContent, JsonOptions);
                 stopwatch.Stop();
                 Log.Info($"Successfully loaded JSON file: {filePath}, Type: {typeof(T).Name}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
-                
+
                 return result;
             }
             catch (Exception ex)
@@ -453,7 +453,7 @@ namespace hd2dtest.Scripts.Managers
                 return default;
             }
         }
-        
+
         /// <summary>
         /// 将对象序列化为JSON并保存到文件
         /// </summary>
@@ -469,16 +469,16 @@ namespace hd2dtest.Scripts.Managers
         public static bool SaveResource<T>(T data, string fileName, string customPath = null)
         {
             string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
-            
+
             try
             {
                 // 将对象序列化为JSON
                 string jsonContent = JsonSerializer.Serialize(data, JsonOptions);
-                
+
                 // 使用Godot的FileAccess API保存文件
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Write);
                 file.StoreString(jsonContent);
-                
+
                 Log.Debug($"Successfully saved JSON file: {filePath}");
                 return true;
             }
@@ -488,7 +488,7 @@ namespace hd2dtest.Scripts.Managers
                 return false;
             }
         }
-        
+
         /// <summary>
         /// 加载资源到缓存字典
         /// </summary>
@@ -504,7 +504,7 @@ namespace hd2dtest.Scripts.Managers
             var stopwatch = Stopwatch.StartNew();
             var loadedData = LoadResource<Dictionary<string, T>>(fileName);
             stopwatch.Stop();
-            
+
             if (loadedData != null)
             {
                 cache.Clear();
@@ -520,7 +520,7 @@ namespace hd2dtest.Scripts.Managers
                 Log.Warning($"Failed to load resource to cache: {fileName}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
             }
         }
-        
+
         /// <summary>
         /// 带跟踪的资源加载
         /// </summary>
@@ -596,7 +596,7 @@ namespace hd2dtest.Scripts.Managers
                 ResourceLoaded?.Invoke(loadInfo);
             }
         }
-        
+
         /// <summary>
         /// 加载ViewRegister到缓存
         /// </summary>
@@ -619,7 +619,7 @@ namespace hd2dtest.Scripts.Managers
             try
             {
                 string filePath = DefaultResourcesPath + "ViewRegister.json";
-                
+
                 // 检查文件是否存在
                 if (!FileAccess.FileExists(filePath))
                 {
@@ -635,7 +635,7 @@ namespace hd2dtest.Scripts.Managers
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
                 loadInfo.FileSizeBytes = (long)file.GetLength();
                 string jsonContent = file.GetAsText();
-                
+
                 if (string.IsNullOrEmpty(jsonContent))
                 {
                     loadInfo.Status = ResourceLoadStatus.Failed;
@@ -685,7 +685,7 @@ namespace hd2dtest.Scripts.Managers
                 ResourceLoaded?.Invoke(loadInfo);
             }
         }
-        
+
         /// <summary>
         /// 加载ViewRegister到缓存（向后兼容）
         /// </summary>
@@ -694,7 +694,7 @@ namespace hd2dtest.Scripts.Managers
             try
             {
                 string filePath = DefaultResourcesPath + "ViewRegister.json";
-                
+
                 // 检查文件是否存在
                 if (!FileAccess.FileExists(filePath))
                 {
@@ -706,7 +706,7 @@ namespace hd2dtest.Scripts.Managers
                 // 使用Godot的FileAccess API加载文件
                 using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
                 string jsonContent = file.GetAsText();
-                
+
                 if (string.IsNullOrEmpty(jsonContent))
                 {
                     Log.Warning($"ViewRegister.json file is empty: {filePath}");
@@ -741,7 +741,7 @@ namespace hd2dtest.Scripts.Managers
                 ViewRegister.Clear();
             }
         }
-        
+
         /// <summary>
         /// 重新加载所有资源
         /// </summary>
@@ -774,7 +774,7 @@ namespace hd2dtest.Scripts.Managers
 
             await InitializeResourcesAsync();
         }
-        
+
 
 
         /// <summary>
@@ -814,7 +814,7 @@ namespace hd2dtest.Scripts.Managers
             string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
             return FileAccess.FileExists(filePath);
         }
-        
+
         /// <summary>
         /// 获取资源文件路径
         /// </summary>
@@ -828,7 +828,7 @@ namespace hd2dtest.Scripts.Managers
         {
             return string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
         }
-        
+
         /// <summary>
         /// 清除本地化缓存
         /// </summary>

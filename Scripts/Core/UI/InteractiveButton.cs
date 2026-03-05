@@ -7,10 +7,10 @@ namespace hd2dtest.Scripts.Core.UI
     [GlobalClass]
     public partial class InteractiveButton : Button
     {
-        [Export] public string BackgroundColorKey { get; set; } = "primary";
-        [Export] public string TextColorKey { get; set; } = "text_primary";
-        [Export] public string CornerRadiusKey { get; set; } = "medium";
-        [Export] public string AnimationDurationKey { get; set; } = "normal";
+         public string BackgroundColorKey { get; set; } = "primary";
+         public string TextColorKey { get; set; } = "text_primary";
+         public string CornerRadiusKey { get; set; } = "medium";
+         public string AnimationDurationKey { get; set; } = "normal";
 
         private StyleBoxFlat _normalStyle;
         private StyleBoxFlat _hoverStyle;

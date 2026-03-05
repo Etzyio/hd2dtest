@@ -18,19 +18,16 @@ namespace hd2dtest.Scripts.Core
         /// <summary>
         /// 地面图层，用于显示游戏地图
         /// </summary>
-        [Export]
         public TileMapLayer GroundLayer;
 
         /// <summary>
         /// 碰撞图层，用于处理游戏中的碰撞检测
         /// </summary>
-        [Export]
         public TileMapLayer CollisionLayer;
 
         /// <summary>
         /// 玩家节点引用，用于设置玩家的位置
         /// </summary>
-        [Export]
         public Node3D Player;
 
         /// <summary>

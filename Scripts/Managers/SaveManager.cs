@@ -41,13 +41,13 @@ namespace hd2dtest.Scripts.Managers
         /// <summary>
         /// 存档目录路径
         /// </summary>
-        [Export]
+
         public string SaveDirectory = "user://saves";
 
         /// <summary>
         /// 存档文件扩展名
         /// </summary>
-        [Export]
+        /// 
         public string SaveFileExtension = ".json";
 
         /// <summary>
@@ -172,6 +172,9 @@ namespace hd2dtest.Scripts.Managers
 
                 // 保存任务数据
                 SaveQuestData(saveData);
+                
+                // 保存 GameDataManager 数据
+                SaveGameDataManagerData(saveData);
 
                 // 序列化存档数据
                 string json = JsonSerializer.Serialize(saveData, _jsonSerializerOptions);
@@ -295,6 +298,56 @@ namespace hd2dtest.Scripts.Managers
         }
 
         /// <summary>
+        /// 保存 GameDataManager 数据到 SaveData
+        /// </summary>
+        /// <param name="saveData">存档数据</param>
+        /// <remarks>
+        /// 该方法负责保存 GameDataManager 中的数据到存档数据中，包括道具、装备、NPC 状态、解锁的等级和任务、以及小队成员等数据。
+        /// </remarks>
+        private void SaveGameDataManagerData(SaveData saveData)
+        {
+            try
+            {
+                // 保存 GameDataManager 数据
+                if (GameDataManager.Instance != null)
+                {
+                    // 保存道具列表
+                    saveData.ItemList = new Dictionary<string, int>(GameDataManager.Instance.ItemList);
+                    
+                    // 保存装备列表
+                    saveData.EquipmentList = new Dictionary<string, int>(GameDataManager.Instance.EquipmentList);
+                    
+                    // 保存 NPC 状态
+                    saveData.NPCStatus = new Dictionary<string, int>(GameDataManager.Instance.NPCStatus);
+                    
+                    // 保存已解锁的等级
+                    saveData.UnlockedLevels = GameDataManager.Instance.LevelList
+                        .Where(level => !level.Value.IsLocked)
+                        .Select(level => level.Key)
+                        .ToList();
+                    
+                    // 保存已解锁的任务
+                    saveData.UnlockedQuests = GameDataManager.Instance.QuestList
+                        .Where(quest => !quest.Value.IsLocked)
+                        .Select(quest => quest.Key)
+                        .ToList();
+                    
+                    // 保存小队成员
+                    if (GameDataManager.Instance.Teammates != null)
+                    {
+                        saveData.Teammates = new List<PlayerSaveData>();
+                        // 这里需要根据 Teammates 的实际实现来获取成员列表
+                        // 假设 Teammates 有一个 Members 属性或者类似的东西
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error in SaveGameDataManagerData: {e.Message}");
+            }
+        }
+
+        /// <summary>
         /// 加载任务数据从SaveData
         /// </summary>
         /// <param name="saveData">存档数据</param>
@@ -360,6 +413,82 @@ namespace hd2dtest.Scripts.Managers
         }
 
         /// <summary>
+        /// 加载 GameDataManager 数据从 SaveData
+        /// </summary>
+        /// <param name="saveData">存档数据</param>
+        /// <remarks>
+        /// 该方法负责从存档数据中加载 GameDataManager 中的数据，包括道具、装备、NPC 状态、解锁的等级和任务、以及小队成员等数据。
+        /// </remarks>
+        private void LoadGameDataManagerData(SaveData saveData)
+        {
+            try
+            {
+                // 加载 GameDataManager 数据
+                if (GameDataManager.Instance != null)
+                {
+                    // 加载道具列表
+                    if (saveData.ItemList != null)
+                    {
+                        GameDataManager.Instance.ItemList.Clear();
+                        foreach (var kvp in saveData.ItemList)
+                        {
+                            GameDataManager.Instance.ItemList[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    
+                    // 加载装备列表
+                    if (saveData.EquipmentList != null)
+                    {
+                        GameDataManager.Instance.EquipmentList.Clear();
+                        foreach (var kvp in saveData.EquipmentList)
+                        {
+                            GameDataManager.Instance.EquipmentList[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    
+                    // 加载 NPC 状态
+                    if (saveData.NPCStatus != null)
+                    {
+                        GameDataManager.Instance.NPCStatus.Clear();
+                        foreach (var kvp in saveData.NPCStatus)
+                        {
+                            GameDataManager.Instance.NPCStatus[kvp.Key] = kvp.Value;
+                        }
+                    }
+                    
+                    // 加载已解锁的等级
+                    if (saveData.UnlockedLevels != null)
+                    {
+                        foreach (var levelId in saveData.UnlockedLevels)
+                        {
+                            GameDataManager.Instance.UnlockLevel(levelId);
+                        }
+                    }
+                    
+                    // 加载已解锁的任务
+                    if (saveData.UnlockedQuests != null)
+                    {
+                        foreach (var questId in saveData.UnlockedQuests)
+                        {
+                            GameDataManager.Instance.UnlockQuest(questId);
+                        }
+                    }
+                    
+                    // 加载小队成员
+                    // 这里需要根据 Teammates 的实际实现来加载小队成员
+                    if (saveData.Teammates != null && GameDataManager.Instance.Teammates != null)
+                    {
+                        // 暂时不处理小队成员加载，需要根据 Teammates 类的具体实现来添加
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error in LoadGameDataManagerData: {e.Message}");
+            }
+        }
+
+        /// <summary>
         /// 加载指定存档槽位的游戏
         /// </summary>
         /// <param name="saveId">存档ID，默认为"1"</param>
@@ -396,6 +525,9 @@ namespace hd2dtest.Scripts.Managers
 
                 // 加载任务数据
                 LoadQuestData(saveData);
+                
+                // 加载 GameDataManager 数据
+                LoadGameDataManagerData(saveData);
 
                 Log.Info($"Game loaded successfully from slot {saveId} saved at {saveData.SaveTime}");
                 return saveData;

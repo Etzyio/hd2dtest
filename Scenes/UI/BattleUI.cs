@@ -88,14 +88,14 @@ namespace hd2dtest.Scenes.UI
 			
 			_itemButtons.Clear();
 			
-			// 从 GameManager 获取道具列表
-			if (GameManager.Instance == null)
+			// 从 GameDataManager 获取道具列表
+			if (GameDataManager.Instance == null)
 			{
-				Log.Warning("GameManager.Instance is null");
+				Log.Warning("GameDataManager.Instance is null");
 				return;
 			}
 			
-			var items = GameManager.Instance.GetAllItems();
+			var items = GameDataManager.Instance.GetAllItems();
 			
 			foreach (var item in items)
 			{
@@ -144,7 +144,7 @@ namespace hd2dtest.Scenes.UI
 				// 如果道具数量为 0，从列表中移除
 				if (item.StackCount <= 0)
 				{
-					GameManager.Instance.RemoveItem(item);
+					GameDataManager.Instance.RemoveItem(item);
 					// 重新生成按钮
 					InitializeItemButtons();
 				}

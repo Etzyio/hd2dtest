@@ -55,22 +55,22 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// 效果类型
         /// </summary>
-        [Export] public BuffEffectType EffectType { get; set; } = BuffEffectType.AttackBonus;
+         public BuffEffectType EffectType { get; set; } = BuffEffectType.AttackBonus;
 
         /// <summary>
         /// 效果数值
         /// </summary>
-        [Export] public float Value { get; set; } = 0f;
+         public float Value { get; set; } = 0f;
 
         /// <summary>
         /// 是否为百分比效果
         /// </summary>
-        [Export] public bool IsPercentage { get; set; } = false;
+         public bool IsPercentage { get; set; } = false;
 
         /// <summary>
         /// 效果描述
         /// </summary>
-        [Export] public string Description { get; set; } = "";
+         public string Description { get; set; } = "";
     }
 
     /// <summary>
@@ -82,63 +82,63 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         /// <summary>
         /// Buff唯一标识符
         /// </summary>
-        [Export] public string BuffId { get; set; } = Guid.NewGuid().ToString();
+         public string BuffId { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Buff名称
         /// </summary>
         /// <value>Buff的显示名称</value>
-        [Export] public string BuffName { get; set; } = TranslationServer.Translate("buff_default_name");
+         public string BuffName { get; set; } = TranslationServer.Translate("buff_default_name");
 
         /// <summary>
         /// Buff描述
         /// </summary>
-        [Export] public string Description { get; set; } = "";
+         public string Description { get; set; } = "";
 
         /// <summary>
         /// Buff图标
         /// </summary>
-        [Export] public Texture2D Icon { get; set; }
+         public Texture2D Icon { get; set; }
 
         /// <summary>
         /// 效果列表
         /// </summary>
-        [Export] public Godot.Collections.Array<BuffEffect> Effects { get; set; } = [];
+         public Godot.Collections.Array<BuffEffect> Effects { get; set; } = [];
 
         /// <summary>
         /// 持续时间类型
         /// </summary>
-        [Export] public BuffDurationType DurationType { get; set; } = BuffDurationType.Duration;
+         public BuffDurationType DurationType { get; set; } = BuffDurationType.Duration;
 
         /// <summary>
         /// 持续时间（秒）
         /// </summary>
-        [Export] public float Duration { get; set; } = 10f;
+         public float Duration { get; set; } = 10f;
 
         /// <summary>
         /// 持续回合数
         /// </summary>
-        [Export] public int TurnCount { get; set; } = 3;
+         public int TurnCount { get; set; } = 3;
 
         /// <summary>
         /// 最大叠加层数
         /// </summary>
-        [Export] public int MaxStacks { get; set; } = 1;
+         public int MaxStacks { get; set; } = 1;
 
         /// <summary>
         /// 是否为增益效果
         /// </summary>
-        [Export] public bool IsPositive { get; set; } = true;
+         public bool IsPositive { get; set; } = true;
 
         /// <summary>
         /// 是否可以被驱散
         /// </summary>
-        [Export] public bool CanBeDispelled { get; set; } = true;
+         public bool CanBeDispelled { get; set; } = true;
 
         /// <summary>
         /// 是否刷新持续时间
         /// </summary>
-        [Export] public bool RefreshDurationOnReapply { get; set; } = true;
+         public bool RefreshDurationOnReapply { get; set; } = true;
     }
 
     /// <summary>

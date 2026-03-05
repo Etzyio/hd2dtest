@@ -5,10 +5,10 @@ namespace hd2dtest.Scripts.World
 {
     public partial class Background3D : Node3D
 {
-    [Export]
+    
     public CharacterBody3D Player;
     
-    [Export]
+    
     public float ParallaxFactor = 0.1f;
     
     private Vector3 _initialPosition;

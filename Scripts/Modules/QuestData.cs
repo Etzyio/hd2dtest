@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Godot;
 using hd2dtest.Scripts.Quest;
 
 namespace hd2dtest.Scripts.Modules
@@ -67,6 +68,8 @@ namespace hd2dtest.Scripts.Modules
         /// 场景触发器
         /// </summary>
         public List<SceneTrigger> SceneTriggers { get; set; }
+
+        public bool IsLocked { get; set; } = true;
     }
 
     /// <summary>

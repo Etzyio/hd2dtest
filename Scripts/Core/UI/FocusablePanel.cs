@@ -6,10 +6,10 @@ namespace hd2dtest.Scripts.Core.UI
     [GlobalClass]
     public partial class FocusablePanel : PanelContainer
     {
-        [Export] public string BackgroundColorKey { get; set; } = "surface";
-        [Export] public string BorderColorKey { get; set; } = "primary";
-        [Export] public string CornerRadiusKey { get; set; } = "medium";
-        [Export] public string AnimationDurationKey { get; set; } = "normal";
+        public string BackgroundColorKey { get; set; } = "surface";
+        public string BorderColorKey { get; set; } = "primary";
+        public string CornerRadiusKey { get; set; } = "medium";
+        public string AnimationDurationKey { get; set; } = "normal";
 
         private StyleBoxFlat _normalStyle;
         private StyleBoxFlat _focusStyle;

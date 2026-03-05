@@ -38,9 +38,9 @@ namespace hd2dtest.Scripts.Modules
         [GlobalClass]
         public partial class SkillDefent : Resource
         {
-            [Export] public SkillType Type = SkillType.Attack;
-            [Export] public float DamageCoefficient = 0.1f;
-            [Export] public int Duration = 0;
+             public SkillType Type = SkillType.Attack;
+             public float DamageCoefficient = 0.1f;
+             public int Duration = 0;
             
             /// <summary>
             /// 技能伤害类型
@@ -51,7 +51,7 @@ namespace hd2dtest.Scripts.Modules
             public Weakness DamageType { get; set; } = new Weakness("Physical");
             
             // 如果需要，可以为检查器提供帮助，或暂时仅依赖代码
-            [Export] public string DamageTypeString 
+             public string DamageTypeString 
             {
                 get => DamageType.Type;
                 set => DamageType = new Weakness(value);
@@ -59,45 +59,45 @@ namespace hd2dtest.Scripts.Modules
         }
 
         // 技能效果列表，存放多个 SkillDefent
-        [Export] public Godot.Collections.Array<SkillDefent> SkillDefs { get; set; } = new Godot.Collections.Array<SkillDefent>();
+         public Godot.Collections.Array<SkillDefent> SkillDefs { get; set; } = new Godot.Collections.Array<SkillDefent>();
 
         /// <summary>
         /// 技能ID
         /// </summary>
         /// <value>技能的唯一标识符</value>
-        [Export] public string Id { get; set; } = "";
+         public string Id { get; set; } = "";
 
         // 技能属性
         /// <summary>
         /// 技能名称
         /// </summary>
         /// <value>技能的显示名称</value>
-        [Export] public string SkillName { get; set; } = TranslationServer.Translate("skill_default_name");
+         public string SkillName { get; set; } = TranslationServer.Translate("skill_default_name");
 
         /// <summary>
         /// 技能描述
         /// </summary>
         /// <value>技能的详细描述信息</value>
-        [Export] public string Description { get; set; } = "";
+         public string Description { get; set; } = "";
 
         /// <summary>
         /// 技能冷却时间
         /// </summary>
         /// <value>技能的冷却时间，单位为回合</value>
-        [Export] public float Cooldown { get; set; } = 1f;
+         public float Cooldown { get; set; } = 1f;
 
         /// <summary>
         /// 技能魔法消耗
         /// </summary>
         /// <value>使用技能所需的魔法值</value>
-        [Export] public int ManaCost { get; set; } = 0;
+         public int ManaCost { get; set; } = 0;
 
 
         /// <summary>
         /// 技能是否已解锁
         /// </summary>
         /// <value>true 表示技能已解锁，false 表示技能未解锁</value>
-        [Export] public bool IsUnlocked { get; set; } = false;
+         public bool IsUnlocked { get; set; } = false;
 
         /// <summary>
         /// 获取技能状态描述

@@ -5,8 +5,8 @@ namespace hd2dtest.Scripts.Modules.AI.BehaviorTree
 {
     public partial class BehaviorTreeDebugger : Node
     {
-        [Export] public BehaviorTreeRunner Runner { get; set; }
-        [Export] public Label DebugLabel { get; set; }
+         public BehaviorTreeRunner Runner { get; set; }
+         public Label DebugLabel { get; set; }
 
         public override void _Process(double delta)
         {
