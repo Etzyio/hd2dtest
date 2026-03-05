@@ -96,7 +96,7 @@ namespace hd2dtest.Scripts.Modules
         /// 弱点列表
         /// </summary>
         /// <value>生物的弱点类型集合</value>
-        // Weakness is struct, hard to export directly as array of structs in Godot
+        // Weakness 是结构体，在 Godot 中难以直接导出为结构体数组
         public List<Weakness> Weaknesses { get; set; } = [];
         
         /// <summary>

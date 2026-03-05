@@ -105,7 +105,7 @@ namespace hd2dtest.Scripts.Modules
         /// <value>玩家的最大魔法值</value>
         public float MaxMana { get; set; } = 50f;
 
-        // Class System
+        // 职业系统
         /// <summary>
         /// 主职业（固定）
         /// </summary>
@@ -177,7 +177,7 @@ namespace hd2dtest.Scripts.Modules
             float baseHealth = 100f + (Level - 1) * 10f;
             float baseAttack = 15f + (Level - 1) * 2f;
             float baseDefense = 8f + (Level - 1) * 1f;
-            float baseSpeed = 75f; // Fixed base speed for now
+            float baseSpeed = 75f; // 目前固定基础速度
 
             // 职业修正
             float classHealthMult = 1f;
@@ -230,7 +230,7 @@ namespace hd2dtest.Scripts.Modules
             MaxHealth = (baseHealth * classHealthMult + equipmentHealth + passiveHealthAdd) * passiveHealthMult;
             Attack = (baseAttack * classAttackMult + equipmentAttack + passiveAttackAdd) * passiveAttackMult;
             Defense = (baseDefense * classDefenseMult + equipmentDefense + passiveDefenseAdd) * passiveDefenseMult;
-            Speed = (baseSpeed * classSpeedMult + passiveSpeedAdd); // Speed usually simpler
+            Speed = (baseSpeed * classSpeedMult + passiveSpeedAdd); // 速度通常更简单
 
             // 确保当前生命值不超过最大生命值
             if (Health > MaxHealth) Health = MaxHealth;
@@ -249,7 +249,7 @@ namespace hd2dtest.Scripts.Modules
             // 设置默认属性
             CreatureName = TranslationServer.Translate("player_default_name");
             
-            // Stats are now handled by CalculateStats, but we need initial values
+            // 属性现在由 CalculateStats 处理，但我们需要初始值
             Level = 1;
             Mana = 50f;
             MaxMana = 50f;
@@ -259,7 +259,7 @@ namespace hd2dtest.Scripts.Modules
             InitializeEquipments();
             InitializeSkills();
 
-            // Initial calculation
+            // 初始计算
             CalculateStats();
             Health = MaxHealth;
         }
@@ -506,8 +506,8 @@ namespace hd2dtest.Scripts.Modules
 
                 // 升级属性
                 CalculateStats();
-                Health = MaxHealth; // Heal on level up? Or just increase max? Usually restore full in some RPGs.
-                // Let's just restore full for now as per original code implication (Health = MaxHealth)
+                Health = MaxHealth; // 升级时治疗？还是只增加最大值？在某些 RPG 中通常会完全恢复
+                // 我们现在暂时完全恢复，按照原始代码的暗示（Health = MaxHealth）
 
                 Log.Info(string.Format(TranslationServer.Translate("log_level_up"), Level));
             }

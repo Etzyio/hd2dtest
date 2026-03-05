@@ -125,8 +125,8 @@ namespace hd2dtest
 		}
 
 		private void RemovePauseVisualEffect()
-		{
-			_shade?.Visible = false;
+        {
+            _shade?.Visible = false;
 		}
 
 		private void PauseSceneLayer()

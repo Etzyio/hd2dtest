@@ -89,7 +89,7 @@ namespace hd2dtest.Scripts.Modules
         public string Dialogue { get; set; } = TranslationServer.Translate("npc_default_dialogue");
 
         /// <summary>
-        /// ID of the dialogue graph to use.
+        /// 要使用的对话图 ID
         /// </summary>
         public string DialogueGraphId { get; set; }
 

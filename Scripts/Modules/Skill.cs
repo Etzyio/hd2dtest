@@ -5,7 +5,7 @@ using hd2dtest.Scripts.Core;
 
 namespace hd2dtest.Scripts.Modules
 {
-    // SkillType and SkillDefent are defined inside the Skill class below
+    // SkillType 和 SkillDefent 在下面的 Skill 类中定义
 
     /// <summary>
     /// 技能类，定义游戏中技能的属性和行为
@@ -46,11 +46,11 @@ namespace hd2dtest.Scripts.Modules
             /// 技能伤害类型
             /// </summary>
             /// <value>技能的伤害类型，如：物理、魔法、火、水、雷、冰等</value>
-            // Weakness is a struct, not a Resource, so it won't export well directly without a custom editor or wrapper.
-            // For now, we'll keep it as a property but not exported directly to inspector unless wrapped.
+            // Weakness 是结构体而不是 Resource，因此如果不使用自定义编辑器或包装器，直接导出效果不佳
+            // 目前我们将其保留为属性，但除非包装，否则不会直接导出到检查器
             public Weakness DamageType { get; set; } = new Weakness("Physical");
             
-            // Helper for inspector if needed, or just rely on code for now.
+            // 如果需要，可以为检查器提供帮助，或暂时仅依赖代码
             [Export] public string DamageTypeString 
             {
                 get => DamageType.Type;

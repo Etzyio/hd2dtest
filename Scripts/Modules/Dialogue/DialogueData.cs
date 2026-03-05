@@ -5,111 +5,111 @@ using Godot;
 namespace hd2dtest.Scripts.Modules.Dialogue
 {
     /// <summary>
-    /// Represents a single node in a dialogue graph.
+    /// 表示对话图中的一个节点
     /// </summary>
     public class DialogueNode
     {
         /// <summary>
-        /// Unique identifier for the node.
+        /// 节点的唯一标识符
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// Name of the speaker.
+        /// 说话者的名称
         /// </summary>
         public string SpeakerName { get; set; }
 
         /// <summary>
-        /// The text content of the dialogue.
+        /// 对话的文本内容
         /// </summary>
         public string Text { get; set; }
 
         /// <summary>
-        /// Path to the audio file to play (optional).
+        /// 要播放的音频文件路径（可选）
         /// </summary>
         public string AudioPath { get; set; }
 
         /// <summary>
-        /// Path to the background image (optional).
+        /// 背景图片路径（可选）
         /// </summary>
         public string BackgroundPath { get; set; }
 
         /// <summary>
-        /// Path to the character portrait (optional).
+        /// 角色头像路径（可选）
         /// </summary>
         public string PortraitPath { get; set; }
 
         /// <summary>
-        /// List of options available to the player. If empty, it's a linear progression.
+        /// 玩家可用的选项列表。如果为空，则为线性对话
         /// </summary>
         public List<DialogueOption> Options { get; set; } = new List<DialogueOption>();
 
         /// <summary>
-        /// List of events to trigger when this node is entered.
+        /// 进入此节点时触发的事件列表
         /// </summary>
         public List<DialogueEvent> Events { get; set; } = new List<DialogueEvent>();
 
         /// <summary>
-        /// The ID of the next node for linear dialogue (if Options is empty).
+        /// 线性对话的下一个节点 ID（如果选项为空）
         /// </summary>
         public string NextNodeId { get; set; }
     }
 
     /// <summary>
-    /// Represents a choice the player can make.
+    /// 表示玩家可以做出的选择
     /// </summary>
     public class DialogueOption
     {
         /// <summary>
-        /// The text displayed for the option.
+        /// 选项显示的文本
         /// </summary>
         public string Text { get; set; }
 
         /// <summary>
-        /// The ID of the target node if this option is selected.
+        /// 如果选择此选项，目标节点的 ID
         /// </summary>
         public string TargetNodeId { get; set; }
 
         /// <summary>
-        /// A condition that must be met for this option to be available (optional).
-        /// format: "ConditionType:Parameter" e.g., "HasItem:Key", "QuestState:QuestID:Completed"
+        /// 此选项可用的条件（可选）
+        /// 格式："条件类型：参数" 例如："HasItem:Key", "QuestState:QuestID:Completed"
         /// </summary>
         public string Condition { get; set; }
     }
 
     /// <summary>
-    /// Represents an event that occurs during dialogue.
+    /// 表示对话期间发生的事件
     /// </summary>
     public class DialogueEvent
     {
         /// <summary>
-        /// The type of event (e.g., "PlaySound", "AddQuest", "ScreenShake").
+        /// 事件类型（例如："PlaySound", "AddQuest", "ScreenShake"）
         /// </summary>
         public string Type { get; set; }
 
         /// <summary>
-        /// Parameters for the event.
+        /// 事件的参数
         /// </summary>
         public Dictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
     }
 
     /// <summary>
-    /// Container for a complete dialogue graph.
+    /// 完整对话图的容器
     /// </summary>
     public class DialogueGraph
     {
         /// <summary>
-        /// Unique ID for the dialogue graph.
+        /// 对话图的唯一 ID
         /// </summary>
         public string Id { get; set; }
 
         /// <summary>
-        /// The starting node ID.
+        /// 起始节点 ID
         /// </summary>
         public string StartNodeId { get; set; }
 
         /// <summary>
-        /// All nodes in the graph, keyed by ID.
+        /// 图中的所有节点，以 ID 为键
         /// </summary>
         public Dictionary<string, DialogueNode> Nodes { get; set; } = new Dictionary<string, DialogueNode>();
     }

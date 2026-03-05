@@ -65,19 +65,19 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             SkillPhase phase = _currentContext.Skill.Phases[_currentPhaseIndex];
             _phaseTimer = 0f;
             
-            // Prepare events for this phase
+            // 为该阶段准备事件
             _pendingEvents.Clear();
             if (phase.Events != null)
             {
                 _pendingEvents.AddRange(phase.Events);
-                // Sort by time just in case
+                // 按时间排序以防万一
                 _pendingEvents.Sort((a, b) => a.NormalizedTime.CompareTo(b.NormalizedTime));
             }
 
             Log.Info($"Starting Phase: {phase.PhaseName} (Duration: {phase.Duration}s)");
             EmitSignal(SignalName.SkillPhaseStarted, phase.PhaseName);
             
-            // If duration is 0, execute immediately and go next
+            // 如果持续时间为 0，立即执行并进入下一阶段
             if (phase.Duration <= 0)
             {
                 ExecuteAllPendingEvents();
@@ -94,11 +94,11 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
             float dt = (float)delta;
             _phaseTimer += dt;
 
-            // Check events
-            // Normalized time: 0 to 1
+            // 检查事件
+            // 标准化时间：0 到 1
             float normalizedTime = (phase.Duration > 0) ? (_phaseTimer / phase.Duration) : 1.0f;
             
-            // Execute all due events in order
+            // 按顺序执行所有到期事件
             while (_pendingEvents.Count > 0)
             {
                 SkillEvent evt = _pendingEvents[0];
@@ -109,14 +109,14 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
                 }
                 else
                 {
-                    break; // Next event is not due yet
+                    break; // 下一个事件还未到期
                 }
             }
 
-            // Check phase end
+            // 检查阶段结束
             if (_phaseTimer >= phase.Duration)
             {
-                ExecuteAllPendingEvents(); // Ensure anything remaining (e.g. at exactly 1.0) is executed
+                ExecuteAllPendingEvents(); // 确保所有剩余事件（例如恰好在 1.0 时的事件）都被执行
                 NextPhase();
             }
         }

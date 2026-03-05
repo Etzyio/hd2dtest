@@ -86,7 +86,7 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 依赖类型 (quest_completed, quest_in_progress, level)
         /// </summary>
-        public string Type { get; set; }  // quest_completed, quest_in_progress, level
+        public string Type { get; set; }  // quest_completed（任务完成）, quest_in_progress（任务进行中）, level（等级）
         
         /// <summary>
         /// 依赖的任务ID
@@ -101,7 +101,7 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 操作符 (AND, OR)
         /// </summary>
-        public string Operator { get; set; }  // AND, OR
+        public string Operator { get; set; }  // AND（与）, OR（或）
     }
 
     /// <summary>

@@ -38,17 +38,17 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
         public virtual void Execute(SkillExecutionContext context)
         {
-            // Override in subclasses
+            // 在子类中重写
         }
     }
 
-    // Context passed to events during execution
+    // 在执行期间传递给事件的上下文
     public class SkillExecutionContext
     {
         public Creature Caster { get; set; }
         public Creature Target { get; set; }
-        public Node3D CasterNode { get; set; } // Visual node
-        public Node3D TargetNode { get; set; } // Visual node
+        public Node3D CasterNode { get; set; } // 视觉节点
+        public Node3D TargetNode { get; set; } // 视觉节点
         public Vector2 TargetPosition { get; set; }
         public SkillData Skill { get; set; }
     }
