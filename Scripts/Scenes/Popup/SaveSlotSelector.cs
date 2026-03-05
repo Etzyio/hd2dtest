@@ -229,7 +229,8 @@ namespace hd2dtest.Scenes.Popup
                 var saveDir = "user://saves";
                 if (!DirAccess.DirExistsAbsolute(saveDir))
                 {
-                    return;
+                    DirAccess.MakeDirAbsolute(saveDir);
+                    Log.Info($"Created save directory: {saveDir}");
                 }
 
                 using var dir = DirAccess.Open(saveDir);
