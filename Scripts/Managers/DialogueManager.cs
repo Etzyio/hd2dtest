@@ -71,7 +71,6 @@ namespace hd2dtest.Scripts.Managers
             }
 
             var option = _currentNode.Options[optionIndex];
-
             if (_conditionChecker != null && !string.IsNullOrEmpty(option.Condition))
             {
                 if (!_conditionChecker.CheckCondition(option.Condition))
@@ -90,7 +89,6 @@ namespace hd2dtest.Scripts.Managers
             {
                 _history.Pop(); // Remove current
                 string previousId = _history.Peek(); // Get previous
-
                 if (_currentGraph.Nodes.ContainsKey(previousId))
                 {
                     _currentNode = _currentGraph.Nodes[previousId];
@@ -110,7 +108,6 @@ namespace hd2dtest.Scripts.Managers
                 _currentNode = node;
                 _history.Push(nodeId);
                 OnNodeChanged?.Invoke(_currentNode);
-
                 // Trigger events
                 foreach (var evt in _currentNode.Events)
                 {
@@ -209,7 +206,6 @@ namespace hd2dtest.Scripts.Managers
                             var evtDict = evt.AsGodotDictionary();
                             var dialogueEvent = new DialogueEvent();
                             if (evtDict.ContainsKey("type")) dialogueEvent.Type = evtDict["type"].AsString();
-
                             if (evtDict.ContainsKey("parameters"))
                             {
                                 var paramsDict = evtDict["parameters"].AsGodotDictionary();

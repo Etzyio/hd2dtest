@@ -55,7 +55,6 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
         private void NextPhase()
         {
             _currentPhaseIndex++;
-
             if (_currentPhaseIndex >= _currentContext.Skill.Phases.Count)
             {
                 FinishSkill();

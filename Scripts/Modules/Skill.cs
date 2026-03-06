@@ -90,14 +90,14 @@ namespace hd2dtest.Scripts.Modules
         /// 技能魔法消耗
         /// </summary>
         /// <value>使用技能所需的魔法值</value>
-        public int ManaCost { get; set; } = 0;
+        [Export] public int ManaCost { get; set; } = 0;
 
 
         /// <summary>
         /// 技能是否已解锁
         /// </summary>
         /// <value>true 表示技能已解锁，false 表示技能未解锁</value>
-        public bool IsUnlocked { get; set; } = false;
+        [Export] public bool IsUnlocked { get; set; } = false;
 
         /// <summary>
         /// 获取技能状态描述

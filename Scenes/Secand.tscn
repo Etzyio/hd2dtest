@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dced58n2vgo5p"]
+
+[ext_resource type="PackedScene" uid="uid://c7tk6yrmblbcf" path="res://Module/full_gameready_city_buildings_iv_hongkong/scene.gltf" id="1_v4rbn"]
+[ext_resource type="PackedScene" uid="uid://cu88pkc8etwxo" path="res://Scenes/Player/Player.tscn" id="2_084bo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_084bo"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_r04mc"]
+sky_material = SubResource("ProceduralSkyMaterial_084bo")
+
+[sub_resource type="Environment" id="Environment_p15jo"]
+background_mode = 2
+sky = SubResource("Sky_r04mc")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_084bo"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_084bo"]
+size = Vector3(100, 1, 100)
+
+[node name="Secand" type="Node3D" unique_id=1284663586]
+
+[node name="Player" parent="." unique_id=13901303 instance=ExtResource("2_084bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.892375, 0, 31.014683)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2034717970]
+environment = SubResource("Environment_p15jo")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1516365267]
+transform = Transform3D(0.71447283, 0.54220015, -0.44220766, 0, 0.6320293, 0.7749445, 0.6996632, -0.5536768, 0.45156777, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Sketchfab_Scene" parent="." unique_id=66321809 instance=ExtResource("1_v4rbn")]
+transform = Transform3D(0.1745232, 0, -9.998477, 0, 10, 0, 9.998477, 0, 0.1745232, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sketchfab_Scene" unique_id=1587755351]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.50921726, 0)
+mesh = SubResource("BoxMesh_084bo")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Sketchfab_Scene/MeshInstance3D" unique_id=294573093]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sketchfab_Scene/MeshInstance3D/StaticBody3D" unique_id=2128036856]
+shape = SubResource("BoxShape3D_084bo")

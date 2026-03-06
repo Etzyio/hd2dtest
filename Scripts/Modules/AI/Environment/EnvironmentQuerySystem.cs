@@ -17,7 +17,6 @@ namespace hd2dtest.Scripts.Modules.AI.Environment
     public partial class EnvironmentQuerySystem : Node
     {
         public static EnvironmentQuerySystem Instance { get; private set; }
-
         private List<CoverPoint> _coverPoints = new List<CoverPoint>();
 
         public override void _Ready()
@@ -47,7 +46,6 @@ namespace hd2dtest.Scripts.Modules.AI.Environment
                 // Evaluate cover
                 // 1. Distance score (closer is better, but not too close to threat)
                 float distScore = 1.0f - (dist / maxDistance);
-
                 // 2. Direction check (cover should block threat)
                 Vector3 toThreat = (threatPos - cover.GlobalPosition).Normalized();
                 float dot = toThreat.Dot(cover.CoverDirection);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Utilities;
@@ -521,7 +522,6 @@ namespace hd2dtest.Scripts.Modules
         private void HealPlayer(Creature player)
         {
             // 治疗玩家
-            // float healAmount = player.MaxHealth * 0.5f; // 恢复50%生命值
             List<int> healAmount = player.Heal(this, ResourcesManager.SkillsCache["Heal"]); // 使用NPC的第一个技能进行治疗
 
             Log.Info($"{CreatureName}: {TranslationServer.Translate("npc_heal_done")}");

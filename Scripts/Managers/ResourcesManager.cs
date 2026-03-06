@@ -168,7 +168,6 @@ namespace hd2dtest.Scripts.Managers
         /// 默认资源路径
         /// </summary>
         private const string DefaultResourcesPath = "res://Resources/Static/";
-
         /// <summary>
         /// JSON序列化选项
         /// </summary>

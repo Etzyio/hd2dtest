@@ -176,7 +176,6 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
 
             Node root = context.CasterNode.GetTree().Root;
             Node3D effectInstance = EffectScene.Instantiate<Node3D>();
-
             if (effectInstance == null)
             {
                 Log.Error("SpawnEffectEvent: EffectScene is not a Node3D");

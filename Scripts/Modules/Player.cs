@@ -350,7 +350,6 @@ namespace hd2dtest.Scripts.Modules
 
             // 更新攻击属性
             CalculateStats();
-
             Log.Info(string.Format(TranslationServer.Translate("log_equipped_weapon"), weapon.WeaponName));
         }
 

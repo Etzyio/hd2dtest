@@ -1,10 +1,5 @@
 using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using hd2dtest.Scripts.Managers;
-using hd2dtest.Scripts.Core;
-using hd2dtest.Scripts.Modules;
 using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scenes.Popup

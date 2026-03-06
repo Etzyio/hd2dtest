@@ -616,7 +616,6 @@ namespace hd2dtest.Scripts.Managers
                     EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
                     EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
                 };
-
                 // 获取版本信息
                 string gameVersion = "0.0.1";
                 string buildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");

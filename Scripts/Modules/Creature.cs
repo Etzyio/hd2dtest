@@ -166,7 +166,6 @@ namespace hd2dtest.Scripts.Modules
 
             // 这里可以添加伤害类型相关的逻辑，例如抗性计算
             // 目前简化处理，直接扣除生命值
-
             Health -= amount;
 
             // 检查是否死亡

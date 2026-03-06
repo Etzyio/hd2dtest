@@ -25,9 +25,15 @@ namespace hd2dtest.Scripts.Managers
         /// <value>游戏管理器的单例实例</value>
         public static GameManager Instance => _instance;
 
-        public GameManager()
-        {
-        }
+        /// <summary>
+        /// 小队管理对象
+        /// </summary>
+        public Teammates Teammates { get; private set; } = new();
+
+        /// <summary>
+        /// 道具列表
+        /// </summary>
+        public List<Item> ItemList { get; private set; } = new List<Item>();
 
         /// <summary>
         /// 节点准备就绪时调用的方法
@@ -64,10 +70,10 @@ namespace hd2dtest.Scripts.Managers
                         Main.Instance.OpenPopup();
                         GetViewport().SetInputAsHandled();
                     }
-                }
-                else if (Main.Instance.PopupStatus)
-                {
-                    Main.Instance.ClosePopup();
+                    else
+                    {
+                        Main.Instance.ClosePopup();
+                    }
                 }
             }
         }
@@ -83,5 +89,57 @@ namespace hd2dtest.Scripts.Managers
             // 初始化游戏设置 - 鼠标始终可见
             Input.MouseMode = Input.MouseModeEnum.Visible;
         }
+
+        /// <summary>
+        /// 添加道具到列表
+        /// </summary>
+        /// <param name="item">要添加的道具</param>
+        public void AddItem(Item item)
+        {
+            if (item != null && !ItemList.Contains(item))
+            {
+                ItemList.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// 从列表移除道具
+        /// </summary>
+        /// <param name="item">要移除的道具</param>
+        public void RemoveItem(Item item)
+        {
+            if (item != null && ItemList.Contains(item))
+            {
+                ItemList.Remove(item);
+            }
+        }
+
+        /// <summary>
+        /// 根据 ID 获取道具
+        /// </summary>
+        /// <param name="itemId">道具 ID</param>
+        /// <returns>如果找到则返回道具，否则返回 null</returns>
+        public Item GetItemById(string itemId)
+        {
+            return ItemList.Find(item => item.Id == itemId);
+        }
+
+        /// <summary>
+        /// 获取所有道具
+        /// </summary>
+        /// <returns>道具列表</returns>
+        public List<Item> GetAllItems()
+        {
+            return [.. ItemList];
+        }
+
+        /// <summary>
+        /// 清空道具列表
+        /// </summary>
+        public void ClearItems()
+        {
+            ItemList.Clear();
+        }
+
     }
 }
