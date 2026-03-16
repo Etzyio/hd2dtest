@@ -3,9 +3,12 @@
 [ext_resource type="Script" uid="uid://cpeq2pe6w1xtj" path="res://Scenes/Player/Player.cs" id="1_s0eop"]
 [ext_resource type="Texture2D" uid="uid://bo2x8jvcrsvg2" path="res://Resources/player/Mana Seed Farmer Sprite Free Sample/farmer base sheets/01body/fbas_1body_human_00.png" id="2_ft8w5"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ft8w5"]
-custom_solver_bias = 0.085
-size = Vector3(1.03, 1.8, 0.025)
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_ft8w5"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 0.05
+dof_blur_far_transition = 138.58
+dof_blur_near_enabled = true
+dof_blur_near_distance = 10.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h54ih"]
 atlas = ExtResource("2_ft8w5")
@@ -148,19 +151,24 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ft8w5"]
-frustum_focus_distance = 36.0
+[sub_resource type="BoxShape3D" id="BoxShape3D_ft8w5"]
+custom_solver_bias = 0.085
+size = Vector3(1.03, 1.8, 0.025)
 
 [node name="Player" type="CharacterBody3D" unique_id=13901303]
 script = ExtResource("1_s0eop")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=80216030]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.915, 0)
-shape = SubResource("BoxShape3D_ft8w5")
-debug_color = Color(0.16078432, 0.59607846, 0.67058825, 1)
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1102125512]
+transform = Transform3D(1, 0, 0, 0, 0.9887563, 0.14953533, 0, -0.14953533, 0.9887563, 0, 10, 35)
+attributes = SubResource("CameraAttributesPractical_ft8w5")
+doppler_tracking = 1
+current = true
+fov = 37.849285
+near = 0.048
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." unique_id=1277462312]
 transform = Transform3D(2.15, 0, 0, 0, 2.15, 0, 0, 0, 2.15, 0, 0.929, 0)
+cast_shadow = 2
 pixel_size = 0.03
 billboard = 1
 shaded = true
@@ -169,10 +177,9 @@ texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_0objx")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.68532825
+frame_progress = 0.765195
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1102125512]
-transform = Transform3D(1, 0, 0, 0, 0.9887563, 0.14953533, 0, -0.14953533, 0.9887563, 0, 10, 35)
-attributes = SubResource("CameraAttributesPhysical_ft8w5")
-doppler_tracking = 1
-current = true
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=80216030]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.915, 0)
+shape = SubResource("BoxShape3D_ft8w5")
+debug_color = Color(0.16078432, 0.59607846, 0.67058825, 1)
