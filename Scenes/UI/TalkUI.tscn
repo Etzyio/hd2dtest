@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dqm7gxn5yw5e4"]
 
+[ext_resource type="Script" path="res://Scenes/UI/TalkUI.cs" id="1_4t1k7"]
 [ext_resource type="FontFile" uid="uid://b2rl1a3xt5s4e" path="res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf" id="1_kx7k0"]
 
 [sub_resource type="Curve" id="Curve_07wa0"]
@@ -34,6 +35,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_4t1k7")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=388168535]
 layout_mode = 0
