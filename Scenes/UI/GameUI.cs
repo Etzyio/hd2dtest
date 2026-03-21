@@ -1,5 +1,6 @@
 using Godot;
 using hd2dtest.Scripts.Managers;
+using hd2dtest.Scripts.Utilities;
 using System.Collections.Generic;
 
 namespace hd2dtest.Scenes.UI
@@ -24,7 +25,15 @@ namespace hd2dtest.Scenes.UI
 
         private void InitializeUIReferences()
         {
-            _teammatesContainer = GetNode<VBoxContainer>("VBoxContainer");
+            try
+            {
+                _teammatesContainer = GetNode<VBoxContainer>("VBoxContainer");
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error("Error finding VBoxContainer: " + ex.Message);
+                _teammatesContainer = null;
+            }
             _teammateScene = GD.Load<PackedScene>("res://Scenes/UI/Teammate.tscn");
         }
 
@@ -65,6 +74,12 @@ namespace hd2dtest.Scenes.UI
                 ui.QueueFree();
             }
             _teammateUIs.Clear();
+
+            if (_teammatesContainer == null)
+            {
+                Log.Error("Cannot refresh teammate UI: VBoxContainer is null");
+                return;
+            }
 
             var teammates = GameDataManager.Instance.Teammates.Get();
             foreach (var teammate in teammates)

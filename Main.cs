@@ -18,7 +18,7 @@ namespace hd2dtest
         //遮罩
         private ColorRect _shade;
         //弹窗层
-        private Control _popupLayer;
+        private hd2dtest.Scenes.Popup.PopupMenu _popupLayer;
 
         public bool PopupStatus => _popupLayer.Visible;
         public Node NowScene => _sceneLayer.GetChild(0);
@@ -39,7 +39,7 @@ namespace hd2dtest
             // 获取子节点
             _shade = GetNode<ColorRect>("shade");
             _sceneLayer = GetNode<Control>("sceneLayer");
-            _popupLayer = GetNode<Control>("popupLayer");
+            _popupLayer = GetNode<hd2dtest.Scenes.Popup.PopupMenu>("popupLayer/PopupMenu");
 
             Log.Info("HD2D Game Initialized - Loading Start Scene");
             // 切换到开始界面
@@ -214,6 +214,7 @@ namespace hd2dtest
             if (_popupLayer != null)
             {
                 _popupLayer.Visible = true;
+                _popupLayer.ShowMainMenu();
                 PauseSceneLayer();
                 // 处理音频 - 降低背景音乐音量
                 HandleAudioPause();
@@ -226,6 +227,7 @@ namespace hd2dtest
             if (_popupLayer != null)
             {
                 _popupLayer.Visible = false;
+                _shade.Visible = false;
                 ResumeSceneLayer();
                 // 恢复音频
                 HandleAudioResume();

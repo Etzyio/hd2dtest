@@ -32,11 +32,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="PopupMenu" parent="popupLayer" unique_id=394402318 instance=ExtResource("2_h2yge")]
+visible = false
 layout_mode = 1
-offset_left = 872.0
-offset_top = 352.0
-offset_right = 872.0
-offset_bottom = 352.0
+offset_left = 511.0
+offset_top = 209.0
+offset_right = 1230.0
+offset_bottom = 729.0
 
 [node name="GameUI" parent="." unique_id=1163325919 instance=ExtResource("2_2w2qg")]
 visible = false

@@ -244,7 +244,7 @@ namespace hd2dtest.Scenes.Popup
         /// <summary>
         /// 显示主菜单面板
         /// </summary>
-        private void ShowMainMenu()
+        public void ShowMainMenu()
         {
             // 隐藏所有面板
             HideAllPanels();
@@ -396,6 +396,7 @@ namespace hd2dtest.Scenes.Popup
                 HideAllPanels();
                 // 使用Godot的日志系统
                 Log.Info("Popup menu closed");
+                Main.Instance.ClosePopup();
             }
         }
 
