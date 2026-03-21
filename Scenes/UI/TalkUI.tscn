@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dqm7gxn5yw5e4"]
+
+[ext_resource type="FontFile" uid="uid://b2rl1a3xt5s4e" path="res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf" id="1_kx7k0"]
+
+[sub_resource type="Curve" id="Curve_07wa0"]
+_data = [Vector2(0, 0.22471917), 0.0, 0.0, 0, 0, Vector2(0.4895833, 0.44943827), 0.0, 0.0, 0, 0, Vector2(0.9895833, 0.21348321), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_kx7k0"]
+_data = [Vector2(0, 0.20224726), 0.0, 0.0, 0, 0, Vector2(0.484375, 0.21348321), 0.0, 0.0, 0, 0, Vector2(0.9947917, 0.24719107), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_jpfsc"]
+_data = [Vector2(0, 0.516854), 0.0, 0.0, 0, 0, Vector2(0.46875, 0.39325845), 0.0, 0.0, 0, 0, Vector2(0.9791667, 0.5842697), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_3q8eg"]
+curve_x = SubResource("Curve_07wa0")
+curve_y = SubResource("Curve_kx7k0")
+curve_z = SubResource("Curve_jpfsc")
+
+[sub_resource type="LabelSettings" id="LabelSettings_jpfsc"]
+font = ExtResource("1_kx7k0")
+font_size = 81
+
+[sub_resource type="LabelSettings" id="LabelSettings_kx7k0"]
+font = ExtResource("1_kx7k0")
+font_size = 41
+
+[node name="TalkUi" type="Control" unique_id=584217946]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=388168535]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 692.0
+offset_right = 1886.0
+offset_bottom = 1037.0
+texture = SubResource("CurveXYZTexture_3q8eg")
+
+[node name="TalkLabel" type="Label" parent="." unique_id=838261235]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.021000002
+offset_left = 112.0
+offset_top = 763.0
+offset_right = 1828.0
+offset_bottom = 975.32
+text = "这是一行字"
+label_settings = SubResource("LabelSettings_jpfsc")
+
+[node name="NameLabel" type="Label" parent="." unique_id=62210899]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 712.0
+offset_right = 403.0
+offset_bottom = 767.0
+text = "Etzyio"
+label_settings = SubResource("LabelSettings_kx7k0")
