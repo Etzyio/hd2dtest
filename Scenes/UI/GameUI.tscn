@@ -1,12 +1,10 @@
 [gd_scene format=3 uid="uid://c2a0h7a8cac11"]
 
 [ext_resource type="Script" uid="uid://bvxsr38mv82hh" path="res://Scenes/UI/GameUI.cs" id="1_1w2qg"]
+[ext_resource type="PackedScene" uid="uid://dqm7gxn5yw5e4" path="res://Scenes/UI/TalkUI.tscn" id="2_71wt1"]
 
 [node name="GameUI" type="CanvasLayer" unique_id=49785692]
 script = ExtResource("1_1w2qg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1633380727]
-offset_left = 1459.0
-offset_top = 63.0
-offset_right = 1918.0
-offset_bottom = 578.0
+[node name="TalkUi" parent="." unique_id=584217946 instance=ExtResource("2_71wt1")]
+visible = false
