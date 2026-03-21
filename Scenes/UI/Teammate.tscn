@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b5h6k7l8m9n0"]
+[gd_scene format=3 uid="uid://b5h6k7l8nan0"]
 
 [ext_resource type="Script" uid="uid://vh6bh8mvcxgx" path="res://Scenes/UI/Teammate.cs" id="1_teammate"]
 
@@ -11,32 +11,31 @@ material = SubResource("StandardMaterial3D_intyv")
 [sub_resource type="MeshTexture" id="MeshTexture_sinwf"]
 mesh = SubResource("QuadMesh_4284l")
 
-[node name="Teammate" type="VBoxContainer"]
+[node name="Teammate" type="VBoxContainer" unique_id=401184437]
 script = ExtResource("1_teammate")
+
+[node name="TeammateHeader" type="HBoxContainer" parent="." unique_id=977765425]
 layout_mode = 2
 
-[node name="TeammateHeader" type="HBoxContainer" parent="."]
-layout_mode = 2
-
-[node name="TeammateLabel" type="Label" parent="TeammateHeader"]
+[node name="TeammateLabel" type="Label" parent="TeammateHeader" unique_id=1828826660]
 layout_mode = 2
 text = "Teammate"
 
-[node name="Status" type="Label" parent="TeammateHeader"]
+[node name="Status" type="Label" parent="TeammateHeader" unique_id=563883450]
 layout_mode = 2
 text = "Atk up"
 
-[node name="TeammateStats" type="HBoxContainer" parent="."]
+[node name="TeammateStats" type="HBoxContainer" parent="." unique_id=524885420]
 layout_mode = 2
 
-[node name="TeammateHealthValue" type="Label" parent="TeammateStats"]
+[node name="TeammateHealthValue" type="Label" parent="TeammateStats" unique_id=1721766080]
 layout_mode = 2
 text = "50/100"
 
-[node name="Control" type="Control" parent="TeammateStats"]
+[node name="Control" type="Control" parent="TeammateStats" unique_id=553737730]
 layout_mode = 2
 
-[node name="HPBar" type="TextureProgressBar" parent="TeammateStats"]
+[node name="HPBar" type="TextureProgressBar" parent="TeammateStats" unique_id=1026353064]
 layout_mode = 2
 size_flags_horizontal = 3
 page = 5.0
@@ -48,17 +47,17 @@ tint_under = Color(0.10622192, 0.21240366, 0.20880002, 1)
 tint_over = Color(0.89565396, 0.62573534, 0.5342379, 1)
 tint_progress = Color(0.85050595, 0, 0.025840001, 1)
 
-[node name="TeammateStats2" type="HBoxContainer" parent="."]
+[node name="TeammateStats2" type="HBoxContainer" parent="." unique_id=1242351595]
 layout_mode = 2
 
-[node name="TeammateMpValue" type="Label" parent="TeammateStats2"]
+[node name="TeammateMpValue" type="Label" parent="TeammateStats2" unique_id=649264796]
 layout_mode = 2
 text = "MP"
 
-[node name="Control" type="Control" parent="TeammateStats2"]
+[node name="Control" type="Control" parent="TeammateStats2" unique_id=1941270314]
 layout_mode = 2
 
-[node name="MPBar" type="TextureProgressBar" parent="TeammateStats2"]
+[node name="MPBar" type="TextureProgressBar" parent="TeammateStats2" unique_id=1813389772]
 layout_mode = 2
 size_flags_horizontal = 3
 page = 5.0
