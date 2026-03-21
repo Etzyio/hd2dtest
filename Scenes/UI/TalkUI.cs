@@ -93,6 +93,14 @@ public partial class TalkUI : Control
     /// <param name="onComplete">打字完成后的回调</param>
     public void TypeTalkText(string text, System.Action onComplete = null)
     {
+        if (string.IsNullOrEmpty(text))
+        {
+            _talkLabel.Text = text;
+            _isTyping = false;
+            onComplete?.Invoke();
+            return;
+        }
+        
         _isTyping = true;
         _fullText = text;
         _currentCharIndex = 0;
