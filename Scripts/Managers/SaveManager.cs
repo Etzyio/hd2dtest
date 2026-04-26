@@ -179,6 +179,9 @@ namespace hd2dtest.Scripts.Managers
                 // 保存 GameDataManager 数据
                 SaveGameDataManagerData(saveData);
 
+                // 保存新管理器数据 (暂时注释，待后续完善)
+                // SaveNewManagersData(saveData);
+
                 // 序列化存档数据
                 string json = JsonSerializer.Serialize(saveData, _jsonSerializerOptions);
 
@@ -349,6 +352,110 @@ namespace hd2dtest.Scripts.Managers
                 Log.Error($"Error in SaveGameDataManagerData: {e.Message}");
             }
         }
+
+        /// <summary>
+        /// 保存新管理器数据到 SaveData (暂时注释，待后续完善)
+        /// </summary>
+        /// <param name="saveData">存档数据</param>
+        // private void SaveNewManagersData(SaveData saveData)
+        // {
+        //     try
+        //     {
+        //         // 保存背包管理器数据
+        //         if (InventoryManager.Instance != null)
+        //         {
+        //             saveData.InventoryData = InventoryManager.Instance.GetSaveData();
+        //         }
+
+        //         // 保存角色状态管理器数据
+        //         if (CharacterStatsManager.Instance != null)
+        //         {
+        //             // 这里假设我们有一个主要角色
+        //             var mainPlayerStats = CharacterStatsManager.Instance.GetCharacterStats("player");
+        //             if (mainPlayerStats != null)
+        //             {
+        //                 saveData.CharacterStatsData["player"] = CharacterStatsManager.Instance.GetSaveData("player");
+        //             }
+        //         }
+
+        //         // 保存商店管理器数据
+        //         if (ShopManager.Instance != null)
+        //         {
+        //             saveData.ShopData = ShopManager.Instance.GetSaveData();
+        //         }
+
+        //         // 保存地图管理器数据
+        //         if (MapManager.Instance != null)
+        //         {
+        //             saveData.MapData = MapManager.Instance.GetSaveData();
+        //         }
+
+        //         // 保存成就管理器数据
+        //         if (AchievementManager.Instance != null)
+        //         {
+        //             saveData.AchievementData = AchievementManager.Instance.GetSaveData();
+        //         }
+
+        //         Log.Info("New managers data saved successfully");
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Log.Error($"Error in SaveNewManagersData: {e.Message}");
+        //     }
+        // }
+
+        /// <summary>
+        /// 加载新管理器数据从 SaveData (暂时注释，待后续完善)
+        /// </summary>
+        /// <param name="saveData">存档数据</param>
+        // private void LoadNewManagersData(SaveData saveData)
+        // {
+        //     try
+        //     {
+        //         // 加载背包管理器数据
+        //         if (InventoryManager.Instance != null && saveData.InventoryData != null)
+        //         {
+        //             InventoryManager.Instance.LoadSaveData(saveData.InventoryData);
+        //         }
+
+        //         // 加载角色状态管理器数据
+        //         if (CharacterStatsManager.Instance != null && saveData.CharacterStatsData != null)
+        //         {
+        //             foreach (var kvp in saveData.CharacterStatsData)
+        //             {
+        //                 if (!CharacterStatsManager.Instance.HasCharacterStats(kvp.Key))
+        //                 {
+        //                     CharacterStatsManager.Instance.CreateCharacterStats(kvp.Key);
+        //                 }
+        //                 CharacterStatsManager.Instance.LoadSaveData(kvp.Key, kvp.Value);
+        //             }
+        //         }
+
+        //         // 加载商店管理器数据
+        //         if (ShopManager.Instance != null && saveData.ShopData != null)
+        //         {
+        //             ShopManager.Instance.LoadSaveData(saveData.ShopData);
+        //         }
+
+        //         // 加载地图管理器数据
+        //         if (MapManager.Instance != null && saveData.MapData != null)
+        //         {
+        //             MapManager.Instance.LoadSaveData(saveData.MapData);
+        //         }
+
+        //         // 加载成就管理器数据
+        //         if (AchievementManager.Instance != null && saveData.AchievementData != null)
+        //         {
+        //             AchievementManager.Instance.LoadSaveData(saveData.AchievementData);
+        //         }
+
+        //         Log.Info("New managers data loaded successfully");
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Log.Error($"Error in LoadNewManagersData: {e.Message}");
+        //     }
+        // }
 
         /// <summary>
         /// 加载任务数据从SaveData
@@ -531,6 +638,9 @@ namespace hd2dtest.Scripts.Managers
 
                 // 加载 GameDataManager 数据
                 LoadGameDataManagerData(saveData);
+
+                // 加载新管理器数据 (暂时注释，待后续完善)
+                // LoadNewManagersData(saveData);
 
                 Log.Info($"Game loaded successfully from slot {saveId} saved at {saveData.SaveTime}");
                 return saveData;

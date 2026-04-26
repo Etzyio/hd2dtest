@@ -20,13 +20,19 @@ namespace hd2dtest
         //弹窗层
         private hd2dtest.Scenes.Popup.PopupMenu _popupLayer;
 
+        // 游戏管理器节点
+        private Node _managersNode;
+
         public bool PopupStatus => _popupLayer.Visible;
         public Node NowScene => _sceneLayer.GetChild(0);
 
         public override void _Ready()
         {
-
             _instance = this;
+            
+            // 创建管理器容器节点
+            CreateManagersNode();
+
             // 初始化版本管理器
             InitializeVersionManager();
 
@@ -36,6 +42,16 @@ namespace hd2dtest
             // 初始化配置管理器（单例模式）
             InitializeConfigManager();
 
+            // 初始化新的游戏管理器 (暂时注释，待后续完善)
+            // InitializeGameStateManager();
+            // InitializeAudioManager();
+            // InitializeInventoryManager();
+            // InitializeCharacterStatsManager();
+            // InitializeShopManager();
+            // InitializeMapManager();
+            // InitializeAchievementManager();
+            // InitializeEffectManager();
+
             // 获取子节点
             _shade = GetNode<ColorRect>("shade");
             _sceneLayer = GetNode<Control>("sceneLayer");
@@ -44,6 +60,14 @@ namespace hd2dtest
             Log.Info("HD2D Game Initialized - Loading Start Scene");
             // 切换到开始界面
             SwitchScene("start");
+        }
+
+        private void CreateManagersNode()
+        {
+            _managersNode = new Node();
+            _managersNode.Name = "Managers";
+            AddChild(_managersNode);
+            Log.Info("Managers container node created");
         }
 
         public void TriggerSceneReady()
@@ -175,11 +199,11 @@ namespace hd2dtest
                     AddChild(saveManager);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // 如果GetParent()失败，说明实例可能还没有被添加到场景树
                 // 但为了安全起见，我们不直接添加，而是记录警告
-                Log.Warning("SaveManager already has a parent, skipping AddChild");
+                Log.Warning($"SaveManager parent check failed: {ex.Message}, skipping AddChild");
             }
 
             Log.Info("SaveManager initialized successfully");
@@ -198,15 +222,136 @@ namespace hd2dtest
                     AddChild(configManager);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // 如果GetParent()失败，说明实例可能还没有被添加到场景树
                 // 但为了安全起见，我们不直接添加，而是记录警告
-                Log.Warning("ConfigManager already has a parent, skipping AddChild");
+                Log.Warning($"ConfigManager parent check failed: {ex.Message}, skipping AddChild");
             }
 
             Log.Info("ConfigManager initialized");
         }
+
+        // 新管理器初始化方法 (暂时注释，待后续完善)
+        // private void InitializeGameStateManager()
+        // {
+        //     try
+        //     {
+        //         var gameStateManager = new GameStateManager();
+        //         gameStateManager.Name = "GameStateManager";
+        //         _managersNode.AddChild(gameStateManager);
+        //         Log.Info("GameStateManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize GameStateManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeAudioManager()
+        // {
+        //     try
+        //     {
+        //         var audioManager = new AudioManager();
+        //         audioManager.Name = "AudioManager";
+        //         _managersNode.AddChild(audioManager);
+        //         Log.Info("AudioManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize AudioManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeInventoryManager()
+        // {
+        //     try
+        //     {
+        //         var inventoryManager = new InventoryManager();
+        //         inventoryManager.Name = "InventoryManager";
+        //         _managersNode.AddChild(inventoryManager);
+        //         Log.Info("InventoryManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize InventoryManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeCharacterStatsManager()
+        // {
+        //     try
+        //     {
+        //         var statsManager = new CharacterStatsManager();
+        //         statsManager.Name = "CharacterStatsManager";
+        //         _managersNode.AddChild(statsManager);
+        //         Log.Info("CharacterStatsManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize CharacterStatsManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeShopManager()
+        // {
+        //     try
+        //     {
+        //         var shopManager = new ShopManager();
+        //         shopManager.Name = "ShopManager";
+        //         _managersNode.AddChild(shopManager);
+        //         Log.Info("ShopManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize ShopManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeMapManager()
+        // {
+        //     try
+        //     {
+        //         var mapManager = new MapManager();
+        //         mapManager.Name = "MapManager";
+        //         _managersNode.AddChild(mapManager);
+        //         Log.Info("MapManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize MapManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeAchievementManager()
+        // {
+        //     try
+        //     {
+        //         var achievementManager = new AchievementManager();
+        //         achievementManager.Name = "AchievementManager";
+        //         _managersNode.AddChild(achievementManager);
+        //         Log.Info("AchievementManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize AchievementManager: {ex.Message}");
+        //     }
+        // }
+
+        // private void InitializeEffectManager()
+        // {
+        //     try
+        //     {
+        //         var effectManager = new EffectManager();
+        //         effectManager.Name = "EffectManager";
+        //         _managersNode.AddChild(effectManager);
+        //         Log.Info("EffectManager initialized successfully");
+        //     }
+        //     catch (System.Exception ex)
+        //     {
+        //         Log.Error($"Failed to initialize EffectManager: {ex.Message}");
+        //     }
+        // }
         public void OpenPopup()
         {
             _shade.Visible = true;

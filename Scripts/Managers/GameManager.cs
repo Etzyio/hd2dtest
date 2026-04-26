@@ -1,5 +1,4 @@
 using Godot;
-using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Modules;
 using System.Collections.Generic;
 

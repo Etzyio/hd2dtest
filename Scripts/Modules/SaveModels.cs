@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using hd2dtest.Scripts.Managers;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -294,6 +295,32 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <value>游戏中的小队成员列表</value>
         public List<PlayerSaveData> Teammates { get; set; } = [];
+
+        // 新管理器数据 (暂时注释，待后续完善)
+        /// <summary>
+        /// 背包管理器数据
+        /// </summary>
+        // public InventorySaveData InventoryData { get; set; }
+
+        /// <summary>
+        /// 角色状态管理器数据
+        /// </summary>
+        // public Dictionary<string, CharacterStatsSaveData> CharacterStatsData { get; set; } = [];
+
+        /// <summary>
+        /// 商店管理器数据
+        /// </summary>
+        // public ShopSaveData ShopData { get; set; }
+
+        /// <summary>
+        /// 地图管理器数据
+        /// </summary>
+        // public ExplorationSaveData MapData { get; set; }
+
+        /// <summary>
+        /// 成就管理器数据
+        /// </summary>
+        // public AchievementSaveData AchievementData { get; set; }
     }
 
     /// <summary>
