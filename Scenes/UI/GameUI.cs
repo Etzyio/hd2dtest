@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using hd2dtest.Scripts.Managers;
 using System.Collections.Generic;
 
@@ -84,3 +84,4 @@ namespace hd2dtest.Scenes.UI
 		}
 	}
 }
+

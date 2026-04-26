@@ -64,10 +64,18 @@ namespace hd2dtest
 
         private void CreateManagersNode()
         {
-            _managersNode = new Node();
-            _managersNode.Name = "Managers";
-            AddChild(_managersNode);
-            Log.Info("Managers container node created");
+            if (GetNodeOrNull("Managers") == null)
+            {
+                _managersNode = new Node();
+                _managersNode.Name = "Managers";
+                AddChild(_managersNode);
+                Log.Info("Managers container node created");
+            }
+            else
+            {
+                _managersNode = GetNode<Node>("Managers");
+                Log.Info("Managers container node already exists, using existing node");
+            }
         }
 
         public void TriggerSceneReady()

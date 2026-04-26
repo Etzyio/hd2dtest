@@ -1,5 +1,5 @@
-key,en_US,zh_CN,jp
-The_Unfettered_Nine, The Unfettered Nine Sword,独孤九剑,独孤九剣
+key,en_US,zh_CN,ja_JP
+The_Unfettered_Nine,The Unfettered Nine,独孤九剑,独孤九剣
 The_Unfettered_Nine_Description,"Preemptive Riposte, If the attack type matches your equipped weapon, it inflicts Armor Break","后发先入,若攻击类型与持有武器相同则破甲","前衛の回復,攻撃タイプが武器と一致する場合,甲破壊"
 skill_basic_attack,Basic Attack,基础攻击,基本攻撃
 skill_fireball,Fireball,火球术,ファイアボール
@@ -22,3 +22,285 @@ save_slot_game_time,Game Time: {0},游戏时间: {0},ゲーム時間: {0}
 save_slot_character_info,Character: {0} | Level: {1},角色: {0} | 等级: {1},キャラクター: {0} | レベル: {1}
 save_slot_deleted,Save slot {0} deleted,存档槽位 {0} 已删除,セーブスロット {0} を削除しました
 save_slot_saved,Game saved to {0},游戏已保存到 {0},ゲームを {0} にセーブしました
+
+# Swordman Active Skills
+SKILL_NAME_S01_01,Wind Breaking Sword,破风剑,破風剣
+SKILL_DESC_S01_01,"Sword attack that inflicts damage, with 100% damage coefficient","造成物理伤害的剑击，伤害系数100%","物理ダメージを与える剣技、ダメージ係数100%"
+SKILL_SPECIAL_S01_01,"Inflicts 3 layers of Sword Qi mark on the enemy","对敌人叠加3层剑气标记","敵に剣気マークを3層付与"
+SKILL_NAME_S01_02,Wild Goose Return Sword,雁回剑,雁回剣
+SKILL_DESC_S01_02,"Sword attack with 130% damage coefficient, additional 30% crit rate if enemy has Sword Qi","伤害系数130%的剑击，若敌人有剑气则暴击+30%","ダメージ係数130%の剣技、敵に剣気があればクリティカル+30%"
+SKILL_SPECIAL_S01_02,"Additional crit rate when enemy has Sword Qi","敌人有剑气时追加暴击率","敵に剣気があるとクリティカル率追加"
+SKILL_NAME_S01_03,Flying Sword from Heaven,天外飞仙,天外飛仙
+SKILL_DESC_S01_03,"Powerful sword attack with 200% damage coefficient, 2-turn cooldown","伤害系数200%的强力剑击，冷却2回合","ダメージ係数200%の強力剣技、クールダウン2ターン"
+SKILL_SPECIAL_S01_03,"Each layer of Sword Qi adds 20% damage","每层剑气标记追加20%伤害","剣気マーク1層毎にダメージ20%追加"
+SKILL_NAME_S01_04,Floating Sword Formation,流云剑阵,流雲剣陣
+SKILL_DESC_S01_04,"Sword attack to all enemies with 80% damage coefficient","对所有敌人造成伤害的剑击，系数80%","全ての敵にダメージを与える剣技、係数80%"
+SKILL_SPECIAL_S01_04,"20% chance to add Sword Qi mark","20%概率叠加剑气标记","20%確率で剣気マークを付与"
+SKILL_NAME_S01_05,Sword Intent Protection,剑意护体,剣意護体
+SKILL_DESC_S01_05,"Grants ATK +30% and CRIT +15% to self for 3 turns","给自己赋予物攻+30%、暴击+15%效果，持续3回合","自身に物攻+30%、クリティカル+15%を3ターン付与"
+SKILL_NAME_S01_06,Sword Song Edge,剑歌·锋,剣歌・鋒
+SKILL_DESC_S01_06,"Grants ATK +15% to all allies for 2 turns","给所有队友赋予物攻+15%效果，持续2回合","全ての味方に物攻+15%を2ターン付与"
+SKILL_NAME_S01_07,Star Pointing Stance,点星式,点星式
+SKILL_DESC_S01_07,"Inflicts Break (DEF -25%) to an enemy for 3 turns","给敌人施加破绽（防御-25%）效果，持续3回合","敵に弱点（防御-25%）を3ターン付与"
+SKILL_NAME_S01_08,Seven Stars Fall from Sky,七星落长空,七星落長空
+SKILL_DESC_S01_08,"Sword attack with 150% damage coefficient, guaranteed crit, 2-turn cooldown","伤害系数150%的剑击，必定暴击，冷却2回合","ダメージ係数150%の剣技、必ずクリティカル、クールダウン2ターン"
+SKILL_SPECIAL_S01_08,"Guaranteed critical hit","必定暴击","必ずクリティカルヒット"
+
+# Swordsman Passive Skills
+PASSIVE_NAME_P01_01,Sword Heart Clarity,剑心通明,剣心通明
+PASSIVE_DESC_P01_01,"Critical damage +30%","暴击伤害+30%","クリティカルダメージ+30%"
+PASSIVE_SPECIAL_P01_01,"Critical damage bonus","暴击伤害加成","クリティカルダメージボーナス"
+PASSIVE_NAME_P01_02,Unending Sword Qi,剑气不绝,剣気不絶
+PASSIVE_DESC_P01_02,"When dealing damage, 15% chance to add 1 layer of Sword Qi mark","造成伤害时，15%概率叠加1层剑气标记","ダメージを与えた時、15%確率で剣気マークを1層付与"
+PASSIVE_SPECIAL_P01_02,"15% chance on damage","造成伤害时15%概率","ダメージを与えた時15%確率"
+PASSIVE_NAME_P01_03,Avoid Enemy First,克敌机先,克敵機先
+PASSIVE_DESC_P01_03,"When target has Break, damage +20%","目标有破绽时，伤害+20%","ターゲットが弱点状態ならダメージ+20%"
+PASSIVE_SPECIAL_P01_03,"Bonus damage on Break","破绽时追加伤害","弱点状態でダメージ追加"
+PASSIVE_NAME_P01_04,Sword Courage and Qin Heart,剑胆琴心,剣胆琴心
+PASSIVE_DESC_P01_04,"If no action is taken in a turn, each layer adds 10% damage (max 3 layers)","回合未行动时，每层+10%伤害（最多3层）","ターンに行動しない場合、1層毎にダメージ+10%（最大3層）"
+PASSIVE_SPECIAL_P01_04,"Stacked damage bonus","叠加伤害加成","重ねるダメージボーナス"
+
+# Blademaster Active Skills
+SKILL_NAME_S02_01,Mountain Breaking Slash,横断千山,横断千山
+SKILL_DESC_S02_01,"Sword attack with 120% damage coefficient, inflicts Bleed (8% max HP) for 2 turns","伤害系数120%的剑击，造成流血（8%最大生命）2回合","ダメージ係数120%の剣技、出血（最大HP8%）を2ターン付与"
+SKILL_NAME_S02_02,Whirlwind Sword,狂风刀法,狂風刀法
+SKILL_DESC_S02_02,"Sword attack to all enemies with 70% damage coefficient","对所有敌人造成伤害的剑击，系数70%","全ての敵にダメージを与える剣技、係数70%"
+SKILL_SPECIAL_S02_02,"Additional 20% damage to bleeding targets","对流血目标额外20%伤害","出血状態の敵にはダメージ+20%"
+SKILL_NAME_S02_03,Army Breaking Strike,破军斩,破军斬
+SKILL_DESC_S02_03,"Sword attack with 160% damage coefficient","伤害系数160%的剑击","ダメージ係数160%の剣技"
+SKILL_SPECIAL_S02_03,"40% more damage if enemy is bleeding","若敌人流血则伤害+40%","敵が出血状態ならダメージ+40%"
+SKILL_NAME_S02_04,Fighting in All Directions,血战八方,血戦八方
+SKILL_DESC_S02_04,"Sword attack to all enemies with 90% damage coefficient, loses 10% current HP, heals 20%","对所有敌人造成伤害的剑击，损失10%当前HP，吸取20%","全ての敵にダメージを与える剣技、現在HP10%を失い、20%吸収"
+SKILL_NAME_S02_05,Sword Aura Protection,刀气护体,刀気護体
+SKILL_DESC_S02_05,"Grants DEF +40% to self for 2 turns","给自己赋予物防+40%效果，持续2回合","自身に物防+40%を2ターン付与"
+SKILL_NAME_S02_06,Battle Cry,战吼,戦吼
+SKILL_DESC_S02_06,"Grants ATK +20% and DMG Taken +10% to all allies for 3 turns","给所有队友赋予物攻+20%、受伤+10%效果，持续3回合","全ての味方に物攻+20%、被ダメージ+10%を3ターン付与"
+SKILL_NAME_S02_07,Tiger Roar Mountain Subduing,虎啸镇岳,虎嘯鎮岳
+SKILL_DESC_S02_07,"Inflicts Taunt and DEF -20% to an enemy for 2 turns","给敌人施加嘲讽和防御-20%效果，持续2回合","敵に挑発と防御-20%を2ターン付与"
+SKILL_NAME_S02_08,Fatal Strike,绝命一刀,絶命一刀
+SKILL_DESC_S02_08,"Sword attack with 250% damage coefficient, self DEF -50% for 1 turn after use, 3-turn cooldown","伤害系数250%的剑击，使用后自身物防-50%1回合，冷却3回合","ダメージ係数250%の剣技、使用後自身の物防-50%1ターン、クールダウン3ターン"
+SKILL_SPECIAL_S02_08,"Self defense penalty after use","使用后自身防御降低","使用後自身の防御低下"
+
+# Blademaster Passive Skills
+PASSIVE_NAME_P02_01,Bloody Battle,浴血奋战,浴血奮戦
+PASSIVE_DESC_P02_01,"When HP below 50%, damage +25%","生命低于50%时，伤害+25%","HP50%以下の時、ダメージ+25%"
+PASSIVE_SPECIAL_P02_01,"Low HP damage bonus","低HP时伤害加成","低HP時のダメージボーナス"
+PASSIVE_NAME_P02_02,Intense Sword Intent,刀意烈,刀意烈
+PASSIVE_DESC_P02_02,"Bleeding effect duration +1","流血效果持续时间+1","出血効果の持続時間+1"
+PASSIVE_SPECIAL_P02_02,"Extends bleeding duration","延长流血时间","出血持続時間を延長"
+PASSIVE_NAME_P02_03,Strong Fortune,强运,強運
+PASSIVE_DESC_P02_03,"Critical rate +10%","暴击率+10%","クリティカル率+10%"
+PASSIVE_SPECIAL_P02_03,"Constant crit rate bonus","固定暴击率加成","クリティカル率の固定ボーナス"
+PASSIVE_NAME_P02_04,Breaking Momentum,破竹之势,破竹の勢
+PASSIVE_DESC_P02_04,"When killing an enemy, restore 20% HP","击杀敌人时，恢复20%生命值","敵を殺した時、HP20%を回復"
+PASSIVE_SPECIAL_P02_04,"Heal on kill","击杀时回复","キル時の回復"
+
+# Pugilist Active Skills
+SKILL_NAME_S03_01,Collapsing Fist,崩拳,崩拳
+SKILL_DESC_S03_01,"Fist attack with 110% damage coefficient, inflicts Internal Injury (ATK -10%) for 3 turns","伤害系数110%的拳击，造成内伤（物攻-10%）3回合","ダメージ係数110%の拳技、内傷（物攻-10%）を3ターン付与"
+SKILL_NAME_S03_02,Serial Kicks,连环腿,連環腿
+SKILL_DESC_S03_02,"Fist attack with 140% damage coefficient, inflicts Stun for 1 turn","伤害系数140%的拳击，造成眩晕1回合","ダメージ係数140%の拳技、スタンを1ターン付与"
+SKILL_SPECIAL_S03_02,"15% stun chance","15%眩晕概率","15%スタン確率"
+SKILL_NAME_S03_03,Earth Shaking Palm,震山掌,震山掌
+SKILL_DESC_S03_03,"Fist attack to all enemies with 60% damage coefficient, 30% chance to inflict Push Back (delay action) for 1 turn","对所有敌人造成伤害的拳击，系数60%，30%概率击退（延迟行动）1回合","全ての敵にダメージを与える拳技、係数60%、30%確率で押し返し（行動遅延）を1ターン"
+SKILL_NAME_S03_04,Point Blocking and Pulse Cutting,点穴截脉,点穴截脈
+SKILL_DESC_S03_04,"Inflicts Silence and Seal Passive to an enemy for 2 turns","给敌人施加沉默和封印被动效果，持续2回合","敵に沈黙とパッシブ封印を2ターン付与"
+SKILL_NAME_S03_05,Qi Harmony,气合,気合
+SKILL_DESC_S03_05,"Grants next turn skill guaranteed crit to self for 1 turn, cannot act this turn","给自己赋予下回合技能必暴效果，持续1回合，本回合无法行动","自身に次のターンのスキル必ずクリティカルを1ターン付与、このターン行動不可"
+SKILL_NAME_S03_06,Iron Shirt,铁布衫,鉄布衫
+SKILL_DESC_S03_06,"Grants Immune Next Physical Damage to an ally for 1 turn","给队友赋予免疫下一次物理伤害效果，持续1回合","味方に次の物理ダメージを免疫する効果を1ターン付与"
+SKILL_SPECIAL_S03_06,"100% physical damage immunity","100%物理伤害免疫","物理ダメージ100%免疫"
+SKILL_NAME_S03_07,Drunk Fist Chaos Strike,醉拳·乱打,酔拳・乱打
+SKILL_DESC_S03_07,"5 random fist attacks each with 45% damage coefficient, each has 5% chance to stun a random enemy","5次随机拳击，每次45%伤害系数，每次5%概率眩晕随机敌人","ランダムな5回の拳技、毎回ダメージ係数45%、毎回5%確率でランダムな敵をスタン"
+SKILL_NAME_S03_08,Heavenly Gang Thirty-Six Strikes,天罡三十六打,天罡三十六打
+SKILL_DESC_S03_08,"6-strike fist attack with 40% damage each (total 240%), inflicts Internal Injury for 3 turns, additional 15% damage per strike when enemy has Internal Injury","6段拳击，每段40%伤害（共240%），造成内伤3回合，敌人有内伤时每段+15%伤害","6段の拳技、毎段ダメージ40%（計240%）、内傷を3ターン付与、敵が内傷なら毎段+15%ダメージ"
+SKILL_SPECIAL_S03_08,"Bonus damage on Internal Injury","内伤时追加伤害","内傷状態でダメージ追加"
+
+# Pugilist Passive Skills
+PASSIVE_NAME_P03_01,Force Redirection,借力打力,借力打力
+PASSIVE_DESC_P03_01,"When receiving physical damage, 20% chance to counterattack for 80% ATK damage","受到物攻时，20%概率反击80%物攻伤害","物理ダメージを受けた時、20%確率で80%物攻ダメージでカウンター"
+PASSIVE_SPECIAL_P03_01,"Counterattack chance","反击概率","カウンター確率"
+PASSIVE_NAME_P03_02,Internal Strength Penetration,内劲渗透,内勁浸透
+PASSIVE_DESC_P03_02,"When inflicting Internal Injury, enemy DEF -10% (stackable)","造成内伤时，敌人防御-10%（可叠加）","内傷を付与した時、敵の防御-10%（重ね可能）"
+PASSIVE_SPECIAL_P03_02,"Stackable defense reduction","可叠加防御降低","重ね可能な防御低下"
+PASSIVE_NAME_P03_03,Unyielding Perseverance,百折不挠,百折不撓
+PASSIVE_DESC_P03_03,"For every 10% HP lost, ATK +5%","每损失10%生命，物攻+5%","HP10%を失う毎に、物攻+5%"
+PASSIVE_SPECIAL_P03_03,"ATK increases with HP loss","随HP损失增加物攻","HP損失で物攻上昇"
+PASSIVE_NAME_P03_04,One-Inch Punch,寸劲,寸勁
+PASSIVE_DESC_P03_04,"When inflicting Stun, restore 10% HP","造成眩晕时，恢复10%生命值","スタンを付与した時、HP10%を回復"
+PASSIVE_SPECIAL_P03_04,"Heal on stun","眩晕时回复","スタン時の回復"
+
+# Assassin Active Skills
+SKILL_NAME_S04_01,Poisoned Blade,淬毒刃,淬毒刃
+SKILL_DESC_S04_01,"Dagger attack with 90% damage coefficient, inflicts Severe Poison (12% max HP) for 3 turns","伤害系数90%的匕首攻击，造成剧毒（12%最大生命）3回合","ダメージ係数90%の短剣攻撃、猛毒（最大HP12%）を3ターン付与"
+SKILL_NAME_S04_02,Backstab,背刺,背刺
+SKILL_DESC_S04_02,"Dagger attack with 160% damage coefficient","伤害系数160%的匕首攻击","ダメージ係数160%の短剣攻撃"
+SKILL_SPECIAL_S04_02,"+50% crit when ally has taunt","己方有嘲讽时暴击+50%","味方が挑発状態ならクリティカル+50%"
+SKILL_NAME_S04_03,Dart Rain,暴雨梨花针,暴雨梨花針
+SKILL_DESC_S04_03,"Dagger attack to all enemies with 50% damage coefficient, 50% chance to inflict Poison for 2 turns","对所有敌人造成伤害的匕首攻击，系数50%，50%概率中毒2回合","全ての敵にダメージを与える短剣攻撃、係数50%、50%確率で毒を2ターン"
+SKILL_NAME_S04_04,Sky Net,天罗地网,天羅地網
+SKILL_DESC_S04_04,"Inflicts SPD -30% to all enemies for 2 turns","给所有敌人施加速度-30%效果，持续2回合","全ての敵に速度-30%を2ターン付与"
+SKILL_NAME_S04_05,Smoke Bomb,烟幕弹,煙幕弾
+SKILL_DESC_S04_05,"Grants EVA +25% to all allies for 2 turns","给所有队友赋予闪避+25%效果，持续2回合","全ての味方に回避+25%を2ターン付与"
+SKILL_NAME_S04_06,Suffocation,绝息,絶息
+SKILL_DESC_S04_06,"Dagger attack with 90% damage coefficient, dispels all buffs from target","伤害系数90%的匕首攻击，驱散目标所有增益","ダメージ係数90%の短剣攻撃、ターゲットの全てのバフを消去"
+SKILL_NAME_S04_07,Shadow Strike,影袭,影襲
+SKILL_DESC_S04_07,"Dagger attack with 130% damage coefficient, grants Invisibility to self for 1 turn (cannot be targeted)","伤害系数130%的匕首攻击，给自己赋予隐身1回合（无法被选中）","ダメージ係数130%の短剣攻撃、自身にステルスを1ターン付与（ターゲットにできない）"
+SKILL_SPECIAL_S04_07,"Cannot be targeted while invisible","隐身时无法被选中","ステルス状態ではターゲットにできない"
+SKILL_NAME_S04_08,Seven Killings,七杀,七殺
+SKILL_DESC_S04_08,"Dagger attack with 200% damage coefficient, instant kill if target HP below 30%, 2-turn cooldown","伤害系数200%的匕首攻击，目标HP低于30%则即死，冷却2回合","ダメージ係数200%の短剣攻撃、ターゲットのHP30%以下なら即死、クールダウン2ターン"
+SKILL_SPECIAL_S04_08,"Instant kill at low HP","低HP即死","低HPで即死"
+
+# Assassin Passive Skills
+PASSIVE_NAME_P04_01,Sealed Throat with Poison,见血封喉,見血封喉
+PASSIVE_DESC_P04_01,"Poison damage ignores defense, +5% crit per poison layer","毒伤害无视防御，每层毒+5%暴击","毒ダメージは防御を無視、毒1層毎にクリティカル+5%"
+PASSIVE_SPECIAL_P04_01,"Poison defense ignore and crit bonus","毒无视防御与暴击加成","毒の防御無視とクリティカルボーナス"
+PASSIVE_NAME_P04_02,Ghostly Presence,鬼魅,鬼魅
+PASSIVE_DESC_P04_02,"When critting, 50% chance to refresh invisibility","暴击时，50%概率刷新隐身","クリティカルした時、50%確率でステルスをリフレッシュ"
+PASSIVE_SPECIAL_P04_02,"Refresh invisibility on crit","暴击刷新隐身","クリティカルでステルスリフレッシュ"
+PASSIVE_NAME_P04_03,Dart Master,暗器宗师,暗器宗師
+PASSIVE_DESC_P04_03,"AoE skills add 10% current HP damage","群体技能追加10%当前HP伤害","全体スキルに現在HP10%のダメージを追加"
+PASSIVE_SPECIAL_P04_03,"Additional AoE damage","群体技能追加伤害","全体スキルの追加ダメージ"
+PASSIVE_NAME_P04_04,Fatal Poison Master,绝命毒师,絶命毒師
+PASSIVE_DESC_P04_04,"Poisoned targets have ATK -15%","中毒目标攻击-15%","毒状態のターゲットは攻撃-15%"
+PASSIVE_SPECIAL_P04_04,"ATK reduction on poisoned targets","中毒目标攻击降低","毒状態のターゲットの攻撃低下"
+
+# Healer Active Skills
+SKILL_NAME_S05_01,Acupuncture Salvation,金针渡穴,金針渡穴
+SKILL_DESC_S05_01,"Heals an ally for 200% of caster's magic ATK","治疗队友，恢复量为施法者法攻的200%","味方を回復、回復量はキャスターの法攻200%"
+SKILL_SPECIAL_S05_01,"200% magic ATK healing","200%法攻治疗","法攻200%の回復"
+SKILL_NAME_S05_02,Spring Returning Powder,回春散,回春散
+SKILL_DESC_S05_02,"Heals all allies for 100% of caster's magic ATK, cures Poison","治疗所有队友，恢复量为施法者法攻的100%，解除中毒","全ての味方を回復、回復量はキャスターの法攻100%、毒を解除"
+SKILL_SPECIAL_S05_02,"100% magic ATK healing and poison cure","100%法攻治疗+解除中毒","法攻100%の回復と毒解除"
+SKILL_NAME_S05_03,Life Sustaining Pill,续命丹,続命丹
+SKILL_DESC_S05_03,"Revives a dead ally with 30% max HP","复活死亡队友，恢复30%最大生命值","死亡した味方を復活、最大HP30%で回復"
+SKILL_SPECIAL_S05_03,"30% max HP revive","30%最大HP复活","最大HP30%で復活"
+SKILL_NAME_S05_04,Fierce Tiger and Wolf Medicine,虎狼之药,虎狼の薬
+SKILL_DESC_S05_04,"Grants ATK +50% and DEF -30% to an ally for 2 turns","给队友赋予物攻+50%、防御-30%效果，持续2回合","味方に物攻+50%、防御-30%を2ターン付与"
+SKILL_NAME_S05_05,Anesthesia Powder,麻醉散,麻酔散
+SKILL_DESC_S05_05,"Inflicts Sleep to an enemy for 2 turns","给敌人施加睡眠效果，持续2回合","敵に睡眠を2ターン付与"
+SKILL_NAME_S05_06,Qi Breaking Powder,破气散,破気散
+SKILL_DESC_S05_06,"Inflicts MP Cost x2 to an enemy for 2 turns","给敌人施加MP消耗翻倍效果，持续2回合","敵にMP消費倍増を2ターン付与"
+SKILL_NAME_S05_07,Heart Protecting Pill,护心丸,護心丸
+SKILL_DESC_S05_07,"Grants DMG Taken -20% to all allies for 3 turns","给所有队友赋予受伤-20%效果，持续3回合","全ての味方に被ダメージ-20%を3ターン付与"
+SKILL_NAME_S05_08,Five Elements Pill,五行丹,五行丹
+SKILL_DESC_S05_08,"Grants random stat +40% (ATK/MAG/DEF/SPD) to an ally for 2 turns","给队友赋予随机属性+40%（物攻/法攻/物防/速度）效果，持续2回合","味方にランダムな属性+40%（物攻/法攻/物防/速度）を2ターン付与"
+SKILL_SPECIAL_S05_08,"Random stat bonus","随机属性加成","ランダムな属性ボーナス"
+
+# Healer Passive Skills
+PASSIVE_NAME_P05_01,Masterful Healing,妙手回春,妙手回春
+PASSIVE_DESC_P05_01,"Healing effect +30%","治疗效果+30%","回復効果+30%"
+PASSIVE_SPECIAL_P05_01,"Healing bonus","治疗加成","回復ボーナス"
+PASSIVE_NAME_P05_02,Hundred Herbs Mastery,百草精通,百草精通
+PASSIVE_DESC_P05_02,"Immune to Poison, restores 10% HP every turn","免疫中毒，每回合恢复10%生命值","毒に免疫、毎ターンHP10%を回復"
+PASSIVE_SPECIAL_P05_02,"Poison immunity and HP regen","免疫中毒+HP回复","毒免疫とHP回復"
+PASSIVE_NAME_P05_03,Alchemical Backlash,丹药反噬,丹薬反噬
+PASSIVE_DESC_P05_03,"When enemy has debuff, healing crit +25%","敌人有debuff时，治疗暴击+25%","敵がデバフ状態なら、回復クリティカル+25%"
+PASSIVE_SPECIAL_P05_03,"Heal crit bonus","治疗暴击加成","回復クリティカルボーナス"
+PASSIVE_NAME_P05_04,Medicine King,药王,薬王
+PASSIVE_DESC_P05_04,"When reviving target, grants Recovery (cannot be killed in 1 hit) to revived target for 1 turn","复活目标时，给复活的目标赋予复苏（无法被一击致死）效果1回合","ターゲットを復活した時、復活したターゲットに蘇生（一撃で殺せない）を1ターン付与"
+PASSIVE_SPECIAL_P05_04,"Recovery buff on revive","复活时复苏buff","復活時に蘇生バフ"
+
+# Scholar Active Skills
+SKILL_NAME_S06_01,Upright Qi Song,正气歌,正気歌
+SKILL_DESC_S06_01,"Grants ATK +20% and DEF +20% to all allies for 2 turns","给所有队友赋予物攻+20%、防御+20%效果，持续2回合","全ての味方に物攻+20%、防御+20%を2ターン付与"
+SKILL_NAME_S06_02,Humble Cottage Inscription,陋室铭,陋室銘
+SKILL_DESC_S06_02,"Grants DMG Taken -50% to an ally for 1 turn","给队友赋予受伤-50%效果，持续1回合","味方に被ダメージ-50%を1ターン付与"
+SKILL_NAME_S06_03,Spring and Autumn Calligraphy,春秋笔法,春秋筆法
+SKILL_DESC_S06_03,"Inflicts ATK -20% to all enemies for 2 turns","给所有敌人施加攻击-20%效果，持续2回合","全ての敵に攻撃-20%を2ターン付与"
+SKILL_NAME_S06_04,Felling the Sandalwood,伐檀,伐檀
+SKILL_DESC_S06_04,"Inflicts DEF -30% to an enemy for 2 turns","给敌人施加防御-30%效果，持续2回合","敵に防御-30%を2ターン付与"
+SKILL_NAME_S06_05,Gentleman's Sword,君子剑,君子剣
+SKILL_DESC_S06_05,"Magic attack with 100% damage coefficient","伤害系数100%的魔法攻击","ダメージ係数100%の魔法攻撃"
+SKILL_SPECIAL_S06_05,"+50% damage when enemy has debuff","敌人有debuff时伤害+50%","敵がデバフ状態ならダメージ+50%"
+SKILL_NAME_S06_06,Three Hundred Poems,诗三百,詩三百
+SKILL_DESC_S06_06,"Grants 8% max HP regen to all allies for 3 turns","给所有队友赋予每回合8%最大HP恢复效果，持续3回合","全ての味方に毎ターン最大HP8%回復を3ターン付与"
+SKILL_NAME_S06_07,Expulsion of the Guest,谏逐客书,諫逐客書
+SKILL_DESC_S06_07,"Dispels 1 buff from all enemies","驱散敌人所有1个增益","敵全てのバフを1つ消去"
+SKILL_NAME_S06_08,The Great Learning Way,大学之道,大学之道
+SKILL_DESC_S06_08,"Grants Immune 1 Debuff to all allies for 2 turns","给所有队友赋予免疫1次debuff效果，持续2回合","全ての味方にデバフ1回免疫を2ターン付与"
+
+# Scholar Passive Skills
+PASSIVE_NAME_P06_01,Upright Qi,浩然正气,浩然正気
+PASSIVE_DESC_P06_01,"For every additional buff, magic ATK +5%","每多1个buff，法攻+5%","バフが1つ増える毎に法攻+5%"
+PASSIVE_SPECIAL_P06_01,"Magic ATK per buff","每buff法攻加成","バフ毎の法攻ボーナス"
+PASSIVE_NAME_P06_02,Enlightenment,教化,教化
+PASSIVE_DESC_P06_02,"Debuff duration +1","debuff持续时间+1","デバフの持続時間+1"
+PASSIVE_SPECIAL_P06_02,"Extends debuff duration","延长debuff持续时间","デバフの持続時間を延長"
+PASSIVE_NAME_P06_03,People First,民为贵,民為貴
+PASSIVE_DESC_P06_03,"For every enemy debuff, healing effect +10%","每有1个敌人debuff，治疗效果+10%","敵のデバフ1つ毎に、回復効果+10%"
+PASSIVE_SPECIAL_P06_03,"Healing per enemy debuff","每敌人debuff治疗加成","敵のデバフ毎の回復ボーナス"
+PASSIVE_NAME_P06_04,Spring and Autumn Righteousness,春秋大义,春秋大義
+PASSIVE_DESC_P06_04,"When receiving fatal damage, retain 1 HP and clear all ally debuffs (once per battle)","受到致命伤害时，保留1HP并清除所有队友debuff（每场战斗1次）","致命ダメージを受けた時、HP1を残して味方全てのデバフを消去（戦闘毎に1回）"
+PASSIVE_SPECIAL_P06_04,"One-time survival effect","1次生存效果","1回限りの生存効果"
+
+# Taoist Active Skills
+SKILL_NAME_S07_01,Great Void Shield,太虚盾,太虚盾
+SKILL_DESC_S07_01,"Grants shield to an ally for 200% of caster's magic ATK","给队友赋予护盾，量为施法者法攻的200%","味方にシールド、量はキャスターの法攻200%"
+SKILL_SPECIAL_S07_01,"200% magic ATK shield","200%法攻护盾","法攻200%のシールド"
+SKILL_NAME_S07_02,Yin-Yang,两仪,両儀
+SKILL_DESC_S07_02,"Grants Reflect 30% Damage to self for 2 turns","给自己赋予反弹30%伤害效果，持续2回合","自身にダメージ30%反射を2ターン付与"
+SKILL_NAME_S07_03,Inaction Governance,无为之治,無為の治
+SKILL_DESC_S07_03,"Magic attack to all enemies with 80% damage coefficient, clears all buffs/debuffs on all enemies","对所有敌人造成伤害的魔法攻击，系数80%，清除所有敌人所有buff/debuff","全ての敵にダメージを与える魔法攻撃、係数80%、全ての敵の全てのバフ/デバフを消去"
+SKILL_NAME_S07_04,Wandering Free,逍遥游,逍遙遊
+SKILL_DESC_S07_04,"Grants EVA +35% to all allies for 2 turns","给所有队友赋予闪避+35%效果，持续2回合","全ての味方に回避+35%を2ターン付与"
+SKILL_NAME_S07_05,Three Pure Ones Transformation,一气化三清,一気化三清
+SKILL_DESC_S07_05,"Grants Clone (blocks 1 attack, counterattacks 150%) to self for 1 turn","给自己赋予分身（挡1次攻击，反击150%）效果，持续1回合","自身に分身（攻撃を1回ブロック、150%カウンター）を1ターン付与"
+SKILL_NAME_S07_06,Sitting in Oblivion,坐忘,坐忘
+SKILL_DESC_S07_06,"Takes an ally's debuff onto self","将队友的debuff转移到自己身上","味方のデバフを自身に移す"
+SKILL_NAME_S07_07,Heavenly Steps,天罡步,天罡歩
+SKILL_DESC_S07_07,"Grants SPD +30% to all allies for 2 turns","给所有队友赋予速度+30%效果，持续2回合","全ての味方に速度+30%を2ターン付与"
+SKILL_NAME_S07_08,Great Emotionlessness,太上忘情,太上忘情
+SKILL_DESC_S07_08,"Magic attack with 200% damage coefficient, ignores defense, 3-turn cooldown","伤害系数200%的魔法攻击，无视防御，冷却3回合","ダメージ係数200%の魔法攻撃、防御を無視、クールダウン3ターン"
+SKILL_SPECIAL_S07_08,"Ignores defense","无视防御","防御を無視"
+
+# Taoist Passive Skills
+PASSIVE_NAME_P07_01,The Natural Way,道法自然,道法自然
+PASSIVE_DESC_P07_01,"At turn start, 25% chance to evade all attacks that turn","回合开始时，25%概率闪避该回合所有攻击","ターン開始時、25%確率でそのターンの全ての攻撃を回避"
+PASSIVE_SPECIAL_P07_01,"Turn start evasion chance","回合开始闪避概率","ターン開始時の回避確率"
+PASSIVE_NAME_P07_02,Keeping the Center,守中,守中
+PASSIVE_DESC_P07_02,"For every attack received, DEF +5% (max 30%)","每受到1次攻击，防御+5%（最多30%）","攻撃を受ける毎に、防御+5%（最大30%）"
+PASSIVE_SPECIAL_P07_02,"Stacked DEF bonus","叠加防御加成","重ねる防御ボーナス"
+PASSIVE_NAME_P07_03,Reversal is the Way's Movement,反者道之动,反者道之動
+PASSIVE_DESC_P07_03,"Counterattack damage +50%","反击伤害+50%","カウンターダメージ+50%"
+PASSIVE_SPECIAL_P07_03,"Counterattack bonus","反击加成","カウンターボーナス"
+PASSIVE_NAME_P07_04,Emptiness and Extreme Stillness,虚极静笃,虚極静篤
+PASSIVE_DESC_P07_04,"When HP below 20%, evasion rate +60%","生命低于20%时，闪避率+60%","HP20%以下の時、回避率+60%"
+PASSIVE_SPECIAL_P07_04,"Low HP evasion bonus","低HP闪避加成","低HP時の回避ボーナス"
+
+# Mechanist Active Skills
+SKILL_NAME_S08_01,Mechanic Kite,机关木鸢,機関木鳶
+SKILL_DESC_S08_01,"Summons Mechanic Kite (blocks 1 attack), mechanic has 200 HP","召唤机关木鸢（挡1次攻击），机关有200HP","機関木鳶を召喚（攻撃を1回ブロック）、機関はHP200"
+SKILL_SPECIAL_S08_01,"Mechanic HP: 200","机关HP：200","機関のHP：200"
+SKILL_NAME_S08_02,Multi-Ballista,连弩车,連弩車
+SKILL_DESC_S08_02,"Magic attack to all enemies with 100% damage coefficient, consumes 1 Mechanic","对所有敌人造成伤害的魔法攻击，系数100%，消耗1个机关","全ての敵にダメージを与える魔法攻撃、係数100%、機関を1つ消費"
+SKILL_SPECIAL_S08_02,"Consumes one Mechanic","消耗1个机关","機関を1つ消費"
+SKILL_NAME_S08_03,Fire Oil Jar,火油罐,火油罐
+SKILL_DESC_S08_03,"Inflicts Burn (15% magic ATK) to all enemies for 2 turns","给所有敌人施加灼烧（15%法攻）效果，持续2回合","全ての敵に焼傷（法攻15%）を2ターン付与"
+SKILL_SPECIAL_S08_03,"15% magic ATK burn per turn","每回合15%法攻灼烧","毎ターン法攻15%の焼傷"
+SKILL_NAME_S08_04,Non-Aggression Shield,非攻盾,非攻盾
+SKILL_DESC_S08_04,"Grants shield to an ally for 150% of caster's magic ATK, grants Immune Burn/Poison/Bleed to ally for 2 turns","给队友赋予护盾，量为施法者法攻的150%，给队友赋予免疫灼烧/中毒/流血效果，持续2回合","味方にシールド、量はキャスターの法攻150%、味方に焼傷/毒/出血免疫を2ターン付与"
+SKILL_SPECIAL_S08_04,"Immunity to Burn/Poison/Bleed","免疫灼烧/中毒/流血","焼傷/毒/出血免疫"
+SKILL_NAME_S08_05,Universal Love - Equality,兼爱·同仁,兼愛・同仁
+SKILL_DESC_S08_05,"Grants all Mechanics share 15% damage to all allies for 3 turns","给所有队友赋予所有机关分担15%伤害效果，持续3回合","全ての味方に全機関でダメージ15%を分担する効果を3ターン付与"
+SKILL_NAME_S08_06,Siege Hammer,攻城锤,攻城槌
+SKILL_DESC_S08_06,"Magic attack with 180% damage coefficient, breaks shields","伤害系数180%的魔法攻击，破盾","ダメージ係数180%の魔法攻撃、シールドを破る"
+SKILL_SPECIAL_S08_06,"Shield break","破盾","シールドを破る"
+SKILL_NAME_S08_07,Mechanic Snake,机关蛇,機関蛇
+SKILL_DESC_S08_07,"Summons Mechanic Snake (30% stun per turn) to an enemy for 3 turns","召唤机关蛇（每回合30%眩晕）到敌人，持续3回合","機関蛇を召喚（毎ターン30%スタン）して敵に付与、3ターン"
+SKILL_NAME_S08_08,Mohist Compliance,墨守成规,墨守成規
+SKILL_DESC_S08_08,"Grants DEF +20% and 5% max HP regen to all allies for 3 turns","给所有队友赋予防御+20%、每回合5%最大HP恢复效果，持续3回合","全ての味方に防御+20%、毎ターン最大HP5%回復を3ターン付与"
+
+# Mechanist Passive Skills
+PASSIVE_NAME_P08_01,Divine Craftsmanship,巧夺天工,巧奪天工
+PASSIVE_DESC_P08_01,"When Mechanic is active, all ally damage +10%","机关存在时，所有队友伤害+10%","機関が存在する時、全ての味方のダメージ+10%"
+PASSIVE_SPECIAL_P08_01,"Damage bonus with Mechanic","机关存在时伤害加成","機関存在時のダメージボーナス"
+PASSIVE_NAME_P08_02,Mechanic Master,机关大师,機関大師
+PASSIVE_DESC_P08_02,"Max summon limit +1","最大召唤上限+1","最大召喚数+1"
+PASSIVE_SPECIAL_P08_02,"Extra summon slot","额外召唤槽","追加の召喚スロット"
+PASSIVE_NAME_P08_03,Shared Life Lock,同命锁,同命鎖
+PASSIVE_DESC_P08_03,"When Mechanic is destroyed, deals 100% magic ATK damage to attacker","机关被摧毁时，对攻击者造成100%法攻伤害","機関が破壊された時、攻撃者に法攻100%のダメージ"
+PASSIVE_SPECIAL_P08_03,"Mechanic destruction damage","机关毁灭伤害","機関破壊時のダメージ"
+PASSIVE_NAME_P08_04,Non-Aggression,非攻,非攻
+PASSIVE_DESC_P08_04,"Against summoned enemies, damage +40%","对召唤的敌人，伤害+40%","召喚された敵に対してダメージ+40%"
+PASSIVE_SPECIAL_P08_04,"Bonus damage vs summons","对召唤物追加伤害","召喚物への追加ダメージ"
