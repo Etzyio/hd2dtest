@@ -184,7 +184,7 @@ namespace hd2dtest.Scripts.Managers
             // 使用驼峰命名
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             // 自定义枚举转换器
-            Converters = { new JsonStringEnumConverter() }
+            Converters = { new JsonStringEnumConverter(), new Vector3JsonConverter() }
         };
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace hd2dtest.Scripts.Managers
         {
             await Task.Run(() =>
             {
-                LoadResourceToCacheWithTracking("Skills.json", SkillsCache, ResourceLoadPriority.Medium);
+                LoadSkillsToCacheWithTracking("Skills.json", SkillsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Items.json", ItemsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("NPCs.json", NPCsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Monsters.json", MonstersCache, ResourceLoadPriority.Medium);
@@ -593,6 +593,312 @@ namespace hd2dtest.Scripts.Managers
                 loadInfo.LoadTimeMs = stopwatch.ElapsedMilliseconds;
                 Log.Error($"Failed to load {fileName}: {ex.Message}");
                 ResourceLoaded?.Invoke(loadInfo);
+            }
+        }
+
+        private void LoadSkillsToCacheWithTracking(string fileName, Dictionary<string, Skill> cache, ResourceLoadPriority priority)
+        {
+            var loadInfo = new ResourceLoadInfo
+            {
+                ResourceName = fileName,
+                Priority = priority,
+                Status = ResourceLoadStatus.Loading
+            };
+            _loadInfoCache[fileName] = loadInfo;
+
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                string filePath = DefaultResourcesPath + fileName;
+
+                if (!FileAccess.FileExists(filePath))
+                {
+                    loadInfo.Status = ResourceLoadStatus.Failed;
+                    loadInfo.ErrorMessage = "File not found";
+                    Log.Warning($"JSON file not found: {filePath}");
+                    ResourceLoaded?.Invoke(loadInfo);
+                    return;
+                }
+
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                loadInfo.FileSizeBytes = (long)file.GetLength();
+
+                string jsonContent = file.GetAsText();
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    loadInfo.Status = ResourceLoadStatus.Failed;
+                    loadInfo.ErrorMessage = "File is empty";
+                    Log.Warning($"JSON file is empty: {filePath}");
+                    ResourceLoaded?.Invoke(loadInfo);
+                    return;
+                }
+
+                cache.Clear();
+
+                using var doc = JsonDocument.Parse(jsonContent);
+                if (doc.RootElement.ValueKind != JsonValueKind.Object)
+                {
+                    throw new JsonException("Skills.json root must be an object");
+                }
+
+                var root = doc.RootElement;
+                bool loadedAny = false;
+
+                if (root.TryGetProperty("active_skills", out var activeSkills) && activeSkills.ValueKind == JsonValueKind.Object)
+                {
+                    LoadSkillsSection(activeSkills, cache);
+                    loadedAny = loadedAny || cache.Count > 0;
+                }
+
+                if (root.TryGetProperty("passive_skills", out var passiveSkills) && passiveSkills.ValueKind == JsonValueKind.Object)
+                {
+                    int before = cache.Count;
+                    LoadSkillsSection(passiveSkills, cache);
+                    loadedAny = loadedAny || cache.Count > before;
+                }
+
+                if (!loadedAny)
+                {
+                    var fallback = JsonSerializer.Deserialize<Dictionary<string, Skill>>(jsonContent, JsonOptions);
+                    if (fallback != null)
+                    {
+                        foreach (var kv in fallback)
+                        {
+                            cache[kv.Key] = kv.Value;
+                        }
+                    }
+                }
+
+                stopwatch.Stop();
+                loadInfo.Status = ResourceLoadStatus.Loaded;
+                loadInfo.LoadTimeMs = stopwatch.ElapsedMilliseconds;
+
+                Log.Info($"Successfully loaded {fileName} in {loadInfo.LoadTimeMs:F2}ms ({loadInfo.FileSizeBytes / 1024:F2}KB)");
+                ResourceLoaded?.Invoke(loadInfo);
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                loadInfo.Status = ResourceLoadStatus.Failed;
+                loadInfo.ErrorMessage = ex.Message;
+                loadInfo.LoadTimeMs = stopwatch.ElapsedMilliseconds;
+                Log.Error($"Failed to load {fileName}: {ex.Message}");
+                ResourceLoaded?.Invoke(loadInfo);
+            }
+        }
+
+        private static void LoadSkillsSection(JsonElement section, Dictionary<string, Skill> cache)
+        {
+            foreach (var prop in section.EnumerateObject())
+            {
+                if (prop.Value.ValueKind != JsonValueKind.Object)
+                {
+                    continue;
+                }
+
+                var skill = ConvertSkillsJsonEntryToSkill(prop.Name, prop.Value);
+                if (skill == null)
+                {
+                    continue;
+                }
+
+                cache[skill.Id] = skill;
+            }
+        }
+
+        private static Skill ConvertSkillsJsonEntryToSkill(string fallbackId, JsonElement entry)
+        {
+            string id = TryGetString(entry, "id") ?? fallbackId;
+            string skillNameKey = TryGetString(entry, "skill_name_key");
+            string descriptionKey = TryGetString(entry, "description_key");
+
+            float cooldown = (float)(TryGetDouble(entry, "cooldown") ?? 0d);
+            string attackType = TryGetString(entry, "attack_type") ?? string.Empty;
+            string typeStr = TryGetString(entry, "type") ?? string.Empty;
+
+            float damageCoefficient = (float)(TryGetDouble(entry, "damage_coefficient") ?? 0d);
+            int buffDuration = TryGetInt(entry, "buff_duration") ?? 0;
+            int debuffDuration = TryGetInt(entry, "debuff_duration") ?? 0;
+            int duration = Math.Max(buffDuration, debuffDuration);
+
+            var skill = new Skill
+            {
+                Id = id,
+                SkillName = string.IsNullOrEmpty(skillNameKey) ? id : TranslationServer.Translate(skillNameKey),
+                Description = string.IsNullOrEmpty(descriptionKey) ? string.Empty : TranslationServer.Translate(descriptionKey),
+                Cooldown = cooldown,
+                ManaCost = 0,
+                IsUnlocked = false
+            };
+
+            var def = new Skill.SkillDefent
+            {
+                Type = MapSkillType(attackType, typeStr),
+                DamageCoefficient = damageCoefficient,
+                Duration = duration,
+                DamageTypeString = MapDamageTypeString(attackType)
+            };
+            skill.SkillDefs.Add(def);
+
+            return skill;
+        }
+
+        private static Skill.SkillType MapSkillType(string attackType, string typeStr)
+        {
+            if (!string.IsNullOrEmpty(attackType))
+            {
+                if (attackType.Contains("治疗", StringComparison.Ordinal))
+                {
+                    return Skill.SkillType.Healing;
+                }
+                if (attackType.Contains("增益", StringComparison.Ordinal))
+                {
+                    return Skill.SkillType.Support;
+                }
+                if (attackType.Contains("防御", StringComparison.Ordinal))
+                {
+                    return Skill.SkillType.Defense;
+                }
+                return Skill.SkillType.Attack;
+            }
+
+            if (!string.IsNullOrEmpty(typeStr) && typeStr.Contains("被动", StringComparison.Ordinal))
+            {
+                return Skill.SkillType.Support;
+            }
+
+            return Skill.SkillType.Attack;
+        }
+
+        private static string MapDamageTypeString(string attackType)
+        {
+            if (string.IsNullOrEmpty(attackType))
+            {
+                return "Physical";
+            }
+
+            if (attackType.Contains("物", StringComparison.Ordinal))
+            {
+                return "Physical";
+            }
+            if (attackType.Contains("法", StringComparison.Ordinal))
+            {
+                return "Magic";
+            }
+            if (attackType.Contains("治疗", StringComparison.Ordinal) || attackType.Contains("增益", StringComparison.Ordinal))
+            {
+                return "Holy";
+            }
+
+            return "Physical";
+        }
+
+        private static string TryGetString(JsonElement obj, string name)
+        {
+            if (!obj.TryGetProperty(name, out var el))
+            {
+                return null;
+            }
+            return el.ValueKind == JsonValueKind.String ? el.GetString() : null;
+        }
+
+        private static int? TryGetInt(JsonElement obj, string name)
+        {
+            if (!obj.TryGetProperty(name, out var el))
+            {
+                return null;
+            }
+            return el.ValueKind == JsonValueKind.Number ? el.GetInt32() : null;
+        }
+
+        private static double? TryGetDouble(JsonElement obj, string name)
+        {
+            if (!obj.TryGetProperty(name, out var el))
+            {
+                return null;
+            }
+            return el.ValueKind == JsonValueKind.Number ? el.GetDouble() : null;
+        }
+
+        private sealed class Vector3JsonConverter : JsonConverter<Vector3>
+        {
+            public override Vector3 Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                if (reader.TokenType == JsonTokenType.StartArray)
+                {
+                    reader.Read();
+                    float x = reader.TokenType == JsonTokenType.Number ? (float)reader.GetDouble() : 0f;
+
+                    reader.Read();
+                    float y = reader.TokenType == JsonTokenType.Number ? (float)reader.GetDouble() : 0f;
+
+                    reader.Read();
+                    if (reader.TokenType == JsonTokenType.EndArray)
+                    {
+                        return new Vector3(x, y, 0f);
+                    }
+
+                    float z = reader.TokenType == JsonTokenType.Number ? (float)reader.GetDouble() : 0f;
+                    reader.Read();
+
+                    if (reader.TokenType != JsonTokenType.EndArray)
+                    {
+                        throw new JsonException("Vector3 array must have 2 or 3 elements");
+                    }
+
+                    return new Vector3(x, y, z);
+                }
+
+                if (reader.TokenType == JsonTokenType.StartObject)
+                {
+                    float x = 0f;
+                    float y = 0f;
+                    float z = 0f;
+
+                    while (reader.Read())
+                    {
+                        if (reader.TokenType == JsonTokenType.EndObject)
+                        {
+                            break;
+                        }
+
+                        if (reader.TokenType != JsonTokenType.PropertyName)
+                        {
+                            throw new JsonException("Unexpected token while reading Vector3 object");
+                        }
+
+                        string propName = reader.GetString();
+                        reader.Read();
+
+                        float value = reader.TokenType == JsonTokenType.Number ? (float)reader.GetDouble() : 0f;
+                        switch (propName?.ToLowerInvariant())
+                        {
+                            case "x":
+                                x = value;
+                                break;
+                            case "y":
+                                y = value;
+                                break;
+                            case "z":
+                                z = value;
+                                break;
+                        }
+                    }
+
+                    return new Vector3(x, y, z);
+                }
+
+                throw new JsonException($"Unsupported token {reader.TokenType} for Vector3");
+            }
+
+            public override void Write(Utf8JsonWriter writer, Vector3 value, JsonSerializerOptions options)
+            {
+                writer.WriteStartArray();
+                writer.WriteNumberValue(value.X);
+                writer.WriteNumberValue(value.Y);
+                writer.WriteNumberValue(value.Z);
+                writer.WriteEndArray();
             }
         }
 

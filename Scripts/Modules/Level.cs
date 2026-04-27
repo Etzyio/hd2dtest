@@ -59,7 +59,7 @@ namespace hd2dtest.Scripts.Modules
         /// 可收集物品数量
         /// </summary>
         /// <value>关卡中可收集物品的数量</value>
-        public Dictionary<string, int> Collectibles { get; set; } = [];
+        public int Collectibles { get; set; }
 
         /// <summary>
         /// 敌人数量
@@ -77,7 +77,7 @@ namespace hd2dtest.Scripts.Modules
         /// 所需物品列表
         /// </summary>
         /// <value>解锁关卡所需的物品ID列表</value>
-        public Dictionary<string, int> RequiredItems { get; set; } = [];
+        public List<string> RequiredItems { get; set; } = [];
 
         /// <summary>
         /// 获取Vector3格式的出生位置
