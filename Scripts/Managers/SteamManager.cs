@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using hd2dtest.Scripts.Utilities;
+using Steam
 
 namespace hd2dtest.Scripts.Managers
 {
@@ -11,6 +12,7 @@ namespace hd2dtest.Scripts.Managers
     /// <remarks>
     /// 该类继承自Godot.Node，作为单例模式运行，负责管理Steam平台的各项功能，
     /// 包括成就系统、排行榜、云存储、多人游戏等。
+    /// 注意：实际使用时需要安装Steamworks.NET NuGet包
     /// </remarks>
     public partial class SteamManager : Node
     {
