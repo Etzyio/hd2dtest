@@ -1,0 +1,143 @@
+key,en_US,zh_CN,ja_JP
+# Quest Lines
+quest_line_wuxia_main_story_name,Jianghu风云,Tales of the Martial World,武侠の世界
+quest_line_wuxia_main_story_desc,From a young disciple of Mount Hua to the leader of the martial arts alliance, a journey filled with challenges and growth.,从华山派弟子到武林盟主，一段充满挑战与成长的江湖旅程,華山派の弟子から武林盟主へ、試練と成長の旅
+quest_line_wuxia_side_quests_name,Jianghu Stories,江湖轶事,江湖の逸話
+quest_line_wuxia_side_quests_desc,Side quests in the martial world, help those in need and earn additional rewards.,江湖中的支线任务，帮助有需要的人，获得额外奖励,江湖のサイドクエスト。困っている人を助け、追加報酬を得よう
+quest_line_wuxia_character_growth_name,Character Growth,人物成长,キャラクター成長
+quest_line_wuxia_character_growth_desc,Complete specific tasks and challenges to enhance your character's abilities and status.,通过完成特定任务和挑战，提升角色的能力和地位,特定の任務や挑戦をこなし、キャラクターの能力と地位を高めよう
+quest_line_wuxia_alliance_building_name,Alliance Building,盟友相助,同盟構築
+quest_line_wuxia_alliance_building_desc,Make friends and allies in the martial world who will help you in critical moments.,结识江湖中的朋友和盟友，在关键时刻获得他们的帮助,江湖で友達や同盟者を見つけ、危機の時に助けを得よう
+quest_line_wuxia_secret_chapters_name,Secret Chapters,秘境奇遇,秘境の奇遇
+quest_line_wuxia_secret_chapters_desc,Explore various secret realms in the martial world and encounter adventures and challenges.,在江湖中探索各种秘境，遇到奇遇和挑战,江湖の様々な秘境を探検し、冒険と挑戦に出会おう
+
+# Main Story Quests
+quest_main_story_001_name,First Step into Jianghu,初入江湖,江湖への第一歩
+quest_main_story_001_desc,You are a young disciple of Mount Hua. Your master orders you to go down the mountain to Luoyang City to find your missing senior brother.,你是华山派的一名年轻弟子，师傅命你下山前往洛阳城，寻找失踪的师兄,華山派の若き弟子。師匠の命で下山し、洛陽城で行方不明の兄弟子を探せ
+quest_main_story_002_name,Tracking in Luoyang,洛阳寻踪,洛陽の追跡
+quest_main_story_002_desc,After arriving in Luoyang, you need to ask the townspeople about your senior brother's whereabouts.,到达洛阳城后，你需要向城里的居民打听师兄的下落,洛陽に到着後、町の人に兄弟子の行方を尋ねろ
+quest_main_story_003_name,Night Raid on the Escort Agency,夜探镖局,夜討ちの護衛局
+quest_main_story_003_desc,According to the clues, your senior brother may be involved in the escort agency's troubles. You need to sneak into the Luoyang Escort Agency at night.,根据线索，师兄可能被卷入了镖局的纠纷中，你需要夜探洛阳镖局,手がかりから兄弟子が護衛局の問題に巻き込まれた可能性がある。夜に洛陽護衛局に忍び込め
+quest_main_story_004_name,Escort Agency Grudge,镖局恩怨,護衛局の因縁
+quest_main_story_004_desc,The escort agency chief tells you they have a grudge with the Black Eagle Gang, a criminal organization that has been active near Luoyang recently.,镖局总镖头告诉你，他们与黑道组织'黑鹰帮'有过节，黑鹰帮近期在洛阳附近活动频繁,護衛局の総護衛頭が話すには、彼らは黒鷹組と因縁がある。最近洛陽近郊で活動が激しい
+quest_main_story_005_name,Black Eagle Gang Den,黑鹰帮巢穴,黒鷹組の巣窟
+quest_main_story_005_desc,The magistrate orders you to lead soldiers to attack the Black Eagle Gang's den and rescue the kidnapped hostages.,知府命你带领官兵攻打黑鹰帮的巢穴，解救被绑架的人质,知府が命令した。黒鷹組の巣窟を攻撃し、拉致された人質を救出せよ
+quest_main_story_006_name,Mysterious Woman,神秘女子,謎の女
+quest_main_story_006_desc,On your way back to Mount Hua, you encounter a mysterious woman who seems to be fleeing from someone pursuing her.,在返回华山的途中，你遇到了一位神秘的女子，她似乎在躲避什么人的追杀,華山への帰り道で、誰かに追われているような謎の女に出会う
+quest_main_story_007_name,Mystery of Identity,身世之谜,出自の謎
+quest_main_story_007_desc,The mysterious woman tells you she is Zhou Zhiruo, a disciple of Emei Sect, and is investigating a secret about your background.,神秘女子告诉你，她是峨眉派的弟子，名叫周芷若，正在调查一件关于你身世的秘密,謎の女は峨眉派の弟子、周芷若と名乗り、あなたの出自に関する秘密を調べていると話す
+quest_main_story_008_name,Battle of Good and Evil,正邪之战,正と邪の戦い
+quest_main_story_008_desc,The Emei Sect leader confirms you are the descendant of the Martial Arts Alliance Leader. The Demon Cult is searching for you. You must return to Mount Hua immediately.,峨眉派掌门证实了你是武林盟主的后人，现在魔教正在四处搜寻你，你必须尽快回到华山派,峨眉派の門主があなたが武林盟主の末裔であることを証明する。魔教があなたを探している。すぐに華山に戻れ
+quest_main_story_009_name,Defense of Mount Hua,华山守卫战,華山防衛戦
+quest_main_story_009_desc,The Demon Cult attacks as expected. You need to defend the mountain gate with your fellow disciples and repel the Demon Cult's assault.,魔教果然来袭，你需要与华山派弟子一起守卫山门，抵御魔教的进攻,予想通り魔教が襲来した。華山派の弟子たちと共に山門を守り、魔教の攻撃を撃退せよ
+quest_main_story_010_name,Wulin Alliance Leader,武林盟主,武林盟主
+quest_main_story_010_desc,The Demon Cult is defeated. All major sects elect you as the new Martial Arts Alliance Leader. You need to go to Shaolin Temple for the martial arts conference.,魔教被击退，各大门派推举你为新的武林盟主，你需要前往嵩山少林寺参加武林大会,魔教を撃退した。各宗派があなたを新たな武林盟主に推挙する。嵩山少林寺で開かれる武林大会に出席せよ
+
+# Quest Objectives
+obj_talk_to_master,Talk to Mount Hua Sect Leader,与华山派掌门对话,華山派の門主と話せ
+obj_go_to_luoyang,Go to Luoyang City,前往洛阳城,洛陽城に行け
+obj_talk_to_innkeeper,Talk to Luoyang Innkeeper,与洛阳客栈老板对话,洛陽の宿屋の主人と話せ
+obj_talk_to_blacksmith,Talk to Luoyang Blacksmith,与洛阳铁匠对话,洛陽の鍛冶屋と話せ
+obj_find_brother_trace,Find senior brother's trace,发现师兄的踪迹,兄弟子の痕跡を探せ
+obj_sneak_into_biaoju,Sneak into Luoyang Escort Agency,潜入洛阳镖局,洛陽護衛局に忍び込め
+obj_defeat_guards,Defeat 5 escort guards,击败镖局守卫（5名）,護衛5人を倒せ
+obj_find_brother,Find imprisoned senior brother,找到被囚禁的师兄,囚われた兄弟子を見つけろ
+obj_talk_to_chief,Talk to Escort Agency Chief,与镖局总镖头对话,護衛局の総護衛頭と話せ
+obj_collect_evidence,Collect Black Eagle Gang evidence (3 pieces),收集黑鹰帮的证据（3份）,黒鷹組の証拠を3点集めろ
+obj_report_to_magistrate,Report to Luoyang Magistrate,向洛阳知府报告,洛陽の知府に報告せよ
+obj_rally_troops,Rally the troops,集结官兵,兵士を集めろ
+obj_defeat_black_eagle_leader,Defeat Black Eagle Gang Leader,击败黑鹰帮帮主,黒鷹組の頭領を倒せ
+obj_rescue_hostages,Rescue all hostages (3),解救所有人质（3人）,全ての人質を救出せよ（3人）
+obj_help_woman,Help the mysterious woman repel pursuers (4),帮助神秘女子击退追兵（4名）,謎の女を助けて追手4人を撃退せよ
+obj_talk_to_woman,Talk to the mysterious woman,与神秘女子对话,謎の女と話せ
+obj_escort_to_safety,Escape the mysterious woman to safety,护送神秘女子到安全地点,謎の女を安全な場所まで護衛せよ
+obj_listen_to_story,Listen to Zhou Zhiruo's story,聆听周芷若讲述身世之谜,周芷若の話を聞け
+obj_go_to_emei,Go to Emei Sect to verify,前往峨眉派求证,峨眉派に行って確認せよ
+obj_talk_to_emei_master,Talk to Emei Sect Leader,与峨眉派掌门对话,峨眉派の門主と話せ
+obj_return_to_hua_shan,Return to Mount Hua,返回华山派,華山に戻れ
+obj_warn_master,Warn master of Demon Cult's plot,警告师傅魔教的阴谋,師匠に魔教の陰謀を警告せよ
+obj_prepare_for_battle,Prepare for Demon Cult attack,准备迎击魔教来袭,魔教の襲来に備えろ
+obj_defend_gate,Defend Mount Hua Gate,守卫华山山门,華山の山門を守れ
+obj_defeat_demon_leader,Defeat Demon Cult Leader,击败魔教教主,魔教の教主を倒せ
+obj_protect_master,Protect master's safety,保护师傅安危,師匠の安全を守れ
+obj_go_to_shaolin,Go to Shaolin Temple,前往少林寺,少林寺に行け
+obj_participate_meeting,Participate in martial arts conference,参加武林大会,武林大会に参加せよ
+obj_accept_title,Accept Martial Alliance Leader title,接受武林盟主称号,武林盟主の称号を受け入れろ
+
+# Quest Line Nodes
+node_start_node_name,First Step into Jianghu,初入江湖,江湖への第一歩
+node_start_node_desc,Mount Hua Sect leader orders you to go down the mountain to find your missing senior brother. This is the beginning of your journey.,华山派掌门命你下山寻找失踪的师兄，这是你江湖之路的开始,華山派の門主が下山して行方不明の兄弟子を探すよう命じた。これがあなたの旅の始まり
+node_luoyang_investigation_node_name,Tracking in Luoyang,洛阳寻踪,洛陽の追跡
+node_luoyang_investigation_node_desc,After arriving in Luoyang City, ask the townspeople about your senior brother's whereabouts.,到达洛阳城后，向居民打听师兄的下落,洛陽に到着後、町の人に兄弟子の行方を尋ねろ
+node_night_biaoju_node_name,Night Raid on Escort Agency,夜探镖局,夜討ちの護衛局
+node_night_biaoju_node_desc,According to clues, sneak into Luoyang Escort Agency at night to find your senior brother.,根据线索，夜探洛阳镖局寻找师兄,手がかりに従い、夜に洛陽護衛局に忍び込んで兄弟子を探せ
+node_biaoju_grudge_node_name,Escort Agency Grudge,镖局恩怨,護衛局の因縁
+node_biaoju_grudge_node_desc,Investigate the grudge between the escort agency and Black Eagle Gang, collect evidence.,调查镖局与黑鹰帮的恩怨，收集证据,護衛局と黒鷹組の因縁を調べ、証拠を集めろ
+node_black_eagle_den_node_name,Black Eagle Gang Den,黑鹰帮巢穴,黒鷹組の巣窟
+node_black_eagle_den_node_desc,Lead soldiers to attack Black Eagle Gang's den and rescue hostages.,带领官兵攻打黑鹰帮巢穴，解救人质,兵士を率いて黒鷹組の巣窟を攻撃し、人質を救出せよ
+node_mysterious_woman_node_name,Mysterious Woman,神秘女子,謎の女
+node_mysterious_woman_node_desc,On the way back to Mount Hua, encounter a mysterious woman and help her repel pursuers.,在返回华山途中遇到神秘女子，帮助她击退追兵,華山への帰り道で謎の女に出会い、追手を撃退して助けろ
+node_identity_mystery_node_name,Mystery of Identity,身世之谜,出自の謎
+node_identity_mystery_node_name,Mysterious woman Zhou Zhiruo tells you about your identity secret, go to Emei to verify.,神秘女子周芷若告诉你关于身世的秘密，前往峨眉派求证,謎の女・周芷若があなたの出自の秘密を話し、峨眉派に行って確認せよ
+node_good_evil_battle_node_name,Battle of Good and Evil,正邪之战,正と邪の戦い
+node_good_evil_battle_node_desc,Learn you are descendant of Martial Alliance Leader, Demon Cult is searching for you, return to Mount Hua to prepare.,得知自己是武林盟主后人，魔教正在搜寻你，返回华山准备迎敌,自分が武林盟主の末裔であることを知り、魔教が探していることを知る。華山に戻って準備せよ
+node_hua_shan_defense_node_name,Defense of Mount Hua,华山守卫战,華山防衛戦
+node_hua_shan_defense_node_desc,Demon Cult attacks, defend the mountain gate with fellow disciples.,魔教来袭，与华山派弟子一起守卫山门，抵御魔教进攻,魔教が襲来した。華山派の弟子たちと共に山門を守れ
+node_alliance_leader_node_name,Wulin Alliance Leader,武林盟主,武林盟主
+node_alliance_leader_node_desc,Demon Cult is defeated, all sects elect you as new Martial Alliance Leader, go to Shaolin for the conference.,魔教被击退，各大门派推举你为新的武林盟主，前往少林寺参加武林大会,魔教を撃退し、各宗派があなたを新たな武林盟主に推挙した。少林寺の大会に出席せよ
+
+# Side Quest Nodes
+node_help_innkeeper_node_name,Innkeeper's Trouble,客栈老板的困扰,宿屋主人の悩み
+node_help_innkeeper_node_desc,Luoyang innkeeper is in trouble and needs your help.,洛阳客栈老板遇到了麻烦，需要你的帮助,洛陽の宿屋の主人が困っている。助けてあげろ
+node_blacksmith_request_node_name,Blacksmith's Request,铁匠的请求,鍛冶屋の依頼
+node_blacksmith_request_node_desc,Luoyang blacksmith needs rare ores to forge weapons.,洛阳铁匠需要稀有矿石来打造武器,洛陽の鍛冶屋が武器を作るのに希少な鉱石が必要だ
+node_merchant_mission_node_name,Merchant's Mission,商人的委托,商人の依頼
+node_merchant_mission_node_desc,A merchant's goods were robbed by bandits, help retrieve them.,商人的货物被强盗劫走，需要你帮忙找回,商人の荷物が山賊に略奪された。取り戻してあげろ
+
+# Character Growth Nodes
+node_first_blood_node_name,First Blood,初露锋芒,初めての血
+node_first_blood_node_desc,Defeat your first enemy and prove your strength.,首次击败敌人，证明自己的实力,初めて敵を倒し、自分の実力を証明せよ
+node_martial_arts_master_node_name,Martial Arts Master,武学大师,武術の達人
+node_martial_arts_master_node_desc,Master multiple martial arts skills and become a true martial arts expert.,掌握多种武学，成为武林高手,複数の武術を習得し、真の武林の達人となれ
+node_reputation_spread_node_name,Famous Reputation,声名远扬,名声が広まる
+node_reputation_spread_node_name,Earn a good reputation in the martial world, many know your name.,在江湖中建立了良好的声誉，许多人知道你的名字,江湖で良い評判を得て、多くの人があなたの名前を知っている
+
+# Alliance Building Nodes
+node_meet_brother_node_name,Reunite with Brother,师兄重逢,兄弟子との再会
+node_meet_brother_node_desc,Successfully rescue your senior brother, he becomes your most reliable ally.,成功救出师兄，他成为你最可靠的盟友,兄弟子を救出し、彼があなたの最も信頼できる同盟者となる
+node_meet_zhiruo_node_name,Meeting Zhou Zhiruo,周芷若相遇,周芷若との出会い
+node_meet_zhiruo_node_desc,Meet Zhou Zhiruo from Emei Sect, she becomes your important ally.,遇到峨眉派弟子周芷若，她成为你的重要盟友,峨眉派の周芷若に出会い、彼女があなたの重要な同盟者となる
+node_shaolin_support_node_name,Shaolin Support,少林援手,少林寺の支援
+node_shaolin_support_node_name,Shaolin Sect is willing to support you as Martial Alliance Leader.,少林派愿意支持你成为武林盟主,少林寺があなたを武林盟主として支援することを承知した
+
+# Secret Chapters Nodes
+node_ancient_ruins_node_name,Ancient Ruins,古老遗迹,古代遺跡
+node_ancient_ruins_node_desc,Discover an ancient ruin containing precious martial arts manuscripts.,发现一处古老的遗迹，里面隐藏着珍贵的武学秘籍,貴重な武術の秘書が隠された古代遺跡を発見せよ
+node_mystic_cave_node_name,Mystic Cave,神秘洞穴,神秘の洞窟
+node_mystic_cave_node_desc,Explore a mysterious cave inhabited by legendary beasts.,探索一个神秘的洞穴，里面住着传说中的野兽,伝説の獣が住む神秘の洞窟を探検せよ
+node_hidden_valley_node_name,Hidden Valley,隐秘山谷,隠れた谷
+node_hidden_valley_node_desc,Discover a hidden valley where reclusive masters reside.,发现一个隐秘的山谷，里面住着隐世的高人,隠遁した高人が住む隠れた谷を発見せよ
+
+# Quest Status
+quest_status_none,None,无状态,なし
+quest_status_available,Available,可接取,受け入れ可能
+quest_status_in_progress,In Progress,进行中,進行中
+quest_status_completed,Completed,已完成,完了
+quest_status_failed,Failed,已失败,失敗
+
+# Quest Types
+quest_type_main,Main Quest,主线任务,メインクエスト
+quest_type_side,Side Quest,支线任务,サイドクエスト
+
+# Objective Types
+objective_type_talk,Talk,对话,会話
+objective_type_kill,Kill,击杀,討伐
+objective_type_collect,Collect,收集,収集
+objective_type_reach_location,Reach Location,到达位置,到着
+objective_type_escort,Escort,护送,護衛
+objective_type_rescue,Rescue,解救,救出
+objective_type_defend,Defend,守卫,防衛
+objective_type_protect,Protect,保护,保護
+objective_type_prepare,Prepare,准备,準備
+objective_type_attend,Attend,参加,参加
+objective_type_discover,Discover,发现,発見

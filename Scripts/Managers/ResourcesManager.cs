@@ -42,6 +42,53 @@ namespace hd2dtest.Scripts.Managers
     public partial class ResourcesManager : Node
     {
         /// <summary>
+        /// 自定义任务目标转换器（用于JSON反序列化）
+        /// </summary>
+        public class QuestObjectiveConverter : JsonConverter<QuestObjective>
+        {
+            public override QuestObjective Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                if (reader.TokenType != JsonTokenType.StartObject)
+                {
+                    throw new JsonException("Expected StartObject token");
+                }
+
+                using var doc = JsonDocument.ParseValue(ref reader);
+                var root = doc.RootElement;
+
+                if (!root.TryGetProperty("type", out var typeElement))
+                {
+                    throw new JsonException("Missing 'type' property in QuestObjective");
+                }
+
+                var objectiveType = typeElement.GetString();
+                var rawText = root.GetRawText();
+
+                QuestObjective objective = objectiveType switch
+                {
+                    "Talk" => JsonSerializer.Deserialize<TalkObjective>(rawText, options),
+                    "Kill" => JsonSerializer.Deserialize<KillObjective>(rawText, options),
+                    "Collect" => JsonSerializer.Deserialize<CollectObjective>(rawText, options),
+                    "ReachLocation" => JsonSerializer.Deserialize<ReachLocationObjective>(rawText, options),
+                    "Escort" => JsonSerializer.Deserialize<EscortObjective>(rawText, options),
+                    "Rescue" => JsonSerializer.Deserialize<RescueObjective>(rawText, options),
+                    "Defend" => JsonSerializer.Deserialize<DefendObjective>(rawText, options),
+                    "Protect" => JsonSerializer.Deserialize<ProtectObjective>(rawText, options),
+                    "Prepare" => JsonSerializer.Deserialize<PrepareObjective>(rawText, options),
+                    "Attend" => JsonSerializer.Deserialize<AttendObjective>(rawText, options),
+                    "Discover" => JsonSerializer.Deserialize<DiscoverObjective>(rawText, options),
+                    _ => JsonSerializer.Deserialize<TalkObjective>(rawText, options)
+                };
+
+                return objective;
+            }
+
+            public override void Write(Utf8JsonWriter writer, QuestObjective value, JsonSerializerOptions options)
+            {
+                JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            }
+        }
+        /// <summary>
         /// 资源加载优先级
         /// </summary>
         public enum ResourceLoadPriority
@@ -207,18 +254,15 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
-            // 忽略大小写
             PropertyNameCaseInsensitive = true,
-            // 处理空值
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            // 允许注释
             ReadCommentHandling = JsonCommentHandling.Skip,
-            // 允许尾随逗号
             AllowTrailingCommas = true,
-            // 使用驼峰命名
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            // 自定义枚举转换器
-            Converters = { new JsonStringEnumConverter() }
+            Converters = {
+                new JsonStringEnumConverter(),
+                new QuestObjectiveConverter()
+            }
         };
 
         /// <summary>
@@ -829,6 +873,24 @@ namespace hd2dtest.Scripts.Managers
         }
 
         /// <summary>
+        /// 任务数据包装类（用于JSON反序列化）
+        /// </summary>
+        public class QuestDataWrapper
+        {
+            [JsonPropertyName("quests")]
+            public List<QuestData> Quests { get; set; }
+        }
+
+        /// <summary>
+        /// 任务线数据包装类（用于JSON反序列化）
+        /// </summary>
+        public class QuestLineWrapper
+        {
+            [JsonPropertyName("questLines")]
+            public List<QuestLineData> QuestLines { get; set; }
+        }
+
+        /// <summary>
         /// 本地化缓存，用于提高性能
         /// </summary>
         private static readonly Dictionary<string, Dictionary<string, string>> _localizationCache = [];
@@ -901,10 +963,16 @@ namespace hd2dtest.Scripts.Managers
                             string filePath = $"{questsDir}/{file}";
                             try
                             {
-                                var questData = LoadResource<QuestData>(file, questsDir + "/");
-                                if (questData != null && !string.IsNullOrEmpty(questData.Id))
+                                var questDataList = LoadQuestDataList(file, questsDir + "/");
+                                if (questDataList != null && questDataList.Quests != null)
                                 {
-                                    QuestsCache[questData.Id] = questData;
+                                    foreach (var questData in questDataList.Quests)
+                                    {
+                                        if (questData != null && !string.IsNullOrEmpty(questData.Id))
+                                        {
+                                            QuestsCache[questData.Id] = questData;
+                                        }
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -928,6 +996,50 @@ namespace hd2dtest.Scripts.Managers
                 stopwatch.Stop();
                 Log.Error($"Error loading quests: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
                 QuestsCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 加载任务数据列表（支持新的JSON结构）
+        /// </summary>
+        /// <param name="fileName">JSON文件名</param>
+        /// <param name="customPath">自定义路径</param>
+        /// <returns>任务数据包装类</returns>
+        private static QuestDataWrapper LoadQuestDataList(string fileName, string customPath = null)
+        {
+            string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
+            var stopwatch = Stopwatch.StartNew();
+
+            if (!FileAccess.FileExists(filePath))
+            {
+                stopwatch.Stop();
+                Log.Warning($"JSON file not found: {filePath}");
+                return null;
+            }
+
+            try
+            {
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                string jsonContent = file.GetAsText();
+
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    stopwatch.Stop();
+                    Log.Warning($"JSON file is empty: {filePath}");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<QuestDataWrapper>(jsonContent, JsonOptions);
+                stopwatch.Stop();
+                Log.Info($"Successfully loaded quest data list: {filePath}, Type: QuestDataWrapper, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                Log.Error($"Quest data list deserialization failed: {filePath}, Error: {ex.Message}");
+                return null;
             }
         }
 
@@ -972,7 +1084,7 @@ namespace hd2dtest.Scripts.Managers
             var stopwatch = Stopwatch.StartNew();
             try
             {
-                string questLinesDir = "res://Resources/Static/QuestLines";
+                string questLinesDir = "res://Resources/Static/Quests";
                 var dir = DirAccess.Open(questLinesDir);
                 if (dir != null)
                 {
@@ -981,37 +1093,32 @@ namespace hd2dtest.Scripts.Managers
                     QuestLinesCache.Clear();
                     while ((file = dir.GetNext()) != "")
                     {
-                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json"))
+                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json") && file.Contains("quest_lines"))
                         {
                             var fileStopwatch = Stopwatch.StartNew();
                             string filePath = $"{questLinesDir}/{file}";
-                            var fileAccess = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
-                            if (fileAccess != null)
+                            try
                             {
-                                try
+                                var questLineList = LoadQuestLineDataList(file, questLinesDir + "/");
+                                if (questLineList != null && questLineList.QuestLines != null)
                                 {
-                                    string json = fileAccess.GetAsText();
-                                    QuestLineData questLineData = JsonSerializer.Deserialize<QuestLineData>(json, JsonOptions);
-                                    if (questLineData != null && !string.IsNullOrEmpty(questLineData.Id))
+                                    foreach (var questLineData in questLineList.QuestLines)
                                     {
-                                        QuestLinesCache[questLineData.Id] = questLineData;
+                                        if (questLineData != null && !string.IsNullOrEmpty(questLineData.Id))
+                                        {
+                                            QuestLinesCache[questLineData.Id] = questLineData;
+                                        }
                                     }
                                 }
-                                catch (Exception ex)
-                                {
-                                    Log.Warning($"Failed to load quest line file {file}: {ex.Message}");
-                                }
-                                finally
-                                {
-                                    fileAccess.Close();
-                                    fileStopwatch.Stop();
-                                    Log.Info($"Loaded quest line file: {file}, Time: {fileStopwatch.ElapsedMilliseconds:F2}ms");
-                                }
                             }
-                            else
+                            catch (Exception ex)
+                            {
+                                Log.Warning($"Failed to load quest line file {file}: {ex.Message}");
+                            }
+                            finally
                             {
                                 fileStopwatch.Stop();
-                                Log.Warning($"Failed to open quest line file {file}, Time: {fileStopwatch.ElapsedMilliseconds:F2}ms");
+                                Log.Info($"Loaded quest line file: {file}, Time: {fileStopwatch.ElapsedMilliseconds:F2}ms");
                             }
                         }
                     }
@@ -1025,6 +1132,50 @@ namespace hd2dtest.Scripts.Managers
                 stopwatch.Stop();
                 Log.Error($"Error loading quest lines: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
                 QuestLinesCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 加载任务线数据列表（支持新的JSON结构）
+        /// </summary>
+        /// <param name="fileName">JSON文件名</param>
+        /// <param name="customPath">自定义路径</param>
+        /// <returns>任务线数据包装类</returns>
+        private static QuestLineWrapper LoadQuestLineDataList(string fileName, string customPath = null)
+        {
+            string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
+            var stopwatch = Stopwatch.StartNew();
+
+            if (!FileAccess.FileExists(filePath))
+            {
+                stopwatch.Stop();
+                Log.Warning($"JSON file not found: {filePath}");
+                return null;
+            }
+
+            try
+            {
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                string jsonContent = file.GetAsText();
+
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    stopwatch.Stop();
+                    Log.Warning($"JSON file is empty: {filePath}");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<QuestLineWrapper>(jsonContent, JsonOptions);
+                stopwatch.Stop();
+                Log.Info($"Successfully loaded quest line data list: {filePath}, Type: QuestLineWrapper, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                Log.Error($"Quest line data list deserialization failed: {filePath}, Error: {ex.Message}");
+                return null;
             }
         }
 

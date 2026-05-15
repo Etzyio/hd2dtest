@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using hd2dtest.Scripts.Quest;
 
 namespace hd2dtest.Scripts.Modules
 {
@@ -162,16 +163,16 @@ namespace hd2dtest.Scripts.Modules
     public abstract class QuestReward
     {
         public string Type { get; set; }
-        public abstract void Grant();
+        public abstract void Grant(QuestManager questManager);
     }
 
     public class ExperienceReward : QuestReward
     {
         public int Amount { get; set; }
 
-        public override void Grant()
+        public override void Grant(QuestManager questManager)
         {
-            QuestManager.Instance.GrantExperience(Amount);
+            questManager.GrantExperience(Amount);
         }
     }
 
@@ -180,9 +181,9 @@ namespace hd2dtest.Scripts.Modules
         public string ItemId { get; set; }
         public int Count { get; set; }
 
-        public override void Grant()
+        public override void Grant(QuestManager questManager)
         {
-            QuestManager.Instance.GrantItem(ItemId, Count);
+            questManager.GrantItem(ItemId, Count);
         }
     }
 
@@ -191,9 +192,9 @@ namespace hd2dtest.Scripts.Modules
         public string CurrencyType { get; set; }
         public int Amount { get; set; }
 
-        public override void Grant()
+        public override void Grant(QuestManager questManager)
         {
-            QuestManager.Instance.GrantCurrency(CurrencyType, Amount);
+            questManager.GrantCurrency(CurrencyType, Amount);
         }
     }
 
@@ -201,9 +202,9 @@ namespace hd2dtest.Scripts.Modules
     {
         public string EquipmentId { get; set; }
 
-        public override void Grant()
+        public override void Grant(QuestManager questManager)
         {
-            QuestManager.Instance.GrantEquipment(EquipmentId);
+            questManager.GrantEquipment(EquipmentId);
         }
     }
 

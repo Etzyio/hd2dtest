@@ -357,7 +357,7 @@ namespace hd2dtest.Scripts.Quest
             {
                 foreach (var reward in quest.Rewards)
                 {
-                    reward.Grant();
+                    reward.Grant(this);
                 }
             }
         }
