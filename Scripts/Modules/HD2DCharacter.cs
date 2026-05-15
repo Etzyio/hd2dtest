@@ -1,0 +1,193 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+
+namespace hd2dtest.Scripts.Modules
+{
+    public enum CharacterLayer
+    {
+        Base,
+        Body,
+        Head,
+        Weapon,
+        Effects
+    }
+
+    public partial class HD2DCharacter : CharacterBody3D
+    {
+        [Export] public string CharacterId = "";
+        [Export] public float CharacterScale = 1.0f;
+        [Export] public float CollisionHeight = 2.0f;
+        [Export] public float CollisionRadius = 0.3f;
+
+        private Dictionary<CharacterLayer, Sprite3D> _layers = new Dictionary<CharacterLayer, Sprite3D>();
+        private CollisionShape3D _collisionShape;
+        private Node3D _shadowNode;
+        private Sprite3D _shadowSprite;
+        private Node3D _spriteRoot;
+        private Camera3D _mainCamera;
+
+        public override void _Ready()
+        {
+            InitializeCollision();
+            InitializeSpriteLayers();
+            CreateShadow();
+            _mainCamera = GetViewport().GetCamera3D();
+        }
+
+        private void InitializeCollision()
+        {
+            CapsuleShape3D capsuleShape = new CapsuleShape3D();
+            capsuleShape.Radius = CollisionRadius;
+            capsuleShape.Height = CollisionHeight;
+
+            _collisionShape = new CollisionShape3D();
+            _collisionShape.Name = "CollisionShape";
+            _collisionShape.Shape = capsuleShape;
+            AddChild(_collisionShape);
+        }
+
+        private void InitializeSpriteLayers()
+        {
+            _spriteRoot = new Node3D();
+            _spriteRoot.Name = "SpriteRoot";
+            _spriteRoot.Position = new Vector3(0, CollisionHeight / 2, 0);
+            AddChild(_spriteRoot);
+
+            foreach (CharacterLayer layer in Enum.GetValues(typeof(CharacterLayer)))
+            {
+                Sprite3D sprite = new Sprite3D();
+                sprite.Name = layer.ToString();
+                sprite.Centered = true;
+                sprite.FlipH = false;
+                sprite.FlipV = false;
+                sprite.Scale = new Vector3(CharacterScale, CharacterScale, 1);
+                _spriteRoot.AddChild(sprite);
+                _layers[layer] = sprite;
+            }
+        }
+
+        private void CreateShadow()
+        {
+            _shadowNode = new Node3D();
+            _shadowNode.Name = "Shadow";
+            _shadowNode.Position = new Vector3(0, 0.01f, 0);
+            AddChild(_shadowNode);
+
+            _shadowSprite = new Sprite3D();
+            _shadowSprite.Name = "ShadowSprite";
+            _shadowSprite.Scale = new Vector3(CharacterScale * 1.5f, CharacterScale * 0.3f, 1);
+            _shadowSprite.Modulate = new Color(0, 0, 0, 0.4f);
+            _shadowSprite.Centered = true;
+            _shadowNode.AddChild(_shadowSprite);
+        }
+
+        public override void _Process(double delta)
+        {
+            FaceCamera();
+        }
+
+        private void FaceCamera()
+        {
+            if (_mainCamera == null || _spriteRoot == null) return;
+
+            Vector3 cameraDirection = GlobalPosition - _mainCamera.GlobalPosition;
+            cameraDirection.Y = 0;
+            cameraDirection = cameraDirection.Normalized();
+
+            if (cameraDirection != Vector3.Zero)
+            {
+                _spriteRoot.GlobalRotation = new Vector3(0, Mathf.Atan2(cameraDirection.X, cameraDirection.Z), 0);
+            }
+        }
+
+        public void SetLayerTexture(CharacterLayer layer, Texture2D texture)
+        {
+            if (_layers.TryGetValue(layer, out Sprite3D sprite))
+            {
+                sprite.Texture = texture;
+            }
+        }
+
+        public void FlipHorizontal(bool flip)
+        {
+            foreach (var layer in _layers.Values)
+            {
+                layer.FlipH = flip;
+            }
+        }
+
+        public void SetScale(float scale)
+        {
+            CharacterScale = scale;
+            foreach (var layer in _layers.Values)
+            {
+                layer.Scale = new Vector3(scale, scale, 1);
+            }
+            if (_shadowSprite != null)
+            {
+                _shadowSprite.Scale = new Vector3(scale * 1.5f, scale * 0.3f, 1);
+            }
+        }
+
+        public void SetColor(CharacterLayer layer, Color color)
+        {
+            if (_layers.TryGetValue(layer, out Sprite3D sprite))
+            {
+                sprite.Modulate = color;
+            }
+        }
+
+        public void ShowLayer(CharacterLayer layer, bool visible)
+        {
+            if (_layers.TryGetValue(layer, out Sprite3D sprite))
+            {
+                sprite.Visible = visible;
+            }
+        }
+
+        public Sprite3D GetLayer(CharacterLayer layer)
+        {
+            if (_layers.TryGetValue(layer, out Sprite3D sprite))
+            {
+                return sprite;
+            }
+            return null;
+        }
+
+        public void SetShadowEnabled(bool enabled)
+        {
+            if (_shadowNode != null)
+            {
+                _shadowNode.Visible = enabled;
+            }
+        }
+
+        public void SetShadowIntensity(float intensity)
+        {
+            if (_shadowSprite != null)
+            {
+                Color currentColor = _shadowSprite.Modulate;
+                _shadowSprite.Modulate = new Color(currentColor.R, currentColor.G, currentColor.B, intensity);
+            }
+        }
+
+        public void Move(Vector3 direction, float speed)
+        {
+            Velocity = direction.Normalized() * speed;
+            MoveAndSlide();
+        }
+
+        public void LookAtDirection(Vector3 direction)
+        {
+            if (direction.X < 0)
+            {
+                FlipHorizontal(true);
+            }
+            else if (direction.X > 0)
+            {
+                FlipHorizontal(false);
+            }
+        }
+    }
+}

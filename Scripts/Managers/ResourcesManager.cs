@@ -68,6 +68,20 @@ namespace hd2dtest.Scripts.Managers
         public static ResourcesManager Instance => _instance;
 
         /// <summary>
+        /// 获取资源管理器实例
+        /// </summary>
+        /// <returns>资源管理器实例</returns>
+        public static ResourcesManager GetInstance()
+        {
+            if (_instance == null)
+            {
+                Log.Warning("ResourcesManager instance not initialized, creating new instance");
+                _instance = new ResourcesManager();
+            }
+            return _instance;
+        }
+
+        /// <summary>
         /// 技能缓存字典
         /// </summary>
         public static readonly Dictionary<string, Skill> SkillsCache = [];
@@ -1163,6 +1177,19 @@ namespace hd2dtest.Scripts.Managers
             ViewRegister.Clear();
             ClearLocalizationCache();
             Log.Info("All resource caches cleared");
+        }
+
+        /// <summary>
+        /// 清理资源管理器
+        /// </summary>
+        /// <remarks>
+        /// 该方法在游戏退出时调用，用于清理所有资源缓存和释放内存。
+        /// </remarks>
+        public void Cleanup()
+        {
+            ClearAllCaches();
+            _loadInfoCache.Clear();
+            Log.Info("ResourcesManager cleaned up");
         }
 
         /// <summary>

@@ -572,5 +572,102 @@ namespace hd2dtest.Scripts.Managers
             SaveConfig();
         }
         #endregion
+
+        #region 通用获取方法
+        /// <summary>
+        /// 获取浮点配置值
+        /// </summary>
+        /// <param name="section">配置节</param>
+        /// <param name="key">配置键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>配置值</returns>
+        public float GetFloat(string section, string key, float defaultValue = 0f)
+        {
+            try
+            {
+                switch ($"{section}.{key}")
+                {
+                    case "audio.bgm_volume":
+                        return CurrentConfig.MusicVolume;
+                    case "audio.sfx_volume":
+                        return CurrentConfig.SoundEffectVolume;
+                    case "audio.master_volume":
+                        return CurrentConfig.MasterVolume;
+                    case "audio.voice_volume":
+                        return CurrentConfig.VoiceVolume;
+                    case "graphics.brightness":
+                        return CurrentConfig.Brightness;
+                    case "graphics.contrast":
+                        return CurrentConfig.Contrast;
+                    case "graphics.saturation":
+                        return CurrentConfig.Saturation;
+                    case "game.text_speed":
+                        return CurrentConfig.TextSpeed;
+                    default:
+                        return defaultValue;
+                }
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// 获取字符串配置值
+        /// </summary>
+        /// <param name="section">配置节</param>
+        /// <param name="key">配置键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>配置值</returns>
+        public string GetString(string section, string key, string defaultValue = "")
+        {
+            try
+            {
+                switch ($"{section}.{key}")
+                {
+                    case "game.language":
+                        return CurrentConfig.Language;
+                    default:
+                        return defaultValue;
+                }
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// 获取布尔配置值
+        /// </summary>
+        /// <param name="section">配置节</param>
+        /// <param name="key">配置键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>配置值</returns>
+        public bool GetBool(string section, string key, bool defaultValue = false)
+        {
+            try
+            {
+                switch ($"{section}.{key}")
+                {
+                    case "game.auto_save":
+                        return CurrentConfig.AutoSave;
+                    case "game.show_fps":
+                        return CurrentConfig.ShowFPS;
+                    case "game.vsync":
+                        return CurrentConfig.VSync;
+                    case "graphics.fullscreen":
+                        return CurrentConfig.Fullscreen;
+                    default:
+                        return defaultValue;
+                }
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+        #endregion
     }
 }

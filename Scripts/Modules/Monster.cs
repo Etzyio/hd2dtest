@@ -232,11 +232,22 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <returns>检测到的玩家对象</returns>
         /// <remarks>
-        /// 简化处理，实际应该通过场景树查找玩家
+        /// 通过场景树查找玩家，检查距离是否在仇恨范围内
         /// </remarks>
         private Creature DetectPlayer()
         {
-            // 这里简化处理，实际应该通过场景树查找玩家
+            foreach (var node in GetTree().GetNodesInGroup("player"))
+            {
+                Player player = node as Player;
+                if (player != null && player.IsAlive)
+                {
+                    float distance = GlobalPosition.DistanceTo(player.GlobalPosition);
+                    if (distance <= AggroRange)
+                    {
+                        return player;
+                    }
+                }
+            }
             return null;
         }
 

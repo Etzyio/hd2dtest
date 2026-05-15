@@ -30,7 +30,7 @@ namespace hd2dtest.Scripts.Modules
     /// 作为游戏中所有生物（包括玩家、怪物、NPC等）的基础类，提供通用的属性和行为
     /// </remarks>
     [GlobalClass]
-    public partial class Creature : Resource
+    public partial class Creature : CharacterBody3D
     {
         /// <summary>
         /// 生物名称
@@ -98,12 +98,6 @@ namespace hd2dtest.Scripts.Modules
         /// <value>生物的弱点类型集合</value>
         // Weakness 是结构体，在 Godot 中难以直接导出为结构体数组
         public List<Weakness> Weaknesses { get; set; } = [];
-
-        /// <summary>
-        /// 位置信息
-        /// </summary>
-        /// <value>生物在游戏世界中的坐标位置</value>
-        public Vector3 Position { get; set; } = Vector3.Zero;
 
         /// <summary>
         /// 是否在战斗中
