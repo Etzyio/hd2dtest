@@ -108,7 +108,7 @@ namespace hd2dtest.Scenes.Popup
             };
             leftPanel.AddChild(leftVbox);
 
-            _titleLabel = CreateTitleLabel("江湖地图");
+            _titleLabel = CreateTitleLabel(TranslationServer.Translate("map_panel_title"));
             leftVbox.AddChild(_titleLabel);
 
             // Region filter
@@ -148,7 +148,7 @@ namespace hd2dtest.Scenes.Popup
             };
             _detailPanel.AddChild(_detailContent);
 
-            _detailName = CreateTitleLabel("选择地点");
+            _detailName = CreateTitleLabel(TranslationServer.Translate("map_select_prompt"));
             _detailContent.AddChild(_detailName);
             _detailContent.AddChild(CreateSeparator());
 
@@ -158,7 +158,7 @@ namespace hd2dtest.Scenes.Popup
             _detailContent.AddChild(_detailClimate);
             _detailContent.AddChild(new Control { CustomMinimumSize = new Vector2(0, 6) });
 
-            var descTitle = CreateSectionLabel("描述");
+            var descTitle = CreateSectionLabel(TranslationServer.Translate("map_section_description"));
             _detailContent.AddChild(descTitle);
             _detailDescription = CreateInfoLabel("");
             _detailDescription.AutowrapMode = TextServer.AutowrapMode.Word;
@@ -166,20 +166,20 @@ namespace hd2dtest.Scenes.Popup
             _detailContent.AddChild(_detailDescription);
 
             _detailContent.AddChild(new Control { CustomMinimumSize = new Vector2(0, 6) });
-            var npcTitle = CreateSectionLabel("相关人物");
+            var npcTitle = CreateSectionLabel(TranslationServer.Translate("map_section_npcs"));
             _detailContent.AddChild(npcTitle);
             _detailNpcs = CreateInfoLabel("");
             _detailContent.AddChild(_detailNpcs);
 
             _detailContent.AddChild(new Control { CustomMinimumSize = new Vector2(0, 6) });
-            var connTitle2 = CreateSectionLabel("连接地点");
+            var connTitle2 = CreateSectionLabel(TranslationServer.Translate("map_section_connections"));
             _detailContent.AddChild(connTitle2);
             _detailConnections = CreateInfoLabel("");
             _detailContent.AddChild(_detailConnections);
 
             _detailContent.AddChild(new Control { SizeFlagsVertical = SizeFlags.ExpandFill });
 
-            var backBtn = CreateSecondaryButton("返回");
+            var backBtn = CreateSecondaryButton(TranslationServer.Translate("map_back"));
             backBtn.Pressed += () => OnBackPressed?.Invoke();
             _detailContent.AddChild(backBtn);
         }
@@ -202,7 +202,7 @@ namespace hd2dtest.Scenes.Popup
         {
             ClearChildren(_regionFilter);
 
-            var allBtn = CreateSmallButton("全部");
+            var allBtn = CreateSmallButton(TranslationServer.Translate("map_filter_all"));
             ApplyFilterButtonStyle(allBtn, _activeRegionFilter == "");
             allBtn.Pressed += () => { _activeRegionFilter = ""; ApplyFilterAndRebuild(); };
             _regionFilter.AddChild(allBtn);
@@ -210,7 +210,7 @@ namespace hd2dtest.Scenes.Popup
             var regions = _allMaps.Select(m => m.Region).Distinct().OrderBy(r => r).ToList();
             foreach (var region in regions)
             {
-                var btn = CreateSmallButton(region);
+                var btn = CreateSmallButton(TranslationServer.Translate($"region_{region}"));
                 ApplyFilterButtonStyle(btn, _activeRegionFilter == region);
                 var captured = region;
                 btn.Pressed += () => { _activeRegionFilter = captured; ApplyFilterAndRebuild(); };
@@ -232,7 +232,7 @@ namespace hd2dtest.Scenes.Popup
             {
                 var noData = new Label
                 {
-                    Text = "该区域暂无地点",
+                    Text = TranslationServer.Translate("map_no_locations"),
                     Position = new Vector2(CanvasWidth / 2 - 80, CanvasHeight / 2),
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
@@ -276,7 +276,7 @@ namespace hd2dtest.Scenes.Popup
                     Position = new Vector2(px - NodeRadius, py - NodeRadius),
                     CustomMinimumSize = new Vector2(NodeRadius * 2, NodeRadius * 2),
                     MouseFilter = MouseFilterEnum.Stop,
-                    TooltipText = map.Name
+                    TooltipText = TranslationServer.Translate($"map_{map.Id}")
                 };
                 btn.AddThemeStyleboxOverride("normal", MakeNodeStyle(nodeColor, false, isCurrent));
                 btn.AddThemeStyleboxOverride("hover", MakeNodeStyle(nodeColor, true, isCurrent));
@@ -290,7 +290,7 @@ namespace hd2dtest.Scenes.Popup
                 // Name label
                 var label = new Label
                 {
-                    Text = map.Name,
+                    Text = TranslationServer.Translate($"map_{map.Id}"),
                     Position = new Vector2(px - 50, py + NodeRadius + 2),
                     CustomMinimumSize = new Vector2(100, 20),
                     HorizontalAlignment = HorizontalAlignment.Center
@@ -320,19 +320,23 @@ namespace hd2dtest.Scenes.Popup
         {
             _selectedMap = map;
 
-            _detailName.Text = map.Name;
+            _detailName.Text = TranslationServer.Translate($"map_{map.Id}");
 
-            string regionStr = $"■ {map.Region}";
+            string regionKey = $"region_{map.Region}";
+            string regionTranslated = TranslationServer.Translate(regionKey);
+            string regionStr = $"■ {regionTranslated}";
             _detailRegion.Text = regionStr;
             _detailRegion.AddThemeColorOverride("font_color", GetRegionColor(map.Region));
 
-            _detailClimate.Text = $"气候：{map.Climate}";
+            string climateKey = $"climate_{map.Climate}";
+            string climateTranslated = TranslationServer.Translate(climateKey);
+            _detailClimate.Text = string.Format(TranslationServer.Translate("map_climate"), climateTranslated);
 
-            _detailDescription.Text = map.Description;
+            _detailDescription.Text = TranslationServer.Translate($"map_{map.Id}_desc");
 
             var npcNames = map.Npcs?.Count > 0
                 ? string.Join(", ", map.Npcs)
-                : "无";
+                : (string)TranslationServer.Translate("map_none");
             _detailNpcs.Text = npcNames;
 
             var connNames = new List<string>();
@@ -342,12 +346,12 @@ namespace hd2dtest.Scenes.Popup
                 {
                     var connMap = _allMaps.Find(m => m.Id == connId);
                     if (connMap != null)
-                        connNames.Add(connMap.Name);
+                        connNames.Add((string)TranslationServer.Translate($"map_{connMap.Id}"));
                 }
             }
             _detailConnections.Text = connNames.Count > 0
                 ? string.Join(" → ", connNames)
-                : "无";
+                : (string)TranslationServer.Translate("map_none");
         }
 
         #region Styling

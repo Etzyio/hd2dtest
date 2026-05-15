@@ -18,6 +18,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Utilities;
 
@@ -51,6 +52,16 @@ namespace hd2dtest.Scenes.Popup
         // Controls
         private VBoxContainer _keybindingsList;
         private Button _resetKeysBtn;
+        private HSlider _sensitivitySlider;
+        private CheckButton _invertYCheck;
+
+        // Notifications
+        private CheckButton _gameNotifyCheck;
+        private CheckButton _achievementNotifyCheck;
+
+        // Keybinding rebind state
+        private string _listeningForAction = null;
+        private Button _listeningButton = null;
 
         /// <summary>
         /// 返回主菜单的回调
@@ -91,49 +102,64 @@ namespace hd2dtest.Scenes.Popup
             var vbox = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
             scroll.AddChild(vbox);
 
-            vbox.AddChild(CreateTitleLabel("Settings"));
+            vbox.AddChild(CreateTitleLabel(TranslationServer.Translate("settings_title")));
             vbox.AddChild(CreateSeparator());
 
             // === Audio ===
-            vbox.AddChild(CreateSectionLabel("Audio"));
-            _masterSlider = CreateSettingSlider("Master Volume", 100, vbox);
-            _musicSlider = CreateSettingSlider("Music Volume", 100, vbox);
-            _sfxSlider = CreateSettingSlider("SFX Volume", 100, vbox);
-            _voiceSlider = CreateSettingSlider("Voice Volume", 100, vbox);
+            vbox.AddChild(CreateSectionLabel(TranslationServer.Translate("settings_audio")));
+            _masterSlider = CreateSettingSlider(TranslationServer.Translate("settings_master_volume"), 100, vbox);
+            _musicSlider = CreateSettingSlider(TranslationServer.Translate("settings_music_volume"), 100, vbox);
+            _sfxSlider = CreateSettingSlider(TranslationServer.Translate("settings_sfx_volume"), 100, vbox);
+            _voiceSlider = CreateSettingSlider(TranslationServer.Translate("settings_voice_volume"), 100, vbox);
 
             vbox.AddChild(CreateSeparator());
 
             // === Graphics ===
-            vbox.AddChild(CreateSectionLabel("Graphics"));
-            _brightnessSlider = CreateSettingSliderFloat("Brightness", 200, 1,
+            vbox.AddChild(CreateSectionLabel(TranslationServer.Translate("settings_graphics")));
+            _brightnessSlider = CreateSettingSliderFloat(TranslationServer.Translate("settings_brightness"), 200, 1,
                 v => (v / 100.0).ToString("F2"), vbox);
-            _contrastSlider = CreateSettingSliderFloat("Contrast", 200, 1,
+            _contrastSlider = CreateSettingSliderFloat(TranslationServer.Translate("settings_contrast"), 200, 1,
                 v => (v / 100.0).ToString("F2"), vbox);
-            _saturationSlider = CreateSettingSliderFloat("Saturation", 200, 1,
+            _saturationSlider = CreateSettingSliderFloat(TranslationServer.Translate("settings_saturation"), 200, 1,
                 v => (v / 100.0).ToString("F2"), vbox);
-            _resolutionOption = CreateSettingOption("Resolution",
+            _resolutionOption = CreateSettingOption(TranslationServer.Translate("settings_resolution"),
                 new[] { "720×640", "1280×720", "1920×1080" }, vbox);
-            _fullscreenCheck = CreateSettingCheck("Fullscreen", vbox);
-            _vsyncCheck = CreateSettingCheck("VSync", vbox);
+            _fullscreenCheck = CreateSettingCheck(TranslationServer.Translate("settings_fullscreen"), vbox);
+            _vsyncCheck = CreateSettingCheck(TranslationServer.Translate("settings_vsync"), vbox);
 
             vbox.AddChild(CreateSeparator());
 
             // === Game ===
-            vbox.AddChild(CreateSectionLabel("Game"));
-            _langOption = CreateSettingOption("Language", new[] { "zh_CN", "en_US", "ja_JP" }, vbox);
-            _autoSaveCheck = CreateSettingCheck("Auto Save", vbox);
-            _textSpeedSlider = CreateSettingSliderFloat("Text Speed", 200, 1,
+            vbox.AddChild(CreateSectionLabel(TranslationServer.Translate("settings_game")));
+            _langOption = CreateSettingOption(TranslationServer.Translate("settings_language"), new[] { "zh_CN", "en_US", "ja_JP" }, vbox);
+            _autoSaveCheck = CreateSettingCheck(TranslationServer.Translate("settings_auto_save"), vbox);
+            _textSpeedSlider = CreateSettingSliderFloat(TranslationServer.Translate("settings_text_speed"), 200, 1,
                 v => (v / 100.0).ToString("F2"), vbox);
-            _showFpsCheck = CreateSettingCheck("Show FPS", vbox);
+            _showFpsCheck = CreateSettingCheck(TranslationServer.Translate("settings_show_fps"), vbox);
 
             vbox.AddChild(CreateSeparator());
 
             // === Controls ===
-            vbox.AddChild(CreateSectionLabel("Controls"));
+            vbox.AddChild(CreateSectionLabel(TranslationServer.Translate("settings_controls")));
+            _sensitivitySlider = CreateSettingSliderFloat(TranslationServer.Translate("settings_sensitivity"), 200, 1,
+                v => (v / 100.0).ToString("F2"), vbox);
+            _invertYCheck = CreateSettingCheck(TranslationServer.Translate("settings_invert_y"), vbox);
+
+            // Keybindings
+            var keyLabel = new Label
+            {
+                Text = TranslationServer.Translate("settings_keybindings"),
+                CustomMinimumSize = new Vector2(0, 24)
+            };
+            keyLabel.AddThemeFontOverride("font", GetFont());
+            keyLabel.AddThemeFontSizeOverride("font_size", 14);
+            keyLabel.AddThemeColorOverride("font_color", ColorTextSecondary);
+            vbox.AddChild(keyLabel);
+
             _keybindingsList = new VBoxContainer();
             vbox.AddChild(_keybindingsList);
 
-            _resetKeysBtn = CreateSecondaryButton("Reset Keybindings");
+            _resetKeysBtn = CreateSecondaryButton(TranslationServer.Translate("settings_reset_keys"));
             _resetKeysBtn.Pressed += OnResetKeys;
             var keysHbox = new HBoxContainer();
             keysHbox.AddChild(_resetKeysBtn);
@@ -141,23 +167,30 @@ namespace hd2dtest.Scenes.Popup
 
             vbox.AddChild(CreateSeparator());
 
+            // === Notifications ===
+            vbox.AddChild(CreateSectionLabel(TranslationServer.Translate("settings_notifications")));
+            _gameNotifyCheck = CreateSettingCheck(TranslationServer.Translate("settings_game_notifications"), vbox);
+            _achievementNotifyCheck = CreateSettingCheck(TranslationServer.Translate("settings_achievement_notifications"), vbox);
+
+            vbox.AddChild(CreateSeparator());
+
             // === Action Buttons ===
             var btnHbox = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
             vbox.AddChild(btnHbox);
 
-            var saveBtn = CreatePrimaryButton("Save Settings");
+            var saveBtn = CreatePrimaryButton(TranslationServer.Translate("settings_save"));
             saveBtn.Pressed += OnSave;
             btnHbox.AddChild(saveBtn);
 
             btnHbox.AddChild(new Control { CustomMinimumSize = new Vector2(16, 0) });
 
-            var resetBtn = CreateSecondaryButton("Reset Defaults");
+            var resetBtn = CreateSecondaryButton(TranslationServer.Translate("settings_reset"));
             resetBtn.Pressed += OnReset;
             btnHbox.AddChild(resetBtn);
 
             vbox.AddChild(new Control { CustomMinimumSize = new Vector2(0, 8) });
 
-            var backBtn = CreateSecondaryButton("Back");
+            var backBtn = CreateSecondaryButton(TranslationServer.Translate("settings_back"));
             backBtn.Pressed += () => OnBackPressed?.Invoke();
             vbox.AddChild(backBtn);
         }
@@ -195,7 +228,15 @@ namespace hd2dtest.Scenes.Popup
             _showFpsCheck.ButtonPressed = cfg.ShowFPS;
 
             // Controls
+            _sensitivitySlider.Value = cfg.MouseSensitivity * 100;
+            _invertYCheck.ButtonPressed = cfg.InvertY;
             RefreshKeybindings(cfg.KeyBindings);
+
+            // Notifications
+            _gameNotifyCheck.ButtonPressed = cfg.ShowGameNotifications;
+            _achievementNotifyCheck.ButtonPressed = cfg.ShowAchievementNotifications;
+
+            CancelListening();
         }
 
         private void SelectResolutionOption(int width, int height)
@@ -228,13 +269,59 @@ namespace hd2dtest.Scenes.Popup
                 actionLabel.AddThemeColorOverride("font_color", ColorTextSecondary);
                 row.AddChild(actionLabel);
 
-                var keyLabel = new Label { Text = kv.Value };
-                keyLabel.AddThemeFontOverride("font", GetFont());
-                keyLabel.AddThemeFontSizeOverride("font_size", 13);
-                keyLabel.AddThemeColorOverride("font_color", ColorTextPrimary);
-                row.AddChild(keyLabel);
+                var capturedAction = kv.Key;
+                var keyBtn = new Button
+                {
+                    Text = kv.Value,
+                    CustomMinimumSize = new Vector2(120, 28),
+                    TooltipText = TranslationServer.Translate("settings_click_to_rebind")
+                };
+                keyBtn.AddThemeFontOverride("font", GetFont());
+                keyBtn.AddThemeFontSizeOverride("font_size", 13);
+                keyBtn.AddThemeColorOverride("font_color", ColorTextPrimary);
+                ApplyButtonStyle(keyBtn);
+
+                keyBtn.Pressed += () => StartListening(capturedAction, keyBtn);
+                row.AddChild(keyBtn);
 
                 _keybindingsList.AddChild(row);
+            }
+        }
+
+        private void StartListening(string action, Button btn)
+        {
+            _listeningForAction = action;
+            _listeningButton = btn;
+            btn.Text = TranslationServer.Translate("settings_press_key");
+            btn.AddThemeColorOverride("font_color", ColorWarning);
+        }
+
+        private void CancelListening()
+        {
+            _listeningForAction = null;
+            _listeningButton = null;
+        }
+
+        public override void _Input(InputEvent @event)
+        {
+            if (!IsVisibleInTree() || _listeningForAction == null) return;
+
+            if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
+            {
+                string keyText = OS.GetKeycodeString(keyEvent.Keycode);
+                if (!string.IsNullOrEmpty(keyText))
+                {
+                    var cm = ConfigManager.Instance;
+                    cm?.SetKeyBinding(_listeningForAction, keyText);
+                    if (_listeningButton != null)
+                    {
+                        _listeningButton.Text = keyText;
+                        _listeningButton.AddThemeColorOverride("font_color", ColorTextPrimary);
+                    }
+                    Log.Info($"Key rebound: {_listeningForAction} → {keyText}");
+                }
+                CancelListening();
+                GetViewport().SetInputAsHandled();
             }
         }
 
@@ -263,6 +350,14 @@ namespace hd2dtest.Scenes.Popup
             cm.SetAutoSave(_autoSaveCheck.ButtonPressed);
             cm.SetTextSpeed((float)(_textSpeedSlider.Value / 100.0));
             cm.SetShowFPS(_showFpsCheck.ButtonPressed);
+
+            // Controls
+            cm.SetMouseSensitivity((float)(_sensitivitySlider.Value / 100.0));
+            cm.SetInvertY(_invertYCheck.ButtonPressed);
+
+            // Notifications
+            cm.SetShowGameNotifications(_gameNotifyCheck.ButtonPressed);
+            cm.SetShowAchievementNotifications(_achievementNotifyCheck.ButtonPressed);
 
             cm.SaveConfig();
             cm.ApplyConfig();

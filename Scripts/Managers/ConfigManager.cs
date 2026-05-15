@@ -140,6 +140,26 @@ namespace hd2dtest.Scripts.Managers
 
             #region 控制设置
             /// <summary>
+            /// 鼠标灵敏度，范围0.1-2.0
+            /// </summary>
+            public float MouseSensitivity { get; set; } = 1.0f;
+
+            /// <summary>
+            /// 是否反转Y轴
+            /// </summary>
+            public bool InvertY { get; set; } = false;
+
+            /// <summary>
+            /// 是否显示游戏通知
+            /// </summary>
+            public bool ShowGameNotifications { get; set; } = true;
+
+            /// <summary>
+            /// 是否显示成就通知
+            /// </summary>
+            public bool ShowAchievementNotifications { get; set; } = true;
+
+            /// <summary>
             /// 按键绑定字典，键为动作名称，值为输入事件名称
             /// </summary>
             public Dictionary<string, string> KeyBindings { get; set; } = new Dictionary<string, string>
@@ -546,6 +566,42 @@ namespace hd2dtest.Scripts.Managers
             SaveConfig();
             ApplyLanguage();
         }
+
+        /// <summary>
+        /// 设置鼠标灵敏度
+        /// </summary>
+        public void SetMouseSensitivity(float value)
+        {
+            CurrentConfig.MouseSensitivity = Mathf.Clamp(value, 0.1f, 2.0f);
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置反转Y轴
+        /// </summary>
+        public void SetInvertY(bool value)
+        {
+            CurrentConfig.InvertY = value;
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置游戏通知开关
+        /// </summary>
+        public void SetShowGameNotifications(bool value)
+        {
+            CurrentConfig.ShowGameNotifications = value;
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置成就通知开关
+        /// </summary>
+        public void SetShowAchievementNotifications(bool value)
+        {
+            CurrentConfig.ShowAchievementNotifications = value;
+            SaveConfig();
+        }
         #endregion
 
         #region 控制设置方法
@@ -621,6 +677,8 @@ namespace hd2dtest.Scripts.Managers
                         return CurrentConfig.Saturation;
                     case "game.text_speed":
                         return CurrentConfig.TextSpeed;
+                    case "controls.mouse_sensitivity":
+                        return CurrentConfig.MouseSensitivity;
                     default:
                         return defaultValue;
                 }
@@ -677,6 +735,12 @@ namespace hd2dtest.Scripts.Managers
                         return CurrentConfig.VSync;
                     case "graphics.fullscreen":
                         return CurrentConfig.Fullscreen;
+                    case "controls.invert_y":
+                        return CurrentConfig.InvertY;
+                    case "game.show_game_notifications":
+                        return CurrentConfig.ShowGameNotifications;
+                    case "game.show_achievement_notifications":
+                        return CurrentConfig.ShowAchievementNotifications;
                     default:
                         return defaultValue;
                 }

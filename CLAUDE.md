@@ -75,6 +75,11 @@ All game data (skills, items, monsters, weapons, equipment, NPCs, levels, quests
 - `hd2dtest.Scenes` → `Scripts/Scenes/`
 - `hd2dtest.Scripts.World` → `Scripts/World/`
 
+## Communication
+
+- 与用户的对话应使用中文进行。All code-related documentation, comments, and logging remain in English as specified below.
+- Do not commit code changes without the user explicitly asking. Do not modify content the user has authored without asking.
+
 ## Code Conventions
 
 - **Logging**: Always use `Log.Info()`, `Log.Error()`, `Log.Warning()`, `Log.Debug()`, `Log.Critical()` from `hd2dtest.Scripts.Utilities`. Never use `Console.WriteLine` or `GD.Print` directly. All log messages must be in English.
@@ -82,4 +87,3 @@ All game data (skills, items, monsters, weapons, equipment, NPCs, levels, quests
 - **Exception handling**: Wrap operations that can fail in try/catch. Log errors and degrade gracefully rather than crashing.
 - **File headers**: Each `.cs` file starts with a standardized header block noting file name, author, last modified date, purpose, and key features.
 - **Singleton pattern**: Managers use either `Instance` (static property) or `GetInstance()` (lazy-init method). The `SingletonHelper` utility provides safe access patterns (`ExecuteIfAvailable`, `TryGetInstance`).
-- Do not commit code changes without the user explicitly asking. Do not modify content the user has authored without asking.
