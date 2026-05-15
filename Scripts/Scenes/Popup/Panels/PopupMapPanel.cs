@@ -70,21 +70,7 @@ namespace hd2dtest.Scenes.Popup
 
         private void InitializeUI()
         {
-            Name = "MapPanel";
-            Visible = false;
-            LayoutMode = 1;
-            AnchorLeft = 0.02f; AnchorTop = 0.02f;
-            AnchorRight = 0.98f; AnchorBottom = 0.98f;
-            MouseFilter = MouseFilterEnum.Stop;
-
-            var bg = new ColorRect
-            {
-                LayoutMode = 1,
-                AnchorLeft = 0, AnchorTop = 0,
-                AnchorRight = 1, AnchorBottom = 1,
-                Color = ColorBg
-            };
-            AddChild(bg);
+            SetupPanel("MapPanel", 0.02f, 0.02f, 0.98f, 0.98f);
 
             var hbox = new HBoxContainer
             {

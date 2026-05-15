@@ -77,19 +77,7 @@ namespace hd2dtest.Scenes.Popup
 
         private void InitializeUI()
         {
-            Name = "SkillsPanel";
-            Visible = false;
-            LayoutMode = 1;
-            AnchorLeft = 0.05f; AnchorTop = 0.03f;
-            AnchorRight = 0.95f; AnchorBottom = 0.97f;
-            MouseFilter = MouseFilterEnum.Stop;
-
-            var bg = new ColorRect
-            {
-                LayoutMode = 1, AnchorLeft = 0, AnchorTop = 0,
-                AnchorRight = 1, AnchorBottom = 1, Color = ColorBg
-            };
-            AddChild(bg);
+            SetupPanel("SkillsPanel", anchorTop: 0.03f, anchorBottom: 0.97f);
 
             var mainHbox = new HBoxContainer
             {

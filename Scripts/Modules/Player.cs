@@ -30,17 +30,6 @@ using hd2dtest.Scripts.Modules.SkillSystem;
 namespace hd2dtest.Scripts.Modules
 {
     /// <summary>
-    /// 职业精通度，记录角色在某个职业上的熟练程度
-    /// </summary>
-    public class ClassProficiency
-    {
-        public string ProfessionId { get; set; } = "";
-        public bool IsUnlocked { get; set; } = false;
-        public int ProficiencyLevel { get; set; } = 0; // 0-100
-        public List<string> LearnedSkillIds { get; set; } = new();
-    }
-
-    /// <summary>
     /// 玩家类，继承自Creature类，定义玩家角色的属性和行为
     /// </summary>
     /// <remarks>

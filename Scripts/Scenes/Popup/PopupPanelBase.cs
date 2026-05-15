@@ -79,6 +79,31 @@ namespace hd2dtest.Scenes.Popup
             return panel;
         }
 
+        /// <summary>
+        /// Configures the current panel with standard background and anchors.
+        /// Replaces the manual boilerplate in every panel subclass.
+        /// </summary>
+        protected void SetupPanel(string name,
+            float anchorLeft = 0.05f, float anchorTop = 0.05f,
+            float anchorRight = 0.95f, float anchorBottom = 0.95f)
+        {
+            Name = name;
+            Visible = false;
+            LayoutMode = 1;
+            AnchorLeft = anchorLeft; AnchorTop = anchorTop;
+            AnchorRight = anchorRight; AnchorBottom = anchorBottom;
+            MouseFilter = MouseFilterEnum.Stop;
+
+            var bg = new ColorRect
+            {
+                LayoutMode = 1,
+                AnchorLeft = 0, AnchorTop = 0,
+                AnchorRight = 1, AnchorBottom = 1,
+                Color = ColorBg
+            };
+            AddChild(bg);
+        }
+
         protected Control CreateSurfacePanel()
         {
             var panel = new PanelContainer();
