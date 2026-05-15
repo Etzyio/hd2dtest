@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using hd2dtest.Scripts.Core;
+using hd2dtest.Scripts.Modules;
 using hd2dtest.Scripts.Utilities;
 using System;
 
@@ -60,6 +61,11 @@ namespace hd2dtest.Scripts.Modules.Battle
         /// </summary>
         /// <value>战斗状态枚举值，默认为Setup</value>
         public BattleState CurrentState { get; private set; } = BattleState.Setup;
+
+        /// <summary>
+        /// 最近一次战斗的结算奖励（胜利时填充，失败时为null）
+        /// </summary>
+        public BattleRewards LastBattleRewards { get; private set; }
 
         /// <summary>
         /// 所有战斗单位列表
@@ -461,6 +467,7 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (!anyPlayerAlive)
             {
                 CurrentState = BattleState.Defeat;
+                LastBattleRewards = new BattleRewards { Victory = false };
                 Log.Info("DEFEAT");
                 EmitSignal(SignalName.BattleEnded, false);
                 return true;
@@ -469,12 +476,91 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (!anyEnemyAlive)
             {
                 CurrentState = BattleState.Victory;
+                LastBattleRewards = CalculateRewards();
+                ApplyRewards(LastBattleRewards);
                 Log.Info("VICTORY");
                 EmitSignal(SignalName.BattleEnded, true);
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 计算战斗奖励（金币、经验、掉落物品、升级）
+        /// </summary>
+        private BattleRewards CalculateRewards()
+        {
+            var rewards = new BattleRewards { Victory = true };
+            var rng = new Random();
+
+            foreach (var c in _allCombatants)
+            {
+                if (c is Monster monster && !monster.IsAlive)
+                {
+                    // Gold: same formula as Monster.DropLoot
+                    int gold = rng.Next(5, monster.Level * 20 + 6);
+                    rewards.TotalGold += gold;
+
+                    // Experience: same as Player.KillEnemy
+                    int exp = monster.Level * 10;
+                    rewards.TotalExperience += exp;
+
+                    // JP: based on monster level and type
+                    int jp = monster.Level * 2;
+                    if (monster.Type == Monster.MonsterType.Elite) jp *= 2;
+                    if (monster.Type == Monster.MonsterType.Boss) jp *= 4;
+                    rewards.TotalJP += jp;
+
+                    // Items: 40% chance to drop one item from DropItems
+                    if (monster.DropItems.Count > 0 && rng.NextDouble() < 0.4)
+                    {
+                        string itemId = monster.DropItems[rng.Next(monster.DropItems.Count)];
+                        rewards.DroppedItems.Add(itemId);
+                    }
+                }
+            }
+
+            return rewards;
+        }
+
+        /// <summary>
+        /// 将奖励应用到玩家
+        /// </summary>
+        private void ApplyRewards(BattleRewards rewards)
+        {
+            foreach (var c in _allCombatants)
+            {
+                if (c is Player player)
+                {
+                    int prevLevel = player.Level;
+
+                    player.Gold += rewards.TotalGold;
+                    player.JP += rewards.TotalJP;
+                    player.Experience += rewards.TotalExperience;
+
+                    // Check for level up
+                    int requiredExp = player.Level * 100;
+                    while (player.Experience >= requiredExp)
+                    {
+                        player.Level++;
+                        player.Experience -= requiredExp;
+                        requiredExp = player.Level * 100;
+                    }
+
+                    if (player.Level > prevLevel)
+                        rewards.LevelUps.Add(player.CreatureName);
+
+                    // Add dropped items to inventory
+                    foreach (var itemId in rewards.DroppedItems)
+                    {
+                        if (player.Inventory.TryGetValue(itemId, out int qty))
+                            player.Inventory[itemId] = qty + 1;
+                        else
+                            player.Inventory[itemId] = 1;
+                    }
+                }
+            }
         }
     }
 }

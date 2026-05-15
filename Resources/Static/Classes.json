@@ -1,0 +1,172 @@
+{
+  "classes": [
+    {
+      "classId": "swordsman",
+      "className": "Swordsman",
+      "description": "Balanced melee fighter with versatile combat skills.",
+      "healthGrowth": 1.1,
+      "attackGrowth": 1.2,
+      "defenseGrowth": 1.0,
+      "speedGrowth": 1.0,
+      "manaGrowth": 0.8,
+      "skills": [
+        { "id": "swd_slash", "jpCost": 0 },
+        { "id": "swd_charge", "jpCost": 30 },
+        { "id": "swd_whirlwind", "jpCost": 50 },
+        { "id": "swd_thrust", "jpCost": 30 },
+        { "id": "swd_counter", "jpCost": 60 },
+        { "id": "swd_dual_strike", "jpCost": 100 },
+        { "id": "swd_war_cry", "jpCost": 80 },
+        { "id": "swd_armor_break", "jpCost": 50 }
+      ],
+      "passives": [
+        { "id": "swd_p_sword_mastery", "requiredActiveUnlocks": 2 },
+        { "id": "swd_p_battle_fury", "requiredActiveUnlocks": 4 },
+        { "id": "swd_p_iron_will", "requiredActiveUnlocks": 6 },
+        { "id": "swd_p_blade_dance", "requiredActiveUnlocks": 8 }
+      ],
+      "ultimateId": "swd_ultimate_overlord",
+      "ultimateJpCost": 200
+    },
+    {
+      "classId": "healer",
+      "className": "Healer",
+      "description": "Specialist in healing and support magic.",
+      "healthGrowth": 0.9,
+      "attackGrowth": 0.6,
+      "defenseGrowth": 0.7,
+      "speedGrowth": 1.0,
+      "manaGrowth": 1.5,
+      "skills": [
+        { "id": "hlr_heal", "jpCost": 0 },
+        { "id": "hlr_greater_heal", "jpCost": 60 },
+        { "id": "hlr_regen", "jpCost": 40 },
+        { "id": "hlr_purify", "jpCost": 30 },
+        { "id": "hlr_shield", "jpCost": 70 },
+        { "id": "hlr_bless", "jpCost": 50 },
+        { "id": "hlr_revive", "jpCost": 150 },
+        { "id": "hlr_cleanse", "jpCost": 30 }
+      ],
+      "passives": [
+        { "id": "hlr_p_divine_grace", "requiredActiveUnlocks": 2 },
+        { "id": "hlr_p_healing_mastery", "requiredActiveUnlocks": 4 },
+        { "id": "hlr_p_holy_protection", "requiredActiveUnlocks": 6 },
+        { "id": "hlr_p_mana_well", "requiredActiveUnlocks": 8 }
+      ],
+      "ultimateId": "hlr_ultimate_holy_light",
+      "ultimateJpCost": 250
+    },
+    {
+      "classId": "mage",
+      "className": "Mage",
+      "description": "Master of elemental destruction magic.",
+      "healthGrowth": 0.7,
+      "attackGrowth": 1.5,
+      "defenseGrowth": 0.6,
+      "speedGrowth": 0.8,
+      "manaGrowth": 1.8,
+      "skills": [
+        { "id": "mg_fireball", "jpCost": 0 },
+        { "id": "mg_ice_shard", "jpCost": 30 },
+        { "id": "mg_lightning", "jpCost": 60 },
+        { "id": "mg_arcane_blast", "jpCost": 80 },
+        { "id": "mg_frost_nova", "jpCost": 50 },
+        { "id": "mg_fire_wall", "jpCost": 70 },
+        { "id": "mg_teleport", "jpCost": 40 },
+        { "id": "mg_mana_shield", "jpCost": 60 }
+      ],
+      "passives": [
+        { "id": "mg_p_fire_mastery", "requiredActiveUnlocks": 2 },
+        { "id": "mg_p_ice_mastery", "requiredActiveUnlocks": 4 },
+        { "id": "mg_p_arcane_power", "requiredActiveUnlocks": 6 },
+        { "id": "mg_p_mana_surge", "requiredActiveUnlocks": 8 }
+      ],
+      "ultimateId": "mg_ultimate_storm",
+      "ultimateJpCost": 250
+    },
+    {
+      "classId": "tank",
+      "className": "Tank",
+      "description": "Unyielding shield with immense durability.",
+      "healthGrowth": 1.8,
+      "attackGrowth": 0.7,
+      "defenseGrowth": 1.8,
+      "speedGrowth": 0.6,
+      "manaGrowth": 0.5,
+      "skills": [
+        { "id": "tnk_shield_bash", "jpCost": 0 },
+        { "id": "tnk_taunt", "jpCost": 20 },
+        { "id": "tnk_fortify", "jpCost": 50 },
+        { "id": "tnk_shield_wall", "jpCost": 80 },
+        { "id": "tnk_ground_stomp", "jpCost": 50 },
+        { "id": "tnk_provoke", "jpCost": 30 },
+        { "id": "tnk_vengeance", "jpCost": 100 },
+        { "id": "tnk_last_stand", "jpCost": 120 }
+      ],
+      "passives": [
+        { "id": "tnk_p_toughness", "requiredActiveUnlocks": 2 },
+        { "id": "tnk_p_shield_mastery", "requiredActiveUnlocks": 4 },
+        { "id": "tnk_p_iron_skin", "requiredActiveUnlocks": 6 },
+        { "id": "tnk_p_unyielding", "requiredActiveUnlocks": 8 }
+      ],
+      "ultimateId": "tnk_ultimate_immortal",
+      "ultimateJpCost": 200
+    },
+    {
+      "classId": "assassin",
+      "className": "Assassin",
+      "description": "Quick and deadly, striking from the shadows.",
+      "healthGrowth": 0.8,
+      "attackGrowth": 1.4,
+      "defenseGrowth": 0.5,
+      "speedGrowth": 1.8,
+      "manaGrowth": 0.6,
+      "skills": [
+        { "id": "ast_backstab", "jpCost": 0 },
+        { "id": "ast_shadow_step", "jpCost": 40 },
+        { "id": "st_poison_blade", "jpCost": 50 },
+        { "id": "ast_smoke_bomb", "jpCost": 30 },
+        { "id": "ast_eviscerate", "jpCost": 100 },
+        { "id": "ast_stealth", "jpCost": 60 },
+        { "id": "ast_gouge", "jpCost": 30 },
+        { "id": "ast_death_mark", "jpCost": 70 }
+      ],
+      "passives": [
+        { "id": "ast_p_shadow_mastery", "requiredActiveUnlocks": 2 },
+        { "id": "ast_p_critical_edge", "requiredActiveUnlocks": 4 },
+        { "id": "ast_p_poison_mastery", "requiredActiveUnlocks": 6 },
+        { "id": "ast_p_fleet_footed", "requiredActiveUnlocks": 8 }
+      ],
+      "ultimateId": "ast_ultimate_assassinate",
+      "ultimateJpCost": 250
+    },
+    {
+      "classId": "archer",
+      "className": "Archer",
+      "description": "Precise ranged attacks and tactical support.",
+      "healthGrowth": 0.9,
+      "attackGrowth": 1.2,
+      "defenseGrowth": 0.7,
+      "speedGrowth": 1.2,
+      "manaGrowth": 0.8,
+      "skills": [
+        { "id": "arc_power_shot", "jpCost": 0 },
+        { "id": "arc_rapid_fire", "jpCost": 20 },
+        { "id": "arc_aimed_shot", "jpCost": 60 },
+        { "id": "arc_rain_of_arrows", "jpCost": 70 },
+        { "id": "arc_snipe", "jpCost": 100 },
+        { "id": "arc_trap", "jpCost": 40 },
+        { "id": "arc_camouflage", "jpCost": 40 },
+        { "id": "arc_multi_shot", "jpCost": 60 }
+      ],
+      "passives": [
+        { "id": "arc_p_bow_mastery", "requiredActiveUnlocks": 2 },
+        { "id": "arc_p_eagle_eye", "requiredActiveUnlocks": 4 },
+        { "id": "arc_p_swift_reload", "requiredActiveUnlocks": 6 },
+        { "id": "arc_p_ranged_prowess", "requiredActiveUnlocks": 8 }
+      ],
+      "ultimateId": "arc_ultimate_barrage",
+      "ultimateJpCost": 200
+    }
+  ]
+}

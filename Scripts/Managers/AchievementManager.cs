@@ -143,7 +143,13 @@ namespace hd2dtest.Scripts.Managers
                     achievement.IsUnlocked = true;
                     _unlockedAchievements.Add(achievementId);
                     Log.Info($"Achievement unlocked: {achievement.Name}");
-                    
+
+                    // Sync to Steam if available (local unlock persists regardless of Steam result)
+                    if (SteamManager.Instance != null && SteamManager.Instance.IsInitialized)
+                    {
+                        SteamManager.Instance.UnlockAchievement(achievementId);
+                    }
+
                     if (!string.IsNullOrEmpty(achievement.Reward))
                     {
                         Log.Info($"Reward: {achievement.Reward}");

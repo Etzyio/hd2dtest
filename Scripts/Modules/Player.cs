@@ -30,6 +30,17 @@ using hd2dtest.Scripts.Modules.SkillSystem;
 namespace hd2dtest.Scripts.Modules
 {
     /// <summary>
+    /// 职业精通度，记录角色在某个职业上的熟练程度
+    /// </summary>
+    public class ClassProficiency
+    {
+        public string ProfessionId { get; set; } = "";
+        public bool IsUnlocked { get; set; } = false;
+        public int ProficiencyLevel { get; set; } = 0; // 0-100
+        public List<string> LearnedSkillIds { get; set; } = new();
+    }
+
+    /// <summary>
     /// 玩家类，继承自Creature类，定义玩家角色的属性和行为
     /// </summary>
     /// <remarks>
@@ -117,6 +128,11 @@ namespace hd2dtest.Scripts.Modules
         public int KillCount { get; set; } = 0;
 
         /// <summary>
+        /// JP (Job Points) 职业点数，用于学习职业技能
+        /// </summary>
+        public int JP { get; set; } = 0;
+
+        /// <summary>
         /// 死亡计数
         /// </summary>
         /// <value>玩家累计死亡的次数</value>
@@ -151,6 +167,46 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <value>玩家当前选择的副职业</value>
         public Battle.BattleClass SubClass { get; private set; }
+
+        /// <summary>
+        /// 职业精通度字典
+        /// </summary>
+        public Dictionary<string, ClassProficiency> ClassProficiencies { get; private set; } = new();
+
+        /// <summary>
+        /// 当前职业ID
+        /// </summary>
+        public string CurrentProfessionId { get; set; } = "";
+
+        /// <summary>
+        /// 已装备的主动技能槽位ID列表（最多4个）
+        /// </summary>
+        public List<string> EquippedActiveSkillIds { get; private set; } = new();
+
+        /// <summary>
+        /// 已装备的被动技能槽位ID列表（最多4个）
+        /// </summary>
+        public List<string> EquippedPassiveSkillIds { get; private set; } = new();
+
+        /// <summary>
+        /// 最大主动技能槽位数
+        /// </summary>
+        public const int MaxActiveSkillSlots = 4;
+
+        /// <summary>
+        /// 最大被动技能槽位数
+        /// </summary>
+        public const int MaxPassiveSkillSlots = 4;
+
+        /// <summary>
+        /// 大招/终极技能
+        /// </summary>
+        public Skill UltimateSkill { get; set; }
+
+        /// <summary>
+        /// 主角专属技能列表（仅主角可用）
+        /// </summary>
+        public List<Skill> ExclusiveSkills { get; } = new();
 
         /// <summary>
         /// 已装备的被动技能列表
@@ -301,10 +357,6 @@ namespace hd2dtest.Scripts.Modules
         /// <summary>
         /// 初始化玩家
         /// </summary>
-        /// <remarks>
-        /// 调用父类Initialize方法，设置玩家默认名称、等级、魔法值
-        /// 初始化武器、装备和技能，并计算属性
-        /// </remarks>
         public override void Initialize()
         {
             base.Initialize();
@@ -316,10 +368,80 @@ namespace hd2dtest.Scripts.Modules
 
             InitializeWeapons();
             InitializeEquipments();
-            InitializeSkills();
+
+            // Register default classes and proficiencies
+            Battle.BattleClass.RegisterDefaults();
+            InitializeClassSystem();
 
             CalculateStats();
             Health = MaxHealth;
+        }
+
+        /// <summary>
+        /// 初始化职业系统和技能
+        /// </summary>
+        private void InitializeClassSystem()
+        {
+            SkillManager.Initialize();
+
+            // Load class definitions from JSON (or use hardcoded defaults)
+            Battle.BattleClass.LoadFromJson();
+
+            // Unlock default class (swordsman)
+            string defaultClass = "swordsman";
+            UnlockClass(defaultClass);
+
+            // Apply class
+            var bc = Battle.BattleClass.Get(defaultClass);
+            if (bc != null) SetMainClass(bc);
+
+            CurrentProfessionId = defaultClass;
+
+            // Only auto-learn skills with 0 JP cost
+            var (activeIdsList, ultimateId, passiveIds) = SkillManager.GetClassSkillIds(defaultClass);
+
+            foreach (var sid in activeIdsList)
+            {
+                int jpCost = Battle.BattleClass.GetSkillJpCost(defaultClass, sid);
+                if (jpCost == 0)
+                {
+                    var skill = SkillManager.CreateSkillInstance(sid);
+                    if (skill != null)
+                    {
+                        Skills.Add(skill);
+                        if (ClassProficiencies.TryGetValue(defaultClass, out var prof))
+                            prof.LearnedSkillIds.Add(sid);
+                    }
+                }
+            }
+
+            // Ultimate - always locked initially (requires JP to unlock)
+            if (!string.IsNullOrEmpty(bc?.UltimateId))
+            {
+                var ultTemplate = SkillManager.GetSkillTemplate(bc.UltimateId);
+                if (ultTemplate != null)
+                {
+                    ultTemplate.JPCost = bc.UltimateJpCost;
+                }
+            }
+
+            // Passives - unlocked via CheckPassiveUnlocks()
+            CheckPassiveUnlocks();
+
+            // Auto-equip first 4 learned active skills
+            EquippedActiveSkillIds.Clear();
+            int equipped = 0;
+            foreach (var sid in activeIdsList)
+            {
+                if (equipped >= 4) break;
+                if (Skills.Any(s => s.Id == sid))
+                {
+                    EquippedActiveSkillIds.Add(sid);
+                    equipped++;
+                }
+            }
+
+            Log.Info($"Initialized class system: {defaultClass}, {Skills.Count} skills learned, {EquippedPassives.Count} passives");
         }
 
         /// <summary>
@@ -377,6 +499,28 @@ namespace hd2dtest.Scripts.Modules
             }
 
             Log.Info($"Initialized player with {Skills.Count} skills");
+        }
+
+        /// <summary>
+        /// 卸下当前武器
+        /// </summary>
+        public void UnequipWeapon()
+        {
+            if (CurrentWeapon == null) return;
+            Log.Info($"Unequipped weapon: {CurrentWeapon.WeaponName}");
+            CurrentWeapon = null;
+            CalculateStats();
+        }
+
+        /// <summary>
+        /// 卸下指定装备
+        /// </summary>
+        public void UnequipEquipment(Equipment equipment)
+        {
+            if (equipment == null || !Equipments.Contains(equipment)) return;
+            Equipments.Remove(equipment);
+            CalculateStats();
+            Log.Info($"Unequipped equipment: {equipment.EquipmentName}");
         }
 
         public void EquipWeapon(Weapon weapon)
@@ -550,6 +694,182 @@ namespace hd2dtest.Scripts.Modules
             }
         }
 
+        // ========== 职业精通系统 ==========
+
+        /// <summary>
+        /// 解锁一个职业
+        /// </summary>
+        public void UnlockClass(string professionId)
+        {
+            if (ClassProficiencies.ContainsKey(professionId)) return;
+            ClassProficiencies[professionId] = new ClassProficiency
+            {
+                ProfessionId = professionId,
+                IsUnlocked = true,
+                ProficiencyLevel = 0
+            };
+            Log.Info($"Unlocked class: {professionId}");
+        }
+
+        /// <summary>
+        /// 切换到指定职业
+        /// </summary>
+        public bool SwitchClass(string professionId)
+        {
+            if (!ClassProficiencies.TryGetValue(professionId, out var prof) || !prof.IsUnlocked)
+            {
+                Log.Warning($"Class not unlocked: {professionId}");
+                return false;
+            }
+
+            CurrentProfessionId = professionId;
+
+            // Sync MainClass/SubClass if possible
+            var battleClass = GetBattleClass(professionId);
+            if (battleClass != null)
+            {
+                SetMainClass(battleClass);
+            }
+
+            Log.Info($"Switched to class: {professionId}");
+            return true;
+        }
+
+        /// <summary>
+        /// 获取当前职业的BattleClass
+        /// </summary>
+        private static Battle.BattleClass GetBattleClass(string professionId)
+        {
+            return Battle.BattleClass.Get(professionId);
+        }
+
+        /// <summary>
+        /// 增加职业熟练度
+        /// </summary>
+        public void AddProficiency(string professionId, int amount)
+        {
+            if (!ClassProficiencies.TryGetValue(professionId, out var prof)) return;
+            prof.ProficiencyLevel = Mathf.Clamp(prof.ProficiencyLevel + amount, 0, 100);
+            Log.Info($"Proficiency +{amount} for {professionId}: {prof.ProficiencyLevel}");
+        }
+
+        /// <summary>
+        /// 检查职业是否已精通（熟练度 >= 80）
+        /// </summary>
+        public bool IsClassProficient(string professionId)
+        {
+            return ClassProficiencies.TryGetValue(professionId, out var prof) && prof.ProficiencyLevel >= 80;
+        }
+
+        /// <summary>
+        /// 获取所有已解锁职业ID
+        /// </summary>
+        public List<string> GetUnlockedClassIds()
+        {
+            return ClassProficiencies
+                .Where(kv => kv.Value.IsUnlocked)
+                .Select(kv => kv.Key)
+                .ToList();
+        }
+
+        // ========== 技能槽位系统 ==========
+
+        /// <summary>
+        /// 装备主动技能到指定槽位
+        /// </summary>
+        public bool EquipActiveSkillSlot(string skillId, int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= MaxActiveSkillSlots) return false;
+            if (!Skills.Any(s => s.Id == skillId)) return false;
+
+            // Remove from any existing slot
+            EquippedActiveSkillIds.Remove(skillId);
+
+            // If slot is occupied, remove existing
+            if (slotIndex < EquippedActiveSkillIds.Count)
+                EquippedActiveSkillIds.RemoveAt(slotIndex);
+            else
+            {
+                // Pad list if needed
+                while (EquippedActiveSkillIds.Count <= slotIndex)
+                    EquippedActiveSkillIds.Add("");
+            }
+
+            EquippedActiveSkillIds[slotIndex] = skillId;
+            return true;
+        }
+
+        /// <summary>
+        /// 从槽位卸下主动技能
+        /// </summary>
+        public void UnequipActiveSkillSlot(int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= EquippedActiveSkillIds.Count) return;
+            EquippedActiveSkillIds[slotIndex] = "";
+        }
+
+        /// <summary>
+        /// 装备被动技能到指定槽位
+        /// </summary>
+        public bool EquipPassiveSkillSlot(string passiveId, int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= MaxPassiveSkillSlots) return false;
+
+            EquippedPassiveSkillIds.Remove(passiveId);
+
+            if (slotIndex < EquippedPassiveSkillIds.Count)
+                EquippedPassiveSkillIds.RemoveAt(slotIndex);
+            else
+            {
+                while (EquippedPassiveSkillIds.Count <= slotIndex)
+                    EquippedPassiveSkillIds.Add("");
+            }
+
+            EquippedPassiveSkillIds[slotIndex] = passiveId;
+            return true;
+        }
+
+        /// <summary>
+        /// 从槽位卸下被动技能
+        /// </summary>
+        public void UnequipPassiveSkillSlot(int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= EquippedPassiveSkillIds.Count) return;
+            EquippedPassiveSkillIds[slotIndex] = "";
+        }
+
+        /// <summary>
+        /// 获取当前装备的主动技能列表（最多4个）
+        /// </summary>
+        public List<Skill> GetEquippedActiveSkills()
+        {
+            return EquippedActiveSkillIds
+                .Where(id => !string.IsNullOrEmpty(id))
+                .Select(id => Skills.FirstOrDefault(s => s.Id == id))
+                .Where(s => s != null)
+                .ToList()!;
+        }
+
+        /// <summary>
+        /// 获取当前装备的被动技能列表
+        /// </summary>
+        public List<string> GetEquippedPassiveSkillIds()
+        {
+            return EquippedPassiveSkillIds
+                .Where(id => !string.IsNullOrEmpty(id))
+                .ToList();
+        }
+
+        /// <summary>
+        /// 获取该职业ID对应的技能ID列表
+        /// </summary>
+        public List<string> GetSkillsForClass(string professionId)
+        {
+            if (!ClassProficiencies.TryGetValue(professionId, out var prof))
+                return new List<string>();
+            return prof.LearnedSkillIds;
+        }
+
         public void CollectGold(int amount)
         {
             try
@@ -567,6 +887,151 @@ namespace hd2dtest.Scripts.Modules
             {
                 Log.Error($"Error collecting gold: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// 使用JP学习技能
+        /// </summary>
+        /// <param name="skillId">技能ID</param>
+        /// <returns>学习成功返回true</returns>
+        public bool LearnSkill(string skillId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(skillId))
+                {
+                    Log.Warning("Cannot learn skill: null or empty skillId");
+                    return false;
+                }
+
+                // Check if already learned
+                if (Skills.Any(s => s.Id == skillId) || (UltimateSkill?.Id == skillId))
+                {
+                    Log.Info($"Skill {skillId} already learned");
+                    return false;
+                }
+
+                // Get JP cost
+                int jpCost = 0;
+                var template = SkillSystem.SkillManager.GetSkillTemplate(skillId);
+                if (template != null)
+                    jpCost = template.JPCost;
+
+                if (JP < jpCost)
+                {
+                    Log.Warning($"Not enough JP to learn {skillId}. Need: {jpCost}, Have: {JP}");
+                    return false;
+                }
+
+                // Create skill instance
+                var skill = SkillSystem.SkillManager.CreateSkillInstance(skillId);
+                if (skill == null)
+                {
+                    Log.Error($"Failed to create skill instance for {skillId}");
+                    return false;
+                }
+
+                // Deduct JP
+                JP -= jpCost;
+
+                // Add to player skills
+                Skills.Add(skill);
+
+                // Check if this is the ultimate skill for current class
+                if (UltimateSkill == null)
+                {
+                    var bc = Battle.BattleClass.Get(CurrentProfessionId);
+                    if (bc != null && bc.UltimateId == skillId)
+                    {
+                        UltimateSkill = skill;
+                    }
+                }
+
+                // Track in current class proficiency
+                string classId = CurrentProfessionId;
+                if (!string.IsNullOrEmpty(classId) && ClassProficiencies.TryGetValue(classId, out var prof))
+                {
+                    if (!prof.LearnedSkillIds.Contains(skillId))
+                        prof.LearnedSkillIds.Add(skillId);
+                }
+
+                Log.Info($"Learned skill {skill.SkillName} ({skillId}) for {jpCost} JP");
+
+                // Check passive unlocks
+                CheckPassiveUnlocks();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error learning skill: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 获取当前职业已解锁的主动技能数量
+        /// </summary>
+        public int GetUnlockedActiveCount(string professionId = null)
+        {
+            string cid = professionId ?? CurrentProfessionId;
+            if (string.IsNullOrEmpty(cid)) return 0;
+
+            if (!ClassProficiencies.TryGetValue(cid, out var prof))
+                return 0;
+
+            return prof.LearnedSkillIds.Count(id =>
+            {
+                var bc = Battle.BattleClass.Get(cid);
+                if (bc == null) return false;
+                bool isActive = bc.SkillJpCosts.ContainsKey(id) || bc.UltimateId != id;
+                return Skills.Any(s => s.Id == id);
+            });
+        }
+
+        /// <summary>
+        /// 检查并解锁满足条件的被动技能
+        /// </summary>
+        public void CheckPassiveUnlocks()
+        {
+            string cid = CurrentProfessionId;
+            if (string.IsNullOrEmpty(cid)) return;
+
+            var bc = Battle.BattleClass.Get(cid);
+            if (bc == null) return;
+
+            if (!ClassProficiencies.TryGetValue(cid, out var prof))
+                return;
+
+            int unlockedCount = GetUnlockedActiveCount(cid);
+
+            foreach (var kv in bc.PassiveRequiredUnlocks)
+            {
+                string passiveId = kv.Key;
+                int required = kv.Value;
+
+                // Check if already equipped
+                if (EquippedPassives.Any(p => GetPassiveId(p) == passiveId))
+                    continue;
+
+                if (unlockedCount >= required)
+                {
+                    // Create passive instance and add
+                    var passive = SkillSystem.SkillManager.CreatePassiveInstance(passiveId);
+                    if (passive != null && !EquippedPassives.Any(p => GetPassiveId(p) == passiveId))
+                    {
+                        EquippedPassives.Add(passive);
+                        Log.Info($"Passive {passive.PassiveName} unlocked ({unlockedCount}/{required} active skills)");
+                    }
+                }
+            }
+
+            CalculateStats();
+        }
+
+        private static string GetPassiveId(Battle.PassiveSkill ps)
+        {
+            return ps?.PassiveName ?? "";
         }
 
         public void KillEnemy(Creature enemy)

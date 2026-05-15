@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using hd2dtest.Scripts.Modules;
+using hd2dtest.Scripts.Modules.SkillSystem;
 using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Utilities;
 
@@ -362,8 +363,30 @@ namespace hd2dtest.Scripts.Managers
                     if (GameDataManager.Instance.Teammates != null)
                     {
                         saveData.Teammates = new List<PlayerSaveData>();
-                        // 这里需要根据 Teammates 的实际实现来获取成员列表
-                        // 假设 Teammates 有一个 Members 属性或者类似的东西
+                        var teammates = GameDataManager.Instance.Teammates.Get();
+                        foreach (var tm in teammates)
+                        {
+                            saveData.Teammates.Add(new PlayerSaveData
+                            {
+                                PlayerId = saveData.Teammates.Count,
+                                PlayerName = tm.CreatureName,
+                                Level = tm.Level,
+                                Experience = tm.Experience,
+                                Health = tm.Health,
+                                MaxHealth = tm.MaxHealth,
+                                Mana = tm.CurrentMana,
+                                MaxMana = tm.MaxMana,
+                                Attack = (int)tm.Attack,
+                                Defense = (int)tm.Defense,
+                                Speed = tm.Speed,
+                                Gold = tm.Gold,
+                                Position = tm.Position,
+                                Inventory = new Dictionary<string, int>(tm.Inventory),
+                                LearnedSkills = [.. tm.Skills.Select(s => s.Id)],
+                                EquippedWeapon = tm.CurrentWeapon?.WeaponName,
+                                EquippedEquipment = tm.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                            });
+                        }
                     }
                 }
             }
@@ -605,10 +628,30 @@ namespace hd2dtest.Scripts.Managers
                     }
 
                     // 加载小队成员
-                    // 这里需要根据 Teammates 的实际实现来加载小队成员
                     if (saveData.Teammates != null && GameDataManager.Instance.Teammates != null)
                     {
-                        // 暂时不处理小队成员加载，需要根据 Teammates 类的具体实现来添加
+                        var restoredTeammates = new List<Modules.Player>();
+                        foreach (var psd in saveData.Teammates)
+                        {
+                            var tm = new Modules.Player();
+                            ApplyPlayerSaveData(tm, psd);
+                            restoredTeammates.Add(tm);
+                        }
+                        GameDataManager.Instance.Teammates.Set(restoredTeammates);
+                    }
+
+                    // 加载主玩家
+                    if (saveData.Players != null && saveData.Players.Count > 0)
+                    {
+                        var playerPsd = saveData.Players[0];
+                        var player = GameDataManager.Instance.Teammates?.Player;
+                        if (player == null)
+                        {
+                            player = new Modules.Player();
+                            if (GameDataManager.Instance.Teammates != null)
+                                GameDataManager.Instance.Teammates.Player = player;
+                        }
+                        ApplyPlayerSaveData(player, playerPsd);
                     }
                 }
             }
@@ -711,42 +754,87 @@ namespace hd2dtest.Scripts.Managers
         /// 该方法创建一个包含默认玩家数据的存档数据对象，设置基本存档信息、游戏进度和版本信息。
         /// 如果VersionManager实例可用，会使用其提供的版本信息。
         /// </remarks>
-        public static SaveData CreateDefaultSaveData(string saveId = "1", string saveName = null)
+        public static SaveData CreateDefaultSaveData(string saveId = "1", string saveName = null, Modules.Player currentPlayer = null, string currentScene = null)
         {
             try
             {
-                // 创建包含单个玩家的默认存档数据
-                var defaultPlayer = new hd2dtest.Scripts.Modules.Player();
+                var player = currentPlayer ?? GameDataManager.Instance?.Teammates?.Player
+                    ?? GameManager.Instance?.Teammates?.Player;
 
-                // 初始化玩家
-                defaultPlayer.Initialize();
-
-                var playerSaveData = new PlayerSaveData
+                PlayerSaveData playerSaveData;
+                if (player != null)
                 {
-                    PlayerId = 0,
-                    PlayerName = defaultPlayer.CreatureName,
-                    Level = defaultPlayer.Level,
-                    Experience = defaultPlayer.Experience,
-                    Health = defaultPlayer.Health,
-                    MaxHealth = defaultPlayer.MaxHealth,
-                    Mana = defaultPlayer.Mana,
-                    MaxMana = defaultPlayer.MaxMana,
-                    Attack = (int)defaultPlayer.Attack,
-                    Defense = (int)defaultPlayer.Defense,
-                    Speed = defaultPlayer.Speed,
-                    Gold = defaultPlayer.Gold,
-                    KillCount = defaultPlayer.KillCount,
-                    DeathCount = defaultPlayer.DeathCount,
-                    MainClassName = defaultPlayer.MainClass?.ClassName,
-                    SubClassName = defaultPlayer.SubClass?.ClassName,
-                    EquippedPassiveNames = [.. defaultPlayer.EquippedPassives.Select(p => p.PassiveName)],
-                    Position = defaultPlayer.Position,
-                    Inventory = defaultPlayer.Inventory,
-                    LearnedSkills = [.. defaultPlayer.SkillIDs],
-                    EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
-                    EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
-                };
-                // 获取版本信息
+                    playerSaveData = new PlayerSaveData
+                    {
+                        PlayerId = 0,
+                        PlayerName = player.CreatureName,
+                        Level = player.Level,
+                        Experience = player.Experience,
+                        Health = player.Health,
+                        MaxHealth = player.MaxHealth,
+                        Mana = player.CurrentMana,
+                        MaxMana = player.MaxMana,
+                        Attack = (int)player.Attack,
+                        Defense = (int)player.Defense,
+                        Speed = player.Speed,
+                        Gold = player.Gold,
+                        JP = player.JP,
+                        KillCount = player.KillCount,
+                        DeathCount = player.DeathCount,
+                        MainClassName = player.MainClass?.ClassName,
+                        SubClassName = player.SubClass?.ClassName,
+                        EquippedPassiveNames = [.. player.EquippedPassives.Select(p => p.PassiveName)],
+                        Position = player.Position,
+                        Inventory = new Dictionary<string, int>(player.Inventory),
+                        LearnedSkills = [.. player.Skills.Select(s => s.Id)],
+                        EquippedWeapon = player.CurrentWeapon?.WeaponName,
+                        EquippedEquipment = player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                    };
+                }
+                else
+                {
+                    var defaultPlayer = new Modules.Player();
+                    defaultPlayer.Initialize();
+                    playerSaveData = new PlayerSaveData
+                    {
+                        PlayerId = 0,
+                        PlayerName = defaultPlayer.CreatureName,
+                        Level = defaultPlayer.Level,
+                        Experience = defaultPlayer.Experience,
+                        Health = defaultPlayer.Health,
+                        MaxHealth = defaultPlayer.MaxHealth,
+                        Mana = defaultPlayer.CurrentMana,
+                        MaxMana = defaultPlayer.MaxMana,
+                        Attack = (int)defaultPlayer.Attack,
+                        Defense = (int)defaultPlayer.Defense,
+                        Speed = defaultPlayer.Speed,
+                        Gold = defaultPlayer.Gold,
+                        JP = defaultPlayer.JP,
+                        KillCount = defaultPlayer.KillCount,
+                        DeathCount = defaultPlayer.DeathCount,
+                        MainClassName = defaultPlayer.MainClass?.ClassName,
+                        SubClassName = defaultPlayer.SubClass?.ClassName,
+                        EquippedPassiveNames = [.. defaultPlayer.EquippedPassives.Select(p => p.PassiveName)],
+                        Position = defaultPlayer.Position,
+                        Inventory = new Dictionary<string, int>(defaultPlayer.Inventory),
+                        LearnedSkills = [.. defaultPlayer.Skills.Select(s => s.Id)],
+                        EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
+                        EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                    };
+                }
+
+                var scene = currentScene;
+                if (string.IsNullOrEmpty(scene) && Main.Instance != null)
+                {
+                    var nowScene = Main.Instance.NowScene;
+                    if (nowScene != null)
+                        scene = nowScene.Name;
+                }
+                if (string.IsNullOrEmpty(scene))
+                    scene = "main";
+
+                int playTime = 0;
+
                 string gameVersion = "0.0.1";
                 string buildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string gitCommit = "unknown";
@@ -760,7 +848,6 @@ namespace hd2dtest.Scripts.Managers
 
                 return new SaveData
                 {
-                    // 基本存档信息
                     SaveId = saveId,
                     SaveName = saveName ?? string.Format(TranslationServer.Translate("save_slot_default_name"), saveId),
                     SaveTime = DateTime.Now,
@@ -768,17 +855,14 @@ namespace hd2dtest.Scripts.Managers
                     BuildDate = buildDate,
                     GitCommit = gitCommit,
 
-                    // 游戏进度
-                    CurrentScene = "main",
+                    CurrentScene = scene,
                     GameScore = 0,
-                    PlayTime = 0,
+                    PlayTime = playTime,
                     CompletedQuests = [],
                     DiscoveredAreas = [],
 
-                    // 多个玩家状态
                     Players = [playerSaveData],
 
-                    // 自定义数据
                     CustomData = []
                 };
             }
@@ -1008,6 +1092,46 @@ namespace hd2dtest.Scripts.Managers
                 return false;
             }
         }
+        /// <summary>
+        /// 将 PlayerSaveData 应用到 Player 对象
+        /// </summary>
+        private static void ApplyPlayerSaveData(Modules.Player player, PlayerSaveData psd)
+        {
+            player.CreatureName = psd.PlayerName ?? player.CreatureName;
+            player.Level = psd.Level;
+            player.Experience = psd.Experience;
+            player.Health = psd.Health;
+            player.MaxHealth = psd.MaxHealth;
+            player.CurrentMana = psd.Mana;
+            player.MaxMana = psd.MaxMana;
+            player.Attack = psd.Attack;
+            player.Defense = psd.Defense;
+            player.Speed = psd.Speed;
+            player.Gold = psd.Gold;
+            player.JP = psd.JP;
+            player.KillCount = psd.KillCount;
+            player.DeathCount = psd.DeathCount;
+            player.Position = psd.Position;
+
+            player.Inventory.Clear();
+            if (psd.Inventory != null)
+            {
+                foreach (var kv in psd.Inventory)
+                    player.Inventory[kv.Key] = kv.Value;
+            }
+
+            if (psd.LearnedSkills != null)
+            {
+                // Restore skills by ID
+                foreach (var skillId in psd.LearnedSkills)
+                {
+                    var skill = SkillManager.CreateSkillInstance(skillId);
+                    if (skill != null && !player.Skills.Any(s => s.Id == skillId))
+                        player.Skills.Add(skill);
+                }
+            }
+        }
+
         public void AutoSave()
         {
             SaveGame(CreateDefaultSaveData(), "auto");

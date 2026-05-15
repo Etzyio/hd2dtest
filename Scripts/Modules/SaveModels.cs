@@ -111,6 +111,11 @@ namespace hd2dtest.Scripts.Modules
         public int Gold { get; set; }
 
         /// <summary>
+        /// JP (Job Points) 职业点数
+        /// </summary>
+        public int JP { get; set; }
+
+        /// <summary>
         /// 击杀敌人数量
         /// </summary>
         /// <value>玩家击杀的敌人总数</value>

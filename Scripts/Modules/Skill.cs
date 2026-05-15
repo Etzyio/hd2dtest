@@ -119,6 +119,11 @@ namespace hd2dtest.Scripts.Modules
         [Export] public bool IsUnlocked { get; set; } = false;
 
         /// <summary>
+        /// 学习技能所需的JP点数
+        /// </summary>
+        public int JPCost { get; set; } = 0;
+
+        /// <summary>
         /// 获取技能状态描述
         /// </summary>
         /// <returns>技能状态的字符串描述</returns>
