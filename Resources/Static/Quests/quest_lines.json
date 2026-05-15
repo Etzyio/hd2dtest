@@ -1,0 +1,108 @@
+{
+  "questLines": [
+    {
+      "id": "wuxia_main_story",
+      "name": "江湖风云",
+      "description": "从威远镖局的一名普通弟子，到揭开当朝宰相的惊天阴谋，一段充满恩怨情仇的江湖旅程",
+      "nodes": [
+        {
+          "id": "start_biaoju_node",
+          "name": "风起镖局",
+          "description": "江南三月，威远镖局接到朝廷密令押送生辰纲。师父周远面露隐忧，你与师兄沈剑锋踏上凶险旅程。",
+          "questIds": ["main_story_001"],
+          "nextNodes": ["huangnigang_ambush_node"]
+        },
+        {
+          "id": "huangnigang_ambush_node",
+          "name": "黄泥岗之变",
+          "description": "黄泥岗遭遇伏击，生辰纲被劫，师兄沈剑锋惨死。你坠崖后被老者所救，却发现清风门已被东厂查封。",
+          "questIds": ["main_story_002"],
+          "nextNodes": ["qingfeng_ruins_node"]
+        },
+        {
+          "id": "qingfeng_ruins_node",
+          "name": "清风蒙难",
+          "description": "清风门已成废墟，二师兄身受重伤。丐帮鲁达、冷面剑姬冷月、六扇门赵铁山相继出现，决心助你查明真相。",
+          "questIds": ["main_story_003"],
+          "nextNodes": ["moyu_reborn_node"]
+        },
+        {
+          "id": "moyu_reborn_node",
+          "name": "化名墨羽",
+          "description": "你化名墨羽重建镖局，师妹苏婉清带来幽冥教线索。神秘李老板委托你运送货物前往西域。",
+          "questIds": ["main_story_004"],
+          "nextNodes": ["western_journey_node"]
+        },
+        {
+          "id": "western_journey_node",
+          "name": "西域之行",
+          "description": "龙门客栈老板娘透露与蔡京的血海深仇。抵达幽冥教总坛，发现教主竟是婉清的师姐柳青青。",
+          "questIds": ["main_story_005"],
+          "nextNodes": ["capital_justice_node"]
+        },
+        {
+          "id": "capital_justice_node",
+          "name": "京城鸣冤",
+          "description": "带着证据返回中原，龙门客栈已被焚毁。琴仙子带来周远遗书，你决定前往京城揭露蔡京阴谋。",
+          "questIds": ["main_story_006"],
+          "nextNodes": ["final_showdown_node"]
+        },
+        {
+          "id": "final_showdown_node",
+          "name": "幽冥终战",
+          "description": "蔡京伏法，但其义子蔡攸负隅顽抗。最终决战中苏婉清为保护你而牺牲，你手刃蔡攸为所有人报仇。",
+          "questIds": ["main_story_007"],
+          "nextNodes": ["epilogue_node"]
+        },
+        {
+          "id": "epilogue_node",
+          "name": "清风再起",
+          "description": "三年后，清风镖局重建。婉清墓前你许下承诺，新的旅程即将开始。",
+          "questIds": ["main_story_008"],
+          "nextNodes": []
+        }
+      ]
+    },
+    {
+      "id": "wuxia_side_quests",
+      "name": "江湖轶事",
+      "description": "江湖中的支线任务，帮助有需要的人，获得额外奖励",
+      "nodes": [
+        {
+          "id": "help_innkeeper_node",
+          "name": "客栈老板的困扰",
+          "description": "客栈老板遇到了麻烦，需要你的帮助",
+          "questIds": [],
+          "nextNodes": [],
+          "requirements": {"level": 5},
+          "branching": true
+        },
+        {
+          "id": "blacksmith_request_node",
+          "name": "铁匠的请求",
+          "description": "铁匠需要稀有矿石来打造武器",
+          "questIds": [],
+          "nextNodes": [],
+          "requirements": {"level": 8},
+          "branching": true
+        }
+      ]
+    },
+    {
+      "id": "wuxia_secret_chapters",
+      "name": "秘境奇遇",
+      "description": "在江湖中探索各种秘境，遇到奇遇和挑战",
+      "nodes": [
+        {
+          "id": "ancient_ruins_node",
+          "name": "古老遗迹",
+          "description": "发现一处古老的遗迹，里面隐藏着珍贵的武学秘籍",
+          "questIds": [],
+          "nextNodes": [],
+          "requirements": {"level": 12},
+          "branching": true
+        }
+      ]
+    }
+  ]
+}

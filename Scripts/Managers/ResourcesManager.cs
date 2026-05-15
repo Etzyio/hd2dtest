@@ -194,6 +194,11 @@ namespace hd2dtest.Scripts.Managers
         public static readonly Dictionary<string, QuestLineData> QuestLinesCache = [];
 
         /// <summary>
+        /// 地图缓存字典
+        /// </summary>
+        public static readonly Dictionary<string, MapData> MapsCache = [];
+
+        /// <summary>
         /// 视图注册缓存字典
         /// </summary>
         public static readonly Dictionary<string, string> ViewRegister = [];
@@ -231,6 +236,7 @@ namespace hd2dtest.Scripts.Managers
             { "Equipment.json", ResourceLoadPriority.Medium },
             { "Levels.json", ResourceLoadPriority.High },
             { "ViewRegister.json", ResourceLoadPriority.High },
+            { "Maps.json", ResourceLoadPriority.Medium },
             { "Quests", ResourceLoadPriority.Low },
             { "QuestLines", ResourceLoadPriority.Low }
         };
@@ -399,7 +405,7 @@ namespace hd2dtest.Scripts.Managers
 
                 _loadTimer.Stop();
 
-                Log.Info($"Resource initialization completed - Skills: {SkillsCache.Count}, Items: {ItemsCache.Count}, NPCs: {NPCsCache.Count}, Monsters: {MonstersCache.Count}, Weapons: {WeaponsCache.Count}, Equipment: {EquipmentCache.Count}, Levels: {LevelsCache.Count}, Quests: {QuestsCache.Count}, QuestLines: {QuestLinesCache.Count}");
+                Log.Info($"Resource initialization completed - Skills: {SkillsCache.Count}, Items: {ItemsCache.Count}, NPCs: {NPCsCache.Count}, Monsters: {MonstersCache.Count}, Weapons: {WeaponsCache.Count}, Equipment: {EquipmentCache.Count}, Levels: {LevelsCache.Count}, Maps: {MapsCache.Count}, Quests: {QuestsCache.Count}, QuestLines: {QuestLinesCache.Count}, Dialogues: {DialoguesCache.Count}");
                 Log.Info($"Total load time: {_loadTimer.ElapsedMilliseconds}ms");
 
                 AllResourcesLoaded?.Invoke();
@@ -464,6 +470,7 @@ namespace hd2dtest.Scripts.Managers
                 LoadResourceToCacheWithTracking("Monsters.json", MonstersCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Weapons.json", WeaponsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Equipment.json", EquipmentCache, ResourceLoadPriority.Medium);
+                LoadMaps();
             });
         }
 
@@ -476,6 +483,7 @@ namespace hd2dtest.Scripts.Managers
             {
                 LoadQuests();
                 LoadQuestLines();
+                LoadDialogues();
             });
         }
 
@@ -891,6 +899,89 @@ namespace hd2dtest.Scripts.Managers
         }
 
         /// <summary>
+        /// 地图数据包装类（用于JSON反序列化）
+        /// </summary>
+        public class MapDataWrapper
+        {
+            [JsonPropertyName("maps")]
+            public List<MapData> Maps { get; set; }
+        }
+
+        /// <summary>
+        /// 对话章节数据包装类（用于JSON反序列化）
+        /// </summary>
+        public class DialogueChapterWrapper
+        {
+            [JsonPropertyName("chapters")]
+            public List<DialogueChapterData> Chapters { get; set; }
+        }
+
+        /// <summary>
+        /// 对话章节数据
+        /// </summary>
+        public class DialogueChapterData
+        {
+            [JsonPropertyName("chapterId")]
+            public string ChapterId { get; set; }
+
+            [JsonPropertyName("chapterName")]
+            public string ChapterName { get; set; }
+
+            [JsonPropertyName("dialogues")]
+            public List<DialogueEntryData> Dialogues { get; set; }
+        }
+
+        /// <summary>
+        /// 对话条目数据
+        /// </summary>
+        public class DialogueEntryData
+        {
+            [JsonPropertyName("id")]
+            public string Id { get; set; }
+
+            [JsonPropertyName("questId")]
+            public string QuestId { get; set; }
+
+            [JsonPropertyName("npcId")]
+            public string NpcId { get; set; }
+
+            [JsonPropertyName("mapId")]
+            public string MapId { get; set; }
+
+            [JsonPropertyName("lines")]
+            public List<DialogueLineData> Lines { get; set; }
+
+            [JsonPropertyName("conditions")]
+            public List<Dictionary<string, object>> Conditions { get; set; }
+
+            [JsonPropertyName("effects")]
+            public List<Dictionary<string, object>> Effects { get; set; }
+        }
+
+        /// <summary>
+        /// 对话行数据
+        /// </summary>
+        public class DialogueLineData
+        {
+            [JsonPropertyName("speaker")]
+            public string Speaker { get; set; }
+
+            [JsonPropertyName("text")]
+            public string Text { get; set; }
+
+            [JsonPropertyName("emotion")]
+            public string Emotion { get; set; }
+
+            [JsonPropertyName("animation")]
+            public string Animation { get; set; }
+        }
+
+        /// <summary>
+        /// 对话章节缓存（按章节ID索引）
+        /// </summary>
+        public static readonly Dictionary<string, DialogueChapterData> DialoguesCache = [];
+
+        /// <summary>
         /// 本地化缓存，用于提高性能
         /// </summary>
         private static readonly Dictionary<string, Dictionary<string, string>> _localizationCache = [];
@@ -957,7 +1048,7 @@ namespace hd2dtest.Scripts.Managers
                     QuestsCache.Clear();
                     while ((file = dir.GetNext()) != "")
                     {
-                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json"))
+                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json") && file != "dialogues.json")
                         {
                             var fileStopwatch = Stopwatch.StartNew();
                             string filePath = $"{questsDir}/{file}";
@@ -1133,6 +1224,103 @@ namespace hd2dtest.Scripts.Managers
                 Log.Error($"Error loading quest lines: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
                 QuestLinesCache.Clear();
             }
+        }
+
+        /// <summary>
+        /// 加载所有地图数据
+        /// </summary>
+        private static void LoadMaps()
+        {
+            var stopwatch = Stopwatch.StartNew();
+            try
+            {
+                var wrapper = LoadResource<MapDataWrapper>("Maps.json");
+                MapsCache.Clear();
+                if (wrapper?.Maps != null)
+                {
+                    foreach (var map in wrapper.Maps)
+                    {
+                        if (map != null && !string.IsNullOrEmpty(map.Id))
+                        {
+                            MapsCache[map.Id] = map;
+                        }
+                    }
+                }
+                stopwatch.Stop();
+                Log.Info($"Loaded {MapsCache.Count} maps from Maps.json, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+
+                // Notify MapManager to reload from cache
+                if (MapManager.Instance != null)
+                {
+                    MapManager.Instance.LoadMapsFromCache();
+                }
+            }
+            catch (Exception e)
+            {
+                stopwatch.Stop();
+                Log.Error($"Error loading maps: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+                MapsCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 获取所有地图数据
+        /// </summary>
+        public static List<MapData> GetAllMaps()
+        {
+            return [.. MapsCache.Values];
+        }
+
+        /// <summary>
+        /// 加载所有对话数据
+        /// </summary>
+        private static void LoadDialogues()
+        {
+            var stopwatch = Stopwatch.StartNew();
+            try
+            {
+                string questsDir = "res://Resources/Static/Quests/";
+                var wrapper = LoadResource<DialogueChapterWrapper>("dialogues.json", questsDir);
+                DialoguesCache.Clear();
+                if (wrapper?.Chapters != null)
+                {
+                    foreach (var chapter in wrapper.Chapters)
+                    {
+                        if (chapter != null && !string.IsNullOrEmpty(chapter.ChapterId))
+                        {
+                            DialoguesCache[chapter.ChapterId] = chapter;
+                        }
+                    }
+                }
+                stopwatch.Stop();
+                Log.Info($"Loaded {DialoguesCache.Count} dialogue chapters from dialogues.json, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+            }
+            catch (Exception e)
+            {
+                stopwatch.Stop();
+                Log.Error($"Error loading dialogues: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+                DialoguesCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 根据任务ID获取对话列表
+        /// </summary>
+        public static List<DialogueEntryData> GetDialoguesByQuest(string questId)
+        {
+            var result = new List<DialogueEntryData>();
+            foreach (var chapter in DialoguesCache.Values)
+            {
+                if (chapter.Dialogues != null)
+                {
+                    foreach (var dlg in chapter.Dialogues)
+                    {
+                        if (dlg.QuestId == questId)
+                            result.Add(dlg);
+                    }
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -1345,6 +1533,8 @@ namespace hd2dtest.Scripts.Managers
             LevelsCache.Clear();
             QuestsCache.Clear();
             QuestLinesCache.Clear();
+            MapsCache.Clear();
+            DialoguesCache.Clear();
             ViewRegister.Clear();
             ClearLocalizationCache();
             Log.Info("All resource caches cleared");

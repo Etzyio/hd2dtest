@@ -1,0 +1,420 @@
+{
+  "quests": [
+    {
+      "id": "main_story_001",
+      "name": "风雨欲来",
+      "description": "江南三月，烟雨朦胧。威远镖局接到朝廷密令，要押送生辰纲前往京城。师父周远似乎有隐忧，但师命难违，你将与师兄沈剑锋一同踏上这趟凶险的旅程。",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 1,
+      "requires": [],
+      "objectives": [
+        {
+          "id": "talk_to_master_zhou",
+          "type": "Talk",
+          "description": "与威远镖局总镖头周远对话",
+          "targetNpc": "zhou_yuan",
+          "dialogueId": "dlg_prologue_001"
+        },
+        {
+          "id": "talk_to_shen_jianfeng",
+          "type": "Talk",
+          "description": "与大师兄沈剑锋对话",
+          "targetNpc": "shen_jianfeng",
+          "dialogueId": "dlg_prologue_003"
+        },
+        {
+          "id": "meet_su_wanqing",
+          "type": "Talk",
+          "description": "与师妹苏婉清告别",
+          "targetNpc": "su_wanqing",
+          "dialogueId": "dlg_prologue_002"
+        },
+        {
+          "id": "reach_huangnigang",
+          "type": "ReachLocation",
+          "description": "抵达黄泥岗",
+          "targetScene": "huangnigang"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 100},
+        {"type": "Item", "itemId": "soul_eater_powder", "count": 1},
+        {"type": "Item", "itemId": "copper_wind_chime", "count": 1}
+      ],
+      "achievements": [],
+      "npcAssociations": [
+        {"npcId": "zhou_yuan", "talkTypes": ["Accept", "Progress"]},
+        {"npcId": "shen_jianfeng", "talkTypes": ["Progress"]},
+        {"npcId": "su_wanqing", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "suzhou_biaoju", "triggerType": "OnStart", "animationName": "rainy_day", "skipable": true},
+        {"sceneId": "huangnigang", "triggerType": "OnStart", "animationName": "storm", "skipable": false}
+      ]
+    },
+    {
+      "id": "main_story_002",
+      "name": "血色黄昏",
+      "description": "黄泥岗遭遇伏击，生辰纲被劫，师兄沈剑锋惨死。你坠下山崖幸免于难，却被诬陷为劫纲凶手。醒来后得知清风门已被东厂查封，师父柳青云也已遇害。",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 2,
+      "requires": ["main_story_001"],
+      "objectives": [
+        {
+          "id": "survive_ambush",
+          "type": "Battle",
+          "description": "在黄泥岗伏击战中存活",
+          "targetEnemy": "black_cloaked_assassin",
+          "count": 10,
+          "battleId": "huangnigang_ambush",
+          "dialogueId": "dlg_chapter1_002"
+        },
+        {
+          "id": "receive_jade_pendant",
+          "type": "Discover",
+          "description": "从师兄手中接过半块玉佩",
+          "dialogueId": "dlg_chapter1_003"
+        },
+        {
+          "id": "wake_in_cave",
+          "type": "Talk",
+          "description": "与救你的老者对话",
+          "targetNpc": "old_man",
+          "dialogueId": "dlg_chapter1_continue_001"
+        },
+        {
+          "id": "return_to_qingfeng",
+          "type": "ReachLocation",
+          "description": "返回清风门废墟",
+          "targetScene": "qingfeng_ruins"
+        },
+        {
+          "id": "meet_chen_tieshan",
+          "type": "Talk",
+          "description": "与二师兄陈铁山对话",
+          "targetNpc": "chen_tieshan",
+          "dialogueId": "dlg_chapter2_001"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 200},
+        {"type": "Item", "itemId": "jade_pendant_half", "count": 1}
+      ],
+      "achievements": ["first_blood"],
+      "npcAssociations": [
+        {"npcId": "old_man", "talkTypes": ["Progress"]},
+        {"npcId": "chen_tieshan", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "huangnigang_battle", "triggerType": "OnStart", "animationName": "battle_scene", "skipable": false},
+        {"sceneId": "qingfeng_ruins", "triggerType": "OnStart", "animationName": "ruins", "skipable": true}
+      ]
+    },
+    {
+      "id": "main_story_003",
+      "name": "山河破碎",
+      "description": "清风门已成废墟，二师兄身受重伤。正当你陷入绝望之际，丐帮弟子鲁达、冷面剑姬冷月、六扇门捕头赵铁山相继出现，他们都愿意帮助你查明真相。",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 3,
+      "requires": ["main_story_002"],
+      "objectives": [
+        {
+          "id": "meet_lu_da",
+          "type": "Talk",
+          "description": "与丐帮鲁达对话",
+          "targetNpc": "lu_da",
+          "dialogueId": "dlg_chapter2_002"
+        },
+        {
+          "id": "meet_leng_yue",
+          "type": "Talk",
+          "description": "与冷月对话",
+          "targetNpc": "leng_yue",
+          "dialogueId": "dlg_chapter2_002"
+        },
+        {
+          "id": "meet_zhao_tieshan",
+          "type": "Talk",
+          "description": "与六扇门赵铁山对话",
+          "targetNpc": "zhao_tieshan",
+          "dialogueId": "dlg_chapter2_003"
+        },
+        {
+          "id": "decide_fate",
+          "type": "Talk",
+          "description": "与同伴商议下一步计划",
+          "targetNpc": "leng_yue",
+          "dialogueId": "dlg_chapter3_001"
+        },
+        {
+          "id": "create_moyu_biaoju",
+          "type": "Action",
+          "description": "决定化名墨羽，重建镖局",
+          "dialogueId": "dlg_chapter3_002"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 300},
+        {"type": "Currency", "currencyType": "silver", "amount": 100}
+      ],
+      "achievements": ["gained_allies"],
+      "npcAssociations": [
+        {"npcId": "lu_da", "talkTypes": ["Accept"]},
+        {"npcId": "leng_yue", "talkTypes": ["Progress", "HandIn"]},
+        {"npcId": "zhao_tieshan", "talkTypes": ["Progress"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "broken_temple", "triggerType": "OnStart", "animationName": "campfire", "skipable": true}
+      ]
+    },
+    {
+      "id": "main_story_004",
+      "name": "墨羽重生",
+      "description": "你化名墨羽，在苏州城重建镖局。师妹苏婉清突然出现，带来了关于幽冥教的重要线索。一位神秘的李老板找上门来，委托你运送一批货物前往西域——收货方正是幽冥教。",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 4,
+      "requires": ["main_story_003"],
+      "objectives": [
+        {
+          "id": "meet_wanqing_again",
+          "type": "Talk",
+          "description": "与苏婉清重逢",
+          "targetNpc": "su_wanqing",
+          "dialogueId": "dlg_chapter3_continue_001"
+        },
+        {
+          "id": "accept_mission",
+          "type": "Talk",
+          "description": "接受李老板的西域押运任务",
+          "targetNpc": "li_boss",
+          "dialogueId": "dlg_chapter3_continue_002"
+        },
+        {
+          "id": "reach_longmen_kezhan",
+          "type": "ReachLocation",
+          "description": "抵达龙门客栈",
+          "targetScene": "longmen_kezhan"
+        },
+        {
+          "id": "talk_to_boss_longmen",
+          "type": "Talk",
+          "description": "与龙门客栈老板娘对话",
+          "targetNpc": "boss_longmen",
+          "dialogueId": "dlg_chapter4_001"
+        },
+        {
+          "id": "defend_longmen",
+          "type": "Battle",
+          "description": "击退东厂追兵",
+          "targetEnemy": "dongchang_guard",
+          "count": 8,
+          "battleId": "longmen_ambush",
+          "dialogueId": "dlg_chapter4_002"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 400},
+        {"type": "Item", "itemId": "secret_letter", "count": 1}
+      ],
+      "achievements": ["moyu_reborn"],
+      "npcAssociations": [
+        {"npcId": "su_wanqing", "talkTypes": ["Accept"]},
+        {"npcId": "li_boss", "talkTypes": ["Progress"]},
+        {"npcId": "boss_longmen", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "moyu_biaoju", "triggerType": "OnStart", "animationName": "new_biaoju", "skipable": true},
+        {"sceneId": "longmen_kezhan", "triggerType": "OnStart", "animationName": "desert_inn", "skipable": true}
+      ]
+    },
+    {
+      "id": "main_story_005",
+      "name": "西域迷踪",
+      "description": "龙门客栈老板娘透露了她与蔡京的血海深仇，并加入你的队伍。穿越沙漠抵达西域后，你终于见到了幽冥教教主——一个戴着凤凰面具的神秘人。她竟然是柳青青，婉清的师姐！",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 5,
+      "requires": ["main_story_004"],
+      "objectives": [
+        {
+          "id": "alliance_with_boss",
+          "type": "Talk",
+          "description": "与老板娘结成同盟",
+          "targetNpc": "boss_longmen",
+          "dialogueId": "dlg_chapter4_003"
+        },
+        {
+          "id": "reach_youming_jiao",
+          "type": "ReachLocation",
+          "description": "抵达幽冥教总坛",
+          "targetScene": "youming_jiao"
+        },
+        {
+          "id": "meet_phoenix",
+          "type": "Talk",
+          "description": "与幽冥教教主对话",
+          "targetNpc": "liu_qingqing",
+          "dialogueId": "dlg_chapter4_continue_001"
+        },
+        {
+          "id": "find_treasure",
+          "type": "Discover",
+          "description": "找到被劫走的生辰纲",
+          "targetScene": "treasure_cave",
+          "dialogueId": "dlg_chapter5_001"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 500},
+        {"type": "Item", "itemId": "treasure_evidence", "count": 1}
+      ],
+      "achievements": ["discovered_truth"],
+      "npcAssociations": [
+        {"npcId": "boss_longmen", "talkTypes": ["Accept"]},
+        {"npcId": "liu_qingqing", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "youming_jiao", "triggerType": "OnStart", "animationName": "dark_cult", "skipable": false},
+        {"sceneId": "treasure_cave", "triggerType": "OnStart", "animationName": "treasure", "skipable": true}
+      ]
+    },
+    {
+      "id": "main_story_006",
+      "name": "金殿鸣冤",
+      "description": "带着生辰纲证据返回中原，却发现龙门客栈已被东厂焚毁，老板娘重伤。危急时刻，江湖第一高手琴仙子出现，带来了周远师父的遗书。你决定前往京城，向皇上揭露蔡京的阴谋。",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 6,
+      "requires": ["main_story_005"],
+      "objectives": [
+        {
+          "id": "return_to_longmen",
+          "type": "ReachLocation",
+          "description": "返回龙门客栈",
+          "targetScene": "longmen_ruins",
+          "dialogueId": "dlg_chapter5_continue_001"
+        },
+        {
+          "id": "defend_ruins",
+          "type": "Battle",
+          "description": "保护老板娘",
+          "targetEnemy": "dongchang_elite",
+          "count": 12,
+          "battleId": "longmen_defense",
+          "dialogueId": "dlg_chapter5_continue_002"
+        },
+        {
+          "id": "receive_letter",
+          "type": "Talk",
+          "description": "与琴仙子对话，获取周远遗书",
+          "targetNpc": "qin_xianzi",
+          "dialogueId": "dlg_chapter5_continue_002"
+        },
+        {
+          "id": "reach_imperial_palace",
+          "type": "ReachLocation",
+          "description": "抵达皇宫",
+          "targetScene": "imperial_palace"
+        },
+        {
+          "id": "expose_cai_jing",
+          "type": "Talk",
+          "description": "在金殿揭露蔡京的阴谋",
+          "targetNpc": "emperor",
+          "dialogueId": "dlg_chapter6_001"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 600},
+        {"type": "Item", "itemId": "zhou_yuan_letter", "count": 1},
+        {"type": "Currency", "currencyType": "gold", "amount": 50}
+      ],
+      "achievements": ["exposed_cai_jing", "cleared_name"],
+      "npcAssociations": [
+        {"npcId": "qin_xianzi", "talkTypes": ["Progress"]},
+        {"npcId": "emperor", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "longmen_ruins", "triggerType": "OnStart", "animationName": "burning", "skipable": false},
+        {"sceneId": "imperial_palace", "triggerType": "OnStart", "animationName": "palace", "skipable": false}
+      ]
+    },
+    {
+      "id": "main_story_007",
+      "name": "决战幽冥",
+      "description": "蔡京被拿下，但他的义子蔡攸仍在顽抗，带领残余势力负隅顽抗。最终决战在幽冥教总坛展开，苏婉清为保护你而牺牲。你手刃蔡攸，为所有牺牲的人报了仇。",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 7,
+      "requires": ["main_story_006"],
+      "objectives": [
+        {
+          "id": "return_youming_final",
+          "type": "ReachLocation",
+          "description": "重返幽冥教总坛",
+          "targetScene": "youming_final"
+        },
+        {
+          "id": "final_battle",
+          "type": "Battle",
+          "description": "与蔡攸决战",
+          "targetEnemy": "cai_you",
+          "count": 1,
+          "battleId": "final_boss",
+          "dialogueId": "dlg_chapter7_001"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 800},
+        {"type": "Equipment", "equipmentId": "qingfeng_sword"}
+      ],
+      "achievements": ["defeated_cai_you", "avenged_all"],
+      "npcAssociations": [
+        {"npcId": "cai_you", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "youming_final", "triggerType": "OnStart", "animationName": "final_battle", "skipable": false}
+      ]
+    },
+    {
+      "id": "main_story_008",
+      "name": "清风再扬",
+      "description": "三年后，你重建了清风镖局，江湖恢复了平静。婉清的墓前，你许下承诺，将继续守护这份来之不易的和平。新的旅程即将开始...",
+      "type": "Main",
+      "questLineId": "wuxia_main_story",
+      "order": 8,
+      "requires": ["main_story_007"],
+      "objectives": [
+        {
+          "id": "visit_wanqing_grave",
+          "type": "Talk",
+          "description": "前往苏婉清墓前",
+          "targetNpc": "su_wanqing_grave",
+          "dialogueId": "dlg_epilogue_002"
+        },
+        {
+          "id": "accept_new_mission",
+          "type": "Talk",
+          "description": "接受新的押运任务",
+          "targetNpc": "lu_da",
+          "dialogueId": "dlg_epilogue_001"
+        }
+      ],
+      "rewards": [
+        {"type": "Experience", "amount": 1000},
+        {"type": "Item", "itemId": "hero_medal", "count": 1}
+      ],
+      "achievements": ["qingfeng_restored", "story_complete"],
+      "npcAssociations": [
+        {"npcId": "lu_da", "talkTypes": ["HandIn"]}
+      ],
+      "sceneTriggers": [
+        {"sceneId": "qingfeng_biaoju", "triggerType": "OnStart", "animationName": "ending", "skipable": false}
+      ]
+    }
+  ]
+}

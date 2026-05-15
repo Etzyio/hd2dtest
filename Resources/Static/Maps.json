@@ -8,7 +8,10 @@
       "climate": "温和湿润",
       "background": "daytime",
       "music": "peaceful",
-      "npcs": ["zhou_yuan", "lin_mochen", "shen_jianfeng"]
+      "npcs": ["zhou_yuan", "lin_mochen", "shen_jianfeng"],
+      "mapX": 300,
+      "mapY": 500,
+      "connections": ["lin_mochen_room", "huangnigang", "qingfeng_ruins"]
     },
     {
       "id": "lin_mochen_room",
@@ -18,7 +21,10 @@
       "climate": "温和湿润",
       "background": "night",
       "music": "quiet",
-      "npcs": ["lin_mochen", "shen_jianfeng", "su_wanqing"]
+      "npcs": ["lin_mochen", "shen_jianfeng", "su_wanqing"],
+      "mapX": 280,
+      "mapY": 480,
+      "connections": ["suzhou_biaoju"]
     },
     {
       "id": "huangnigang",
@@ -28,7 +34,10 @@
       "climate": "潮湿多雨",
       "background": "storm",
       "music": "tense",
-      "npcs": ["lin_mochen", "shen_jianfeng"]
+      "npcs": ["lin_mochen", "shen_jianfeng"],
+      "mapX": 350,
+      "mapY": 430,
+      "connections": ["suzhou_biaoju", "huangnigang_battle", "cave"]
     },
     {
       "id": "huangnigang_battle",
@@ -38,7 +47,10 @@
       "climate": "暴雨",
       "background": "battle",
       "music": "battle",
-      "npcs": ["lin_mochen", "shen_jianfeng"]
+      "npcs": ["lin_mochen", "shen_jianfeng"],
+      "mapX": 370,
+      "mapY": 410,
+      "connections": ["huangnigang", "huangnigang_death"]
     },
     {
       "id": "huangnigang_death",
@@ -48,7 +60,10 @@
       "climate": "暴雨",
       "background": "sad",
       "music": "sad",
-      "npcs": ["lin_mochen", "shen_jianfeng"]
+      "npcs": ["lin_mochen", "shen_jianfeng"],
+      "mapX": 390,
+      "mapY": 390,
+      "connections": ["huangnigang_battle"]
     },
     {
       "id": "cave",
@@ -58,7 +73,10 @@
       "climate": "阴凉",
       "background": "campfire",
       "music": "peaceful",
-      "npcs": ["lin_mochen", "old_man"]
+      "npcs": ["lin_mochen", "old_man"],
+      "mapX": 380,
+      "mapY": 450,
+      "connections": ["huangnigang", "qingfeng_ruins"]
     },
     {
       "id": "qingfeng_ruins",
@@ -68,7 +86,10 @@
       "climate": "萧瑟",
       "background": "ruins",
       "music": "melancholy",
-      "npcs": ["lin_mochen", "chen_tieshan", "lu_da", "leng_yue", "zhao_tieshan"]
+      "npcs": ["lin_mochen", "chen_tieshan", "lu_da", "leng_yue", "zhao_tieshan"],
+      "mapX": 230,
+      "mapY": 540,
+      "connections": ["suzhou_biaoju", "cave", "broken_temple"]
     },
     {
       "id": "broken_temple",
@@ -78,7 +99,10 @@
       "climate": "夜晚",
       "background": "campfire",
       "music": "mysterious",
-      "npcs": ["lin_mochen", "leng_yue", "zhao_tieshan", "chen_tieshan", "lu_da"]
+      "npcs": ["lin_mochen", "leng_yue", "zhao_tieshan", "chen_tieshan", "lu_da"],
+      "mapX": 200,
+      "mapY": 560,
+      "connections": ["qingfeng_ruins", "moyu_biaoju"]
     },
     {
       "id": "moyu_biaoju",
@@ -88,7 +112,10 @@
       "climate": "温和",
       "background": "daytime",
       "music": "hopeful",
-      "npcs": ["lin_mochen", "su_wanqing", "li_boss"]
+      "npcs": ["lin_mochen", "su_wanqing", "li_boss"],
+      "mapX": 290,
+      "mapY": 520,
+      "connections": ["broken_temple", "longmen_kezhan"]
     },
     {
       "id": "longmen_kezhan",
@@ -98,7 +125,10 @@
       "climate": "干燥",
       "background": "sunset",
       "music": "western",
-      "npcs": ["lin_mochen", "boss_longmen", "dongchang_boss"]
+      "npcs": ["lin_mochen", "boss_longmen", "dongchang_boss"],
+      "mapX": 120,
+      "mapY": 220,
+      "connections": ["moyu_biaoju", "longmen_kezhan_night", "youming_jiao"]
     },
     {
       "id": "longmen_kezhan_night",
@@ -108,7 +138,10 @@
       "climate": "夜晚",
       "background": "night",
       "music": "mysterious",
-      "npcs": ["lin_mochen", "boss_longmen"]
+      "npcs": ["lin_mochen", "boss_longmen"],
+      "mapX": 120,
+      "mapY": 240,
+      "connections": ["longmen_kezhan"]
     },
     {
       "id": "youming_jiao",
@@ -118,7 +151,10 @@
       "climate": "炎热干燥",
       "background": "dark",
       "music": "ominous",
-      "npcs": ["lin_mochen", "liu_qingqing"]
+      "npcs": ["lin_mochen", "liu_qingqing"],
+      "mapX": 60,
+      "mapY": 160,
+      "connections": ["longmen_kezhan", "treasure_cave", "youming_final"]
     },
     {
       "id": "treasure_cave",
@@ -128,7 +164,10 @@
       "climate": "阴凉",
       "background": "treasure",
       "music": "epic",
-      "npcs": ["lin_mochen", "liu_qingqing", "zhao_tieshan"]
+      "npcs": ["lin_mochen", "liu_qingqing", "zhao_tieshan"],
+      "mapX": 80,
+      "mapY": 140,
+      "connections": ["youming_jiao"]
     },
     {
       "id": "longmen_ruins",
@@ -138,7 +177,10 @@
       "climate": "战火",
       "background": "burning",
       "music": "dramatic",
-      "npcs": ["lin_mochen", "boss_longmen"]
+      "npcs": ["lin_mochen", "boss_longmen"],
+      "mapX": 140,
+      "mapY": 200,
+      "connections": ["longmen_kezhan", "longmen_battle"]
     },
     {
       "id": "longmen_battle",
@@ -148,7 +190,10 @@
       "climate": "战火",
       "background": "battle",
       "music": "battle",
-      "npcs": ["lin_mochen", "qin_xianzi"]
+      "npcs": ["lin_mochen", "qin_xianzi"],
+      "mapX": 155,
+      "mapY": 185,
+      "connections": ["longmen_ruins"]
     },
     {
       "id": "imperial_palace",
@@ -158,7 +203,10 @@
       "climate": "庄严",
       "background": "palace",
       "music": "majestic",
-      "npcs": ["lin_mochen", "emperor", "cai_jing", "liu_qingqing"]
+      "npcs": ["lin_mochen", "emperor", "cai_jing", "liu_qingqing"],
+      "mapX": 500,
+      "mapY": 100,
+      "connections": ["longmen_kezhan", "youming_final"]
     },
     {
       "id": "youming_final",
@@ -168,7 +216,10 @@
       "climate": "决战",
       "background": "final_battle",
       "music": "final_battle",
-      "npcs": ["lin_mochen", "cai_you", "su_wanqing"]
+      "npcs": ["lin_mochen", "cai_you", "su_wanqing"],
+      "mapX": 45,
+      "mapY": 130,
+      "connections": ["youming_jiao", "imperial_palace"]
     },
     {
       "id": "qingfeng_biaoju",
@@ -178,7 +229,10 @@
       "climate": "繁荣",
       "background": "daytime",
       "music": "peaceful",
-      "npcs": ["lin_mochen", "lu_da", "young_man"]
+      "npcs": ["lin_mochen", "lu_da", "young_man"],
+      "mapX": 290,
+      "mapY": 520,
+      "connections": ["wanqing_grave"]
     },
     {
       "id": "wanqing_grave",
@@ -188,7 +242,10 @@
       "climate": "宁静",
       "background": "peaceful",
       "music": "sad_peaceful",
-      "npcs": ["lin_mochen"]
+      "npcs": ["lin_mochen"],
+      "mapX": 320,
+      "mapY": 560,
+      "connections": ["qingfeng_biaoju"]
     }
   ]
 }
