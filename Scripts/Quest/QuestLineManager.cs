@@ -4,78 +4,37 @@ using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Quest
 {
-    /// <summary>
-    /// 剧情线管理器
-    /// 负责管理剧情线的加载、进度跟踪和状态更新
-    /// </summary>
     public partial class QuestLineManager : Node
     {
-        /// <summary>
-        /// 单例实例
-        /// </summary>
         private static QuestLineManager _instance;
-
-        /// <summary>
-        /// 获取单例实例
-        /// </summary>
         public static QuestLineManager Instance => _instance;
 
-        /// <summary>
-        /// 所有剧情线数据
-        /// </summary>
         private List<QuestLineData> _allQuestLines = [];
-
-        /// <summary>
-        /// 剧情线节点状态字典
-        /// 键：节点ID，值：节点状态
-        /// </summary>
         private Dictionary<string, QuestLineNodeState> _nodeStates = [];
 
-        /// <summary>
-        /// 剧情线进度更新信号
-        /// </summary>
-        /// <param name="questLineId">剧情线ID</param>
-        /// <param name="nodeId">节点ID</param>
         [Signal]
         public delegate void QuestLineProgressedEventHandler(string questLineId, string nodeId);
 
-        /// <summary>
-        /// 剧情线完成信号
-        /// </summary>
-        /// <param name="questLineId">剧情线ID</param>
         [Signal]
         public delegate void QuestLineCompletedEventHandler(string questLineId);
 
-        /// <summary>
-        /// 剧情线节点状态枚举
-        /// </summary>
         public enum QuestLineNodeState
         {
-            Locked,    // 锁定
-            Available, // 可用
-            Completed  // 已完成
+            Locked,
+            Available,
+            Completed
         }
 
-        /// <summary>
-        /// 节点就绪时的回调
-        /// 初始化单例实例，加载剧情线数据
-        /// </summary>
         public override void _Ready()
         {
             _instance = this;
             LoadQuestLines();
-            // 存档数据会在SaveManager.LoadGame时自动加载，不需要在这里调用LoadSaveData()
         }
 
-        /// <summary>
-        /// 加载剧情线数据
-        /// 从ResourcesManager加载所有剧情线数据
-        /// </summary>
         public void LoadQuestLines()
         {
             try
             {
-                // 使用ResourcesManager加载所有剧情线数据
                 if (hd2dtest.Scripts.Managers.ResourcesManager.Instance != null)
                 {
                     _allQuestLines = hd2dtest.Scripts.Managers.ResourcesManager.GetAllQuestLines();
@@ -87,11 +46,6 @@ namespace hd2dtest.Scripts.Quest
             }
         }
 
-        /// <summary>
-        /// 加载存档数据
-        /// 剧情线数据会在SaveManager.LoadGame时自动加载
-        /// </summary>
-        /// <param name="nodeStates">节点状态字典，键为节点ID，值为状态编码</param>
         public void LoadSaveData(Dictionary<string, int> nodeStates)
         {
             try
@@ -113,16 +67,10 @@ namespace hd2dtest.Scripts.Quest
             }
         }
 
-        /// <summary>
-        /// 保存数据
-        /// 剧情线数据会在SaveManager.SaveGame时自动保存
-        /// </summary>
         public void SaveData()
         {
             try
             {
-                // 剧情线数据会在SaveManager.SaveGame时自动保存
-                // 这里不需要做任何操作，SaveManager会调用SaveQuestData来保存节点状态
                 Log.Debug("QuestLineManager.SaveData called - data will be saved by SaveManager");
             }
             catch (System.Exception e)
@@ -131,10 +79,6 @@ namespace hd2dtest.Scripts.Quest
             }
         }
 
-        /// <summary>
-        /// 获取所有节点状态（用于保存）
-        /// </summary>
-        /// <returns>节点状态字典，键为节点ID，值为状态编码</returns>
         public Dictionary<string, int> GetAllNodeStates()
         {
             var nodeStates = new Dictionary<string, int>();
@@ -145,21 +89,11 @@ namespace hd2dtest.Scripts.Quest
             return nodeStates;
         }
 
-        /// <summary>
-        /// 获取剧情线数据
-        /// </summary>
-        /// <param name="questLineId">剧情线ID</param>
-        /// <returns>剧情线数据</returns>
         public QuestLineData GetQuestLine(string questLineId)
         {
             return _allQuestLines.Find(ql => ql.Id == questLineId);
         }
 
-        /// <summary>
-        /// 获取节点状态
-        /// </summary>
-        /// <param name="nodeId">节点ID</param>
-        /// <returns>节点状态</returns>
         public QuestLineNodeState GetNodeState(string nodeId)
         {
             if (_nodeStates.TryGetValue(nodeId, out QuestLineNodeState state))
@@ -169,36 +103,20 @@ namespace hd2dtest.Scripts.Quest
             return QuestLineNodeState.Locked;
         }
 
-        /// <summary>
-        /// 设置节点状态
-        /// </summary>
-        /// <param name="nodeId">节点ID</param>
-        /// <param name="state">节点状态</param>
         public void SetNodeState(string nodeId, QuestLineNodeState state)
         {
             _nodeStates[nodeId] = state;
         }
 
-        /// <summary>
-        /// 解锁节点
-        /// </summary>
-        /// <param name="nodeId">节点ID</param>
         public void UnlockNode(string nodeId)
         {
             _nodeStates[nodeId] = QuestLineNodeState.Available;
-            // 不再调用SaveData()，因为SaveManager会自动保存
         }
 
-        /// <summary>
-        /// 完成节点
-        /// </summary>
-        /// <param name="nodeId">节点ID</param>
         public void CompleteNode(string nodeId)
         {
             _nodeStates[nodeId] = QuestLineNodeState.Completed;
-            // 不再调用SaveData()，因为SaveManager会自动保存
 
-            // 检查是否解锁下一个节点
             foreach (var questLine in _allQuestLines)
             {
                 foreach (var node in questLine.Nodes)
@@ -214,11 +132,6 @@ namespace hd2dtest.Scripts.Quest
             }
         }
 
-        /// <summary>
-        /// 解锁下一个节点
-        /// </summary>
-        /// <param name="questLine">剧情线数据</param>
-        /// <param name="completedNode">已完成的节点</param>
         private void UnlockNextNodes(QuestLineData questLine, QuestLineNode completedNode)
         {
             if (completedNode.NextNodes != null)
@@ -228,16 +141,71 @@ namespace hd2dtest.Scripts.Quest
                     var nextNode = questLine.Nodes.Find(n => n.Id == nextNodeId);
                     if (nextNode != null && GetNodeState(nextNodeId) == QuestLineNodeState.Locked)
                     {
-                        UnlockNode(nextNodeId);
+                        if (CheckNodeRequirements(nextNode))
+                        {
+                            UnlockNode(nextNodeId);
+                        }
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// 检查剧情线是否完成
-        /// </summary>
-        /// <param name="questLine">剧情线数据</param>
+        private bool CheckNodeRequirements(QuestLineNode node)
+        {
+            if (node.Requirements == null)
+                return true;
+
+            if (node.Requirements.Level > 0 && !CheckLevelRequirement(node.Requirements.Level))
+                return false;
+
+            if (node.Requirements.KillCount > 0 && !CheckKillCountRequirement(node.Requirements.KillCount))
+                return false;
+
+            if (node.Requirements.SkillCount > 0 && !CheckSkillCountRequirement(node.Requirements.SkillCount))
+                return false;
+
+            if (node.Requirements.CompletedQuests > 0 && !CheckCompletedQuestsRequirement(node.Requirements.CompletedQuests))
+                return false;
+
+            if (node.Requirements.Gold > 0 && !CheckGoldRequirement(node.Requirements.Gold))
+                return false;
+
+            if (!string.IsNullOrEmpty(node.Requirements.CompletedQuest) && !CheckCompletedQuestRequirement(node.Requirements.CompletedQuest))
+                return false;
+
+            return true;
+        }
+
+        private bool CheckLevelRequirement(int level)
+        {
+            return true;
+        }
+
+        private bool CheckKillCountRequirement(int count)
+        {
+            return true;
+        }
+
+        private bool CheckSkillCountRequirement(int count)
+        {
+            return true;
+        }
+
+        private bool CheckCompletedQuestsRequirement(int count)
+        {
+            return true;
+        }
+
+        private bool CheckGoldRequirement(int amount)
+        {
+            return true;
+        }
+
+        private bool CheckCompletedQuestRequirement(string questId)
+        {
+            return QuestManager.Instance.GetQuestStatus(questId) == QuestManager.QuestStatus.Completed;
+        }
+
         private void CheckQuestLineCompletion(QuestLineData questLine)
         {
             bool allNodesCompleted = true;
@@ -256,11 +224,6 @@ namespace hd2dtest.Scripts.Quest
             }
         }
 
-        /// <summary>
-        /// 获取可用节点列表
-        /// </summary>
-        /// <param name="questLineId">剧情线ID</param>
-        /// <returns>可用节点列表</returns>
         public List<QuestLineNode> GetAvailableNodes(string questLineId)
         {
             List<QuestLineNode> availableNodes = [];
@@ -278,11 +241,6 @@ namespace hd2dtest.Scripts.Quest
             return availableNodes;
         }
 
-        /// <summary>
-        /// 获取已完成节点列表
-        /// </summary>
-        /// <param name="questLineId">剧情线ID</param>
-        /// <returns>已完成节点列表</returns>
         public List<QuestLineNode> GetCompletedNodes(string questLineId)
         {
             List<QuestLineNode> completedNodes = [];
@@ -300,14 +258,8 @@ namespace hd2dtest.Scripts.Quest
             return completedNodes;
         }
 
-        /// <summary>
-        /// 任务完成时的回调
-        /// 检查是否有相关的剧情节点需要更新
-        /// </summary>
-        /// <param name="questId">任务ID</param>
         public void OnQuestCompleted(string questId)
         {
-            // 当任务完成时，检查是否有相关的剧情节点需要更新
             var quest = QuestManager.Instance.GetQuest(questId);
             if (quest != null && !string.IsNullOrEmpty(quest.QuestLineId))
             {
@@ -327,70 +279,32 @@ namespace hd2dtest.Scripts.Quest
         }
     }
 
-    /// <summary>
-    /// 剧情线数据类
-    /// </summary>
     public class QuestLineData
     {
-        /// <summary>
-        /// 剧情线ID
-        /// </summary>
         public string Id { get; set; }
-
-        /// <summary>
-        /// 剧情线名称
-        /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// 剧情线描述
-        /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// 剧情线节点列表
-        /// </summary>
-        public List<QuestLineNode> Nodes { get; set; }
+        public List<QuestLineNode> Nodes { get; set; } = new List<QuestLineNode>();
     }
 
-    /// <summary>
-    /// 剧情线节点类
-    /// </summary>
     public class QuestLineNode
     {
-        /// <summary>
-        /// 节点ID
-        /// </summary>
         public string Id { get; set; }
-
-        /// <summary>
-        /// 节点名称
-        /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// 节点描述
-        /// </summary>
         public string Description { get; set; }
+        public List<string> QuestIds { get; set; } = new List<string>();
+        public List<string> NextNodes { get; set; } = new List<string>();
+        public NodeRequirements Requirements { get; set; }
+        public bool Branching { get; set; }
+    }
 
-        /// <summary>
-        /// 关联的任务ID列表
-        /// </summary>
-        public List<string> QuestIds { get; set; }
-
-        /// <summary>
-        /// 下一个节点ID列表
-        /// </summary>
-        public List<string> NextNodes { get; set; }
-
-        /// <summary>
-        /// 节点要求
-        /// </summary>
-        public List<string> Requirements { get; set; }
-
-        /// <summary>
-        /// 是否为分支点
-        /// </summary>
-        public bool IsBranchPoint { get; set; }
+    public class NodeRequirements
+    {
+        public int Level { get; set; }
+        public int KillCount { get; set; }
+        public int SkillCount { get; set; }
+        public int CompletedQuests { get; set; }
+        public int Gold { get; set; }
+        public string CompletedQuest { get; set; }
     }
 }

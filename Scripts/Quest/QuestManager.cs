@@ -217,11 +217,11 @@ namespace hd2dtest.Scripts.Quest
                 return false;
             }
 
-            if (quest.Dependencies != null)
+            if (quest.Requires != null)
             {
-                foreach (var dependency in quest.Dependencies)
+                foreach (var requiredQuestId in quest.Requires)
                 {
-                    if (!CheckDependency(dependency))
+                    if (GetQuestStatus(requiredQuestId) != QuestStatus.Completed)
                     {
                         return false;
                     }
@@ -316,26 +316,7 @@ namespace hd2dtest.Scripts.Quest
             return null;
         }
 
-        /// <summary>
-        /// 检查任务依赖
-        /// </summary>
-        /// <param name="dependency">依赖数据</param>
-        /// <returns>依赖是否满足</returns>
-        private bool CheckDependency(QuestDependency dependency)
-        {
-            switch (dependency.Type)
-            {
-                case "quest_completed":
-                    return GetQuestStatus(dependency.QuestId) == QuestStatus.Completed;
-                case "quest_in_progress":
-                    return GetQuestStatus(dependency.QuestId) == QuestStatus.InProgress;
-                case "level":
-                    // 这里需要获取玩家等级
-                    return true;
-                default:
-                    return false;
-            }
-        }
+        
 
         /// <summary>
         /// 检查任务是否完成
