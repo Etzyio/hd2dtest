@@ -1,18 +1,53 @@
+/*
+ * File: HD2DCharacter.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * HD2D角色渲染组件，负责角色的3D渲染和动画控制。
+ * 使用多层Sprite3D实现2D精灵在3D空间中的渲染，支持角色朝向相机、阴影效果和图层管理。
+ * 
+ * Key Features:
+ * - 图层系统：支持基础层、身体层、头部层、武器层、特效层
+ * - 碰撞体管理：自动创建胶囊碰撞体
+ * - 阴影系统：动态阴影创建和强度控制
+ * - 朝向相机：角色自动面向主相机
+ * - 纹理管理：支持图层纹理设置和颜色调整
+ * - 缩放和翻转：支持角色缩放和水平翻转
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
 
 namespace hd2dtest.Scripts.Modules
 {
+    /// <summary>
+    /// 角色图层枚举
+    /// </summary>
+    /// <remarks>
+    /// 定义角色渲染的图层顺序，用于管理角色的各个视觉组件
+    /// </remarks>
     public enum CharacterLayer
     {
+        /// <summary>基础层（背景）</summary>
         Base,
+        /// <summary>身体层</summary>
         Body,
+        /// <summary>头部层</summary>
         Head,
+        /// <summary>武器层</summary>
         Weapon,
+        /// <summary>特效层（最上层）</summary>
         Effects
     }
 
+    /// <summary>
+    /// HD2D角色类，继承自CharacterBody3D，实现2D精灵在3D空间中的渲染
+    /// </summary>
+    /// <remarks>
+    /// 使用多层Sprite3D实现角色渲染，支持自动朝向相机、阴影效果和图层管理
+    /// </remarks>
     public partial class HD2DCharacter : CharacterBody3D
     {
         [Export] public string CharacterId = "";

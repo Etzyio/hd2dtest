@@ -1,3 +1,21 @@
+/*
+ * File: GameStateManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 游戏状态管理器，作为全局单例负责管理游戏的状态转换。
+ * 支持游戏状态的切换、查询和状态变更信号通知。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 支持多种游戏状态（Menu、Loading、Playing、Battle、Dialogue、Paused、GameOver）
+ * - 状态变更信号通知机制
+ * - 暂停/恢复游戏功能
+ * - 状态验证和防止重复切换
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 using System;

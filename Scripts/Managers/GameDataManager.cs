@@ -1,3 +1,22 @@
+/*
+ * File: GameDataManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 游戏数据管理器，作为全局单例负责管理游戏中的核心数据。
+ * 支持道具、装备、关卡、任务的数据管理和状态追踪。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 管理小队成员（Teammates）
+ * - 道具列表管理（添加、移除、使用）
+ * - 装备列表管理（添加、移除）
+ * - 关卡和任务解锁管理
+ * - 支持从ResourcesManager缓存初始化数据
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Modules;
 using System.Collections.Generic;

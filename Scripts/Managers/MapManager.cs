@@ -1,3 +1,22 @@
+/*
+ * File: MapManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 地图管理器，作为全局单例负责管理游戏中的地图系统。
+ * 支持地图的加载、卸载、切换和传送，管理地图间的连接关系和战斗遭遇率。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 地图数据结构包含：ID、名称、类型、尺寸、场景路径、出生点、连接地图等
+ * - 支持多种地图类型（Overworld、Dungeon、Town、Cave、Arena）
+ * - 地图连接验证和切换
+ * - 战斗遭遇率计算
+ * - 玩家传送功能
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 using System;

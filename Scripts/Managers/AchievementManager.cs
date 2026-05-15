@@ -1,3 +1,21 @@
+/*
+ * File: AchievementManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 成就管理器，作为全局单例负责管理游戏中的成就系统。
+ * 支持成就的解锁、进度跟踪、奖励发放和查询功能。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 支持多种成就类型（战斗、探索、任务、收集、故事）
+ * - 成就进度跟踪和自动解锁
+ * - 成就奖励系统（金币、物品等）
+ * - 支持按类型查询成就
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 using System;

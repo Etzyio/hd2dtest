@@ -6,9 +6,18 @@
     <AssemblyName>hd2dtest</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'NoSteam' ">
+    <DefineConstants>NO_STEAM</DefineConstants>
+    <AssemblyName>hd2dtest_nosteam</AssemblyName>
+  </PropertyGroup>
+
   <ItemGroup>
     <Content Include="Resources\Static\*" />
     <Content Include="version.json" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)' != 'NoSteam' ">
+    <PackageReference Include="Steamworks.NET" Version="20.2.0" />
   </ItemGroup>
 
 </Project>

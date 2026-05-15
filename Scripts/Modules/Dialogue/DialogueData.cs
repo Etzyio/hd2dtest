@@ -1,3 +1,19 @@
+/*
+ * File: DialogueData.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 对话数据模型类，定义对话系统中使用的数据结构。
+ * 包含对话节点、对话选项、对话事件和对话图的数据定义。
+ * 
+ * Key Features:
+ * - DialogueNode：对话节点，包含说话者、文本、选项和事件
+ * - DialogueOption：对话选项，包含文本、目标节点和条件
+ * - DialogueEvent：对话事件，包含类型和参数
+ * - DialogueGraph：对话图，包含所有节点和起始节点
+ */
+
 using System;
 using System.Collections.Generic;
 using Godot;

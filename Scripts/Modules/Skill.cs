@@ -1,3 +1,22 @@
+/*
+ * File: Skill.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 技能类，定义游戏中技能的属性和行为。
+ * 包含技能的基本属性、效果参数和状态信息，支持多种技能类型和效果。
+ * 
+ * Key Features:
+ * - 技能类型：攻击、防御、辅助、治疗
+ * - 技能效果系统：支持多个效果项（SkillDefent）
+ * - 伤害类型：支持物理、魔法、火、水、雷、冰等
+ * - 技能状态：解锁/锁定状态管理
+ * - 冷却时间和魔法消耗管理
+ * - 完整的异常处理和日志记录
+ * - 支持多语言翻译
+ */
+
 using System;
 using System.Collections.Generic;
 using Godot;

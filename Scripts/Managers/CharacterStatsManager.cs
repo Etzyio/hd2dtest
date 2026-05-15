@@ -1,3 +1,21 @@
+/*
+ * File: CharacterStatsManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 角色属性管理器，作为全局单例负责计算和管理角色的属性。
+ * 支持属性计算、升级、伤害计算、治疗计算等功能。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 根据等级、装备、被动技能计算角色属性
+ * - 角色升级属性增长计算（考虑职业成长率）
+ * - 伤害计算公式（攻击-防御*0.5，带随机因子）
+ * - 经验和金币奖励计算
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using hd2dtest.Scripts.Modules;

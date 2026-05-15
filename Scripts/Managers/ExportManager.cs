@@ -1,3 +1,21 @@
+/*
+ * File: ExportManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 跨平台导出管理器，作为全局单例负责管理游戏在不同平台上的导出流程。
+ * 支持Windows、macOS、Linux、Android、iOS等平台的导出配置和自动化构建。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 支持多平台导出配置（Windows、macOS、Linux、Android、iOS）
+ * - 配置验证和输出目录管理
+ * - 平台分类（桌面、移动、控制台、Web）
+ * - 支持批量导出所有平台
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

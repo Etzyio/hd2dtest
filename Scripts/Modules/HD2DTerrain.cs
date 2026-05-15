@@ -1,9 +1,33 @@
+/*
+ * File: HD2DTerrain.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * HD2D地形生成组件，负责生成基于高度图的3D地形。
+ * 使用ArrayMesh创建地形网格，支持高度图导入、碰撞体生成和瓦片位置查询。
+ * 
+ * Key Features:
+ * - 高度图支持：从纹理导入高度数据生成地形
+ * - 网格生成：自动生成三角形网格和UV坐标
+ * - 碰撞体创建：基于地形网格生成碰撞形状
+ * - 瓦片位置管理：记录每个瓦片的世界坐标
+ * - 高度查询：支持世界坐标高度查询
+ * - 瓦片有效性检查：判断坐标是否在地形范围内
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
 
 namespace hd2dtest.Scripts.Modules
 {
+    /// <summary>
+    /// HD2D地形类，继承自Node3D，实现基于高度图的3D地形生成
+    /// </summary>
+    /// <remarks>
+    /// 使用ArrayMesh创建地形网格，支持高度图导入和碰撞体生成
+    /// </remarks>
     public partial class HD2DTerrain : Node3D
     {
         [Export] public int Width = 20;

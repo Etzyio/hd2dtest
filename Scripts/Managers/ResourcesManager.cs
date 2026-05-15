@@ -1,3 +1,23 @@
+/*
+ * File: ResourcesManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 资源管理器，作为全局单例负责管理游戏中的所有静态资源。
+ * 支持异步加载、优先级排序、缓存管理和资源查询。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 异步资源加载，支持优先级排序（Critical/High/Medium/Low）
+ * - 多级缓存机制（技能、物品、NPC、怪物、武器、装备、关卡、任务等）
+ * - ViewRegister场景注册管理
+ * - 资源加载进度事件和统计
+ * - JSON序列化/反序列化支持
+ * - 资源重新加载和缓存清理功能
+ * - 完整的异常处理和性能监控
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

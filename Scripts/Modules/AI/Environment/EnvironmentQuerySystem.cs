@@ -1,8 +1,27 @@
+/*
+ * File: EnvironmentQuerySystem.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 环境查询系统，提供AI实体对游戏环境的查询能力。
+ * 目前支持掩体点的注册和查找功能，可用于AI寻找最佳掩护位置。
+ * 
+ * Key Features:
+ * - CoverPoint：掩体点定义，包含占用状态、质量和方向
+ * - 单例模式：全局访问环境查询系统
+ * - 掩体注册：注册场景中的掩体点
+ * - 最佳掩体查找：根据代理位置和威胁位置找到最佳掩护
+ */
+
 using Godot;
 using System.Collections.Generic;
 
 namespace hd2dtest.Scripts.Modules.AI.Environment
 {
+    /// <summary>
+    /// 掩体点类
+    /// </summary>
     [GlobalClass]
     public partial class CoverPoint : Node3D
     {

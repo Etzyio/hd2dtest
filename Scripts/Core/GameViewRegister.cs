@@ -1,3 +1,18 @@
+/*
+ * File: GameViewRegister.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 游戏视图注册器，负责管理场景名称与场景路径的映射关系，
+ * 提供场景的注册和获取功能，为场景切换和弹窗管理提供场景加载支持。
+ * 
+ * Key Features:
+ * - 从ResourcesManager获取场景注册表
+ * - 根据场景名称加载对应的PackedScene
+ * - 提供安全的场景加载机制，包含错误处理和日志记录
+ */
+
 using System.Collections.Generic;
 using Godot;
 using hd2dtest.Scripts.Utilities;

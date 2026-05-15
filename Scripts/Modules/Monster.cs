@@ -1,7 +1,26 @@
+/*
+ * File: Monster.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 怪物类，继承自Creature类，定义游戏中怪物的属性和行为。
+ * 包含AI状态机、巡逻行为、追逐逻辑、攻击系统和掉落机制。
+ * 
+ * Key Features:
+ * - 怪物类型：普通、精英、BOSS（不同属性和行为）
+ * - AI状态机：空闲、巡逻、追逐、攻击、逃跑
+ * - 仇恨系统：检测玩家进入仇恨范围
+ * - 攻击系统：攻击范围和冷却时间管理
+ * - 巡逻系统：多巡逻点支持
+ * - 掉落系统：物品和金币掉落
+ * - 完整的异常处理和日志记录
+ */
+
 using System;
 using System.Collections.Generic;
 using Godot;
-using hd2dtest.Scripts.Core;
+using hd2dtest.Scripts.Modules;
 using hd2dtest.Scripts.Utilities;
 using System.Linq;
 
@@ -193,37 +212,60 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public virtual void UpdateAI(float delta)
         {
-            if (!IsAlive || IsInBattle)
+            try
             {
-                return;
+                if (!IsAlive)
+                {
+                    Log.Warning($"Monster {CreatureName} is not alive, skipping AI update");
+                    return;
+                }
+
+                if (IsInBattle)
+                {
+                    return;
+                }
+
+                if (delta <= 0)
+                {
+                    Log.Warning($"Invalid delta time: {delta}");
+                    return;
+                }
+
+                // 更新攻击冷却
+                if (_attackCooldown > 0)
+                {
+                    _attackCooldown -= delta;
+                }
+
+                // 检测玩家
+                Creature player = DetectPlayer();
+
+                switch (CurrentState)
+                {
+                    case MonsterState.Idle:
+                        HandleIdleState(delta, player);
+                        break;
+                    case MonsterState.Patrol:
+                        HandlePatrolState(delta, player);
+                        break;
+                    case MonsterState.Chase:
+                        HandleChaseState(delta, player);
+                        break;
+                    case MonsterState.Attack:
+                        HandleAttackState(delta, player);
+                        break;
+                    case MonsterState.Flee:
+                        HandleFleeState(delta, player);
+                        break;
+                    default:
+                        Log.Warning($"Unknown monster state: {CurrentState}");
+                        CurrentState = MonsterState.Idle;
+                        break;
+                }
             }
-
-            // 更新攻击冷却
-            if (_attackCooldown > 0)
+            catch (Exception ex)
             {
-                _attackCooldown -= delta;
-            }
-
-            // 检测玩家
-            Creature player = DetectPlayer();
-
-            switch (CurrentState)
-            {
-                case MonsterState.Idle:
-                    HandleIdleState(delta, player);
-                    break;
-                case MonsterState.Patrol:
-                    HandlePatrolState(delta, player);
-                    break;
-                case MonsterState.Chase:
-                    HandleChaseState(delta, player);
-                    break;
-                case MonsterState.Attack:
-                    HandleAttackState(delta, player);
-                    break;
-                case MonsterState.Flee:
-                    HandleFleeState(delta, player);
-                    break;
+                Log.Error($"Error updating AI for monster {CreatureName}: {ex.Message}");
             }
         }
 
@@ -435,27 +477,47 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public bool AttackTarget(Creature target)
         {
-            if (!IsAlive || target == null || !target.IsAlive)
+            try
             {
+                if (!IsAlive)
+                {
+                    Log.Error($"Monster {CreatureName} cannot attack: not alive");
+                    return false;
+                }
+
+                if (target == null)
+                {
+                    Log.Error($"Monster {CreatureName} cannot attack null target");
+                    return false;
+                }
+
+                if (!target.IsAlive)
+                {
+                    Log.Warning($"Monster {CreatureName} cannot attack dead target: {target.CreatureName}");
+                    return false;
+                }
+
+                // 使用默认技能攻击目标
+                Skill defaultSkill = new Skill
+                {
+                    SkillName = "Monster Attack",
+                    SkillDefs = [new Skill.SkillDefent{
+                        Type=Skill.SkillType.Attack,
+                        DamageCoefficient = 1,
+                        DamageType = new Weakness("Physical")
+                    }],
+                    Cooldown = 1f
+                };
+
+                target.TakeDamage(this, defaultSkill);
+                _attackCooldown = _maxAttackCooldown;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in AttackTarget for monster {CreatureName}: {ex.Message}");
                 return false;
             }
-
-            // 使用默认技能攻击目标
-            // 这里简化处理，实际应该使用怪物的技能
-            Skill defaultSkill = new Skill
-            {
-                SkillName = "Monster Attack",
-                SkillDefs = [new Skill.SkillDefent{
-                    Type=Skill.SkillType.Attack,
-                    DamageCoefficient = 1,
-                    DamageType = new Weakness("Physical")
-                }],
-                Cooldown = 1f
-            };
-
-            target.TakeDamage(this, defaultSkill);
-            _attackCooldown = _maxAttackCooldown;
-            return true;
         }
 
         /// <summary>
@@ -466,15 +528,22 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         protected new void Die()
         {
-            base.Die();
-
-            // 掉落物品
-            DropLoot();
-
-            // 通知玩家（如果玩家存在）
-            if (_target != null && _target is Player player)
+            try
             {
-                player.KillEnemy(this);
+                base.Die();
+
+                // 掉落物品
+                DropLoot();
+
+                // 通知玩家（如果玩家存在）
+                if (_target != null && _target is Player player)
+                {
+                    player.KillEnemy(this);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in Die method for monster {CreatureName}: {ex.Message}");
             }
         }
 
@@ -486,21 +555,34 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         private void DropLoot()
         {
-            // 简单的掉落逻辑
-            if (DropItems.Count > 0)
+            try
             {
-                // 随机选择一个物品掉落
-                int randomIndex = DamageCalculator.Randi(DropItems.Count);
-                string droppedItem = DropItems[randomIndex];
+                // 简单的掉落逻辑
+                if (DropItems != null && DropItems.Count > 0)
+                {
+                    // 随机选择一个物品掉落
+                    int randomIndex = DamageCalculator.Randi(DropItems.Count);
+                    if (randomIndex >= 0 && randomIndex < DropItems.Count)
+                    {
+                        string droppedItem = DropItems[randomIndex];
+                        Log.Info($"{CreatureName} dropped {droppedItem}");
+                    }
+                    else
+                    {
+                        Log.Warning($"Invalid random index {randomIndex} for DropItems count {DropItems.Count}");
+                    }
+                }
 
-                Log.Info($"{CreatureName} dropped {droppedItem}");
+                // 掉落金币
+                int gold = DamageCalculator.Randi(Level * 20) + 5;
+                if (gold > 0 && _target != null && _target is Player player)
+                {
+                    player.CollectGold(gold);
+                }
             }
-
-            // 掉落金币
-            int gold = DamageCalculator.Randi(Level * 20) + 5;
-            if (gold > 0 && _target != null && _target is Player player)
+            catch (Exception ex)
             {
-                player.CollectGold(gold);
+                Log.Error($"Error in DropLoot for monster {CreatureName}: {ex.Message}");
             }
         }
 

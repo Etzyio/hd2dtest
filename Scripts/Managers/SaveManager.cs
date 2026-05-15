@@ -1,3 +1,23 @@
+/*
+ * File: SaveManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 存档管理器，作为全局单例负责游戏存档的保存和加载。
+ * 支持多个存档槽位、自动存档、自定义数据存储和存档信息查询。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 支持20个存档槽位限制
+ * - 自动存档功能
+ * - 保存/加载任务数据和GameDataManager数据
+ * - 支持自定义数据存储
+ * - 提供存档信息查询（数量、时间、等级等）
+ * - 支持存档复制功能
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

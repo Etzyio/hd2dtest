@@ -1,3 +1,22 @@
+/*
+ * File: NPC.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * NPC类，继承自Creature类，定义游戏中非玩家角色的属性和行为。
+ * 包含NPC的基本属性、AI状态、交互类型和对话系统，支持多种NPC类型和交互方式。
+ * 
+ * Key Features:
+ * - NPC类型系统：村民、商人、任务给予者、守卫、治疗师
+ * - AI状态机：空闲、巡逻、对话、跟随、警戒
+ * - 交互系统：对话、交易、任务、治疗、跟随
+ * - 对话系统：支持对话图和任务相关对话
+ * - 巡逻系统：多巡逻点支持
+ * - 完整的异常处理和日志记录
+ * - 支持多语言翻译
+ */
+
 using System.Collections.Generic;
 using Godot;
 using hd2dtest.Scripts.Core;

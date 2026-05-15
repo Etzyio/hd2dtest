@@ -1,3 +1,21 @@
+/*
+ * File: Weapon.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 武器类，定义游戏中武器的属性和行为。
+ * 包含武器基本属性、攻击参数、特效信息和装备状态，支持攻击伤害计算和暴击判定。
+ * 
+ * Key Features:
+ * - 支持多种武器类型：剑、斧、弓、法杖、匕首、长矛
+ * - 攻击参数：攻击力、攻击速度、攻击范围、暴击率、暴击伤害
+ * - 伤害计算：基础攻击力 + 武器攻击力 + 攻击速度修正
+ * - 暴击判定：随机判定暴击并计算暴击伤害
+ * - 装备/卸下功能：标记武器状态
+ * - 完整的异常处理和日志记录
+ */
+
 using System;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;

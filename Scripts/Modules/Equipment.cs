@@ -1,3 +1,20 @@
+/*
+ * File: Equipment.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 装备类，定义游戏中所有装备的属性和行为。
+ * 包含装备基础属性、特效属性和装备行为，支持装备/卸下、特效触发等功能。
+ * 
+ * Key Features:
+ * - 支持多种装备类型：盔甲、头盔、靴子、手套、饰品、盾牌
+ * - 属性加成系统：防御力、生命值、魔法值、速度、攻击力
+ * - 装备特效系统：武器限制、伤害增强、敌对干扰
+ * - 装备/卸下功能：标记装备状态并触发/移除特效
+ * - 完整的异常处理和日志记录
+ */
+
 using System;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;

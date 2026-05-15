@@ -1,3 +1,23 @@
+/*
+ * File: BuffSystem.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * Buff系统，定义游戏中的Buff效果、数据模型和管理器。
+ * 支持Buff的应用、叠加、更新、移除和驱散功能，提供全局Buff管理器访问。
+ * 
+ * Key Features:
+ * - Buff效果类型：攻击力加成、防御力加成、速度加成、生命/魔法恢复等
+ * - 持续时间类型：立即生效、持续时间、持续回合、永久
+ * - Buff叠加系统：支持多层叠加和刷新机制
+ * - Buff管理器：管理所有活跃Buff的生命周期
+ * - 全局访问：提供静态全局Buff管理器实例
+ * - 信号通知：Buff应用、过期、叠加信号
+ * - 完整的异常处理和日志记录
+ * - 支持多语言翻译
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -11,6 +31,9 @@ namespace hd2dtest.Scripts.Modules.SkillSystem
     /// <summary>
     /// Buff效果类型枚举
     /// </summary>
+    /// <remarks>
+    /// 定义Buff可以产生的各种效果类型
+    /// </remarks>
     public enum BuffEffectType
     {
         /// <summary>攻击力加成</summary>

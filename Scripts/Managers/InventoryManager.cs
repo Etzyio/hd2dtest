@@ -1,3 +1,21 @@
+/*
+ * File: InventoryManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 背包管理器，作为全局单例负责管理玩家背包中的物品。
+ * 支持物品的添加、移除、使用、分类查询和容量管理。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 物品堆叠机制（支持最大堆叠数限制）
+ * - 背包容量管理和扩展
+ * - 物品分类查询（按类型筛选）
+ * - 消耗品使用功能（药水等）
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 using System;

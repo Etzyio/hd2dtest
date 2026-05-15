@@ -1,3 +1,21 @@
+/*
+ * File: ConfigManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 配置管理器，作为全局单例负责管理游戏的所有设置。
+ * 支持配置的加载、保存、应用和重置，涵盖音量、图形、游戏和控制设置。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 配置数据结构包含：音量设置、图形设置、游戏设置、控制设置
+ * - 自动检测系统语言并设置相应语言
+ * - 支持配置重置为默认值
+ * - 配置变更信号通知
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

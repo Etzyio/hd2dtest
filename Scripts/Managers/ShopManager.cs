@@ -1,3 +1,22 @@
+/*
+ * File: ShopManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 商店管理器，作为全局单例负责管理游戏中的商店系统。
+ * 支持商店数据管理、玩家交易（买入/卖出）、库存管理和声望折扣系统。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 支持多种商店类型（杂货店、武器店、防具店）
+ * - 有限/无限库存管理
+ * - 基于声望的折扣系统
+ * - 完整的买入/卖出交易逻辑
+ * - 背包空间检查和金币验证
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 using hd2dtest.Scripts.Modules;

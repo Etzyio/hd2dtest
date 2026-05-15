@@ -1,3 +1,19 @@
+/*
+ * File: LoadingManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 加载管理器，作为自动加载的单例节点，负责管理游戏中的加载动画。
+ * 在场景切换、资源加载等操作时显示/隐藏加载界面，提升用户体验。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 动态创建加载动画节点（背景遮罩、加载文本、指示器）
+ * - 提供显示/隐藏加载动画的方法
+ * - 支持检查加载动画的可见状态
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 

@@ -1,3 +1,22 @@
+/*
+ * File: AudioManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 音频管理器，作为全局单例负责管理游戏中的音频播放。
+ * 支持背景音乐(BGM)、音效(SFX)和UI音效的播放、音量控制和缓存管理。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 三个独立音频播放器（BGM、SFX、UI）
+ * - 音频资源缓存机制，提升加载性能
+ * - 音量独立控制（BGM、SFX、UI）
+ * - 支持BGM暂停/恢复功能
+ * - 自动创建临时播放器处理音效叠加
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using hd2dtest.Scripts.Utilities;
 using System;

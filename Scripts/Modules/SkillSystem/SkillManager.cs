@@ -1,3 +1,22 @@
+/*
+ * File: SkillManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 技能管理器，负责创建和管理游戏中的技能模板。
+ * 提供技能模板的注册、获取和实例化功能，支持默认技能创建和自定义技能添加。
+ * 
+ * Key Features:
+ * - 技能模板管理：存储和检索技能模板
+ * - 默认技能创建：基础攻击、治疗、火球术、防御姿态、力量祝福
+ * - 技能实例化：从模板创建技能实例
+ * - 玩家初始技能：提供玩家初始技能列表
+ * - 自定义技能支持：允许添加自定义技能模板
+ * - 完整的异常处理和日志记录
+ * - 支持多语言翻译
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -8,8 +27,11 @@ using hd2dtest.Scripts.Utilities;
 namespace hd2dtest.Scripts.Modules.SkillSystem
 {
     /// <summary>
-    /// 技能管理器，负责创建和管理默认技能
+    /// 技能管理器，负责创建和管理游戏中的技能模板
     /// </summary>
+    /// <remarks>
+    /// 静态类，提供技能模板的注册、获取和实例化功能
+    /// </remarks>
     public static class SkillManager
     {
         private static readonly Dictionary<string, Skill> _skillTemplates = new();
