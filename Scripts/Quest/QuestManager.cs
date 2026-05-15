@@ -391,7 +391,7 @@ namespace hd2dtest.Scripts.Quest
             {
                 foreach (var achievementId in quest.Achievements)
                 {
-                    // 这里需要触发成就系统
+                    AchievementManager.Instance?.UnlockAchievement(achievementId);
                     Log.Info($"Triggering achievement: {achievementId}");
                 }
             }
@@ -403,8 +403,11 @@ namespace hd2dtest.Scripts.Quest
         /// <param name="amount">经验值数量</param>
         public void GrantExperience(int amount)
         {
-            // 这里需要获取玩家并给予经验值
-            Log.Info($"Granting {amount} experience");
+            if (GameManager.Instance?.Teammates?.Player != null)
+            {
+                GameManager.Instance.Teammates.Player.Experience += amount;
+                Log.Info($"Granting {amount} experience to player");
+            }
         }
 
         /// <summary>
@@ -414,7 +417,7 @@ namespace hd2dtest.Scripts.Quest
         /// <param name="count">物品数量</param>
         public void GrantItem(string itemId, int count)
         {
-            // 这里需要获取玩家背包并给予物品
+            InventoryManager.Instance.AddItem(itemId, count);
             Log.Info($"Granting {count} x {itemId}");
         }
 
@@ -425,8 +428,11 @@ namespace hd2dtest.Scripts.Quest
         /// <param name="amount">货币数量</param>
         public void GrantCurrency(string currencyType, int amount)
         {
-            // 这里需要获取玩家货币并给予
-            Log.Info($"Granting {amount} {currencyType}");
+            if (GameManager.Instance?.Teammates?.Player != null && currencyType == "gold")
+            {
+                GameManager.Instance.Teammates.Player.Gold += amount;
+                Log.Info($"Granting {amount} gold");
+            }
         }
 
         /// <summary>
@@ -435,7 +441,7 @@ namespace hd2dtest.Scripts.Quest
         /// <param name="equipmentId">装备ID</param>
         public void GrantEquipment(string equipmentId)
         {
-            // 这里需要获取玩家装备栏并给予装备
+            InventoryManager.Instance.AddItem(equipmentId, 1);
             Log.Info($"Granting equipment: {equipmentId}");
         }
 
