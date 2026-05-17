@@ -1,0 +1,36 @@
+{
+  "id": "su_wanqing_farewell",
+  "startNodeId": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speakerName": "苏婉清",
+      "text": "墨尘师兄！我睡不着。听说你们要去押送生辰纲？",
+      "nextNodeId": "give_amulet"
+    },
+    "give_amulet": {
+      "id": "give_amulet",
+      "speakerName": "苏婉清",
+      "text": "这个给你，路上保重。这是我亲手绣的平安符，希望能保佑你平安归来。",
+      "events": [
+        { "type": "GiveItem", "item_id": "peace_amulet", "count": "1" }
+      ],
+      "nextNodeId": "warning"
+    },
+    "warning": {
+      "id": "warning",
+      "speakerName": "苏婉清",
+      "text": "还有这个，噬魂散，关键时刻用得上。记住，留得青山在，不怕没柴烧。",
+      "events": [
+        { "type": "GiveItem", "item_id": "soul_eater_powder", "count": "1" }
+      ],
+      "nextNodeId": "end"
+    },
+    "end": {
+      "id": "end",
+      "speakerName": "",
+      "text": "",
+      "nextNodeId": null
+    }
+  }
+}

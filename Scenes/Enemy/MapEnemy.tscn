@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://mapenemy001"]
+
+[ext_resource type="Script" path="res://Scenes/Enemy/MapEnemy.cs" id="1_mapenemy"]
+
+[sub_resource type="CapsuleShape3D" id="1_capsule"]
+radius = 0.5
+height = 2.0
+
+[node name="MapEnemy" type="CharacterBody3D"]
+script = ExtResource("1_mapenemy")
+MonsterId = ""
+BattleGroupId = ""
+PatrolRadius = 5.0
+DetectionRadius = 4.0
+MoveSpeed = 2.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("1_capsule")
+
+[node name="EnemySprite" type="Sprite3D" parent="."]
+position = Vector3(0, 1, 0)
+billboard = 1

@@ -1,58 +1,24 @@
-/*
- * File: DialogueEffectHandler.cs
- * Author: hd2dtest Team
- * Last Modified: 2026-05-15
- * 
- * Purpose:
- * 对话效果处理器，负责执行对话期间触发的各种事件和效果。
- * 支持播放声音、屏幕震动、添加任务和给予物品等效果类型。
- * 
- * Key Features:
- * - PlaySound：播放声音效果
- * - ScreenShake：屏幕震动效果
- * - AddQuest：添加任务
- * - GiveItem：给予物品
- * - 支持通过上下文节点访问场景中的音频播放器
- */
-
 using Godot;
 using System;
 using System.Collections.Generic;
 using hd2dtest.Scripts.Managers;
+using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Modules.Dialogue
 {
     /// <summary>
-    /// 处理对话事件/效果的执行
+    /// Executes dialogue events with real game manager integration.
     /// </summary>
     public class DialogueEffectHandler
     {
-        /// <summary>
-        /// 运行效果的节点上下文（例如 DialogueUI）
-        /// </summary>
         private Node _context;
 
-        /// <summary>
-        /// 初始化对话效果处理器的新实例
-        /// </summary>
-        /// <param name="context">运行效果的节点上下文，通常为 DialogueUI 节点</param>
         public DialogueEffectHandler(Node context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// 处理对话事件，根据事件类型调用相应的处理方法
-        /// </summary>
-        /// <param name="evt">要处理的对话事件</param>
-        /// <remarks>
-        /// 支持的事件类型包括：
-        /// - PlaySound：播放声音效果
-        /// - ScreenShake：屏幕震动效果
-        /// - AddQuest：添加任务
-        /// - GiveItem：给予物品
-        /// </remarks>
         public void HandleEvent(DialogueEvent evt)
         {
             Log.Info($"Handling Dialogue Event: {evt.Type}");
@@ -68,8 +34,23 @@ namespace hd2dtest.Scripts.Modules.Dialogue
                 case "AddQuest":
                     HandleAddQuest(evt.Parameters);
                     break;
+                case "CompleteQuest":
+                    HandleCompleteQuest(evt.Parameters);
+                    break;
                 case "GiveItem":
                     HandleGiveItem(evt.Parameters);
+                    break;
+                case "AddTeammate":
+                    HandleAddTeammate(evt.Parameters);
+                    break;
+                case "SetNPCStatus":
+                    HandleSetNPCStatus(evt.Parameters);
+                    break;
+                case "StartBattle":
+                    HandleStartBattle(evt.Parameters);
+                    break;
+                case "SetStoryFlag":
+                    HandleSetStoryFlag(evt.Parameters);
                     break;
                 default:
                     Log.Warning($"Unknown event type: {evt.Type}");
@@ -77,41 +58,17 @@ namespace hd2dtest.Scripts.Modules.Dialogue
             }
         }
 
-        /// <summary>
-        /// 处理播放声音事件
-        /// </summary>
-        /// <param name="parameters">事件参数字典，应包含"sound_id"键</param>
-        /// <remarks>
-        /// 该方法从参数字典中获取声音 ID，并尝试通过上下文节点的 AudioStreamPlayer 播放声音。
-        /// 在真实游戏中，应集成 AudioManager 来统一管理声音播放。
-        /// </remarks>
         private void HandlePlaySound(Dictionary<string, string> parameters)
         {
             if (parameters.TryGetValue("sound_id", out string soundId))
             {
-                // 在真实游戏中，这会调用 AudioManager.PlaySound(soundId)
                 Log.Info($"Playing Sound: {soundId}");
-
-                // 如果上下文有 AudioStreamPlayer，尝试播放
-                if (_context.HasNode("AudioPlayer"))
-                {
-                    var player = _context.GetNode<AudioStreamPlayer>("AudioPlayer");
-                    // 在此处加载声音逻辑
-                }
+                // AudioManager integration point
             }
         }
 
-        /// <summary>
-        /// 处理屏幕震动事件
-        /// </summary>
-        /// <param name="parameters">事件参数字典（当前未使用）</param>
-        /// <remarks>
-        /// 该方法使用 Tween 实现屏幕震动效果，震动 5 次，每次偏移 -5 到 5 像素。
-        /// 仅当上下文节点为 Control 类型时生效。
-        /// </remarks>
         private void HandleScreenShake(Dictionary<string, string> parameters)
         {
-            // 震动逻辑
             if (_context is Control control)
             {
                 var tween = control.CreateTween();
@@ -124,37 +81,95 @@ namespace hd2dtest.Scripts.Modules.Dialogue
             }
         }
 
-        /// <summary>
-        /// 处理添加任务事件
-        /// </summary>
-        /// <param name="parameters">事件参数字典，应包含"quest_id"键</param>
-        /// <remarks>
-        /// 该方法从参数字典中获取任务 ID，并记录日志。
-        /// 在真实游戏中，应调用 QuestManager.AddQuest(questId) 来添加任务。
-        /// </remarks>
-        private void HandleAddQuest(Dictionary<string, string> parameters)
+        private static void HandleAddQuest(Dictionary<string, string> parameters)
         {
             if (parameters.TryGetValue("quest_id", out string questId))
             {
                 Log.Info($"Adding Quest: {questId}");
-                // QuestManager.AddQuest(questId); // 添加任务
+                QuestManager.Instance?.StartQuest(questId);
             }
         }
 
-        /// <summary>
-        /// 处理给予物品事件
-        /// </summary>
-        /// <param name="parameters">事件参数字典，应包含"item_id"键</param>
-        /// <remarks>
-        /// 该方法从参数字典中获取物品 ID，并记录日志。
-        /// 在真实游戏中，应调用 InventoryManager.AddItem(itemId) 来添加物品。
-        /// </remarks>
-        private void HandleGiveItem(Dictionary<string, string> parameters)
+        private static void HandleCompleteQuest(Dictionary<string, string> parameters)
+        {
+            if (parameters.TryGetValue("quest_id", out string questId))
+            {
+                Log.Info($"Completing Quest: {questId}");
+                QuestManager.Instance?.CompleteQuest(questId);
+            }
+        }
+
+        private static void HandleGiveItem(Dictionary<string, string> parameters)
         {
             if (parameters.TryGetValue("item_id", out string itemId))
             {
-                Log.Info($"Giving Item: {itemId}");
-                // InventoryManager.AddItem(itemId); // 添加物品
+                int count = 1;
+                if (parameters.TryGetValue("count", out string countStr))
+                    int.TryParse(countStr, out count);
+
+                Log.Info($"Giving Item: {itemId} x{count}");
+                var item = GameDataManager.Instance?.GetItemById(itemId);
+                if (item != null)
+                {
+                    for (int i = 0; i < count; i++)
+                        GameDataManager.Instance?.AddItem(item);
+                }
+            }
+        }
+
+        private static void HandleAddTeammate(Dictionary<string, string> parameters)
+        {
+            if (parameters.TryGetValue("teammate_id", out string teammateId))
+            {
+                Log.Info($"Adding Teammate: {teammateId}");
+                // NPCs can join as Player-type teammates
+                if (ResourcesManager.NPCsCache.TryGetValue(teammateId, out NPC npc))
+                {
+                    var player = new Player
+                    {
+                        CreatureName = npc.CreatureName,
+                        Level = npc.Level,
+                        Health = npc.MaxHealth,
+                        MaxHealth = npc.MaxHealth,
+                        Attack = npc.Attack,
+                        Defense = npc.Defense,
+                        Speed = npc.Speed
+                    };
+                    GameDataManager.Instance?.Teammates.Add(player);
+                }
+            }
+        }
+
+        private static void HandleSetNPCStatus(Dictionary<string, string> parameters)
+        {
+            if (parameters.TryGetValue("npc_id", out string npcId) &&
+                parameters.TryGetValue("status", out string statusStr) &&
+                int.TryParse(statusStr, out int status))
+            {
+                Log.Info($"Setting NPCStatus: {npcId} = {status}");
+                var npcStatus = GameDataManager.Instance?.NPCStatus;
+                if (npcStatus != null)
+                    npcStatus[npcId] = status;
+            }
+        }
+
+        private static void HandleStartBattle(Dictionary<string, string> parameters)
+        {
+            if (parameters.TryGetValue("battle_id", out string battleId))
+            {
+                Log.Info($"Starting Battle: {battleId}");
+                hd2dtest.Scenes.BattleScene.PendingBattleData = (battleId, Main.Instance?.CurrentSceneName ?? "start");
+                Main.Instance?.SwitchScene("battle");
+            }
+        }
+
+        private static void HandleSetStoryFlag(Dictionary<string, string> parameters)
+        {
+            if (parameters.TryGetValue("flag_key", out string key) &&
+                parameters.TryGetValue("flag_value", out string value))
+            {
+                Log.Info($"Setting StoryFlag: {key} = {value}");
+                GameDataManager.Instance?.SetStoryFlag(key, value);
             }
         }
     }

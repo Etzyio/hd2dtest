@@ -1,0 +1,52 @@
+{
+  "id": "shen_jianfeng_night",
+  "startNodeId": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speakerName": "沈剑锋",
+      "text": "墨尘，你有没有觉得，师父今天有些不对劲？",
+      "nextNodeId": "discuss"
+    },
+    "discuss": {
+      "id": "discuss",
+      "speakerName": "沈剑锋",
+      "text": "我刚才去师父房里送茶，听到他在自言自语，说什么'这趟镖...怕是有去无回'。",
+      "options": [
+        {
+          "text": "师父可能是多虑了，我们做好万全准备便是。",
+          "targetNodeId": "reassure",
+          "condition": ""
+        },
+        {
+          "text": "我也觉得有些不对劲。师兄，我们要不要查查这生辰纲的底细？",
+          "targetNodeId": "investigate",
+          "condition": "StoryFlag:zhouyuan_told_secret:true"
+        }
+      ],
+      "nextNodeId": "reassure"
+    },
+    "reassure": {
+      "id": "reassure",
+      "speakerName": "沈剑锋",
+      "text": "你说得对。无论发生什么事，都要保护好自己。如果...如果我遭遇不测，你一定要查出真相。",
+      "nextNodeId": "end"
+    },
+    "investigate": {
+      "id": "investigate",
+      "speakerName": "沈剑锋",
+      "text": "你也这么觉得？好，我已经派人去打探了。师父这次接的镖是蔡京那老贼点名要的，据说还牵扯到二十年前的一桩旧案。",
+      "events": [
+        { "type": "GiveItem", "item_id": "secret_letter", "count": "1" },
+        { "type": "SetStoryFlag", "flag_key": "investigated_shengchengang", "flag_value": "true" }
+      ],
+      "nextNodeId": "end"
+    },
+    "end": {
+      "id": "end",
+      "speakerName": "",
+      "text": "",
+      "nextNodeId": null
+    }
+  }
+}

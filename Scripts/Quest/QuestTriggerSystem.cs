@@ -63,70 +63,97 @@ namespace hd2dtest.Scripts.Quest
 
         /// <summary>
         /// 初始化触发器数据
-        /// 加载所有内置的触发器定义
+        /// 从 JSON 文件加载触发器，失败时使用硬编码回退
         /// </summary>
         private void InitializeTriggers()
+        {
+            if (TryLoadTriggersFromJson())
+            {
+                Log.Info($"Loaded {_triggers.Count} triggers from Triggers.json");
+            }
+            else
+            {
+                Log.Warning("Failed to load Triggers.json, using hardcoded defaults");
+                AddDefaultTriggers();
+            }
+        }
+
+        private bool TryLoadTriggersFromJson()
+        {
+            try
+            {
+                if (!FileAccess.FileExists("res://Resources/Static/Triggers.json"))
+                    return false;
+
+                using var file = FileAccess.Open("res://Resources/Static/Triggers.json", FileAccess.ModeFlags.Read);
+                string jsonText = file.GetAsText();
+                var dict = Json.ParseString(jsonText).AsGodotDictionary();
+
+                if (!dict.ContainsKey("triggers")) return false;
+
+                var triggerArray = dict["triggers"].AsGodotArray();
+                foreach (var item in triggerArray)
+                {
+                    var t = item.AsGodotDictionary();
+                    var trigger = new QuestTrigger
+                    {
+                        Id = t["id"].AsString(),
+                        TriggerType = Enum.Parse<TriggerType>(t["triggerType"].AsString()),
+                        QuestId = t["questId"].AsString(),
+                        Description = t.TryGetValue("description", out var desc) ? desc.AsString() : "",
+                        ShowNotification = t.TryGetValue("showNotification", out var sn) && sn.AsBool(),
+                        Cutscene = t.TryGetValue("cutscene", out var cs) ? cs.AsString() : null,
+                        Conditions = new List<TriggerCondition>()
+                    };
+
+                    if (t.TryGetValue("conditions", out var conds))
+                    {
+                        foreach (var c in conds.AsGodotArray())
+                        {
+                            var cd = c.AsGodotDictionary();
+                            trigger.Conditions.Add(new TriggerCondition
+                            {
+                                Type = cd["type"].AsString(),
+                                Value = cd["value"].AsString()
+                            });
+                        }
+                    }
+
+                    _triggers.Add(trigger);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error loading Triggers.json: {ex.Message}");
+                return false;
+            }
+        }
+
+        private void AddDefaultTriggers()
         {
             _triggers.Add(new QuestTrigger
             {
                 Id = "trigger_intro",
                 TriggerType = TriggerType.Auto,
-                QuestId = "main_001",
+                QuestId = "main_story_001",
                 Conditions = new List<TriggerCondition>
                 {
                     new TriggerCondition { Type = "game_start", Value = "true" }
                 },
-                Description = "游戏开始自动触发"
+                Description = "Game start trigger"
             });
 
             _triggers.Add(new QuestTrigger
             {
                 Id = "trigger_main_002",
                 TriggerType = TriggerType.QuestComplete,
-                QuestId = "main_002",
+                QuestId = "main_story_002",
                 Conditions = new List<TriggerCondition>
                 {
-                    new TriggerCondition { Type = "quest_completed", Value = "main_001" }
+                    new TriggerCondition { Type = "quest_completed", Value = "main_story_001" }
                 },
-                Description = "完成主线任务1后触发"
-            });
-
-            _triggers.Add(new QuestTrigger
-            {
-                Id = "trigger_side_001",
-                TriggerType = TriggerType.NPCInteraction,
-                QuestId = "side_001",
-                Conditions = new List<TriggerCondition>
-                {
-                    new TriggerCondition { Type = "npc_interaction", Value = "npc_village_elder" },
-                    new TriggerCondition { Type = "level", Value = "5" }
-                },
-                Description = "与村长对话触发支线任务"
-            });
-
-            _triggers.Add(new QuestTrigger
-            {
-                Id = "trigger_side_002",
-                TriggerType = TriggerType.Location,
-                QuestId = "side_002",
-                Conditions = new List<TriggerCondition>
-                {
-                    new TriggerCondition { Type = "location", Value = "forest_entrance" }
-                },
-                Description = "到达森林入口触发"
-            });
-
-            _triggers.Add(new QuestTrigger
-            {
-                Id = "trigger_main_003",
-                TriggerType = TriggerType.QuestComplete,
-                QuestId = "main_003",
-                Conditions = new List<TriggerCondition>
-                {
-                    new TriggerCondition { Type = "quest_completed", Value = "main_002" },
-                    new TriggerCondition { Type = "level", Value = "8" }
-                },
-                Description = "完成主线任务2且等级达到8级触发"
+                Description = "After completing main_story_001"
             });
         }
 
@@ -217,6 +244,9 @@ namespace hd2dtest.Scripts.Quest
 
                 case "enemy_killed":
                     return CheckEnemyKilled(condition.Value);
+
+                case "battle_victory":
+                    return condition.Value == "true";
 
                 default:
                     return false;
@@ -444,6 +474,11 @@ namespace hd2dtest.Scripts.Quest
         /// <summary>
         /// 时间触发
         /// </summary>
-        TimeBased
+        TimeBased,
+
+        /// <summary>
+        /// 战斗胜利触发
+        /// </summary>
+        BattleVictory
     }
 }

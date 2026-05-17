@@ -25,6 +25,7 @@ namespace hd2dtest
 
         public bool PopupStatus => _popupLayer.Visible;
         public Node NowScene => _sceneLayer.GetChild(0);
+        public string CurrentSceneName { get; private set; } = "start";
 
         public override void _Ready()
         {
@@ -228,6 +229,7 @@ namespace hd2dtest
         public void SwitchScene(String sceneName)
         {
             Log.Info($"Starting to switch scene: {sceneName}");
+            CurrentSceneName = sceneName;
 
             HideSceneLayer();
             try

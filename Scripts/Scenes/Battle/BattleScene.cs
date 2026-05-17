@@ -36,6 +36,17 @@ namespace hd2dtest.Scenes
         private Label _resultLabel;
         private bool _battleEnded;
 
+        /// <summary>
+        /// Pending battle data set by external systems (e.g., MapEnemy, DialogueEffectHandler).
+        /// Item1: battle group ID, Item2: return scene name.
+        /// </summary>
+        public static (string battleGroupId, string returnScene)? PendingBattleData;
+
+        /// <summary>
+        /// Return scene name to go back to after battle ends.
+        /// </summary>
+        private string _returnScene = "start";
+
         public override void _Ready()
         {
             _battleUI = GetNodeOrNull<BattleUI>("BattleUI");
@@ -50,6 +61,14 @@ namespace hd2dtest.Scenes
                 var bm = new BattleManager { Name = "BattleManager" };
                 AddChild(bm);
                 Log.Info("BattleManager created and added to scene");
+            }
+
+            // Use pending battle data if available
+            if (PendingBattleData != null)
+            {
+                _returnScene = PendingBattleData.Value.returnScene;
+                Log.Info($"BattleScene using pending data: group={PendingBattleData.Value.battleGroupId}, return={_returnScene}");
+                PendingBattleData = null;
             }
 
             // Connect signals
@@ -102,9 +121,20 @@ namespace hd2dtest.Scenes
         private void OnSettlementContinue()
         {
             if (Main.Instance != null)
-                Main.Instance.ClosePopup();
+            {
+                if (!string.IsNullOrEmpty(_returnScene) && _returnScene != "start")
+                {
+                    Main.Instance.SwitchScene(_returnScene);
+                }
+                else
+                {
+                    Main.Instance.ClosePopup();
+                }
+            }
             else
+            {
                 Log.Warning("Main.Instance is null, cannot switch scene");
+            }
         }
 
         #region Test Combatant Creation

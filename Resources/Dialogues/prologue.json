@@ -1,0 +1,55 @@
+{
+  "id": "prologue_zhouyuan",
+  "startNodeId": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speakerName": "周远",
+      "text": "墨尘，剑锋，你们过来。朝廷下达了密令，要我们威远镖局护送生辰纲前往京城。",
+      "nextNodeId": "mission_brief"
+    },
+    "mission_brief": {
+      "id": "mission_brief",
+      "speakerName": "周远",
+      "text": "正是因为事关重大，才需要你们二人联手。剑锋经验丰富，沉稳可靠，由他带队。墨尘你机灵聪慧，好生辅佐你师兄。",
+      "options": [
+        {
+          "text": "弟子愿往！定不负师父所托！",
+          "targetNodeId": "accept_mission",
+          "condition": ""
+        },
+        {
+          "text": "（犹豫）此行凶险，师父是否知道些什么？",
+          "targetNodeId": "ask_secret",
+          "condition": "QuestState:main_story_001:InProgress"
+        }
+      ],
+      "nextNodeId": "accept_mission"
+    },
+    "accept_mission": {
+      "id": "accept_mission",
+      "speakerName": "周远",
+      "text": "好！记住，此行凶险。江湖上觊觎生辰纲的人不在少数，你们务必小心谨慎。下去准备吧，三日之后出发。",
+      "events": [
+        { "type": "AddQuest", "quest_id": "main_story_001" },
+        { "type": "SetNPCStatus", "npc_id": "zhou_yuan", "status": "1" }
+      ],
+      "nextNodeId": "end"
+    },
+    "ask_secret": {
+      "id": "ask_secret",
+      "speakerName": "周远",
+      "text": "......（长叹一声）二十年前，我曾救过一个人。如今他成了朝中权贵，这趟镖便是他点名要我押送的。我有种不祥的预感。",
+      "events": [
+        { "type": "SetStoryFlag", "flag_key": "zhouyuan_told_secret", "flag_value": "true" }
+      ],
+      "nextNodeId": "accept_mission"
+    },
+    "end": {
+      "id": "end",
+      "speakerName": "",
+      "text": "",
+      "nextNodeId": null
+    }
+  }
+}

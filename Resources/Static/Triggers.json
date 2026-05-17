@@ -1,0 +1,99 @@
+{
+  "triggers": [
+    {
+      "id": "trigger_game_start",
+      "triggerType": "Auto",
+      "questId": "main_story_001",
+      "conditions": [
+        { "type": "game_start", "value": "true" }
+      ],
+      "description": "Game start - make main story 001 available",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_main_002",
+      "triggerType": "QuestComplete",
+      "questId": "main_story_002",
+      "conditions": [
+        { "type": "quest_completed", "value": "main_story_001" }
+      ],
+      "description": "After completing prologue, unlock chapter 2",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_main_003",
+      "triggerType": "QuestComplete",
+      "questId": "main_story_003",
+      "conditions": [
+        { "type": "quest_completed", "value": "main_story_002" },
+        { "type": "level", "value": "5" }
+      ],
+      "description": "After chapter 2, at level 5, unlock chapter 3",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_main_004",
+      "triggerType": "QuestComplete",
+      "questId": "main_story_004",
+      "conditions": [
+        { "type": "quest_completed", "value": "main_story_003" }
+      ],
+      "description": "After chapter 3, unlock chapter 4",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_main_005",
+      "triggerType": "QuestComplete",
+      "questId": "main_story_005",
+      "conditions": [
+        { "type": "quest_completed", "value": "main_story_004" }
+      ],
+      "description": "After chapter 4, unlock chapter 5",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_side_001",
+      "triggerType": "NPCInteraction",
+      "questId": "side_001",
+      "conditions": [
+        { "type": "npc_interaction", "value": "lu_da" },
+        { "type": "level", "value": "5" }
+      ],
+      "description": "Talk to Lu Da at level 5 to unlock side quest",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_side_002",
+      "triggerType": "Location",
+      "questId": "side_002",
+      "conditions": [
+        { "type": "location", "value": "longmen_kezhan" }
+      ],
+      "description": "Enter Longmen Kezhan to trigger side quest",
+      "showNotification": true
+    },
+    {
+      "id": "trigger_huangnigang_battle",
+      "triggerType": "Location",
+      "questId": "main_story_002",
+      "conditions": [
+        { "type": "location", "value": "huangnigang" },
+        { "type": "quest_completed", "value": "main_story_001" }
+      ],
+      "description": "Arrive at Huangnigang after prologue - trigger ambush battle",
+      "showNotification": true,
+      "cutscene": "huangnigang_ambush"
+    },
+    {
+      "id": "trigger_ancient_temple",
+      "triggerType": "Location",
+      "questId": "secret_001",
+      "conditions": [
+        { "type": "location", "value": "ancient_temple" },
+        { "type": "level", "value": "12" }
+      ],
+      "description": "Discover secret chapter at Ancient Temple, level 12+",
+      "showNotification": true
+    }
+  ]
+}

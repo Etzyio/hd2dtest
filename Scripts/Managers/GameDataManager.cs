@@ -179,5 +179,30 @@ namespace hd2dtest.Scripts.Managers
                 _itemList[item.Id]--;
             }
         }
+
+        /// <summary>
+        /// Sets a story flag for conditional dialogue and quest branching.
+        /// Persisted via SaveData.CustomData.
+        /// </summary>
+        public void SetStoryFlag(string key, string value)
+        {
+            SaveManager.Instance?.SaveCustomData(key, value);
+        }
+
+        /// <summary>
+        /// Gets a story flag value.
+        /// </summary>
+        public string GetStoryFlag(string key, string defaultValue = "")
+        {
+            return SaveManager.Instance?.LoadCustomData(key, defaultValue: defaultValue) ?? defaultValue;
+        }
+
+        /// <summary>
+        /// Checks whether a story flag is set to a specific value.
+        /// </summary>
+        public bool HasStoryFlag(string key)
+        {
+            return !string.IsNullOrEmpty(GetStoryFlag(key));
+        }
     }
 }

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://mapnpc001"]
+
+[ext_resource type="Script" path="res://Scenes/NPC/MapNPC.cs" id="1_mapnpc"]
+
+[sub_resource type="SphereShape3D" id="1_sphere"]
+radius = 3.0
+
+[node name="MapNPC" type="CharacterBody3D"]
+script = ExtResource("1_mapnpc")
+NpcDataId = ""
+DefaultDialogueGraph = ""
+InteractionHint = "npc_interact_hint"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("1_sphere")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+position = Vector3(0, 0.5, 0)
