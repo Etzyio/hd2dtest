@@ -184,7 +184,9 @@ namespace hd2dtest.Scripts.Managers
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = {
                 new JsonStringEnumConverter(),
-                new QuestObjectiveConverter()
+                new QuestObjectiveConverter(),
+                new QuestRewardConverter(),
+                new Vector3JsonConverter()
             }
         };
 
@@ -383,7 +385,7 @@ namespace hd2dtest.Scripts.Managers
             {
                 LoadSkillsToCacheWithTracking("Skills.json", SkillsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Items.json", ItemsCache, ResourceLoadPriority.Medium);
-                LoadResourceToCacheWithTracking("NPCs.json", NPCsCache, ResourceLoadPriority.Medium);
+                LoadNPCsToCacheWithTracking("NPCs.json", NPCsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Monsters.json", MonstersCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Weapons.json", WeaponsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Equipment.json", EquipmentCache, ResourceLoadPriority.Medium);
@@ -664,6 +666,101 @@ namespace hd2dtest.Scripts.Managers
                 if (!loadedAny)
                 {
                     var fallback = JsonSerializer.Deserialize<Dictionary<string, Skill>>(jsonContent, JsonOptions);
+                    if (fallback != null)
+                    {
+                        foreach (var kv in fallback)
+                        {
+                            cache[kv.Key] = kv.Value;
+                        }
+                    }
+                }
+
+                stopwatch.Stop();
+                loadInfo.Status = ResourceLoadStatus.Loaded;
+                loadInfo.LoadTimeMs = stopwatch.ElapsedMilliseconds;
+
+                Log.Info($"Successfully loaded {fileName} in {loadInfo.LoadTimeMs:F2}ms ({loadInfo.FileSizeBytes / 1024:F2}KB)");
+                ResourceLoaded?.Invoke(loadInfo);
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                loadInfo.Status = ResourceLoadStatus.Failed;
+                loadInfo.ErrorMessage = ex.Message;
+                loadInfo.LoadTimeMs = stopwatch.ElapsedMilliseconds;
+                Log.Error($"Failed to load {fileName}: {ex.Message}");
+                ResourceLoaded?.Invoke(loadInfo);
+            }
+        }
+
+        private void LoadNPCsToCacheWithTracking(string fileName, Dictionary<string, NPC> cache, ResourceLoadPriority priority)
+        {
+            var loadInfo = new ResourceLoadInfo
+            {
+                ResourceName = fileName,
+                Priority = priority,
+                Status = ResourceLoadStatus.Loading
+            };
+            _loadInfoCache[fileName] = loadInfo;
+
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                string filePath = DefaultResourcesPath + fileName;
+
+                if (!FileAccess.FileExists(filePath))
+                {
+                    loadInfo.Status = ResourceLoadStatus.Failed;
+                    loadInfo.ErrorMessage = "File not found";
+                    Log.Warning($"JSON file not found: {filePath}");
+                    ResourceLoaded?.Invoke(loadInfo);
+                    return;
+                }
+
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                loadInfo.FileSizeBytes = (long)file.GetLength();
+
+                string jsonContent = file.GetAsText();
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    loadInfo.Status = ResourceLoadStatus.Failed;
+                    loadInfo.ErrorMessage = "File is empty";
+                    Log.Warning($"JSON file is empty: {filePath}");
+                    ResourceLoaded?.Invoke(loadInfo);
+                    return;
+                }
+
+                cache.Clear();
+
+                using var doc = JsonDocument.Parse(jsonContent);
+                if (doc.RootElement.ValueKind == JsonValueKind.Object && doc.RootElement.TryGetProperty("npcs", out var npcsEl) && npcsEl.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (var npcEl in npcsEl.EnumerateArray())
+                    {
+                        if (npcEl.ValueKind != JsonValueKind.Object)
+                        {
+                            continue;
+                        }
+
+                        string id = npcEl.TryGetProperty("id", out var idEl) && idEl.ValueKind == JsonValueKind.String ? idEl.GetString() : null;
+                        string name = npcEl.TryGetProperty("name", out var nameEl) && nameEl.ValueKind == JsonValueKind.String ? nameEl.GetString() : null;
+
+                        var npc = new NPC();
+                        npc.Id = id ?? string.Empty;
+                        npc.CreatureName = name ?? string.Empty;
+
+                        if (string.IsNullOrWhiteSpace(npc.Id))
+                        {
+                            continue;
+                        }
+
+                        cache[npc.Id] = npc;
+                    }
+                }
+                else
+                {
+                    var fallback = JsonSerializer.Deserialize<Dictionary<string, NPC>>(jsonContent, JsonOptions);
                     if (fallback != null)
                     {
                         foreach (var kv in fallback)

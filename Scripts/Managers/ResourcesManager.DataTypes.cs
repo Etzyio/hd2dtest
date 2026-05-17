@@ -64,6 +64,42 @@ namespace hd2dtest.Scripts.Managers
             }
         }
 
+        private class QuestRewardConverter : JsonConverter<QuestReward>
+        {
+            public override QuestReward Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                if (reader.TokenType != JsonTokenType.StartObject)
+                {
+                    throw new JsonException("Expected StartObject token");
+                }
+
+                using var doc = JsonDocument.ParseValue(ref reader);
+                var root = doc.RootElement;
+
+                if (!root.TryGetProperty("type", out var typeElement))
+                {
+                    throw new JsonException("Missing 'type' property in QuestReward");
+                }
+
+                var rewardType = typeElement.GetString();
+                var rawText = root.GetRawText();
+
+                return rewardType switch
+                {
+                    "Experience" => JsonSerializer.Deserialize<ExperienceReward>(rawText, options),
+                    "Item" => JsonSerializer.Deserialize<ItemReward>(rawText, options),
+                    "Currency" => JsonSerializer.Deserialize<CurrencyReward>(rawText, options),
+                    "Equipment" => JsonSerializer.Deserialize<EquipmentReward>(rawText, options),
+                    _ => JsonSerializer.Deserialize<ItemReward>(rawText, options)
+                };
+            }
+
+            public override void Write(Utf8JsonWriter writer, QuestReward value, JsonSerializerOptions options)
+            {
+                JsonSerializer.Serialize(writer, value, value.GetType(), options);
+            }
+        }
+
         /// <summary>
         /// 资源加载优先级
         /// </summary>

@@ -100,6 +100,12 @@ namespace hd2dtest.Scripts.Modules
         /// <value>NPC的唯一标识符</value>
         public string NPCId { get; set; } = "";
 
+        public string Id
+        {
+            get => NPCId;
+            set => NPCId = value;
+        }
+
         /// <summary>
         /// NPC对话内容
         /// </summary>
