@@ -1,3 +1,11 @@
+/*
+ * File: ConditionChecker.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-17
+ * Purpose: Evaluates dialogue option conditions against actual game state.
+ *          Supports HasItem, QuestState, NPCState, HasTeammate, Level, Gold, StoryFlag.
+ */
+
 using System;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Quest;
@@ -71,8 +79,8 @@ namespace hd2dtest.Scripts.Modules.Dialogue
         {
             var npcStatus = GameDataManager.Instance?.NPCStatus;
             if (npcStatus == null) return false;
-            bool matches = npcStatus.TryGetValue(npcId, out int current) &&
-                           current.ToString() == expectedStatus;
+            if (!int.TryParse(expectedStatus, out int expected)) return false;
+            bool matches = npcStatus.TryGetValue(npcId, out int current) && current == expected;
             Log.Info($"Condition NPCState:{npcId}:{expectedStatus} = {matches}");
             return matches;
         }

@@ -24,6 +24,7 @@ namespace hd2dtest.Scenes.NPC
 
         public override void _Ready()
         {
+            AddToGroup("map_npc");
             base.Initialize();
 
             if (!string.IsNullOrEmpty(NpcDataId))
@@ -45,11 +46,37 @@ namespace hd2dtest.Scenes.NPC
 
         public override void _Input(InputEvent @event)
         {
-            if (_playerInRange && @event.IsActionPressed("interact"))
+            if (!_playerInRange || !@event.IsActionPressed("interact"))
+                return;
+
+            // Only the closest MapNPC to the player responds to the interact key
+            var player = FindPlayer();
+            if (player == null) return;
+
+            if (!IsClosestMapNPCTo(player))
+                return;
+
+            InteractWithPlayer();
+            GetViewport().SetInputAsHandled();
+        }
+
+        /// <summary>
+        /// Returns true if this MapNPC is the closest one to the given player.
+        /// Prevents multiple NPCs from responding to a single interact press.
+        /// </summary>
+        private bool IsClosestMapNPCTo(Scripts.Modules.Creature player)
+        {
+            float myDist = GlobalPosition.DistanceSquaredTo(player.GlobalPosition);
+            foreach (var node in GetTree().GetNodesInGroup("map_npc"))
             {
-                InteractWithPlayer();
-                GetViewport().SetInputAsHandled();
+                if (node == this) continue;
+                if (node is MapNPC other && other._playerInRange)
+                {
+                    float otherDist = other.GlobalPosition.DistanceSquaredTo(player.GlobalPosition);
+                    if (otherDist < myDist) return false;
+                }
             }
+            return true;
         }
 
         /// <summary>

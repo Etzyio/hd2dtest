@@ -1,3 +1,11 @@
+/*
+ * File: DialogueEffectHandler.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-17
+ * Purpose: Executes dialogue events with real game manager integration.
+ *          Supports AddQuest, CompleteQuest, GiveItem, AddTeammate, SetNPCStatus, StartBattle, SetStoryFlag.
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

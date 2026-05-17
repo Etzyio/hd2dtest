@@ -31,7 +31,12 @@ namespace hd2dtest.Scripts.World
 
         public override void _Ready()
         {
-            if (GetChildCount() == 0)
+            bool hasShape = false;
+            foreach (var child in GetChildren())
+            {
+                if (child is CollisionShape3D) { hasShape = true; break; }
+            }
+            if (!hasShape)
             {
                 var shape = new CollisionShape3D
                 {
@@ -114,10 +119,14 @@ namespace hd2dtest.Scripts.World
                     break;
 
                 case MapTriggerType.QuestUpdate:
-                    if (TargetId.Contains(":"))
+                    if (TargetId.Contains("|"))
                     {
-                        var parts = TargetId.Split(':');
-                        Scripts.Quest.QuestManager.Instance?.UpdateQuestProgress(parts[0], parts.Length > 1 ? parts[1] : "default", 1);
+                        var parts = TargetId.Split('|', 2);
+                        Scripts.Quest.QuestManager.Instance?.UpdateQuestProgress(parts[0], parts[1], 1);
+                    }
+                    else
+                    {
+                        Scripts.Quest.QuestManager.Instance?.UpdateQuestProgress(TargetId, "default", 1);
                     }
                     break;
             }
