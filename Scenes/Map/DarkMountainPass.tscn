@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://taf7fff86ef"]
+
+[ext_resource type="Script" uid="uid://tfbb5d58555" path="res://Scenes/Map/DarkMountainPass.cs" id="1"]
+
+[node name="DarkMountainPass" type="Node2D"]
+script = ExtResource("1")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cbf6dc917da"]
+
+[ext_resource type="Script" uid="uid://cf8423cc32a" path="res://Scenes/Map/BlacksmithWorkshop.cs" id="1"]
+
+[node name="BlacksmithWorkshop" type="Node2D"]
+script = ExtResource("1")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c7d7519c399"]
+
+[ext_resource type="Script" uid="uid://c5f587d5409" path="res://Scenes/Map/SwordTomb.cs" id="1"]
+
+[node name="SwordTomb" type="Node2D"]
+script = ExtResource("1")

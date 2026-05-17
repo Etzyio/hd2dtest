@@ -1,8 +1,351 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Scenes/UI/CharacterStatus.cs" id="1_charstatus"]
+[ext_resource type="Script" uid="uid://bvxsr38mv82hh" path="res://Scenes/UI/CharacterStatus.cs" id="1_charstatus"]
 
 [node name="CharacterStatus" type="Control"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_right = 450.0
+offset_top = -350.0
+offset_bottom = 350.0
+mouse_filter = 1
+script = ExtResource("1_charstatus")
+
+[node name="MainPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource("1_charstatus")
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainPanel"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 55.0
+
+[node name="HeaderHBox" type="HBoxContainer" parent="MainPanel/HeaderPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="MainPanel/HeaderPanel/HeaderHBox"]
+layout_mode = 2
+text = "⚔️ Character Status"
+horizontal_alignment = 0
+
+[node name="CloseButton" type="Button" parent="MainPanel/HeaderPanel/HeaderHBox"]
+layout_mode = 2
+text = "✕"
+tooltip_text = "Close character status"
+
+[node name="TabMarginContainer" type="MarginContainer" parent="MainPanel"]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 60.0
+offset_bottom = 95.0
+
+[node name="MainTabs" type="TabBar" parent="MainPanel/TabMarginContainer"]
+layout_mode = 2
+tab_alignment = 1
+
+; === Stats Tab ===
+[node name="StatsTab" type="Control" parent="MainPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+offset_bottom = -15.0
+offset_left = 15.0
+offset_right = -15.0
+
+[node name="StatsHBox" type="HBoxContainer" parent="MainPanel/StatsTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+
+[node name="InfoPanel" type="PanelContainer" parent="MainPanel/StatsTab/StatsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InfoVBox" type="VBoxContainer" parent="MainPanel/StatsTab/StatsHBox/InfoPanel"]
+layout_mode = 2
+
+[node name="CharacterNameLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+text = "Character Name"
+horizontal_alignment = 1
+
+[node name="ClassLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+text = "Class: Warrior"
+horizontal_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+text = "Level: 1"
+horizontal_alignment = 1
+
+[node name="PortraitRect" type="TextureRect" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 120)
+size_flags_horizontal = 4
+stretch_mode = 4
+
+[node name="InfoHSeparator" type="HSeparator" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+text = "❤️ HP"
+
+[node name="HealthBar" type="ProgressBar" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 24)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="ManaLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+text = "💧 MP"
+
+[node name="ManaBar" type="ProgressBar" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 24)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="ExpBar" type="ProgressBar" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 20)
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
+[node name="ExpLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox"]
+layout_mode = 2
+text = "EXP: 0/100"
+horizontal_alignment = 1
+
+[node name="StatsPanel" type="PanelContainer" parent="MainPanel/StatsTab/StatsHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StatsVBox" type="VBoxContainer" parent="MainPanel/StatsTab/StatsHBox/StatsPanel"]
+layout_mode = 2
+
+[node name="StatsTitleLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox"]
+layout_mode = 2
+text = "📋 Attributes"
+
+[node name="StatsHSeparator" type="HSeparator" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox"]
+layout_mode = 2
+
+[node name="StatsGrid" type="GridContainer" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox"]
+layout_mode = 2
+columns = 2
+size_flags_vertical = 3
+
+[node name="AttackLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "⚔️ Attack"
+size_flags_horizontal = 3
+
+[node name="AttackValue" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "15"
+horizontal_alignment = 2
+size_flags_horizontal = 3
+
+[node name="DefenseLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "🛡️ Defense"
+size_flags_horizontal = 3
+
+[node name="DefenseValue" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "8"
+horizontal_alignment = 2
+size_flags_horizontal = 3
+
+[node name="SpeedLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "💨 Speed"
+size_flags_horizontal = 3
+
+[node name="SpeedValue" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "75"
+horizontal_alignment = 2
+size_flags_horizontal = 3
+
+[node name="CritLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "💥 Crit Rate"
+size_flags_horizontal = 3
+
+[node name="CritValue" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "5%"
+horizontal_alignment = 2
+size_flags_horizontal = 3
+
+[node name="GoldLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "💰 Gold"
+size_flags_horizontal = 3
+
+[node name="GoldValue" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+size_flags_horizontal = 3
+
+[node name="KillsLabel" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "💀 Kills"
+size_flags_horizontal = 3
+
+[node name="KillsValue" type="Label" parent="MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid"]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 2
+size_flags_horizontal = 3
+
+; === Equipment Tab ===
+[node name="EquipmentTab" type="Control" parent="MainPanel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+offset_bottom = -15.0
+offset_left = 15.0
+offset_right = -15.0
+
+[node name="EquipHBox" type="HBoxContainer" parent="MainPanel/EquipmentTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+
+[node name="SlotsPanel" type="PanelContainer" parent="MainPanel/EquipmentTab/EquipHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SlotsVBox" type="VBoxContainer" parent="MainPanel/EquipmentTab/EquipHBox/SlotsPanel"]
+layout_mode = 2
+
+[node name="SlotsTitleLabel" type="Label" parent="MainPanel/EquipmentTab/EquipHBox/SlotsPanel/SlotsVBox"]
+layout_mode = 2
+text = "🎽 Equipment Slots"
+
+[node name="SlotsHSeparator" type="HSeparator" parent="MainPanel/EquipmentTab/EquipHBox/SlotsPanel/SlotsVBox"]
+layout_mode = 2
+
+[node name="EquipmentSlots" type="GridContainer" parent="MainPanel/EquipmentTab/EquipHBox/SlotsPanel/SlotsVBox"]
+layout_mode = 2
+columns = 3
+size_flags_vertical = 3
+
+[node name="BonusPanel" type="PanelContainer" parent="MainPanel/EquipmentTab/EquipHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BonusVBox" type="VBoxContainer" parent="MainPanel/EquipmentTab/EquipHBox/BonusPanel"]
+layout_mode = 2
+
+[node name="BonusTitleLabel" type="Label" parent="MainPanel/EquipmentTab/EquipHBox/BonusPanel/BonusVBox"]
+layout_mode = 2
+text = "✨ Total Bonuses"
+
+[node name="BonusHSeparator" type="HSeparator" parent="MainPanel/EquipmentTab/EquipHBox/BonusPanel/BonusVBox"]
+layout_mode = 2
+
+[node name="EquipmentBonusLabel" type="RichTextLabel" parent="MainPanel/EquipmentTab/EquipHBox/BonusPanel/BonusVBox"]
+layout_mode = 2
+fit_content = true
+size_flags_vertical = 3
+
+; === Skills Tab ===
+[node name="SkillsTab" type="Control" parent="MainPanel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+offset_bottom = -15.0
+offset_left = 15.0
+offset_right = -15.0
+
+[node name="SkillsScroll" type="ScrollContainer" parent="MainPanel/SkillsTab"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+
+[node name="SkillsVBox" type="VBoxContainer" parent="MainPanel/SkillsTab/SkillsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SkillTreePanel" type="PanelContainer" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillTreeVBox" type="VBoxContainer" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel"]
+layout_mode = 2
+
+[node name="SkillTreeHeader" type="HBoxContainer" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillTreeTitle" type="Label" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox/SkillTreeHeader"]
+layout_mode = 2
+text = "🌳 Skill Tree"
+
+[node name="SkillPointsLabel" type="Label" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox/SkillTreeHeader"]
+layout_mode = 2
+text = "Skill Points: 0"
+
+[node name="SkillTreeHSeparator" type="HSeparator" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox"]
+layout_mode = 2
+
+[node name="SkillTree" type="Tree" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 250)
+hide_root = true
+columns = 2
+
+[node name="PassivePanel" type="PanelContainer" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PassiveVBox" type="VBoxContainer" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel"]
+layout_mode = 2
+
+[node name="PassiveTitle" type="Label" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel/PassiveVBox"]
+layout_mode = 2
+text = "🔮 Passive Skills"
+
+[node name="PassiveHSeparator" type="HSeparator" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel/PassiveVBox"]
+layout_mode = 2
+
+[node name="PassiveGrid" type="GridContainer" parent="MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel/PassiveVBox"]
+layout_mode = 2

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://t0a981fcabf"]
+
+[ext_resource type="Script" uid="uid://t990a750eea" path="res://Scenes/Map/RiverCrossing.cs" id="1"]
+
+[node name="RiverCrossing" type="Node2D"]
+script = ExtResource("1")

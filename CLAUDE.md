@@ -44,6 +44,33 @@ Seven nodes are auto-registered and available globally:
 
 `Main` is the root node of `main.tscn`. It owns a `_sceneLayer` (active scene container) and a `_popupLayer` (menu overlay). Scene switching goes through `Main.SwitchScene("sceneName")`, which looks up the `.tscn` path from `ViewRegister.json` via `GameViewRegister.GetScene()`.
 
+### Scene Switching Pattern
+
+**Adding a new scene to the game:**
+
+1. **Create the scene** — Place `.tscn` + `.cs` under `Scenes/<SceneName>/`.
+2. **Register in ViewRegister.json** — Add an entry to `Resources/Static/ViewRegister.json`:
+   ```json
+   { "id": "myScene", "tscn": "res://Scenes/MyScene/MyScene.tscn" }
+   ```
+3. **Call SwitchScene** — From any scene script, call `Main.Instance.SwitchScene("myScene")`.
+
+**How `Main.SwitchScene` works:**
+- Looks up scene path from `ResourcesManager.ViewRegister` (loaded synchronously at boot via `ViewRegister.json`)
+- Removes the current child from `_sceneLayer` and instantiates the new scene into it
+- `_sceneLayer` is a full-screen `Control` node that acts as the scene container
+- All child nodes of `Main` (`sceneLayer`, `shade`, `popupLayer`) must be assigned via `GetNode<>()` in `Main._Ready()` — do not rely on Godot's auto-binding for these critical references
+
+**`main.tscn` requirements:**
+- `sceneLayer` must use full-rect anchors (`anchors_preset = 15`, `anchor_right = 1.0`, `anchor_bottom = 1.0`) to fill the window
+- `_sceneLayer`, `_shade`, `_popupLayer` must be explicitly assigned in `Main._Ready()` via `GetNode<>()`
+- New scene types that wrap the active scene (like `Node2D` with its own `CanvasLayer`) should call `Main.Instance.TriggerSceneReady()` to signal ready state
+
+**`GameViewRegister.GetScene()` flow:**
+- Accesses `ResourcesManager.ViewRegister` (a static `Dictionary<string, string>`)
+- Returns `null` with error logging if scene name not found or load fails
+- `SwitchScene` wraps the call in try/catch — scene switch failures are logged, not thrown
+
 ### Data Flow
 
 ```

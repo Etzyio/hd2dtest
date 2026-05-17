@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c1c1edbbecf"]
+
+[ext_resource type="Script" uid="uid://cd71ba0b06f" path="res://Scenes/Map/HauntedManor.cs" id="1"]
+
+[node name="HauntedManor" type="Node2D"]
+script = ExtResource("1")

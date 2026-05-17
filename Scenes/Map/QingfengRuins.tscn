@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d3778a1ebbe"]
+
+[ext_resource type="Script" uid="uid://d4d78e181ad" path="res://Scenes/Map/QingfengRuins.cs" id="1"]
+
+[node name="QingfengRuins" type="Node2D"]
+script = ExtResource("1")

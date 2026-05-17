@@ -242,12 +242,13 @@ namespace hd2dtest.Scenes.Popup
         {
             ClearChildren(_keybindingsList);
 
-            foreach (var kv in bindings)
+            var rebindableActions = InputManager.GetRebindableActions();
+            foreach (var action in rebindableActions)
             {
                 var row = new HBoxContainer();
                 var actionLabel = new Label
                 {
-                    Text = kv.Key,
+                    Text = TranslationServer.Translate($"keybind_{action}"),
                     CustomMinimumSize = new Vector2(140, 0)
                 };
                 actionLabel.AddThemeFontOverride("font", GetFont());
@@ -255,10 +256,11 @@ namespace hd2dtest.Scenes.Popup
                 actionLabel.AddThemeColorOverride("font_color", ColorTextSecondary);
                 row.AddChild(actionLabel);
 
-                var capturedAction = kv.Key;
+                string currentLabel = InputManager.Instance?.GetActionLabel(action) ?? "---";
+                var capturedAction = action;
                 var keyBtn = new Button
                 {
-                    Text = kv.Value,
+                    Text = currentLabel,
                     CustomMinimumSize = new Vector2(120, 28),
                     TooltipText = TranslationServer.Translate("settings_click_to_rebind")
                 };
@@ -294,17 +296,13 @@ namespace hd2dtest.Scenes.Popup
 
             if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
             {
-                string keyText = OS.GetKeycodeString(keyEvent.Keycode);
-                if (!string.IsNullOrEmpty(keyText))
+                // Delegate to InputManager for actual InputMap modification + persistence
+                InputManager.Instance?.RebindAction(_listeningForAction, keyEvent.Keycode);
+
+                if (_listeningButton != null)
                 {
-                    var cm = ConfigManager.Instance;
-                    cm?.SetKeyBinding(_listeningForAction, keyText);
-                    if (_listeningButton != null)
-                    {
-                        _listeningButton.Text = keyText;
-                        _listeningButton.AddThemeColorOverride("font_color", ColorTextPrimary);
-                    }
-                    Log.Info($"Key rebound: {_listeningForAction} → {keyText}");
+                    _listeningButton.Text = OS.GetKeycodeString(keyEvent.Keycode);
+                    _listeningButton.AddThemeColorOverride("font_color", ColorTextPrimary);
                 }
                 CancelListening();
                 GetViewport().SetInputAsHandled();
@@ -368,9 +366,8 @@ namespace hd2dtest.Scenes.Popup
 
         private void OnResetKeys()
         {
-            ConfigManager.Instance?.ResetKeyBindings();
-            var cfg = ConfigManager.Instance?.CurrentConfig;
-            if (cfg != null) RefreshKeybindings(cfg.KeyBindings);
+            InputManager.Instance?.ResetAllBindings();
+            RefreshKeybindings(ConfigManager.Instance?.CurrentConfig?.KeyBindings);
             Log.Info("Keybindings reset to defaults");
         }
     }

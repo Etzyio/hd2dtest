@@ -74,7 +74,7 @@ namespace hd2dtest.Scripts.Managers
         /// </remarks>
         public override void _UnhandledInput(InputEvent @event)
         {
-            if (@event.IsActionPressed("ui_cancel"))
+            if (@event.IsActionPressed("cancel"))
             {
                 // 检查当前场景是否不是Start场景
                 if (Main.Instance.NowScene != null && Main.Instance.NowScene.Name != "Start")

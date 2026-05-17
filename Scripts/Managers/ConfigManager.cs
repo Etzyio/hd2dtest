@@ -160,21 +160,23 @@ namespace hd2dtest.Scripts.Managers
             public bool ShowAchievementNotifications { get; set; } = true;
 
             /// <summary>
-            /// 按键绑定字典，键为动作名称，值为输入事件名称
+            /// 按键绑定字典，键为动作名称，值为按键显示名（如 "A", "W", "Space"）
             /// </summary>
             public Dictionary<string, string> KeyBindings { get; set; } = new Dictionary<string, string>
             {
-                { "move_left", "ui_left" },
-                { "move_right", "ui_right" },
-                { "move_up", "ui_up" },
-                { "move_down", "ui_down" },
-                { "jump", "ui_accept" },
-                { "attack", "ui_focus_next" },
-                { "skill1", "ui_focus_prev" },
-                { "skill2", "ui_page_up" },
-                { "skill3", "ui_page_down" },
-                { "inventory", "ui_cancel" },
-                { "menu", "ui_home" }
+                { "move_left", "A" },
+                { "move_right", "D" },
+                { "move_up", "W" },
+                { "move_down", "S" },
+                { "sprint", "Shift" },
+                { "interact", "E" },
+                { "cancel", "Escape" },
+                { "menu", "Tab" },
+                { "map", "M" },
+                { "quick_action_1", "1" },
+                { "quick_action_2", "2" },
+                { "quick_action_3", "3" },
+                { "quick_action_4", "4" },
             };
             #endregion
         }
@@ -606,10 +608,12 @@ namespace hd2dtest.Scripts.Managers
 
         #region 控制设置方法
         /// <summary>
-        /// 设置按键绑定
+        /// 设置按键绑定（持久化到配置文件）
+        /// 注意：实际 InputMap 的修改由 InputManager.RebindAction() 负责，
+        /// 该方法仅做持久化存储。如需立即生效，请调用 InputManager.Instance.RebindAction()。
         /// </summary>
         /// <param name="action">动作名称</param>
-        /// <param name="key">输入事件名称</param>
+        /// <param name="key">按键显示名（如 "A", "Space"）</param>
         public void SetKeyBinding(string action, string key)
         {
             if (!CurrentConfig.KeyBindings.TryAdd(action, key))
@@ -637,12 +641,21 @@ namespace hd2dtest.Scripts.Managers
         {
             CurrentConfig.KeyBindings = new Dictionary<string, string>
             {
-                { "move_left", "ui_left" },
-                { "move_right", "ui_right" },
-                { "move_up", "ui_up" },
-                { "move_down", "ui_down" },
-                { "inventory", "ui_cancel" },
+                { "move_left", "A" },
+                { "move_right", "D" },
+                { "move_up", "W" },
+                { "move_down", "S" },
+                { "sprint", "Shift" },
+                { "interact", "E" },
+                { "cancel", "Escape" },
+                { "menu", "Tab" },
+                { "map", "M" },
+                { "quick_action_1", "1" },
+                { "quick_action_2", "2" },
+                { "quick_action_3", "3" },
+                { "quick_action_4", "4" },
             };
+            InputManager.Instance?.ResetAllBindings();
             SaveConfig();
         }
         #endregion

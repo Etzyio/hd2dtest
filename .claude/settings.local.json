@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dotnet build *)"
+      "Bash(dotnet build *)",
+      "Bash(xxd /Users/lixiaofeng/Documents/test/hd2dtest/Scenes/UI/CharacterStatus.cs)",
+      "Bash(cat)",
+      "Bash(python3 /tmp/fix_gameui.py)",
+      "Bash(xxd)",
+      "Bash(grep -rn \"scene_1\" /Users/lixiaofeng/Documents/test/hd2dtest --include=\"*.cs\" --include=\"*.json\" --include=\"*.tscn\" ! -path \"*/.history/*\")",
+      "Bash(python3 *)",
+      "Bash(awk '/^\\\\[input\\\\]/,/^\\\\[/' /Users/lixiaofeng/Documents/test/hd2dtest/project.godot)",
+      "Bash(git add *)"
     ]
   }
 }

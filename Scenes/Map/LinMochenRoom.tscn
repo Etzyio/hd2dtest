@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d6ffe0e1398"]
+
+[ext_resource type="Script" uid="uid://dc67c42b0eb" path="res://Scenes/Map/LinMochenRoom.cs" id="1"]
+
+[node name="LinMochenRoom" type="Node2D"]
+script = ExtResource("1")

@@ -1,8 +1,140 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://Scenes/UI/InventoryUI.cs" id="1_inventory"]
+[ext_resource type="Script" uid="uid://bvxsr38mv82hh" path="res://Scenes/UI/InventoryUI.cs" id="1_inventory"]
 
 [node name="InventoryUI" type="Control"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_top = -300.0
+offset_bottom = 300.0
+mouse_filter = 1
+script = ExtResource("1_inventory")
+
+[node name="MainPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource("1_inventory")
+
+[node name="HeaderPanel" type="PanelContainer" parent="MainPanel"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 50.0
+
+[node name="HeaderHBox" type="HBoxContainer" parent="MainPanel/HeaderPanel"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="MainPanel/HeaderPanel/HeaderHBox"]
+layout_mode = 2
+text = "📦 Inventory"
+horizontal_alignment = 0
+
+[node name="CapacityLabel" type="Label" parent="MainPanel/HeaderPanel/HeaderHBox"]
+layout_mode = 2
+text = "Slots: 0/20"
+horizontal_alignment = 1
+
+[node name="SortButton" type="Button" parent="MainPanel/HeaderPanel/HeaderHBox"]
+layout_mode = 2
+text = "↕ Sort"
+tooltip_text = "Change sort order"
+
+[node name="CloseButton" type="Button" parent="MainPanel/HeaderPanel/HeaderHBox"]
+layout_mode = 2
+text = "✕"
+tooltip_text = "Close inventory"
+
+[node name="CategoryMarginContainer" type="MarginContainer" parent="MainPanel"]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 55.0
+offset_bottom = 90.0
+
+[node name="CategoryTabs" type="TabBar" parent="MainPanel/CategoryMarginContainer"]
+layout_mode = 2
+tab_alignment = 1
+
+[node name="ItemScroll" type="ScrollContainer" parent="MainPanel"]
+layout_mode = 1
+anchor_right = 0.65
+anchor_bottom = 1.0
+offset_top = 95.0
+offset_bottom = -10.0
+offset_left = 10.0
+offset_right = -10.0
+
+[node name="ItemGrid" type="GridContainer" parent="MainPanel/ItemScroll"]
+layout_mode = 2
+columns = 6
+size_flags_horizontal = 3
+
+[node name="DetailPanel" type="PanelContainer" parent="MainPanel"]
+layout_mode = 1
+anchor_left = 0.67
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 95.0
+offset_bottom = -10.0
+offset_left = 10.0
+offset_right = -10.0
+
+[node name="DetailVBox" type="VBoxContainer" parent="MainPanel/DetailPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemNameLabel" type="Label" parent="MainPanel/DetailPanel/DetailVBox"]
+layout_mode = 2
+text = "Select an item"
+horizontal_alignment = 1
+
+[node name="DetailSeparator" type="HSeparator" parent="MainPanel/DetailPanel/DetailVBox"]
+layout_mode = 2
+
+[node name="ItemDescriptionLabel" type="RichTextLabel" parent="MainPanel/DetailPanel/DetailVBox"]
+layout_mode = 2
+fit_content = true
+size_flags_vertical = 3
+
+[node name="ActionButtons" type="HBoxContainer" parent="MainPanel/DetailPanel/DetailVBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="UseButton" type="Button" parent="MainPanel/DetailPanel/DetailVBox/ActionButtons"]
+layout_mode = 2
+text = "Use"
+disabled = true
+
+[node name="EquipButton" type="Button" parent="MainPanel/DetailPanel/DetailVBox/ActionButtons"]
+layout_mode = 2
+text = "Equip"
+disabled = true
+
+[node name="DropButton" type="Button" parent="MainPanel/DetailPanel/DetailVBox/ActionButtons"]
+layout_mode = 2
+text = "Drop"
+disabled = true
+
+[node name="DragPreview" type="Panel" parent="."]
+visible = false
+z_index = 100
+mouse_filter = 2
+
+[node name="DragVBox" type="VBoxContainer" parent="DragPreview"]
+layout_mode = 2
+alignment = 1
+
+[node name="DragIcon" type="TextureRect" parent="DragPreview/DragVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(40, 40)
+stretch_mode = 5
+
+[node name="DragCount" type="Label" parent="DragPreview/DragVBox"]
+layout_mode = 2
+horizontal_alignment = 1

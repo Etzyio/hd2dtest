@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ta424e07e60"]
+
+[ext_resource type="Script" uid="uid://t3b7b257a14" path="res://Scenes/Map/BambooForest.cs" id="1"]
+
+[node name="BambooForest" type="Node2D"]
+script = ExtResource("1")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d8b49ec266f"]
+
+[ext_resource type="Script" uid="uid://db028aabc36" path="res://Scenes/Map/MoyuBiaoju.cs" id="1"]
+
+[node name="MoyuBiaoju" type="Node2D"]
+script = ExtResource("1")

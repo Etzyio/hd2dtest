@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://tfdb895afc0"]
+
+[ext_resource type="Script" uid="uid://t1ddc517693" path="res://Scenes/Map/ForestPath.cs" id="1"]
+
+[node name="ForestPath" type="Node2D"]
+script = ExtResource("1")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c91ef5d9737"]
+
+[ext_resource type="Script" uid="uid://cc9e8f746d8" path="res://Scenes/Map/HermitHut.cs" id="1"]
+
+[node name="HermitHut" type="Node2D"]
+script = ExtResource("1")

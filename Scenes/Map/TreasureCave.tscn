@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d2065b0533c"]
+
+[ext_resource type="Script" uid="uid://d1154e4d07d" path="res://Scenes/Map/TreasureCave.cs" id="1"]
+
+[node name="TreasureCave" type="Node2D"]
+script = ExtResource("1")

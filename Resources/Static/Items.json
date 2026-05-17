@@ -1,3 +1,57 @@
 {
-    
+  "ITEM_POTION_HEAL_001": {
+    "id": "ITEM_POTION_HEAL_001",
+    "nameKey": "ITEM_NAME_POTION_HEAL_001",
+    "descriptionKey": "ITEM_DESC_POTION_HEAL_001",
+    "itemName": "小还丹",
+    "description": "恢复50点生命值的基础丹药，江湖人必备之物。",
+    "itemTypeValue": "Consumable",
+    "consumableTypeValue": "HealthPotion",
+    "type": "Consumable",
+    "subType": "HealthPotion",
+    "price": 50,
+    "stackCount": 1,
+    "maxStackCount": 99,
+    "effectValue": 50.0,
+    "effectDuration": 0.0,
+    "isUsable": true,
+    "isSellable": true,
+    "isDroppable": true
+  },
+  "ITEM_POTION_MANA_001": {
+    "id": "ITEM_POTION_MANA_001",
+    "nameKey": "ITEM_NAME_POTION_MANA_001",
+    "descriptionKey": "ITEM_DESC_POTION_MANA_001",
+    "itemName": "回气散",
+    "description": "恢复30点内力值，修习内功的武者常用。",
+    "itemTypeValue": "Consumable",
+    "consumableTypeValue": "ManaPotion",
+    "type": "Consumable",
+    "subType": "ManaPotion",
+    "price": 40,
+    "stackCount": 1,
+    "maxStackCount": 99,
+    "effectValue": 30.0,
+    "effectDuration": 0.0,
+    "isUsable": true,
+    "isSellable": true,
+    "isDroppable": true
+  },
+  "ITEM_MATERIAL_IRON_ORE": {
+    "id": "ITEM_MATERIAL_IRON_ORE",
+    "nameKey": "ITEM_NAME_MATERIAL_IRON_ORE",
+    "descriptionKey": "ITEM_DESC_MATERIAL_IRON_ORE",
+    "itemName": "铁矿石",
+    "description": "常见的铁矿，可用于锻造武器和防具。",
+    "itemTypeValue": "Material",
+    "type": "Material",
+    "price": 20,
+    "stackCount": 1,
+    "maxStackCount": 99,
+    "effectValue": 0.0,
+    "effectDuration": 0.0,
+    "isUsable": false,
+    "isSellable": true,
+    "isDroppable": true
+  }
 }

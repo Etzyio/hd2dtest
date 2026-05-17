@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c0540d3fdce"]
+
+[ext_resource type="Script" uid="uid://c15faf52624" path="res://Scenes/Map/PoisonValley.cs" id="1"]
+
+[node name="PoisonValley" type="Node2D"]
+script = ExtResource("1")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cc4ef885487"]
+
+[ext_resource type="Script" uid="uid://c755d540ea6" path="res://Scenes/Map/TrialTower.cs" id="1"]
+
+[node name="TrialTower" type="Node2D"]
+script = ExtResource("1")

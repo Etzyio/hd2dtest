@@ -28,7 +28,6 @@ namespace hd2dtest.Scenes.UI
 		{
 			InitializeUIReferences();
 			CreateCoreUIComponents();
-			SetupInputHandling();
 			SetProcess(true);
 			_uiInitialized = true;
 		}
@@ -46,6 +45,13 @@ namespace hd2dtest.Scenes.UI
 		{
 			_teammatesContainer = GetNode<VBoxContainer>("VBoxContainer");
 			_teammateScene = GD.Load<PackedScene>("res://Scenes/UI/Teammate.tscn");
+
+			_quickAccessBar = GetNode<Panel>("QuickAccessBar");
+			_playerNameLabel = GetNode<Label>("QuickAccessBar/MainHBox/StatusVBox/PlayerNameLabel");
+			_healthBar = GetNode<ProgressBar>("QuickAccessBar/MainHBox/StatusVBox/HealthBar");
+			_manaBar = GetNode<ProgressBar>("QuickAccessBar/MainHBox/StatusVBox/ManaBar");
+			_goldLabel = GetNode<Label>("QuickAccessBar/MainHBox/InfoVBox/GoldLabel");
+			_quickButtonsContainer = GetNode<HBoxContainer>("QuickAccessBar/MainHBox/QuickButtonsContainer");
 		}
 
 		private void CreateCoreUIComponents()
@@ -60,7 +66,7 @@ namespace hd2dtest.Scenes.UI
 		{
 			_minimap = new Minimap { Name = "Minimap" };
 
-			var playerNode = GetTree()?.CurrentScene?.GetNode<Node2D>("Player");
+			var playerNode = GetTree()?.CurrentScene?.GetNodeOrNull<Node2D>("Player");
 			if (playerNode != null)
 			{
 				_minimap.Player = playerNode;
@@ -83,7 +89,8 @@ namespace hd2dtest.Scenes.UI
 
 		private void CreateInventoryUI()
 		{
-			_inventoryUI = new InventoryUI { Name = "InventoryUI" };
+			var inventoryScene = GD.Load<PackedScene>("res://Scenes/UI/InventoryUI.tscn");
+			_inventoryUI = inventoryScene.Instantiate<InventoryUI>();
 
 			var playerData = GetPlayerData();
 			if (playerData != null)
@@ -96,7 +103,8 @@ namespace hd2dtest.Scenes.UI
 
 		private void CreateCharacterStatusUI()
 		{
-			_characterStatus = new CharacterStatus { Name = "CharacterStatus" };
+			var charScene = GD.Load<PackedScene>("res://Scenes/UI/CharacterStatus.tscn");
+			_characterStatus = charScene.Instantiate<CharacterStatus>();
 
 			var playerData = GetPlayerData();
 			if (playerData != null)
@@ -114,19 +122,6 @@ namespace hd2dtest.Scenes.UI
 
 		private void CreateQuickAccessBar()
 		{
-			_quickAccessBar = new Panel
-			{
-				Name = "QuickAccessBar",
-				AnchorLeft = 0.5f,
-				AnchorRight = 0.5f,
-				AnchorTop = 1.0f,
-				AnchorBottom = 1.0f,
-				OffsetLeft = -300,
-				OffsetRight = 300,
-				OffsetTop = -70,
-				OffsetBottom = -10
-			};
-
 			var barStyle = new StyleBoxFlat
 			{
 				BgColor = new Color(0.13f, 0.19f, 0.25f, 0.95f),
@@ -140,56 +135,29 @@ namespace hd2dtest.Scenes.UI
 			};
 			_quickAccessBar.AddThemeStyleboxOverride("panel", barStyle);
 
-			var mainHBox = new HBoxContainer
-			{
-				Alignment = BoxContainer.AlignmentMode.Center,
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
-				SizeFlagsVertical = Control.SizeFlags.ExpandFill
-			};
-
-			CreateStatusBarSection(mainHBox);
-			CreateInfoSection(mainHBox);
-			CreateQuickButtons(mainHBox);
-
-			_quickAccessBar.AddChild(mainHBox);
-			AddChild(_quickAccessBar);
+			ApplyStatusBarStyles();
+			ApplyInfoSectionStyles();
+			ApplyQuickButtonStyles();
 		}
 
-		private void CreateStatusBarSection(HBoxContainer parent)
+		private void ApplyStatusBarStyles()
 		{
-			var statusVBox = new VBoxContainer { SizeFlagsVertical = Control.SizeFlags.ShrinkCenter };
-
-			_playerNameLabel = new Label { Text = "Player" };
 			_playerNameLabel.AddThemeFontSizeOverride("font_size", 12);
 			_playerNameLabel.AddThemeColorOverride("font_color", new Color(0.93f, 0.94f, 0.95f, 1f));
 
-			_healthBar = CreateSmallProgressBar(new Color(0.9f, 0.25f, 0.25f, 1f));
-			_manaBar = CreateSmallProgressBar(new Color(0.3f, 0.5f, 0.95f, 1f));
-
-			statusVBox.AddChild(_playerNameLabel);
-			statusVBox.AddChild(_healthBar);
-			statusVBox.AddChild(_manaBar);
-
-			parent.AddChild(statusVBox);
+			ApplyProgressBarStyle(_healthBar, new Color(0.9f, 0.25f, 0.25f, 1f));
+			ApplyProgressBarStyle(_manaBar, new Color(0.3f, 0.5f, 0.95f, 1f));
 		}
 
-		private ProgressBar CreateSmallProgressBar(Color color)
+		private static void ApplyProgressBarStyle(ProgressBar bar, Color color)
 		{
-			var progressBar = new ProgressBar
-			{
-				Value = 100,
-				MaxValue = 100,
-				CustomMinimumSize = new Vector2(180, 16),
-				ShowPercentage = false
-			};
-
 			var bgStyle = new StyleBoxFlat
 			{
 				BgColor = color * new Color(0.25f, 0.25f, 0.25f, 1f),
 				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
 				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8
 			};
-			progressBar.AddThemeStyleboxOverride("background", bgStyle);
+			bar.AddThemeStyleboxOverride("background", bgStyle);
 
 			var fillStyle = new StyleBoxFlat
 			{
@@ -197,59 +165,31 @@ namespace hd2dtest.Scenes.UI
 				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
 				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8
 			};
-			progressBar.AddThemeStyleboxOverride("fill", fillStyle);
-
-			return progressBar;
+			bar.AddThemeStyleboxOverride("fill", fillStyle);
 		}
 
-		private void CreateInfoSection(HBoxContainer parent)
+		private void ApplyInfoSectionStyles()
 		{
-			var infoVBox = new VBoxContainer
-			{
-				SizeFlagsVertical = Control.SizeFlags.ShrinkCenter,
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
-			};
-
-			_goldLabel = new Label
-			{
-				Text = "💰 0",
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
 			_goldLabel.AddThemeFontSizeOverride("font_size", 14);
 			_goldLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
 			_goldLabel.AddThemeColorOverride("font_color", new Color(1f, 0.75f, 0.2f, 1f));
-
-			infoVBox.AddChild(_goldLabel);
-			parent.AddChild(infoVBox);
 		}
 
-		private void CreateQuickButtons(HBoxContainer parent)
+		private void ApplyQuickButtonStyles()
 		{
-			_quickButtonsContainer = new HBoxContainer
+			var buttons = new[]
 			{
-				Alignment = BoxContainer.AlignmentMode.Center
+				GetNode<Button>("QuickAccessBar/MainHBox/QuickButtonsContainer/InvButton"),
+				GetNode<Button>("QuickAccessBar/MainHBox/QuickButtonsContainer/CharButton"),
+				GetNode<Button>("QuickAccessBar/MainHBox/QuickButtonsContainer/MapButton")
 			};
-			_quickButtonsContainer.AddThemeConstantOverride("separation", 8);
 
-			string[] buttonLabels = { "📦", "⚔️", "📊" };
-			string[] tooltips = { "Inventory (I)", "Character (C)", "Map (M)" };
-
-			for (int i = 0; i < buttonLabels.Length; i++)
+			for (int i = 0; i < buttons.Length; i++)
 			{
-				var button = new Button
-				{
-					Text = buttonLabels[i],
-					TooltipText = tooltips[i],
-					CustomMinimumSize = new Vector2(44, 44)
-				};
 				int index = i;
-				button.Pressed += () => OnQuickButtonPressed(index);
-				ApplyQuickButtonStyle(button);
-
-				_quickButtonsContainer.AddChild(button);
+				buttons[i].Pressed += () => OnQuickButtonPressed(index);
+				ApplyQuickButtonStyle(buttons[i]);
 			}
-
-			parent.AddChild(_quickButtonsContainer);
 		}
 
 		private static void ApplyQuickButtonStyle(Button button)
@@ -283,30 +223,23 @@ namespace hd2dtest.Scenes.UI
 			button.AddThemeFontSizeOverride("font_size", 18);
 		}
 
-		private void SetupInputHandling()
+		public override void _UnhandledInput(InputEvent @event)
 		{
-			Connect("input", Callable.From<InputEvent>(OnInputEvent));
-		}
-
-		private void OnInputEvent(InputEvent @event)
-		{
-			if (@event is InputEventKey key && key.Pressed && !key.Echo)
+			if (@event.IsActionPressed("quick_action_1"))
 			{
-				switch (key.Keycode)
-				{
-					case Key.I:
-						ToggleInventory();
-						break;
-					case Key.C:
-						ToggleCharacterStatus();
-						break;
-					case Key.M:
-						ToggleMinimap();
-						break;
-					case Key.Escape:
-						CloseAllPanels();
-						break;
-				}
+				ToggleInventory();
+			}
+			else if (@event.IsActionPressed("quick_action_2"))
+			{
+				ToggleCharacterStatus();
+			}
+			else if (@event.IsActionPressed("map"))
+			{
+				ToggleMinimap();
+			}
+			else if (@event.IsActionPressed("cancel"))
+			{
+				CloseAllPanels();
 			}
 		}
 

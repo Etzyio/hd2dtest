@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cf2371c4268"]
+
+[ext_resource type="Script" uid="uid://cd06f316fce" path="res://Scenes/Map/MeditationPeak.cs" id="1"]
+
+[node name="MeditationPeak" type="Node2D"]
+script = ExtResource("1")

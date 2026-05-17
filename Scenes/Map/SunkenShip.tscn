@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cd5aaa249fc"]
+
+[ext_resource type="Script" uid="uid://c43a53c6d34" path="res://Scenes/Map/SunkenShip.cs" id="1"]
+
+[node name="SunkenShip" type="Node2D"]
+script = ExtResource("1")

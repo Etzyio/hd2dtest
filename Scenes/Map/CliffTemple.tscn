@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c27f5709490"]
+
+[ext_resource type="Script" uid="uid://c2bb014e0b3" path="res://Scenes/Map/CliffTemple.cs" id="1"]
+
+[node name="CliffTemple" type="Node2D"]
+script = ExtResource("1")

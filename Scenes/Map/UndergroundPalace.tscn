@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c38f060e098"]
+
+[ext_resource type="Script" uid="uid://c48a18c7f6e" path="res://Scenes/Map/UndergroundPalace.cs" id="1"]
+
+[node name="UndergroundPalace" type="Node2D"]
+script = ExtResource("1")

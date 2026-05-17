@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c2a0596966f"]
+
+[ext_resource type="Script" uid="uid://ca12a692903" path="res://Scenes/Map/BanditFortress.cs" id="1"]
+
+[node name="BanditFortress" type="Node2D"]
+script = ExtResource("1")

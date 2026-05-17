@@ -30,6 +30,10 @@ namespace hd2dtest
         {
             _instance = this;
 
+            _sceneLayer = GetNode<Control>("sceneLayer");
+            _shade = GetNode<ColorRect>("shade");
+            _popupLayer = GetNode<hd2dtest.Scenes.Popup.PopupMenu>("popupLayer/PopupMenu");
+
             SetupExceptionHandling();
             CreateManagersNode();
             InitializeAllManagers();

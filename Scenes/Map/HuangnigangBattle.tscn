@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d012cc4b406"]
+
+[ext_resource type="Script" uid="uid://dc1b8615d8e" path="res://Scenes/Map/HuangnigangBattle.cs" id="1"]
+
+[node name="HuangnigangBattle" type="Node2D"]
+script = ExtResource("1")

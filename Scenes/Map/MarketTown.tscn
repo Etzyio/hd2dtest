@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c57f3574823"]
+
+[ext_resource type="Script" uid="uid://ca18955b3e2" path="res://Scenes/Map/MarketTown.cs" id="1"]
+
+[node name="MarketTown" type="Node2D"]
+script = ExtResource("1")

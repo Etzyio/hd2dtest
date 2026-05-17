@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d74c30ba250"]
+
+[ext_resource type="Script" uid="uid://df6420697ee" path="res://Scenes/Map/ImperialPalace.cs" id="1"]
+
+[node name="ImperialPalace" type="Node2D"]
+script = ExtResource("1")

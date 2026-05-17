@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cdc8f8c015d"]
+
+[ext_resource type="Script" uid="uid://c48b3ec6928" path="res://Scenes/Map/SuzhouCity.cs" id="1"]
+
+[node name="SuzhouCity" type="Node2D"]
+script = ExtResource("1")

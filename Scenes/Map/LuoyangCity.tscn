@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cbe3a51ac3d"]
+
+[ext_resource type="Script" uid="uid://ca8f14d6dbd" path="res://Scenes/Map/LuoyangCity.cs" id="1"]
+
+[node name="LuoyangCity" type="Node2D"]
+script = ExtResource("1")

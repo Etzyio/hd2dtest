@@ -69,12 +69,12 @@ namespace hd2dtest.Scripts.Managers
             _mainCamera = new Camera3D();
             _mainCamera.Name = "HD2DCamera";
             _mainCamera.Position = new Vector3(0, 10, 15);
-            _mainCamera.LookAt(Vector3.Zero);
             _mainCamera.Fov = 45.0f;
             _mainCamera.Near = 0.1f;
             _mainCamera.Far = 100.0f;
 
             AddChild(_mainCamera);
+            _mainCamera.LookAt(Vector3.Zero);
             _mainCamera.MakeCurrent();
         }
 

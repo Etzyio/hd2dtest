@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://t8fe9d8c2e0"]
+
+[ext_resource type="Script" uid="uid://t8994c6de41" path="res://Scenes/Map/TempleRoad.cs" id="1"]
+
+[node name="TempleRoad" type="Node2D"]
+script = ExtResource("1")

@@ -1,10 +1,290 @@
 [
-	{
-		"id": "start",
-		"tscn": "res://Scenes/Start/Start.tscn"
-	},
-	{
-		"id": "first",
-		"tscn": "res://Scenes/First/First.tscn"
-	}
+  {
+    "id": "start",
+    "tscn": "res://Scenes/Start/Start.tscn"
+  },
+  {
+    "id": "first",
+    "tscn": "res://Scenes/First/First.tscn"
+  },
+  {
+    "id": "level_002",
+    "tscn": "res://Scenes/Levels/Level2.tscn"
+  },
+  {
+    "id": "level_003",
+    "tscn": "res://Scenes/Levels/Level3.tscn"
+  },
+  {
+    "id": "suzhou_biaoju",
+    "tscn": "res://Scenes/Map/SuzhouBiaoju.tscn"
+  },
+  {
+    "id": "lin_mochen_room",
+    "tscn": "res://Scenes/Map/LinMochenRoom.tscn"
+  },
+  {
+    "id": "huangnigang",
+    "tscn": "res://Scenes/Map/Huangnigang.tscn"
+  },
+  {
+    "id": "huangnigang_battle",
+    "tscn": "res://Scenes/Map/HuangnigangBattle.tscn"
+  },
+  {
+    "id": "huangnigang_death",
+    "tscn": "res://Scenes/Map/HuangnigangDeath.tscn"
+  },
+  {
+    "id": "cave",
+    "tscn": "res://Scenes/Map/Cave.tscn"
+  },
+  {
+    "id": "qingfeng_ruins",
+    "tscn": "res://Scenes/Map/QingfengRuins.tscn"
+  },
+  {
+    "id": "broken_temple",
+    "tscn": "res://Scenes/Map/BrokenTemple.tscn"
+  },
+  {
+    "id": "moyu_biaoju",
+    "tscn": "res://Scenes/Map/MoyuBiaoju.tscn"
+  },
+  {
+    "id": "longmen_kezhan",
+    "tscn": "res://Scenes/Map/LongmenKezhan.tscn"
+  },
+  {
+    "id": "longmen_kezhan_night",
+    "tscn": "res://Scenes/Map/LongmenKezhanNight.tscn"
+  },
+  {
+    "id": "youming_jiao",
+    "tscn": "res://Scenes/Map/YoumingJiao.tscn"
+  },
+  {
+    "id": "treasure_cave",
+    "tscn": "res://Scenes/Map/TreasureCave.tscn"
+  },
+  {
+    "id": "longmen_ruins",
+    "tscn": "res://Scenes/Map/LongmenRuins.tscn"
+  },
+  {
+    "id": "longmen_battle",
+    "tscn": "res://Scenes/Map/LongmenBattle.tscn"
+  },
+  {
+    "id": "imperial_palace",
+    "tscn": "res://Scenes/Map/ImperialPalace.tscn"
+  },
+  {
+    "id": "youming_final",
+    "tscn": "res://Scenes/Map/YoumingFinal.tscn"
+  },
+  {
+    "id": "qingfeng_biaoju",
+    "tscn": "res://Scenes/Map/QingfengBiaoju.tscn"
+  },
+  {
+    "id": "wanqing_grave",
+    "tscn": "res://Scenes/Map/WanqingGrave.tscn"
+  },
+  {
+    "id": "town",
+    "tscn": "res://Scenes/Town/Town.tscn"
+  },
+  {
+    "id": "secand",
+    "tscn": "res://Scenes/Secand.tscn"
+  },
+  {
+    "id": "scene_1",
+    "tscn": "res://Scenes/First/First.tscn"
+  },
+  {
+    "id": "jiangnan_road",
+    "tscn": "res://Scenes/Map/JiangnanRoad.tscn"
+  },
+  {
+    "id": "mountain_cliff_path",
+    "tscn": "res://Scenes/Map/MountainCliffPath.tscn"
+  },
+  {
+    "id": "ruins_path",
+    "tscn": "res://Scenes/Map/RuinsPath.tscn"
+  },
+  {
+    "id": "temple_road",
+    "tscn": "res://Scenes/Map/TempleRoad.tscn"
+  },
+  {
+    "id": "city_outskirts",
+    "tscn": "res://Scenes/Map/CityOutskirts.tscn"
+  },
+  {
+    "id": "western_desert_road",
+    "tscn": "res://Scenes/Map/WesternDesertRoad.tscn"
+  },
+  {
+    "id": "dark_mountain_pass",
+    "tscn": "res://Scenes/Map/DarkMountainPass.tscn"
+  },
+  {
+    "id": "hidden_cave_path",
+    "tscn": "res://Scenes/Map/HiddenCavePath.tscn"
+  },
+  {
+    "id": "burned_road",
+    "tscn": "res://Scenes/Map/BurnedRoad.tscn"
+  },
+  {
+    "id": "capital_highway",
+    "tscn": "res://Scenes/Map/CapitalHighway.tscn"
+  },
+  {
+    "id": "nether_final_pass",
+    "tscn": "res://Scenes/Map/NetherFinalPass.tscn"
+  },
+  {
+    "id": "forest_path",
+    "tscn": "res://Scenes/Map/ForestPath.tscn"
+  },
+  {
+    "id": "river_crossing",
+    "tscn": "res://Scenes/Map/RiverCrossing.tscn"
+  },
+  {
+    "id": "mountain_pass",
+    "tscn": "res://Scenes/Map/MountainPass.tscn"
+  },
+  {
+    "id": "bamboo_forest",
+    "tscn": "res://Scenes/Map/BambooForest.tscn"
+  },
+  {
+    "id": "night_road",
+    "tscn": "res://Scenes/Map/NightRoad.tscn"
+  },
+  {
+    "id": "suzhou_city",
+    "tscn": "res://Scenes/Map/SuzhouCity.tscn"
+  },
+  {
+    "id": "luoyang_city",
+    "tscn": "res://Scenes/Map/LuoyangCity.tscn"
+  },
+  {
+    "id": "chang_an",
+    "tscn": "res://Scenes/Map/ChangAn.tscn"
+  },
+  {
+    "id": "small_village",
+    "tscn": "res://Scenes/Map/SmallVillage.tscn"
+  },
+  {
+    "id": "fishing_village",
+    "tscn": "res://Scenes/Map/FishingVillage.tscn"
+  },
+  {
+    "id": "market_town",
+    "tscn": "res://Scenes/Map/MarketTown.tscn"
+  },
+  {
+    "id": "tea_house",
+    "tscn": "res://Scenes/Map/TeaHouse.tscn"
+  },
+  {
+    "id": "black_market",
+    "tscn": "res://Scenes/Map/BlackMarket.tscn"
+  },
+  {
+    "id": "ancient_temple",
+    "tscn": "res://Scenes/Map/AncientTemple.tscn"
+  },
+  {
+    "id": "underground_palace",
+    "tscn": "res://Scenes/Map/UndergroundPalace.tscn"
+  },
+  {
+    "id": "abandoned_mine",
+    "tscn": "res://Scenes/Map/AbandonedMine.tscn"
+  },
+  {
+    "id": "bandit_fortress",
+    "tscn": "res://Scenes/Map/BanditFortress.tscn"
+  },
+  {
+    "id": "haunted_manor",
+    "tscn": "res://Scenes/Map/HauntedManor.tscn"
+  },
+  {
+    "id": "dragon_altar",
+    "tscn": "res://Scenes/Map/DragonAltar.tscn"
+  },
+  {
+    "id": "sword_tomb",
+    "tscn": "res://Scenes/Map/SwordTomb.tscn"
+  },
+  {
+    "id": "monastery_ruins",
+    "tscn": "res://Scenes/Map/MonasteryRuins.tscn"
+  },
+  {
+    "id": "cliff_temple",
+    "tscn": "res://Scenes/Map/CliffTemple.tscn"
+  },
+  {
+    "id": "sunken_ship",
+    "tscn": "res://Scenes/Map/SunkenShip.tscn"
+  },
+  {
+    "id": "ice_cave",
+    "tscn": "res://Scenes/Map/IceCave.tscn"
+  },
+  {
+    "id": "poison_valley",
+    "tscn": "res://Scenes/Map/PoisonValley.tscn"
+  },
+  {
+    "id": "training_ground",
+    "tscn": "res://Scenes/Map/TrainingGround.tscn"
+  },
+  {
+    "id": "arena",
+    "tscn": "res://Scenes/Map/Arena.tscn"
+  },
+  {
+    "id": "meditation_peak",
+    "tscn": "res://Scenes/Map/MeditationPeak.tscn"
+  },
+  {
+    "id": "trial_tower",
+    "tscn": "res://Scenes/Map/TrialTower.tscn"
+  },
+  {
+    "id": "hermit_hut",
+    "tscn": "res://Scenes/Map/HermitHut.tscn"
+  },
+  {
+    "id": "blacksmith_workshop",
+    "tscn": "res://Scenes/Map/BlacksmithWorkshop.tscn"
+  },
+  {
+    "id": "apothecary",
+    "tscn": "res://Scenes/Map/Apothecary.tscn"
+  },
+  {
+    "id": "hot_spring",
+    "tscn": "res://Scenes/Map/HotSpring.tscn"
+  },
+  {
+    "id": "gambling_den",
+    "tscn": "res://Scenes/Map/GamblingDen.tscn"
+  },
+  {
+    "id": "library_pavilion",
+    "tscn": "res://Scenes/Map/LibraryPavilion.tscn"
+  }
 ]

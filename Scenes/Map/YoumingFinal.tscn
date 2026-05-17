@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d010d6b9254"]
+
+[ext_resource type="Script" uid="uid://d2315685c29" path="res://Scenes/Map/YoumingFinal.cs" id="1"]
+
+[node name="YoumingFinal" type="Node2D"]
+script = ExtResource("1")

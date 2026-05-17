@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://de44477d368"]
+
+[ext_resource type="Script" uid="uid://d5da59c5f06" path="res://Scenes/Map/BrokenTemple.cs" id="1"]
+
+[node name="BrokenTemple" type="Node2D"]
+script = ExtResource("1")

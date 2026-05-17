@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://tb677d38e58"]
+
+[ext_resource type="Script" uid="uid://t44e89cb991" path="res://Scenes/Map/MountainCliffPath.cs" id="1"]
+
+[node name="MountainCliffPath" type="Node2D"]
+script = ExtResource("1")

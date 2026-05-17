@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cde4977703b"]
+
+[ext_resource type="Script" uid="uid://c3f398f8c14" path="res://Scenes/Map/DragonAltar.cs" id="1"]
+
+[node name="DragonAltar" type="Node2D"]
+script = ExtResource("1")

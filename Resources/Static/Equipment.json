@@ -1,3 +1,50 @@
 {
-    
+  "EQP_ARM_LEATHER": {
+    "id": "EQP_ARM_LEATHER",
+    "nameKey": "EQP_NAME_ARM_LEATHER",
+    "descriptionKey": "EQP_DESC_ARM_LEATHER",
+    "equipmentName": "皮甲",
+    "description": "鞣制牛皮制成的轻甲，兼顾防护与灵活。",
+    "equipmentTypeValue": "Armor",
+    "type": "Armor",
+    "defense": 12.0,
+    "health": 20.0,
+    "mana": 0.0,
+    "speed": 0.0,
+    "attack": 0.0,
+    "price": 200,
+    "isEquipped": false
+  },
+  "EQP_HLM_IRON": {
+    "id": "EQP_HLM_IRON",
+    "nameKey": "EQP_NAME_HLM_IRON",
+    "descriptionKey": "EQP_DESC_HLM_IRON",
+    "equipmentName": "铁盔",
+    "description": "精铁锻造的头盔，有效防护要害。",
+    "equipmentTypeValue": "Helmet",
+    "type": "Helmet",
+    "defense": 8.0,
+    "health": 0.0,
+    "mana": 10.0,
+    "speed": 0.0,
+    "attack": 0.0,
+    "price": 150,
+    "isEquipped": false
+  },
+  "EQP_BTS_SWIFT": {
+    "id": "EQP_BTS_SWIFT",
+    "nameKey": "EQP_NAME_BTS_SWIFT",
+    "descriptionKey": "EQP_DESC_BTS_SWIFT",
+    "equipmentName": "疾风靴",
+    "description": "轻便的皮靴，穿戴者行动如风。",
+    "equipmentTypeValue": "Boots",
+    "type": "Boots",
+    "defense": 4.0,
+    "health": 0.0,
+    "mana": 0.0,
+    "speed": 25.0,
+    "attack": 0.0,
+    "price": 180,
+    "isEquipped": false
+  }
 }

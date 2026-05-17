@@ -68,35 +68,55 @@ namespace hd2dtest.Scenes.UI
 
 		private void InitializeUI()
 		{
-			AnchorLeft = 0.5f;
-			AnchorRight = 0.5f;
-			AnchorTop = 0.5f;
-			AnchorBottom = 0.5f;
-			OffsetLeft = -450;
-			OffsetRight = 450;
-			OffsetTop = -350;
-			OffsetBottom = 350;
-
-			CreateMainPanel();
-			CreateHeader();
-			CreateTabContainer();
-			CreateStatsTabContent();
-			CreateEquipmentTabContent();
-			CreateSkillsTabContent();
+			GetNodeReferences();
+			ApplyStyles();
+			SetupTabs();
+			PopulateInitialEquipmentSlots();
+			PopulatePassiveSlots();
+			SetupSignals();
 		}
 
-		private void CreateMainPanel()
+		private void GetNodeReferences()
 		{
-			_mainPanel = new Panel
-			{
-				Name = "MainPanel",
-				AnchorLeft = 0,
-				AnchorRight = 1,
-				AnchorTop = 0,
-				AnchorBottom = 1
-			};
+			_mainPanel = GetNode<Panel>("MainPanel");
+			_tabBar = GetNode<TabBar>("MainPanel/TabMarginContainer/MainTabs");
+			_closeButton = GetNode<Button>("MainPanel/HeaderPanel/HeaderHBox/CloseButton");
 
-			var styleBox = new StyleBoxFlat
+			_statsTab = GetNode<Control>("MainPanel/StatsTab");
+			_characterNameLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/CharacterNameLabel");
+			_classLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/ClassLabel");
+			_levelLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/LevelLabel");
+			_portraitRect = GetNode<TextureRect>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/PortraitRect");
+			_healthLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/HealthLabel");
+			_healthBar = GetNode<ProgressBar>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/HealthBar");
+			_manaLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/ManaLabel");
+			_manaBar = GetNode<ProgressBar>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/ManaBar");
+			_expBar = GetNode<ProgressBar>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/ExpBar");
+			_expLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/InfoPanel/InfoVBox/ExpLabel");
+
+			_statsGrid = GetNode<GridContainer>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid");
+			_attackValueLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid/AttackValue");
+			_defenseValueLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid/DefenseValue");
+			_speedValueLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid/SpeedValue");
+			_critValueLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid/CritValue");
+			_goldLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid/GoldValue");
+			_killCountLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsGrid/KillsValue");
+
+			_equipmentTab = GetNode<Control>("MainPanel/EquipmentTab");
+			_equipmentSlots = GetNode<GridContainer>("MainPanel/EquipmentTab/EquipHBox/SlotsPanel/SlotsVBox/EquipmentSlots");
+			_equipmentBonusLabel = GetNode<RichTextLabel>("MainPanel/EquipmentTab/EquipHBox/BonusPanel/BonusVBox/EquipmentBonusLabel");
+
+			_skillsTab = GetNode<Control>("MainPanel/SkillsTab");
+			_skillsScrollContainer = GetNode<ScrollContainer>("MainPanel/SkillsTab/SkillsScroll");
+			_skillsContainer = GetNode<VBoxContainer>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox");
+			_skillTree = GetNode<Tree>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox/SkillTree");
+		}
+
+		private void ApplyStyles()
+		{
+			var font = GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf");
+
+			var mainStyle = new StyleBoxFlat
 			{
 				BgColor = _colorBackground,
 				BorderWidthLeft = 3, BorderWidthRight = 3,
@@ -107,13 +127,9 @@ namespace hd2dtest.Scenes.UI
 				ShadowSize = 10,
 				ShadowColor = new Color(0, 0, 0, 0.4f)
 			};
-			_mainPanel.AddThemeStyleboxOverride("panel", styleBox);
-			AddChild(_mainPanel);
-		}
+			_mainPanel.AddThemeStyleboxOverride("panel", mainStyle);
 
-		private void CreateHeader()
-		{
-			var headerPanel = new PanelContainer { Name = "HeaderPanel" };
+			var headerPanel = GetNode<PanelContainer>("MainPanel/HeaderPanel");
 			var headerStyle = new StyleBoxFlat
 			{
 				BgColor = _colorSurface,
@@ -125,75 +141,15 @@ namespace hd2dtest.Scenes.UI
 			};
 			headerPanel.AddThemeStyleboxOverride("panel", headerStyle);
 
-			var headerHBox = new HBoxContainer
-			{
-				Alignment = BoxContainer.AlignmentMode.Center,
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
-			};
-
-			var titleLabel = new Label
-			{
-				Text = "⚔️ Character Status",
-				HorizontalAlignment = HorizontalAlignment.Left
-			};
+			var titleLabel = GetNode<Label>("MainPanel/HeaderPanel/HeaderHBox/TitleLabel");
 			titleLabel.AddThemeFontSizeOverride("font_size", 20);
-			titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
+			titleLabel.AddThemeFontOverride("font", font);
 			titleLabel.AddThemeColorOverride("font_color", _colorTextPrimary);
 
-			_closeButton = new Button { Text = "✕", TooltipText = "Close character status" };
 			_closeButton.Pressed += ToggleVisibility;
 			ApplyButtonStyle(_closeButton, true, _colorDanger);
 
-			headerHBox.AddChild(titleLabel);
-			headerHBox.AddChild(_closeButton);
-			headerPanel.AddChild(headerHBox);
-
-			headerPanel.AnchorLeft = 0; headerPanel.AnchorRight = 1;
-			headerPanel.AnchorTop = 0; headerPanel.AnchorBottom = 0;
-			headerPanel.OffsetBottom = 55;
-			_mainPanel.AddChild(headerPanel);
-		}
-
-		private void CreateTabContainer()
-		{
-			_tabBar = new TabBar { Name = "MainTabs", TabAlignment = TabBar.AlignmentMode.Center };
-			string[] tabs = { "📊 Stats", "🛡️ Equipment", "✨ Skills" };
-			foreach (var tab in tabs) _tabBar.AddTab(tab);
-			_tabBar.TabChanged += OnTabChanged;
-
-			var tabContainer = new MarginContainer
-			{
-				AnchorLeft = 0, AnchorRight = 1,
-				AnchorTop = 0, AnchorBottom = 0,
-				OffsetTop = 60, OffsetBottom = 95
-			};
-			tabContainer.AddChild(_tabBar);
-			_mainPanel.AddChild(tabContainer);
-		}
-
-		private void CreateStatsTabContent()
-		{
-			_statsTab = new Control
-			{
-				Name = "StatsTab",
-				AnchorLeft = 0, AnchorRight = 1,
-				AnchorTop = 0, AnchorBottom = 1,
-				OffsetTop = 100, OffsetLeft = 15,
-				OffsetRight = -15, OffsetBottom = -15
-			};
-
-			var mainHBox = new HBoxContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			CreateCharacterInfoSection(mainHBox);
-			CreateStatsSection(mainHBox);
-			_statsTab.AddChild(mainHBox);
-			_mainPanel.AddChild(_statsTab);
-		}
-
-		private void CreateCharacterInfoSection(HBoxContainer parent)
-		{
-			var infoVBox = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			var infoPanel = new PanelContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			var panelStyle = new StyleBoxFlat
+			var statPanelStyle = new StyleBoxFlat
 			{
 				BgColor = _colorSurface,
 				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
@@ -201,77 +157,102 @@ namespace hd2dtest.Scenes.UI
 				ContentMarginLeft = 16, ContentMarginRight = 16,
 				ContentMarginTop = 16, ContentMarginBottom = 16
 			};
-			infoPanel.AddThemeStyleboxOverride("panel", panelStyle);
 
-			var innerVBox = new VBoxContainer();
+			var infoPanel = GetNode<PanelContainer>("MainPanel/StatsTab/StatsHBox/InfoPanel");
+			infoPanel.AddThemeStyleboxOverride("panel", statPanelStyle);
 
-			_characterNameLabel = new Label { Text = "Character Name", HorizontalAlignment = HorizontalAlignment.Center };
+			var statsPanel = GetNode<PanelContainer>("MainPanel/StatsTab/StatsHBox/StatsPanel");
+			statsPanel.AddThemeStyleboxOverride("panel", statPanelStyle);
+
 			_characterNameLabel.AddThemeFontSizeOverride("font_size", 22);
-			_characterNameLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
+			_characterNameLabel.AddThemeFontOverride("font", font);
 			_characterNameLabel.AddThemeColorOverride("font_color", _colorPrimary);
 
-			_classLabel = new Label { Text = "Class: Warrior", HorizontalAlignment = HorizontalAlignment.Center };
 			_classLabel.AddThemeFontSizeOverride("font_size", 14);
 			_classLabel.AddThemeColorOverride("font_color", _colorTextSecondary);
 
-			_levelLabel = new Label { Text = "Level: 1", HorizontalAlignment = HorizontalAlignment.Center };
 			_levelLabel.AddThemeFontSizeOverride("font_size", 16);
 			_levelLabel.AddThemeColorOverride("font_color", _colorExp);
 
-			_portraitRect = new TextureRect
-			{
-				CustomMinimumSize = new Vector2(120, 120),
-				SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
-				StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered
-			};
-			CreatePortraitTexture();
-
-			innerVBox.AddChild(_characterNameLabel);
-			innerVBox.AddChild(_classLabel);
-			innerVBox.AddChild(_levelLabel);
-			innerVBox.AddChild(_portraitRect);
-			innerVBox.AddChild(new HSeparator());
-
-			_healthLabel = new Label { Text = "❤️ HP" };
 			_healthLabel.AddThemeFontSizeOverride("font_size", 12);
 			_healthLabel.AddThemeColorOverride("font_color", _colorTextSecondary);
 
-			_healthBar = CreateProgressBar(_colorHealth, new Vector2(200, 24));
-
-			_manaLabel = new Label { Text = "💧 MP" };
+			ApplyProgressBarStyle(_healthBar, _colorHealth);
 			_manaLabel.AddThemeFontSizeOverride("font_size", 12);
 			_manaLabel.AddThemeColorOverride("font_color", _colorTextSecondary);
 
-			_manaBar = CreateProgressBar(_colorMana, new Vector2(200, 24));
+			ApplyProgressBarStyle(_manaBar, _colorMana);
+			ApplyProgressBarStyle(_expBar, _colorExp);
 
-			_expBar = CreateProgressBar(_colorExp, new Vector2(200, 20));
-
-			_expLabel = new Label { Text = "EXP: 0/100", HorizontalAlignment = HorizontalAlignment.Center };
 			_expLabel.AddThemeFontSizeOverride("font_size", 11);
 			_expLabel.AddThemeColorOverride("font_color", _colorExp);
 
-			innerVBox.AddChild(_healthLabel);
-			innerVBox.AddChild(_healthBar);
-			innerVBox.AddChild(_manaLabel);
-			innerVBox.AddChild(_manaBar);
-			innerVBox.AddChild(_expBar);
-			innerVBox.AddChild(_expLabel);
+			CreatePortraitTexture();
 
-			infoPanel.AddChild(innerVBox);
-			infoVBox.AddChild(infoPanel);
-			parent.AddChild(infoVBox);
+			// Stats grid labels
+			Color textSecondary = new(0.74f, 0.76f, 0.78f, 1f);
+			Color textPrimary = new(0.93f, 0.94f, 0.95f, 1f);
+			foreach (var child in _statsGrid.GetChildren())
+			{
+				if (child is Label label)
+				{
+					label.AddThemeFontSizeOverride("font_size", 14);
+					label.AddThemeColorOverride("font_color",
+						label.HorizontalAlignment == HorizontalAlignment.Right ? textPrimary : textSecondary);
+				}
+			}
+
+			var statsTitleLabel = GetNode<Label>("MainPanel/StatsTab/StatsHBox/StatsPanel/StatsVBox/StatsTitleLabel");
+			statsTitleLabel.AddThemeFontSizeOverride("font_size", 16);
+			statsTitleLabel.AddThemeFontOverride("font", font);
+			statsTitleLabel.AddThemeColorOverride("font_color", _colorPrimary);
+
+			// Equipment tab styles
+			var slotsPanel = GetNode<PanelContainer>("MainPanel/EquipmentTab/EquipHBox/SlotsPanel");
+			slotsPanel.AddThemeStyleboxOverride("panel", statPanelStyle);
+			var slotsTitle = GetNode<Label>("MainPanel/EquipmentTab/EquipHBox/SlotsPanel/SlotsVBox/SlotsTitleLabel");
+			slotsTitle.AddThemeFontSizeOverride("font_size", 16);
+			slotsTitle.AddThemeFontOverride("font", font);
+			slotsTitle.AddThemeColorOverride("font_color", _colorPrimary);
+
+			var bonusPanel = GetNode<PanelContainer>("MainPanel/EquipmentTab/EquipHBox/BonusPanel");
+			bonusPanel.AddThemeStyleboxOverride("panel", statPanelStyle);
+			var bonusTitle = GetNode<Label>("MainPanel/EquipmentTab/EquipHBox/BonusPanel/BonusVBox/BonusTitleLabel");
+			bonusTitle.AddThemeFontSizeOverride("font_size", 16);
+			bonusTitle.AddThemeFontOverride("font", font);
+			bonusTitle.AddThemeColorOverride("font_color", _colorPrimary);
+
+			_equipmentBonusLabel.AddThemeConstantOverride("lines_skipped", 0);
+			_equipmentBonusLabel.AddThemeColorOverride("default_color", _colorTextSecondary);
+
+			// Skills tab styles
+			var skillTreePanel = GetNode<PanelContainer>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel");
+			skillTreePanel.AddThemeStyleboxOverride("panel", statPanelStyle);
+			var skillTreeTitle = GetNode<Label>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox/SkillTreeHeader/SkillTreeTitle");
+			skillTreeTitle.AddThemeFontSizeOverride("font_size", 16);
+			skillTreeTitle.AddThemeFontOverride("font", font);
+			skillTreeTitle.AddThemeColorOverride("font_color", _colorPrimary);
+
+			var skillPointsLabel = GetNode<Label>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/SkillTreePanel/SkillTreeVBox/SkillTreeHeader/SkillPointsLabel");
+			skillPointsLabel.AddThemeFontSizeOverride("font_size", 13);
+			skillPointsLabel.AddThemeColorOverride("font_color", _colorExp);
+
+			var passivePanel = GetNode<PanelContainer>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel");
+			passivePanel.AddThemeStyleboxOverride("panel", statPanelStyle);
+			var passiveTitle = GetNode<Label>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel/PassiveVBox/PassiveTitle");
+			passiveTitle.AddThemeFontSizeOverride("font_size", 16);
+			passiveTitle.AddThemeFontOverride("font", font);
+			passiveTitle.AddThemeColorOverride("font_color", _colorPrimary);
+
+			_skillTree.SetColumnTitle(0, "Skill");
+			_skillTree.SetColumnTitle(1, "Info");
+			_skillTree.ColumnTitlesVisible = true;
+
+			UpdateEquipmentBonusDisplay();
 		}
 
-		private ProgressBar CreateProgressBar(Color color, Vector2 minSize)
+		private static void ApplyProgressBarStyle(ProgressBar bar, Color color)
 		{
-			var bar = new ProgressBar
-			{
-				Value = 100,
-				MaxValue = 100,
-				CustomMinimumSize = minSize,
-				ShowPercentage = false
-			};
-
 			var bgStyle = new StyleBoxFlat
 			{
 				BgColor = color * new Color(0.3f, 0.3f, 0.3f, 1f),
@@ -287,298 +268,44 @@ namespace hd2dtest.Scenes.UI
 				CornerRadiusBottomLeft = 6, CornerRadiusBottomRight = 6
 			};
 			bar.AddThemeStyleboxOverride("fill", fillStyle);
-
-			return bar;
 		}
 
-		private void CreatePortraitTexture()
+		private void SetupTabs()
 		{
-			var img = Image.CreateEmpty(120, 120, false, Image.Format.Rgba8);
-			img.Fill(new Color(0.25f, 0.32f, 0.4f, 1f));
-
-			for (int x = 30; x < 90; x++)
-				for (int y = 25; y < 75; y++)
-					img.SetPixel(x, y, new Color(0.85f, 0.72f, 0.58f, 1f));
-
-			for (int x = 40; x < 80; x++)
-				for (int y = 15; y < 35; y++)
-					img.SetPixel(x, y, new Color(0.45f, 0.35f, 0.28f, 1f));
-
-			for (int x = 50; x < 70; x++)
-				img.SetPixel(x, 35, new Color(0.3f, 0.25f, 0.2f, 1f));
-
-			for (int x = 35; x < 55; x++)
-				for (int y = 75; y < 105; y++)
-					img.SetPixel(x, y, new Color(0.25f, 0.32f, 0.5f, 1f));
-
-			for (int x = 65; x < 85; x++)
-				for (int y = 75; y < 105; y++)
-					img.SetPixel(x, y, new Color(0.25f, 0.32f, 0.5f, 1f));
-
-			_portraitRect.Texture = ImageTexture.CreateFromImage(img);
+			string[] tabs = { "📊 Stats", "🛡️ Equipment", "✨ Skills" };
+			foreach (var tab in tabs) _tabBar.AddTab(tab);
+			_tabBar.TabChanged += OnTabChanged;
 		}
 
-		private void CreateStatsSection(HBoxContainer parent)
+		private void PopulateInitialEquipmentSlots()
 		{
-			var statsVBox = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			var statsPanel = new PanelContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			var panelStyle = new StyleBoxFlat
-			{
-				BgColor = _colorSurface,
-				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
-				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
-				ContentMarginLeft = 16, ContentMarginRight = 16,
-				ContentMarginTop = 16, ContentMarginBottom = 16
-			};
-			statsPanel.AddThemeStyleboxOverride("panel", panelStyle);
-
-			var titleLabel = new Label { Text = "📋 Attributes" };
-			titleLabel.AddThemeFontSizeOverride("font_size", 16);
-			titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
-			titleLabel.AddThemeColorOverride("font_color", _colorPrimary);
-
-			_statsGrid = new GridContainer { Columns = 2, SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-
-			AddStatRow(_statsGrid, "⚔️ Attack", out _attackValueLabel, "15");
-			AddStatRow(_statsGrid, "🛡️ Defense", out _defenseValueLabel, "8");
-			AddStatRow(_statsGrid, "💨 Speed", out _speedValueLabel, "75");
-			AddStatRow(_statsGrid, "💥 Crit Rate", out _critValueLabel, "5%");
-			AddStatRow(_statsGrid, "💰 Gold", out _goldLabel, "0");
-			AddStatRow(_statsGrid, "💀 Kills", out _killCountLabel, "0");
-
-			var innerVBox = new VBoxContainer();
-			innerVBox.AddChild(titleLabel);
-			innerVBox.AddChild(new HSeparator());
-			innerVBox.AddChild(_statsGrid);
-
-			statsPanel.AddChild(innerVBox);
-			statsVBox.AddChild(statsPanel);
-			parent.AddChild(statsVBox);
-		}
-
-		private static void AddStatRow(GridContainer grid, string label, out Label valueLabel, string defaultValue)
-		{
-			var labelNode = new Label { Text = label, SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			labelNode.AddThemeFontSizeOverride("font_size", 14);
-			labelNode.AddThemeColorOverride("font_color", new Color(0.74f, 0.76f, 0.78f, 1f));
-
-			valueLabel = new Label
-			{
-				Text = defaultValue,
-				HorizontalAlignment = HorizontalAlignment.Right,
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
-			};
-			valueLabel.AddThemeFontSizeOverride("font_size", 14);
-			valueLabel.AddThemeColorOverride("font_color", new Color(0.93f, 0.94f, 0.95f, 1f));
-
-			grid.AddChild(labelNode);
-			grid.AddChild(valueLabel);
-		}
-
-		private void CreateEquipmentTabContent()
-		{
-			_equipmentTab = new Control
-			{
-				Name = "EquipmentTab",
-				AnchorLeft = 0, AnchorRight = 1,
-				AnchorTop = 0, AnchorBottom = 1,
-				OffsetTop = 100, OffsetLeft = 15,
-				OffsetRight = -15, OffsetBottom = -15
-			};
-
-			var mainHBox = new HBoxContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			CreateEquipmentSlotsSection(mainHBox);
-			CreateEquipmentBonusSection(mainHBox);
-			_equipmentTab.AddChild(mainHBox);
-			_mainPanel.AddChild(_equipmentTab);
-		}
-
-		private void CreateEquipmentSlotsSection(HBoxContainer parent)
-		{
-			var slotsVBox = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			var slotsPanel = new PanelContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			var panelStyle = new StyleBoxFlat
-			{
-				BgColor = _colorSurface,
-				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
-				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
-				ContentMarginLeft = 16, ContentMarginRight = 16,
-				ContentMarginTop = 16, ContentMarginBottom = 16
-			};
-			slotsPanel.AddThemeStyleboxOverride("panel", panelStyle);
-
-			var titleLabel = new Label { Text = "🎽 Equipment Slots" };
-			titleLabel.AddThemeFontSizeOverride("font_size", 16);
-			titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
-			titleLabel.AddThemeColorOverride("font_color", _colorPrimary);
-
-			_equipmentSlots = new GridContainer { Columns = 3, SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-
 			CreateEquipmentSlot("Weapon", "⚔️");
 			CreateEquipmentSlot("Helmet", "🪖");
 			CreateEquipmentSlot("Armor", "👕");
 			CreateEquipmentSlot("Gloves", "🧤");
 			CreateEquipmentSlot("Boots", "👢");
 			CreateEquipmentSlot("Accessory", "💍");
-
-			var innerVBox = new VBoxContainer();
-			innerVBox.AddChild(titleLabel);
-			innerVBox.AddChild(new HSeparator());
-			innerVBox.AddChild(_equipmentSlots);
-			slotsPanel.AddChild(innerVBox);
-			slotsVBox.AddChild(slotsPanel);
-			parent.AddChild(slotsVBox);
 		}
 
-		private void CreateEquipmentSlot(string slotType, string icon)
+		private void PopulatePassiveSlots()
 		{
-			var slot = new EquipmentSlot(slotType, icon, _colorSurface, _colorPrimary, _colorTextSecondary);
-			_equipmentSlots.AddChild(slot.Container);
-			_equipmentSlotNodes[slotType] = slot;
-		}
+			var passiveGrid = GetNode<GridContainer>("MainPanel/SkillsTab/SkillsScroll/SkillsVBox/PassivePanel/PassiveVBox/PassiveGrid");
+			passiveGrid.Columns = Player.MaxPassiveSlots > 0 ? Player.MaxPassiveSlots : 4;
 
-		private void CreateEquipmentBonusSection(HBoxContainer parent)
-		{
-			var bonusVBox = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			var bonusPanel = new PanelContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			var panelStyle = new StyleBoxFlat
+			if (PlayerData != null)
 			{
-				BgColor = _colorSurface,
-				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
-				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
-				ContentMarginLeft = 16, ContentMarginRight = 16,
-				ContentMarginTop = 16, ContentMarginBottom = 16
-			};
-			bonusPanel.AddThemeStyleboxOverride("panel", panelStyle);
-
-			var titleLabel = new Label { Text = "✨ Total Bonuses" };
-			titleLabel.AddThemeFontSizeOverride("font_size", 16);
-			titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
-			titleLabel.AddThemeColorOverride("font_color", _colorPrimary);
-
-			_equipmentBonusLabel = new RichTextLabel
-			{
-				FitContent = true,
-				SizeFlagsVertical = Control.SizeFlags.ExpandFill
-			};
-			_equipmentBonusLabel.AddThemeConstantOverride("lines_skipped", 0);
-			_equipmentBonusLabel.AddThemeColorOverride("default_color", _colorTextSecondary);
-
-			UpdateEquipmentBonusDisplay();
-
-			var innerVBox = new VBoxContainer();
-			innerVBox.AddChild(titleLabel);
-			innerVBox.AddChild(new HSeparator());
-			innerVBox.AddChild(_equipmentBonusLabel);
-			bonusPanel.AddChild(innerVBox);
-			bonusVBox.AddChild(bonusPanel);
-			parent.AddChild(bonusVBox);
-		}
-
-		private void UpdateEquipmentBonusDisplay()
-		{
-			if (PlayerData == null || _equipmentBonusLabel == null) return;
-
-			float totalDefense = 0, totalHealth = 0, totalMana = 0, totalSpeed = 0, totalAttack = 0;
-
-			foreach (var eq in PlayerData.Equipments)
-			{
-				totalDefense += eq.Defense;
-				totalHealth += eq.Health;
-				totalMana += eq.Mana;
-				totalSpeed += eq.Speed;
-				totalAttack += eq.Attack;
+				for (int i = 0; i < Player.MaxPassiveSlots; i++)
+				{
+					if (i < PlayerData.EquippedPassives.Count)
+					{
+						CreatePassiveSlot(passiveGrid, PlayerData.EquippedPassives[i].PassiveName, true);
+					}
+					else
+					{
+						CreatePassiveSlot(passiveGrid, $"Empty Slot {i + 1}", false);
+					}
+				}
 			}
-
-			if (PlayerData.CurrentWeapon != null)
-			{
-				totalAttack += PlayerData.CurrentWeapon.AttackPower;
-			}
-
-			string text = $"[color=#{_colorTextSecondary.ToHtml()}][b]Equipment Statistics[/b][/color]\n\n";
-			if (totalAttack > 0) text += $"[color=#{_colorDanger.ToHtml()}]⚔️ Attack: +{totalAttack:F0}[/color]\n";
-			if (totalDefense > 0) text += $"[color=#{_colorPrimary.ToHtml()}]🛡️ Defense: +{totalDefense:F0}[/color]\n";
-			if (totalHealth > 0) text += $"[color=#{_colorHealth.ToHtml()}]❤️ Health: +{totalHealth:F0}[/color]\n";
-			if (totalMana > 0) text += $"[color=#{_colorMana.ToHtml()}]💧 Mana: +{totalMana:F0}[/color]\n";
-			if (totalSpeed > 0) text += $"[color=#{_colorSecondary.ToHtml()}]💨 Speed: +{totalSpeed:F0}[/color]\n";
-
-			if (totalAttack + totalDefense + totalHealth + totalMana + totalSpeed == 0)
-			{
-				text += "\n[i]No equipment bonuses yet.[/i]";
-			}
-
-			_equipmentBonusLabel.Text = text;
-		}
-
-		private void CreateSkillsTabContent()
-		{
-			_skillsTab = new Control
-			{
-				Name = "SkillsTab",
-				AnchorLeft = 0, AnchorRight = 1,
-				AnchorTop = 0, AnchorBottom = 1,
-				OffsetTop = 100, OffsetLeft = 15,
-				OffsetRight = -15, OffsetBottom = -15
-			};
-
-			_skillsScrollContainer = new ScrollContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-			_skillsContainer = new VBoxContainer
-			{
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
-				SizeFlagsVertical = Control.SizeFlags.ExpandFill
-			};
-
-			CreateSkillTreeSection();
-			CreatePassiveSkillsSection();
-
-			_skillsScrollContainer.AddChild(_skillsContainer);
-			_skillsTab.AddChild(_skillsScrollContainer);
-			_mainPanel.AddChild(_skillsTab);
-		}
-
-		private void CreateSkillTreeSection()
-		{
-			var treePanel = new PanelContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			var panelStyle = new StyleBoxFlat
-			{
-				BgColor = _colorSurface,
-				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
-				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
-				ContentMarginLeft = 16, ContentMarginRight = 16,
-				ContentMarginTop = 16, ContentMarginBottom = 16
-			};
-			treePanel.AddThemeStyleboxOverride("panel", panelStyle);
-
-			var headerHBox = new HBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-
-			var titleLabel = new Label { Text = "🌳 Skill Tree" };
-			titleLabel.AddThemeFontSizeOverride("font_size", 16);
-			titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
-			titleLabel.AddThemeColorOverride("font_color", _colorPrimary);
-
-			var pointsLabel = new Label { Text = "Skill Points: 0" };
-			pointsLabel.AddThemeFontSizeOverride("font_size", 13);
-			pointsLabel.AddThemeColorOverride("font_color", _colorExp);
-
-			headerHBox.AddChild(titleLabel);
-			headerHBox.AddChild(pointsLabel);
-
-			_skillTree = new Tree
-			{
-				SizeFlagsVertical = Control.SizeFlags.ExpandFill,
-				CustomMinimumSize = new Vector2(0, 250),
-				HideRoot = true
-			};
-			_skillTree.SetColumnTitle(0, "Skill");
-			_skillTree.SetColumnTitle(1, "Info");
-			_skillTree.ColumnTitlesVisible = true;
-
-			var innerVBox = new VBoxContainer();
-			innerVBox.AddChild(headerHBox);
-			innerVBox.AddChild(new HSeparator());
-			innerVBox.AddChild(_skillTree);
-			treePanel.AddChild(innerVBox);
-			_skillsContainer.AddChild(treePanel);
 		}
 
 		private void PopulateSkillTree()
@@ -618,50 +345,73 @@ namespace hd2dtest.Scenes.UI
 			}
 		}
 
-		private void CreatePassiveSkillsSection()
+		private void CreatePortraitTexture()
 		{
-			var passivePanel = new PanelContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-			var panelStyle = new StyleBoxFlat
-			{
-				BgColor = _colorSurface,
-				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
-				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
-				ContentMarginLeft = 16, ContentMarginRight = 16,
-				ContentMarginTop = 16, ContentMarginBottom = 16
-			};
-			passivePanel.AddThemeStyleboxOverride("panel", panelStyle);
+			var img = Image.CreateEmpty(120, 120, false, Image.Format.Rgba8);
+			img.Fill(new Color(0.25f, 0.32f, 0.4f, 1f));
 
-			var titleLabel = new Label { Text = "🔮 Passive Skills" };
-			titleLabel.AddThemeFontSizeOverride("font_size", 16);
-			titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
-			titleLabel.AddThemeColorOverride("font_color", _colorPrimary);
+			for (int x = 30; x < 90; x++)
+				for (int y = 25; y < 75; y++)
+					img.SetPixel(x, y, new Color(0.85f, 0.72f, 0.58f, 1f));
 
-			var passiveGrid = new GridContainer
-			{
-				Columns = Player.MaxPassiveSlots > 0 ? Player.MaxPassiveSlots : 4
-			};
+			for (int x = 40; x < 80; x++)
+				for (int y = 15; y < 35; y++)
+					img.SetPixel(x, y, new Color(0.45f, 0.35f, 0.28f, 1f));
 
-			if (PlayerData != null)
+			for (int x = 50; x < 70; x++)
+				img.SetPixel(x, 35, new Color(0.3f, 0.25f, 0.2f, 1f));
+
+			for (int x = 35; x < 55; x++)
+				for (int y = 75; y < 105; y++)
+					img.SetPixel(x, y, new Color(0.25f, 0.32f, 0.5f, 1f));
+
+			for (int x = 65; x < 85; x++)
+				for (int y = 75; y < 105; y++)
+					img.SetPixel(x, y, new Color(0.25f, 0.32f, 0.5f, 1f));
+
+			_portraitRect.Texture = ImageTexture.CreateFromImage(img);
+		}
+
+		private void CreateEquipmentSlot(string slotType, string icon)
+		{
+			var slot = new EquipmentSlot(slotType, icon, _colorSurface, _colorPrimary, _colorTextSecondary);
+			_equipmentSlots.AddChild(slot.Container);
+			_equipmentSlotNodes[slotType] = slot;
+		}
+
+		private void UpdateEquipmentBonusDisplay()
+		{
+			if (PlayerData == null || _equipmentBonusLabel == null) return;
+
+			float totalDefense = 0, totalHealth = 0, totalMana = 0, totalSpeed = 0, totalAttack = 0;
+
+			foreach (var eq in PlayerData.Equipments)
 			{
-				for (int i = 0; i < Player.MaxPassiveSlots; i++)
-				{
-					if (i < PlayerData.EquippedPassives.Count)
-					{
-						CreatePassiveSlot(passiveGrid, PlayerData.EquippedPassives[i].PassiveName, true);
-					}
-					else
-					{
-						CreatePassiveSlot(passiveGrid, $"Empty Slot {i + 1}", false);
-					}
-				}
+				totalDefense += eq.Defense;
+				totalHealth += eq.Health;
+				totalMana += eq.Mana;
+				totalSpeed += eq.Speed;
+				totalAttack += eq.Attack;
 			}
 
-			var innerVBox = new VBoxContainer();
-			innerVBox.AddChild(titleLabel);
-			innerVBox.AddChild(new HSeparator());
-			innerVBox.AddChild(passiveGrid);
-			passivePanel.AddChild(innerVBox);
-			_skillsContainer.AddChild(passivePanel);
+			if (PlayerData.CurrentWeapon != null)
+			{
+				totalAttack += PlayerData.CurrentWeapon.AttackPower;
+			}
+
+			string text = $"[color=#{_colorTextSecondary.ToHtml()}][b]Equipment Statistics[/b][/color]\n\n";
+			if (totalAttack > 0) text += $"[color=#{_colorDanger.ToHtml()}]⚔️ Attack: +{totalAttack:F0}[/color]\n";
+			if (totalDefense > 0) text += $"[color=#{_colorPrimary.ToHtml()}]🛡️ Defense: +{totalDefense:F0}[/color]\n";
+			if (totalHealth > 0) text += $"[color=#{_colorHealth.ToHtml()}]❤️ Health: +{totalHealth:F0}[/color]\n";
+			if (totalMana > 0) text += $"[color=#{_colorMana.ToHtml()}]💧 Mana: +{totalMana:F0}[/color]\n";
+			if (totalSpeed > 0) text += $"[color=#{_colorSecondary.ToHtml()}]💨 Speed: +{totalSpeed:F0}[/color]\n";
+
+			if (totalAttack + totalDefense + totalHealth + totalMana + totalSpeed == 0)
+			{
+				text += "\n[i]No equipment bonuses yet.[/i]";
+			}
+
+			_equipmentBonusLabel.Text = text;
 		}
 
 		private void CreatePassiveSlot(GridContainer grid, string name, bool filled)

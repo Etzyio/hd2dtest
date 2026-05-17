@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ca01ebc6c40"]
+
+[ext_resource type="Script" uid="uid://c2af0faf228" path="res://Scenes/Map/TrainingGround.cs" id="1"]
+
+[node name="TrainingGround" type="Node2D"]
+script = ExtResource("1")

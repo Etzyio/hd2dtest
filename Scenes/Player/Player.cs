@@ -14,9 +14,19 @@ namespace hd2dtest.Scripts.Player
         private float _speed = 10.0f;
 
         /// <summary>
+        /// 冲刺速度倍率
+        /// </summary>
+        private const float SPRINT_MULTIPLIER = 1.6f;
+
+        /// <summary>
         /// 是否启用重力
         /// </summary>
         private bool _gravityEnabled = true;
+
+        /// <summary>
+        /// 重力切换防抖
+        /// </summary>
+        private bool _gravityToggleDebounce = false;
 
         /// <summary>
         /// 重力加速度
@@ -72,21 +82,11 @@ namespace hd2dtest.Scripts.Player
 
         /// <summary>
         /// 节点就绪时的回调
-        /// 获取动画精灵引用并添加输入映射
+        /// 获取动画精灵引用
         /// </summary>
         public override void _Ready()
         {
-            // 获取动画精灵引用
             _animatedSprite = GetNode<AnimatedSprite3D>("AnimatedSprite3D");
-
-            // 连接信号
-            InputMap.AddAction("pause_movement");
-            InputMap.ActionAddEvent("pause_movement", new InputEventKey() { Keycode = Key.Space });
-            InputMap.AddAction("resume_movement");
-            InputMap.ActionAddEvent("resume_movement", new InputEventKey() { Keycode = Key.Enter });
-            // 添加重力开关动作
-            InputMap.AddAction("toggle_gravity");
-            InputMap.ActionAddEvent("toggle_gravity", new InputEventKey() { Keycode = Key.G });
         }
 
         /// <summary>
@@ -96,14 +96,19 @@ namespace hd2dtest.Scripts.Player
         /// <param name="delta">时间增量</param>
         public override void _PhysicsProcess(double delta)
         {
-            // 切换重力开关
-            if (Input.IsActionJustPressed("toggle_gravity"))
+            // 切换重力开关（调试功能，按 G 键）
+            if (Input.IsKeyPressed(Key.G) && !_gravityToggleDebounce)
             {
+                _gravityToggleDebounce = true;
                 _gravityEnabled = !_gravityEnabled;
                 if (!_gravityEnabled)
                 {
                     Velocity = new Vector3(Velocity.X, 0, Velocity.Z);
                 }
+            }
+            if (!Input.IsKeyPressed(Key.G))
+            {
+                _gravityToggleDebounce = false;
             }
 
             // 手动应用重力
@@ -131,49 +136,45 @@ namespace hd2dtest.Scripts.Player
 
         /// <summary>
         /// 处理移动
-        /// 响应WASD输入并更新移动方向
+        /// 响应移动输入并更新移动方向，支持冲刺加速
         /// </summary>
         /// <param name="delta">时间增量</param>
         private void HandleMovement(double delta)
         {
             Vector3 direction = Vector3.Zero;
-            // WASD移动 - 使用标准的ui_前缀动作名称
-            if (!_disabledDirections[2] && Input.IsActionPressed("ui_up"))
-            {
-                direction.Z -= 1;
-            }
 
-            if (!_disabledDirections[3] && Input.IsActionPressed("ui_down"))
-            {
-                direction.Z += 1;
-            }
-
-            if (!_disabledDirections[0] && Input.IsActionPressed("ui_left"))
+            if (!_disabledDirections[0] && Input.IsActionPressed("move_left"))
             {
                 direction.X -= 1;
             }
 
-            if (!_disabledDirections[1] && Input.IsActionPressed("ui_right"))
+            if (!_disabledDirections[1] && Input.IsActionPressed("move_right"))
             {
                 direction.X += 1;
             }
 
-            // 归一化方向向量
+            if (!_disabledDirections[2] && Input.IsActionPressed("move_up"))
+            {
+                direction.Z -= 1;
+            }
+
+            if (!_disabledDirections[3] && Input.IsActionPressed("move_down"))
+            {
+                direction.Z += 1;
+            }
+
             if (direction.Length() > 0)
             {
                 direction = direction.Normalized();
-                // 保存最后输入的方向
                 _lastDirection = direction;
-                // 应用速度
-                Velocity = new Vector3(direction.X * _speed, Velocity.Y, direction.Z * _speed);
-                // 更新动画
+
+                float currentSpeed = Input.IsActionPressed("sprint") ? _speed * SPRINT_MULTIPLIER : _speed;
+                Velocity = new Vector3(direction.X * currentSpeed, Velocity.Y, direction.Z * currentSpeed);
                 UpdateAnimation(direction);
             }
             else
             {
-                // 停止水平移动
                 Velocity = new Vector3(0, Velocity.Y, 0);
-                // 播放 idle 动画
                 UpdateAnimation(Vector3.Zero);
             }
         }

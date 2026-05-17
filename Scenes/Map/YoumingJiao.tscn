@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dd7d424ac4f"]
+
+[ext_resource type="Script" uid="uid://d4d4d977860" path="res://Scenes/Map/YoumingJiao.cs" id="1"]
+
+[node name="YoumingJiao" type="Node2D"]
+script = ExtResource("1")

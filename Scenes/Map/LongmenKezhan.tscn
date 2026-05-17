@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d23cf4e8201"]
+
+[ext_resource type="Script" uid="uid://dd444bd95e0" path="res://Scenes/Map/LongmenKezhan.cs" id="1"]
+
+[node name="LongmenKezhan" type="Node2D"]
+script = ExtResource("1")

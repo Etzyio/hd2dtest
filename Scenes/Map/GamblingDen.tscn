@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c0eea012159"]
+
+[ext_resource type="Script" uid="uid://cbd0a2789a9" path="res://Scenes/Map/GamblingDen.cs" id="1"]
+
+[node name="GamblingDen" type="Node2D"]
+script = ExtResource("1")

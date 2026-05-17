@@ -16,3 +16,82 @@ grow_vertical = 2
 
 [node name="TalkUi" parent="." unique_id=584217946 instance=ExtResource("2_71wt1")]
 visible = false
+
+; === QuickAccessBar (bottom bar) ===
+[node name="QuickAccessBar" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_right = 300.0
+offset_top = -70.0
+offset_bottom = -10.0
+
+[node name="MainHBox" type="HBoxContainer" parent="QuickAccessBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+; --- Status section (name + bars) ---
+[node name="StatusVBox" type="VBoxContainer" parent="QuickAccessBar/MainHBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="PlayerNameLabel" type="Label" parent="QuickAccessBar/MainHBox/StatusVBox"]
+layout_mode = 2
+text = "Player"
+
+[node name="HealthBar" type="ProgressBar" parent="QuickAccessBar/MainHBox/StatusVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 16)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="ManaBar" type="ProgressBar" parent="QuickAccessBar/MainHBox/StatusVBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 16)
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+; --- Info section (gold) ---
+[node name="InfoVBox" type="VBoxContainer" parent="QuickAccessBar/MainHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="GoldLabel" type="Label" parent="QuickAccessBar/MainHBox/InfoVBox"]
+layout_mode = 2
+text = "💰 0"
+horizontal_alignment = 1
+
+; --- Quick buttons ---
+[node name="QuickButtonsContainer" type="HBoxContainer" parent="QuickAccessBar/MainHBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="InvButton" type="Button" parent="QuickAccessBar/MainHBox/QuickButtonsContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(44, 44)
+text = "📦"
+tooltip_text = "Inventory (I)"
+
+[node name="CharButton" type="Button" parent="QuickAccessBar/MainHBox/QuickButtonsContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(44, 44)
+text = "⚔️"
+tooltip_text = "Character (C)"
+
+[node name="MapButton" type="Button" parent="QuickAccessBar/MainHBox/QuickButtonsContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(44, 44)
+text = "📊"
+tooltip_text = "Map (M)"

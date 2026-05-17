@@ -1,3 +1,56 @@
 {
-    
+  "MON_BANDIT": {
+    "creatureName": "山贼",
+    "health": 80.0,
+    "maxHealth": 80.0,
+    "attack": 15.0,
+    "defense": 8.0,
+    "speed": 50.0,
+    "level": 3,
+    "experience": 30,
+    "type": "Normal",
+    "aggroRange": 100.0,
+    "attackRange": 40.0,
+    "chaseSpeed": 60.0,
+    "patrolSpeed": 30.0,
+    "canChase": true,
+    "canFlee": false,
+    "dropItems": ["ITEM_POTION_HEAL_001", "ITEM_MATERIAL_IRON_ORE"]
+  },
+  "MON_BANDIT_ELITE": {
+    "creatureName": "精英山贼",
+    "health": 150.0,
+    "maxHealth": 150.0,
+    "attack": 25.0,
+    "defense": 15.0,
+    "speed": 60.0,
+    "level": 6,
+    "experience": 80,
+    "type": "Elite",
+    "aggroRange": 130.0,
+    "attackRange": 45.0,
+    "chaseSpeed": 70.0,
+    "patrolSpeed": 35.0,
+    "canChase": true,
+    "canFlee": false,
+    "dropItems": ["ITEM_POTION_HEAL_001", "WPN_SWORD_IRON", "EQP_ARM_LEATHER"]
+  },
+  "MON_BOSS_HEIFENG": {
+    "creatureName": "黑风寨主",
+    "health": 400.0,
+    "maxHealth": 400.0,
+    "attack": 40.0,
+    "defense": 25.0,
+    "speed": 70.0,
+    "level": 10,
+    "experience": 300,
+    "type": "Boss",
+    "aggroRange": 150.0,
+    "attackRange": 50.0,
+    "chaseSpeed": 80.0,
+    "patrolSpeed": 40.0,
+    "canChase": true,
+    "canFlee": false,
+    "dropItems": ["WPN_AXE_BATTLE", "EQP_HLM_IRON", "ITEM_POTION_MANA_001"]
+  }
 }

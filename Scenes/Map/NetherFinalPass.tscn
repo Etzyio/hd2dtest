@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://tb5d808a438"]
+
+[ext_resource type="Script" uid="uid://t020691a856" path="res://Scenes/Map/NetherFinalPass.cs" id="1"]
+
+[node name="NetherFinalPass" type="Node2D"]
+script = ExtResource("1")

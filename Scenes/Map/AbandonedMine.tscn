@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c0487cca821"]
+
+[ext_resource type="Script" uid="uid://c5e6c31c67c" path="res://Scenes/Map/AbandonedMine.cs" id="1"]
+
+[node name="AbandonedMine" type="Node2D"]
+script = ExtResource("1")

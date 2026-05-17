@@ -14,7 +14,6 @@ namespace hd2dtest.Scenes.UI
 		[Export] public int MaxCapacity { get; set; } = 100;
 
 		private Panel _mainPanel;
-		private PanelContainer _headerPanel;
 		private Label _titleLabel;
 		private Label _capacityLabel;
 		private Button _closeButton;
@@ -82,322 +81,123 @@ namespace hd2dtest.Scenes.UI
 
 		private void InitializeUI()
 		{
-			AnchorLeft = 0.5f;
-			AnchorRight = 0.5f;
-			AnchorTop = 0.5f;
-			AnchorBottom = 0.5f;
-			OffsetLeft = -400;
-			OffsetRight = 400;
-			OffsetTop = -300;
-			OffsetBottom = 300;
-
-			CreateMainPanel();
-			CreateHeader();
-			CreateCategoryTabs();
-			CreateItemGrid();
-			CreateDetailPanel();
-			CreateDragPreview();
+			GetNodeReferences();
+			ApplyStyles();
+			SetupCategoryTabs();
+			SetupSignals();
 		}
 
-		private void CreateMainPanel()
+		private void GetNodeReferences()
 		{
-			_mainPanel = new Panel
-			{
-				Name = "MainPanel",
-				AnchorLeft = 0,
-				AnchorRight = 1,
-				AnchorTop = 0,
-				AnchorBottom = 1
-			};
+			_mainPanel = GetNode<Panel>("MainPanel");
+			_titleLabel = GetNode<Label>("MainPanel/HeaderPanel/HeaderHBox/TitleLabel");
+			_capacityLabel = GetNode<Label>("MainPanel/HeaderPanel/HeaderHBox/CapacityLabel");
+			_sortButton = GetNode<Button>("MainPanel/HeaderPanel/HeaderHBox/SortButton");
+			_closeButton = GetNode<Button>("MainPanel/HeaderPanel/HeaderHBox/CloseButton");
 
-			var styleBox = new StyleBoxFlat
+			_categoryTabBar = GetNode<TabBar>("MainPanel/CategoryMarginContainer/CategoryTabs");
+			_itemScrollContainer = GetNode<ScrollContainer>("MainPanel/ItemScroll");
+			_itemGridContainer = GetNode<GridContainer>("MainPanel/ItemScroll/ItemGrid");
+			_detailPanel = GetNode<PanelContainer>("MainPanel/DetailPanel");
+			_itemNameLabel = GetNode<Label>("MainPanel/DetailPanel/DetailVBox/ItemNameLabel");
+			_itemDescriptionLabel = GetNode<RichTextLabel>("MainPanel/DetailPanel/DetailVBox/ItemDescriptionLabel");
+			_actionButtons = GetNode<HBoxContainer>("MainPanel/DetailPanel/DetailVBox/ActionButtons");
+			_useButton = GetNode<Button>("MainPanel/DetailPanel/DetailVBox/ActionButtons/UseButton");
+			_equipButton = GetNode<Button>("MainPanel/DetailPanel/DetailVBox/ActionButtons/EquipButton");
+			_dropButton = GetNode<Button>("MainPanel/DetailPanel/DetailVBox/ActionButtons/DropButton");
+
+			_dragPreview = GetNode<Panel>("DragPreview");
+			_dragIcon = GetNode<TextureRect>("DragPreview/DragVBox/DragIcon");
+			_dragCount = GetNode<Label>("DragPreview/DragVBox/DragCount");
+		}
+
+		private void ApplyStyles()
+		{
+			var mainStyle = new StyleBoxFlat
 			{
 				BgColor = _colorBackground,
-				BorderWidthLeft = 3,
-				BorderWidthRight = 3,
-				BorderWidthTop = 3,
-				BorderWidthBottom = 3,
+				BorderWidthLeft = 3, BorderWidthRight = 3,
+				BorderWidthTop = 3, BorderWidthBottom = 3,
 				BorderColor = _colorPrimary,
-				CornerRadiusTopLeft = 12,
-				CornerRadiusTopRight = 12,
-				CornerRadiusBottomLeft = 12,
-				CornerRadiusBottomRight = 12,
+				CornerRadiusTopLeft = 12, CornerRadiusTopRight = 12,
+				CornerRadiusBottomLeft = 12, CornerRadiusBottomRight = 12,
 				ShadowSize = 8,
 				ShadowColor = new Color(0, 0, 0, 0.4f)
 			};
-			_mainPanel.AddThemeStyleboxOverride("panel", styleBox);
+			_mainPanel.AddThemeStyleboxOverride("panel", mainStyle);
 
-			AddChild(_mainPanel);
-		}
-
-		private void CreateHeader()
-		{
-			_headerPanel = new PanelContainer
-			{
-				Name = "HeaderPanel"
-			};
+			var headerPanel = GetNode<PanelContainer>("MainPanel/HeaderPanel");
 			var headerStyle = new StyleBoxFlat
 			{
 				BgColor = _colorSurface,
 				BorderWidthBottom = 2,
 				BorderColor = new Color(_colorPrimary.R, _colorPrimary.G, _colorPrimary.B, 0.3f),
-				CornerRadiusTopLeft = 9,
-				CornerRadiusTopRight = 9,
-				ContentMarginLeft = 16,
-				ContentMarginRight = 16,
-				ContentMarginTop = 12,
-				ContentMarginBottom = 12
+				CornerRadiusTopLeft = 9, CornerRadiusTopRight = 9,
+				ContentMarginLeft = 16, ContentMarginRight = 16,
+				ContentMarginTop = 12, ContentMarginBottom = 12
 			};
-			_headerPanel.AddThemeStyleboxOverride("panel", headerStyle);
+			headerPanel.AddThemeStyleboxOverride("panel", headerStyle);
 
-			var headerHBox = new HBoxContainer
-			{
-				Alignment = BoxContainer.AlignmentMode.Center,
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
-			};
+			var font = GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf");
 
-			_titleLabel = new Label
-			{
-				Text = "📦 Inventory",
-				HorizontalAlignment = HorizontalAlignment.Left
-			};
 			_titleLabel.AddThemeFontSizeOverride("font_size", 18);
-			_titleLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
+			_titleLabel.AddThemeFontOverride("font", font);
 			_titleLabel.AddThemeColorOverride("font_color", _colorTextPrimary);
 
-			_capacityLabel = new Label
-			{
-				Text = $"Slots: 0/{_currentCapacity}",
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
 			_capacityLabel.AddThemeFontSizeOverride("font_size", 14);
 			_capacityLabel.AddThemeColorOverride("font_color", _colorTextSecondary);
 
-			_sortButton = new Button
-			{
-				Text = "↕ Sort",
-				TooltipText = "Change sort order"
-			};
 			_sortButton.Pressed += OnSortButtonPressed;
 			ApplyButtonStyle(_sortButton, false);
-
-			_closeButton = new Button
-			{
-				Text = "✕",
-				TooltipText = "Close inventory"
-			};
 			_closeButton.Pressed += ToggleVisibility;
 			ApplyButtonStyle(_closeButton, true, _colorDanger);
-
-			headerHBox.AddChild(_titleLabel);
-			headerHBox.AddChild(_capacityLabel);
-			headerHBox.AddChild(_sortButton);
-			headerHBox.AddChild(_closeButton);
-
-			_headerPanel.AddChild(headerHBox);
-			_headerPanel.AnchorLeft = 0;
-			_headerPanel.AnchorRight = 1;
-			_headerPanel.AnchorTop = 0;
-			_headerPanel.AnchorBottom = 0;
-			_headerPanel.OffsetBottom = 50;
-
-			_mainPanel.AddChild(_headerPanel);
-		}
-
-		private void CreateCategoryTabs()
-		{
-			_categoryTabBar = new TabBar
-			{
-				Name = "CategoryTabs",
-				TabAlignment = TabBar.AlignmentMode.Center
-			};
-
-			string[] tabs = { "All", "❤️ Consumables", "📦 Materials", "🔑 Key Items", "📜 Quest Items", "✨ Misc" };
-			foreach (var tab in tabs)
-			{
-				_categoryTabBar.AddTab(tab);
-			}
-
-			_categoryTabBar.TabChanged += OnCategoryChanged;
-
-			var tabContainer = new MarginContainer
-			{
-				AnchorLeft = 0,
-				AnchorRight = 1,
-				AnchorTop = 0,
-				AnchorBottom = 0,
-				OffsetTop = 55,
-				OffsetBottom = 90
-			};
-			tabContainer.AddChild(_categoryTabBar);
-			_mainPanel.AddChild(tabContainer);
-		}
-
-		private void CreateItemGrid()
-		{
-			_itemScrollContainer = new ScrollContainer
-			{
-				Name = "ItemScroll",
-				AnchorLeft = 0,
-				AnchorRight = 0.65f,
-				AnchorTop = 0,
-				AnchorBottom = 1,
-				OffsetTop = 95,
-				OffsetLeft = 10,
-				OffsetRight = -10,
-				OffsetBottom = -10
-			};
-
-			_itemGridContainer = new GridContainer
-			{
-				Name = "ItemGrid",
-				Columns = 6,
-				SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
-			};
-
-			_itemScrollContainer.AddChild(_itemGridContainer);
-			_mainPanel.AddChild(_itemScrollContainer);
-		}
-
-		private void CreateDetailPanel()
-		{
-			_detailPanel = new PanelContainer
-			{
-				Name = "DetailPanel",
-				AnchorLeft = 0.67f,
-				AnchorRight = 1f,
-				AnchorTop = 0,
-				AnchorBottom = 1,
-				OffsetTop = 95,
-				OffsetLeft = 10,
-				OffsetRight = -10,
-				OffsetBottom = -10
-			};
 
 			var detailStyle = new StyleBoxFlat
 			{
 				BgColor = _colorSurface,
-				CornerRadiusTopLeft = 8,
-				CornerRadiusTopRight = 8,
-				CornerRadiusBottomLeft = 8,
-				CornerRadiusBottomRight = 8,
-				ContentMarginLeft = 16,
-				ContentMarginRight = 16,
-				ContentMarginTop = 16,
-				ContentMarginBottom = 16
+				CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
+				CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
+				ContentMarginLeft = 16, ContentMarginRight = 16,
+				ContentMarginTop = 16, ContentMarginBottom = 16
 			};
 			_detailPanel.AddThemeStyleboxOverride("panel", detailStyle);
 
-			var detailVBox = new VBoxContainer
-			{
-				SizeFlagsVertical = Control.SizeFlags.ExpandFill
-			};
-
-			_itemNameLabel = new Label
-			{
-				Text = "Select an item",
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
 			_itemNameLabel.AddThemeFontSizeOverride("font_size", 16);
-			_itemNameLabel.AddThemeFontOverride("font", GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf"));
+			_itemNameLabel.AddThemeFontOverride("font", font);
 			_itemNameLabel.AddThemeColorOverride("font_color", _colorPrimary);
 
-			var separator = new HSeparator();
-
-			_itemDescriptionLabel = new RichTextLabel
-			{
-				FitContent = true,
-				SizeFlagsVertical = Control.SizeFlags.ExpandFill
-			};
 			_itemDescriptionLabel.AddThemeConstantOverride("lines_skipped", 0);
 			_itemDescriptionLabel.AddThemeColorOverride("default_color", _colorTextSecondary);
 
-			_actionButtons = new HBoxContainer
-			{
-				Alignment = BoxContainer.AlignmentMode.Center
-			};
-
-			_useButton = new Button
-			{
-				Text = "Use",
-				Disabled = true
-			};
 			_useButton.Pressed += OnUseButtonPressed;
 			ApplyButtonStyle(_useButton, false, _colorSecondary);
-
-			_equipButton = new Button
-			{
-				Text = "Equip",
-				Disabled = true
-			};
 			_equipButton.Pressed += OnEquipButtonPressed;
 			ApplyButtonStyle(_equipButton, false, _colorPrimary);
-
-			_dropButton = new Button
-			{
-				Text = "Drop",
-				Disabled = true
-			};
 			_dropButton.Pressed += OnDropButtonPressed;
 			ApplyButtonStyle(_dropButton, false, _colorDanger);
 
-			_actionButtons.AddChild(_useButton);
-			_actionButtons.AddChild(_equipButton);
-			_actionButtons.AddChild(_dropButton);
-
-			detailVBox.AddChild(_itemNameLabel);
-			detailVBox.AddChild(separator);
-			detailVBox.AddChild(_itemDescriptionLabel);
-			detailVBox.AddChild(_actionButtons);
-
-			_detailPanel.AddChild(detailVBox);
-			_mainPanel.AddChild(_detailPanel);
-		}
-
-		private void CreateDragPreview()
-		{
-			_dragPreview = new Panel
-			{
-				Name = "DragPreview",
-				Visible = false,
-				ZIndex = 100,
-				MouseFilter = Control.MouseFilterEnum.Ignore
-			};
 			var previewStyle = new StyleBoxFlat
 			{
 				BgColor = new Color(1, 1, 1, 0.9f),
-				CornerRadiusTopLeft = 6,
-				CornerRadiusTopRight = 6,
-				CornerRadiusBottomLeft = 6,
-				CornerRadiusBottomRight = 6,
+				CornerRadiusTopLeft = 6, CornerRadiusTopRight = 6,
+				CornerRadiusBottomLeft = 6, CornerRadiusBottomRight = 6,
 				ShadowSize = 4,
 				ShadowColor = new Color(0, 0, 0, 0.5f)
 			};
 			_dragPreview.AddThemeStyleboxOverride("panel", previewStyle);
 
-			var dragVBox = new VBoxContainer
-			{
-				Alignment = BoxContainer.AlignmentMode.Center
-			};
-
-			_dragIcon = new TextureRect
-			{
-				Size = new Vector2(40, 40),
-				StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered
-			};
-
-			_dragCount = new Label
-			{
-				HorizontalAlignment = HorizontalAlignment.Center
-			};
 			_dragCount.AddThemeFontSizeOverride("font_size", 12);
 			_dragCount.AddThemeColorOverride("font_color", _colorTextPrimary);
+		}
 
-			dragVBox.AddChild(_dragIcon);
-			dragVBox.AddChild(_dragCount);
-			_dragPreview.AddChild(dragVBox);
-
-			AddChild(_dragPreview);
+		private void SetupCategoryTabs()
+		{
+			string[] tabs = { "All", "❤️ Consumables", "📦 Materials", "🔑 Key Items", "📜 Quest Items", "✨ Misc" };
+			foreach (var tab in tabs)
+			{
+				_categoryTabBar.AddTab(tab);
+			}
+			_categoryTabBar.TabChanged += OnCategoryChanged;
 		}
 
 		private void ApplyButtonStyle(Button button, bool isSmall = false, Color? customColor = null)
