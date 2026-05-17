@@ -1,3 +1,20 @@
+/*
+ * File: GameManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 游戏管理器，作为全局单例负责管理游戏状态和流程。
+ * 处理游戏初始化、状态转换、玩家管理、UI交互和道具管理。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 管理小队成员（Teammates）
+ * - 管理道具列表（ItemList）
+ * - 处理取消按钮输入，控制弹窗显示
+ * - 提供道具增删查改功能
+ */
+
 using Godot;
 using hd2dtest.Scripts.Modules;
 using System.Collections.Generic;

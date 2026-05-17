@@ -1,3 +1,20 @@
+/*
+ * File: LevelManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 关卡管理器，负责游戏关卡的初始化、加载和状态管理。
+ * 管理玩家出生位置、关卡列表和当前关卡状态，提供关卡切换和重置功能。
+ * 
+ * Key Features:
+ * - 管理地面图层和碰撞图层
+ * - 设置和获取玩家出生位置
+ * - 支持通过关卡ID或场景路径加载关卡
+ * - 提供瓦片地图查询功能
+ * - 包含完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

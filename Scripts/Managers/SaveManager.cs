@@ -1,9 +1,30 @@
+/*
+ * File: SaveManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 存档管理器，作为全局单例负责游戏存档的保存和加载。
+ * 支持多个存档槽位、自动存档、自定义数据存储和存档信息查询。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 支持20个存档槽位限制
+ * - 自动存档功能
+ * - 保存/加载任务数据和GameDataManager数据
+ * - 支持自定义数据存储
+ * - 提供存档信息查询（数量、时间、等级等）
+ * - 支持存档复制功能
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using hd2dtest.Scripts.Modules;
+using hd2dtest.Scripts.Modules.SkillSystem;
 using hd2dtest.Scripts.Quest;
 using hd2dtest.Scripts.Utilities;
 
@@ -211,394 +232,6 @@ namespace hd2dtest.Scripts.Managers
         }
 
         /// <summary>
-        /// 保存任务数据到SaveData
-        /// </summary>
-        /// <param name="saveData">存档数据</param>
-        /// <remarks>
-        /// 该方法负责保存任务状态、任务进度和剧情线节点状态到存档数据中。
-        /// 如果QuestManager或QuestLineManager实例不可用，会记录错误并跳过相应的数据保存。
-        /// </remarks>
-        private void SaveQuestData(SaveData saveData)
-        {
-            try
-            {
-                // 保存任务状态
-                if (QuestManager.Instance != null)
-                {
-                    var questStatuses = new Dictionary<string, int>();
-                    var questProgress = new Dictionary<string, Dictionary<string, object>>();
-
-                    try
-                    {
-                        var allQuests = QuestManager.Instance.GetAllQuests();
-                        if (allQuests != null)
-                        {
-                            foreach (var quest in allQuests)
-                            {
-                                var status = QuestManager.Instance.GetQuestStatus(quest.Id);
-                                questStatuses[quest.Id] = (int)status;
-
-                                // 保存任务进度
-                                var progressDict = new Dictionary<string, object>();
-                                if (quest.Objectives != null)
-                                {
-                                    foreach (var objective in quest.Objectives)
-                                    {
-                                        var progress = QuestManager.Instance.GetQuestProgress(quest.Id, objective.Id);
-                                        if (progress != null)
-                                        {
-                                            progressDict[objective.Id] = progress;
-                                        }
-                                    }
-                                }
-                                if (progressDict.Count > 0)
-                                {
-                                    questProgress[quest.Id] = progressDict;
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error($"Error saving quest data: {e.Message}");
-                    }
-
-                    saveData.QuestStatuses = questStatuses;
-                    saveData.QuestProgress = questProgress;
-                }
-
-                // 保存剧情线节点状态
-                if (QuestLineManager.Instance != null)
-                {
-                    var nodeStates = new Dictionary<string, int>();
-                    try
-                    {
-                        // 获取所有剧情线节点状态
-                        var allQuestLines = ResourcesManager.GetAllQuestLines();
-                        if (allQuestLines != null)
-                        {
-                            foreach (var questLine in allQuestLines)
-                            {
-                                if (questLine.Nodes != null)
-                                {
-                                    foreach (var node in questLine.Nodes)
-                                    {
-                                        var state = QuestLineManager.Instance.GetNodeState(node.Id);
-                                        nodeStates[node.Id] = (int)state;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error($"Error saving quest line data: {e.Message}");
-                    }
-                    saveData.QuestLineNodeStates = nodeStates;
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Error in SaveQuestData: {e.Message}");
-            }
-        }
-
-        /// <summary>
-        /// 保存 GameDataManager 数据到 SaveData
-        /// </summary>
-        /// <param name="saveData">存档数据</param>
-        /// <remarks>
-        /// 该方法负责保存 GameDataManager 中的数据到存档数据中，包括道具、装备、NPC 状态、解锁的等级和任务、以及小队成员等数据。
-        /// </remarks>
-        private void SaveGameDataManagerData(SaveData saveData)
-        {
-            try
-            {
-                // 保存 GameDataManager 数据
-                if (GameDataManager.Instance != null)
-                {
-                    // 保存道具列表
-                    saveData.ItemList = new Dictionary<string, int>(GameDataManager.Instance.ItemList);
-
-                    // 保存装备列表
-                    saveData.EquipmentList = new Dictionary<string, int>(GameDataManager.Instance.EquipmentList);
-
-                    // 保存 NPC 状态
-                    saveData.NPCStatus = new Dictionary<string, int>(GameDataManager.Instance.NPCStatus);
-
-                    // 保存已解锁的等级
-                    saveData.UnlockedLevels = GameDataManager.Instance.LevelList
-                        .Where(level => !level.Value.IsLocked)
-                        .Select(level => level.Key)
-                        .ToList();
-
-                    // 保存已解锁的任务
-                    saveData.UnlockedQuests = GameDataManager.Instance.QuestList
-                        .Where(quest => !quest.Value.IsLocked)
-                        .Select(quest => quest.Key)
-                        .ToList();
-
-                    // 保存小队成员
-                    if (GameDataManager.Instance.Teammates != null)
-                    {
-                        saveData.Teammates = new List<PlayerSaveData>();
-                        // 这里需要根据 Teammates 的实际实现来获取成员列表
-                        // 假设 Teammates 有一个 Members 属性或者类似的东西
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Error in SaveGameDataManagerData: {e.Message}");
-            }
-        }
-
-        /// <summary>
-        /// 保存新管理器数据到 SaveData (暂时注释，待后续完善)
-        /// </summary>
-        /// <param name="saveData">存档数据</param>
-        // private void SaveNewManagersData(SaveData saveData)
-        // {
-        //     try
-        //     {
-        //         // 保存背包管理器数据
-        //         if (InventoryManager.Instance != null)
-        //         {
-        //             saveData.InventoryData = InventoryManager.Instance.GetSaveData();
-        //         }
-
-        //         // 保存角色状态管理器数据
-        //         if (CharacterStatsManager.Instance != null)
-        //         {
-        //             // 这里假设我们有一个主要角色
-        //             var mainPlayerStats = CharacterStatsManager.Instance.GetCharacterStats("player");
-        //             if (mainPlayerStats != null)
-        //             {
-        //                 saveData.CharacterStatsData["player"] = CharacterStatsManager.Instance.GetSaveData("player");
-        //             }
-        //         }
-
-        //         // 保存商店管理器数据
-        //         if (ShopManager.Instance != null)
-        //         {
-        //             saveData.ShopData = ShopManager.Instance.GetSaveData();
-        //         }
-
-        //         // 保存地图管理器数据
-        //         if (MapManager.Instance != null)
-        //         {
-        //             saveData.MapData = MapManager.Instance.GetSaveData();
-        //         }
-
-        //         // 保存成就管理器数据
-        //         if (AchievementManager.Instance != null)
-        //         {
-        //             saveData.AchievementData = AchievementManager.Instance.GetSaveData();
-        //         }
-
-        //         Log.Info("New managers data saved successfully");
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Log.Error($"Error in SaveNewManagersData: {e.Message}");
-        //     }
-        // }
-
-        /// <summary>
-        /// 加载新管理器数据从 SaveData (暂时注释，待后续完善)
-        /// </summary>
-        /// <param name="saveData">存档数据</param>
-        // private void LoadNewManagersData(SaveData saveData)
-        // {
-        //     try
-        //     {
-        //         // 加载背包管理器数据
-        //         if (InventoryManager.Instance != null && saveData.InventoryData != null)
-        //         {
-        //             InventoryManager.Instance.LoadSaveData(saveData.InventoryData);
-        //         }
-
-        //         // 加载角色状态管理器数据
-        //         if (CharacterStatsManager.Instance != null && saveData.CharacterStatsData != null)
-        //         {
-        //             foreach (var kvp in saveData.CharacterStatsData)
-        //             {
-        //                 if (!CharacterStatsManager.Instance.HasCharacterStats(kvp.Key))
-        //                 {
-        //                     CharacterStatsManager.Instance.CreateCharacterStats(kvp.Key);
-        //                 }
-        //                 CharacterStatsManager.Instance.LoadSaveData(kvp.Key, kvp.Value);
-        //             }
-        //         }
-
-        //         // 加载商店管理器数据
-        //         if (ShopManager.Instance != null && saveData.ShopData != null)
-        //         {
-        //             ShopManager.Instance.LoadSaveData(saveData.ShopData);
-        //         }
-
-        //         // 加载地图管理器数据
-        //         if (MapManager.Instance != null && saveData.MapData != null)
-        //         {
-        //             MapManager.Instance.LoadSaveData(saveData.MapData);
-        //         }
-
-        //         // 加载成就管理器数据
-        //         if (AchievementManager.Instance != null && saveData.AchievementData != null)
-        //         {
-        //             AchievementManager.Instance.LoadSaveData(saveData.AchievementData);
-        //         }
-
-        //         Log.Info("New managers data loaded successfully");
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Log.Error($"Error in LoadNewManagersData: {e.Message}");
-        //     }
-        // }
-
-        /// <summary>
-        /// 加载任务数据从SaveData
-        /// </summary>
-        /// <param name="saveData">存档数据</param>
-        /// <remarks>
-        /// 该方法负责从存档数据中加载任务状态、任务进度和剧情线节点状态。
-        /// 如果QuestManager或QuestLineManager实例不可用，会记录错误并跳过相应的数据加载。
-        /// </remarks>
-        private void LoadQuestData(SaveData saveData)
-        {
-            try
-            {
-                // 加载任务状态
-                if (QuestManager.Instance != null && saveData.QuestStatuses != null)
-                {
-                    try
-                    {
-                        foreach (var kvp in saveData.QuestStatuses)
-                        {
-                            var questId = kvp.Key;
-                            var status = (QuestManager.QuestStatus)kvp.Value;
-                            QuestManager.Instance.SetQuestStatus(questId, status);
-                        }
-
-                        // 加载任务进度
-                        if (saveData.QuestProgress != null)
-                        {
-                            foreach (var kvp in saveData.QuestProgress)
-                            {
-                                var questId = kvp.Key;
-                                var progressDict = kvp.Value;
-                                foreach (var progressKvp in progressDict)
-                                {
-                                    var objectiveId = progressKvp.Key;
-                                    var progress = progressKvp.Value;
-                                    QuestManager.Instance.UpdateQuestProgress(questId, objectiveId, progress);
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error($"Error loading quest data: {e.Message}");
-                    }
-                }
-
-                // 加载剧情线节点状态
-                if (QuestLineManager.Instance != null && saveData.QuestLineNodeStates != null)
-                {
-                    try
-                    {
-                        QuestLineManager.Instance.LoadSaveData(saveData.QuestLineNodeStates);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error($"Error loading quest line data: {e.Message}");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Error in LoadQuestData: {e.Message}");
-            }
-        }
-
-        /// <summary>
-        /// 加载 GameDataManager 数据从 SaveData
-        /// </summary>
-        /// <param name="saveData">存档数据</param>
-        /// <remarks>
-        /// 该方法负责从存档数据中加载 GameDataManager 中的数据，包括道具、装备、NPC 状态、解锁的等级和任务、以及小队成员等数据。
-        /// </remarks>
-        private void LoadGameDataManagerData(SaveData saveData)
-        {
-            try
-            {
-                // 加载 GameDataManager 数据
-                if (GameDataManager.Instance != null)
-                {
-                    // 加载道具列表
-                    if (saveData.ItemList != null)
-                    {
-                        GameDataManager.Instance.ItemList.Clear();
-                        foreach (var kvp in saveData.ItemList)
-                        {
-                            GameDataManager.Instance.ItemList[kvp.Key] = kvp.Value;
-                        }
-                    }
-
-                    // 加载装备列表
-                    if (saveData.EquipmentList != null)
-                    {
-                        GameDataManager.Instance.EquipmentList.Clear();
-                        foreach (var kvp in saveData.EquipmentList)
-                        {
-                            GameDataManager.Instance.EquipmentList[kvp.Key] = kvp.Value;
-                        }
-                    }
-
-                    // 加载 NPC 状态
-                    if (saveData.NPCStatus != null)
-                    {
-                        GameDataManager.Instance.NPCStatus.Clear();
-                        foreach (var kvp in saveData.NPCStatus)
-                        {
-                            GameDataManager.Instance.NPCStatus[kvp.Key] = kvp.Value;
-                        }
-                    }
-
-                    // 加载已解锁的等级
-                    if (saveData.UnlockedLevels != null)
-                    {
-                        foreach (var levelId in saveData.UnlockedLevels)
-                        {
-                            GameDataManager.Instance.UnlockLevel(levelId);
-                        }
-                    }
-
-                    // 加载已解锁的任务
-                    if (saveData.UnlockedQuests != null)
-                    {
-                        foreach (var questId in saveData.UnlockedQuests)
-                        {
-                            GameDataManager.Instance.UnlockQuest(questId);
-                        }
-                    }
-
-                    // 加载小队成员
-                    // 这里需要根据 Teammates 的实际实现来加载小队成员
-                    if (saveData.Teammates != null && GameDataManager.Instance.Teammates != null)
-                    {
-                        // 暂时不处理小队成员加载，需要根据 Teammates 类的具体实现来添加
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Error in LoadGameDataManagerData: {e.Message}");
-            }
-        }
-
-        /// <summary>
         /// 加载指定存档槽位的游戏
         /// </summary>
         /// <param name="saveId">存档ID，默认为"1"</param>
@@ -691,42 +324,87 @@ namespace hd2dtest.Scripts.Managers
         /// 该方法创建一个包含默认玩家数据的存档数据对象，设置基本存档信息、游戏进度和版本信息。
         /// 如果VersionManager实例可用，会使用其提供的版本信息。
         /// </remarks>
-        public static SaveData CreateDefaultSaveData(string saveId = "1", string saveName = null)
+        public static SaveData CreateDefaultSaveData(string saveId = "1", string saveName = null, Modules.Player currentPlayer = null, string currentScene = null)
         {
             try
             {
-                // 创建包含单个玩家的默认存档数据
-                var defaultPlayer = new hd2dtest.Scripts.Modules.Player();
+                var player = currentPlayer ?? GameDataManager.Instance?.Teammates?.Player
+                    ?? GameManager.Instance?.Teammates?.Player;
 
-                // 初始化玩家
-                defaultPlayer.Initialize();
-
-                var playerSaveData = new PlayerSaveData
+                PlayerSaveData playerSaveData;
+                if (player != null)
                 {
-                    PlayerId = 0,
-                    PlayerName = defaultPlayer.CreatureName,
-                    Level = defaultPlayer.Level,
-                    Experience = defaultPlayer.Experience,
-                    Health = defaultPlayer.Health,
-                    MaxHealth = defaultPlayer.MaxHealth,
-                    Mana = defaultPlayer.Mana,
-                    MaxMana = defaultPlayer.MaxMana,
-                    Attack = (int)defaultPlayer.Attack,
-                    Defense = (int)defaultPlayer.Defense,
-                    Speed = defaultPlayer.Speed,
-                    Gold = defaultPlayer.Gold,
-                    KillCount = defaultPlayer.KillCount,
-                    DeathCount = defaultPlayer.DeathCount,
-                    MainClassName = defaultPlayer.MainClass?.ClassName,
-                    SubClassName = defaultPlayer.SubClass?.ClassName,
-                    EquippedPassiveNames = [.. defaultPlayer.EquippedPassives.Select(p => p.PassiveName)],
-                    Position = defaultPlayer.Position,
-                    Inventory = defaultPlayer.Inventory,
-                    LearnedSkills = [.. defaultPlayer.SkillIDs],
-                    EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
-                    EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
-                };
-                // 获取版本信息
+                    playerSaveData = new PlayerSaveData
+                    {
+                        PlayerId = 0,
+                        PlayerName = player.CreatureName,
+                        Level = player.Level,
+                        Experience = player.Experience,
+                        Health = player.Health,
+                        MaxHealth = player.MaxHealth,
+                        Mana = player.CurrentMana,
+                        MaxMana = player.MaxMana,
+                        Attack = (int)player.Attack,
+                        Defense = (int)player.Defense,
+                        Speed = player.Speed,
+                        Gold = player.Gold,
+                        JP = player.JP,
+                        KillCount = player.KillCount,
+                        DeathCount = player.DeathCount,
+                        MainClassName = player.MainClass?.ClassName,
+                        SubClassName = player.SubClass?.ClassName,
+                        EquippedPassiveNames = [.. player.EquippedPassives.Select(p => p.PassiveName)],
+                        Position = player.Position,
+                        Inventory = new Dictionary<string, int>(player.Inventory),
+                        LearnedSkills = [.. player.Skills.Select(s => s.Id)],
+                        EquippedWeapon = player.CurrentWeapon?.WeaponName,
+                        EquippedEquipment = player.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                    };
+                }
+                else
+                {
+                    var defaultPlayer = new Modules.Player();
+                    defaultPlayer.Initialize();
+                    playerSaveData = new PlayerSaveData
+                    {
+                        PlayerId = 0,
+                        PlayerName = defaultPlayer.CreatureName,
+                        Level = defaultPlayer.Level,
+                        Experience = defaultPlayer.Experience,
+                        Health = defaultPlayer.Health,
+                        MaxHealth = defaultPlayer.MaxHealth,
+                        Mana = defaultPlayer.CurrentMana,
+                        MaxMana = defaultPlayer.MaxMana,
+                        Attack = (int)defaultPlayer.Attack,
+                        Defense = (int)defaultPlayer.Defense,
+                        Speed = defaultPlayer.Speed,
+                        Gold = defaultPlayer.Gold,
+                        JP = defaultPlayer.JP,
+                        KillCount = defaultPlayer.KillCount,
+                        DeathCount = defaultPlayer.DeathCount,
+                        MainClassName = defaultPlayer.MainClass?.ClassName,
+                        SubClassName = defaultPlayer.SubClass?.ClassName,
+                        EquippedPassiveNames = [.. defaultPlayer.EquippedPassives.Select(p => p.PassiveName)],
+                        Position = defaultPlayer.Position,
+                        Inventory = new Dictionary<string, int>(defaultPlayer.Inventory),
+                        LearnedSkills = [.. defaultPlayer.Skills.Select(s => s.Id)],
+                        EquippedWeapon = defaultPlayer.CurrentWeapon?.WeaponName,
+                        EquippedEquipment = defaultPlayer.Equipments.ToDictionary(e => e.EquipmentTypeValue.ToString(), e => e.EquipmentName)
+                    };
+                }
+
+                var scene = currentScene;
+                if (string.IsNullOrEmpty(scene) && Main.Instance != null)
+                {
+                    var nowScene = Main.Instance.NowScene;
+                    if (nowScene != null)
+                        scene = nowScene.Name;
+                }
+                if (string.IsNullOrEmpty(scene))
+                    scene = "main";
+
+                int playTime = 0;
+
                 string gameVersion = "0.0.1";
                 string buildDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 string gitCommit = "unknown";
@@ -740,7 +418,6 @@ namespace hd2dtest.Scripts.Managers
 
                 return new SaveData
                 {
-                    // 基本存档信息
                     SaveId = saveId,
                     SaveName = saveName ?? string.Format(TranslationServer.Translate("save_slot_default_name"), saveId),
                     SaveTime = DateTime.Now,
@@ -748,17 +425,14 @@ namespace hd2dtest.Scripts.Managers
                     BuildDate = buildDate,
                     GitCommit = gitCommit,
 
-                    // 游戏进度
-                    CurrentScene = "main",
+                    CurrentScene = scene,
                     GameScore = 0,
-                    PlayTime = 0,
+                    PlayTime = playTime,
                     CompletedQuests = [],
                     DiscoveredAreas = [],
 
-                    // 多个玩家状态
                     Players = [playerSaveData],
 
-                    // 自定义数据
                     CustomData = []
                 };
             }
@@ -988,6 +662,46 @@ namespace hd2dtest.Scripts.Managers
                 return false;
             }
         }
+        /// <summary>
+        /// 将 PlayerSaveData 应用到 Player 对象
+        /// </summary>
+        private static void ApplyPlayerSaveData(Modules.Player player, PlayerSaveData psd)
+        {
+            player.CreatureName = psd.PlayerName ?? player.CreatureName;
+            player.Level = psd.Level;
+            player.Experience = psd.Experience;
+            player.Health = psd.Health;
+            player.MaxHealth = psd.MaxHealth;
+            player.CurrentMana = psd.Mana;
+            player.MaxMana = psd.MaxMana;
+            player.Attack = psd.Attack;
+            player.Defense = psd.Defense;
+            player.Speed = psd.Speed;
+            player.Gold = psd.Gold;
+            player.JP = psd.JP;
+            player.KillCount = psd.KillCount;
+            player.DeathCount = psd.DeathCount;
+            player.Position = psd.Position;
+
+            player.Inventory.Clear();
+            if (psd.Inventory != null)
+            {
+                foreach (var kv in psd.Inventory)
+                    player.Inventory[kv.Key] = kv.Value;
+            }
+
+            if (psd.LearnedSkills != null)
+            {
+                // Restore skills by ID
+                foreach (var skillId in psd.LearnedSkills)
+                {
+                    var skill = SkillManager.CreateSkillInstance(skillId);
+                    if (skill != null && !player.Skills.Any(s => s.Id == skillId))
+                        player.Skills.Add(skill);
+                }
+            }
+        }
+
         public void AutoSave()
         {
             SaveGame(CreateDefaultSaveData(), "auto");

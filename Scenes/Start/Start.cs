@@ -16,6 +16,11 @@ namespace hd2dtest.Scenes.Start
         private Button _settingsButton;
         private Button _exitButton;
         private VBoxContainer _mainButton;
+        private Label _versionLabel;
+        private Label _titleLabel;
+        private Label _subtitleLabel;
+        private ColorRect _decorativeLine;
+        private ColorRect _backgroundTop;
 
         // 存档列表相关节点
         private ColorRect _saveListPanel;
@@ -48,108 +53,256 @@ namespace hd2dtest.Scenes.Start
         // 语言设置节点
         private OptionButton _languageSelector;
 
+        private float _elapsedTime = 0f;
+        private bool _entranceDone = false;
+
+        private static readonly Font GameFont = GD.Load<Font>("res://Resources/Font/QiushuiShotai Bright/QiushuiShotaiBright.ttf");
+
+        private static readonly Color ColorAccent = new(0.3f, 0.6f, 0.9f, 1f);
+        private static readonly Color ColorMuted = new(0.6f, 0.65f, 0.7f, 1f);
+        private static readonly Color ColorSurface = new(0.1f, 0.14f, 0.2f, 0.95f);
+        private static readonly Color ColorButtonHover = new(0.18f, 0.24f, 0.32f, 0.95f);
+
         public override void _Ready()
         {
             try
             {
                 _canvasLayer = GetNode<CanvasLayer>("CanvasLayer");
-                // 获取按钮节点
+
+                // Background references
+                _backgroundTop = GetNode<ColorRect>("CanvasLayer/BackgroundTop");
+                _decorativeLine = GetNode<ColorRect>("CanvasLayer/DecorativeLine");
+
+                // Get button nodes
                 _mainButton = GetNode<VBoxContainer>("CanvasLayer/CenterContainer/Panel/MainButton");
                 _startButton = GetNode<Button>("CanvasLayer/CenterContainer/Panel/MainButton/StartButton");
                 _continueButton = GetNode<Button>("CanvasLayer/CenterContainer/Panel/MainButton/ContinueButton");
                 _settingsButton = GetNode<Button>("CanvasLayer/CenterContainer/Panel/MainButton/SettingsButton");
                 _exitButton = GetNode<Button>("CanvasLayer/CenterContainer/Panel/MainButton/ExitButton");
 
-                // 获取设置页面节点
+                // Title and version
+                _titleLabel = GetNode<Label>("CanvasLayer/CenterContainer/Panel/MainButton/TitleContainer/TitleLabel");
+                _subtitleLabel = GetNode<Label>("CanvasLayer/CenterContainer/Panel/MainButton/TitleContainer/SubtitleLabel");
+                _versionLabel = GetNode<Label>("CanvasLayer/VersionLabel");
+
+                // Settings nodes
                 _centerContainer2 = GetNode<CenterContainer>("CanvasLayer/CenterContainer2");
                 _settingMenu = GetNode<VBoxContainer>("CanvasLayer/CenterContainer2/SettingMenu");
                 _settingBackButton = GetNode<Button>("CanvasLayer/CenterContainer2/SettingMenu/BackButton");
 
-                // 音量设置节点
+                // Audio sliders
                 _masterVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MasterVolumeHBox/MasterVolumeSlider");
                 _musicVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/MusicVolumeHBox/MusicVolumeSlider");
                 _sfxVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/SFXVolumeHBox/SFXVolumeSlider");
                 _voiceVolumeSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/AudioSection/VoiceVolumeHBox/VoiceVolumeSlider");
 
-                // 图形设置节点
+                // Graphics
                 _brightnessSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/BrightnessHBox/BrightnessSlider");
                 _contrastSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/ContrastHBox/ContrastSlider");
                 _saturationSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/SaturationHBox/SaturationSlider");
                 _fullscreenToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/FullscreenHBox/FullscreenToggle");
                 _vsyncToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GraphicsSection/VSyncHBox/VSyncToggle");
 
-                // 游戏设置节点
+                // Game settings
                 _autoSaveToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/AutoSaveHBox/AutoSaveToggle");
                 _textSpeedSlider = GetNode<HSlider>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/TextSpeedHBox/TextSpeedSlider");
                 _showFPSToggle = GetNode<CheckButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/GameSection/ShowFPSHBox/ShowFPSToggle");
 
-                // 语言设置节点
+                // Language
                 _languageSelector = GetNode<OptionButton>("CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer/LanguageSection/LanguageSelectorHBox/LanguageSelector");
 
-                Log.Info("All nodes retrieved successfully");
+                Log.Info("All Start nodes retrieved successfully");
 
-                // 连接信号
+                // Apply styling
+                ApplyStartupStyling();
+
+                // Connect signals
                 _startButton.Pressed += OnStartButtonPressed;
                 _continueButton.Pressed += OnContinueButtonPressed;
                 _settingsButton.Pressed += OnSettingsButtonPressed;
                 _exitButton.Pressed += OnExitButtonPressed;
                 _settingBackButton.Pressed += OnSettingBackButtonPressed;
 
-                // 音量设置信号
+                // Audio signals
                 _masterVolumeSlider.ValueChanged += OnMasterVolumeChanged;
                 _musicVolumeSlider.ValueChanged += OnMusicVolumeChanged;
                 _sfxVolumeSlider.ValueChanged += OnSFXVolumeChanged;
                 _voiceVolumeSlider.ValueChanged += OnVoiceVolumeChanged;
 
-                // 图形设置信号
+                // Graphics signals
                 _brightnessSlider.ValueChanged += OnBrightnessChanged;
                 _contrastSlider.ValueChanged += OnContrastChanged;
                 _saturationSlider.ValueChanged += OnSaturationChanged;
                 _fullscreenToggle.Toggled += OnFullscreenToggled;
                 _vsyncToggle.Toggled += OnVSyncToggled;
 
-                // 游戏设置信号
+                // Game signals
                 _autoSaveToggle.Toggled += OnAutoSaveToggled;
                 _textSpeedSlider.ValueChanged += OnTextSpeedChanged;
                 _showFPSToggle.Toggled += OnShowFPSToggled;
 
-                // 语言设置信号
+                // Language signal
                 _languageSelector.ItemSelected += OnLanguageSelected;
 
-                Log.Info("All signals connected successfully");
+                Log.Info("All Start signals connected successfully");
 
-                // 确保ConfigManager初始化
                 ConfigManager.GetInstance();
 
-                // 从配置加载设置
                 LoadSettings();
-                // 初始化存档列表UI
                 InitializeSaveListUI();
+                UpdateVersionDisplay();
+
                 Main.Instance.TriggerSceneReady();
 
+                _elapsedTime = 0f;
+                _entranceDone = false;
 
                 Log.Info("Start scene ready");
             }
             catch (Exception e)
             {
-                Log.Error($"Error in _Ready: {e.Message}");
+                Log.Error($"Error in Start._Ready: {e.Message}");
                 Log.Error($"Stack trace: {e.StackTrace}");
             }
         }
 
-        // 加载设置
+        private void ApplyStartupStyling()
+        {
+            // Title styling
+            _titleLabel.AddThemeFontOverride("font", GameFont);
+            _titleLabel.AddThemeFontSizeOverride("font_size", 36);
+            _titleLabel.AddThemeColorOverride("font_color", new Color(0.93f, 0.94f, 0.95f, 1f));
+
+            // Subtitle styling
+            if (_subtitleLabel != null)
+            {
+                _subtitleLabel.AddThemeFontOverride("font", GameFont);
+                _subtitleLabel.AddThemeFontSizeOverride("font_size", 14);
+                _subtitleLabel.AddThemeColorOverride("font_color", ColorMuted);
+            }
+
+            // Version label styling
+            if (_versionLabel != null)
+            {
+                _versionLabel.AddThemeFontOverride("font", GameFont);
+                _versionLabel.AddThemeFontSizeOverride("font_size", 11);
+                _versionLabel.AddThemeColorOverride("font_color", new Color(0.4f, 0.45f, 0.5f, 0.7f));
+            }
+
+            // Decorative line
+            if (_decorativeLine != null)
+            {
+                _decorativeLine.Modulate = new Color(0.3f, 0.6f, 0.9f, 0f);
+            }
+
+            // Style all main buttons
+            StyleMainButton(_startButton);
+            StyleMainButton(_continueButton);
+            StyleMainButton(_settingsButton);
+            StyleMainButton(_exitButton);
+
+            // Initial transparency for entrance animation
+            _mainButton.Modulate = new Color(1, 1, 1, 0);
+            if (_backgroundTop != null) _backgroundTop.Modulate = new Color(1, 1, 1, 0);
+        }
+
+        private void StyleMainButton(Button btn)
+        {
+            btn.AddThemeFontOverride("font", GameFont);
+            btn.AddThemeFontSizeOverride("font_size", 16);
+            btn.AddThemeColorOverride("font_color", new Color(0.93f, 0.94f, 0.95f, 1f));
+
+            var normal = new StyleBoxFlat
+            {
+                BgColor = ColorSurface,
+                BorderWidthLeft = 1, BorderWidthTop = 1,
+                BorderWidthRight = 1, BorderWidthBottom = 1,
+                BorderColor = new Color(0.25f, 0.35f, 0.45f, 0.4f),
+                CornerRadiusTopLeft = 6, CornerRadiusTopRight = 6,
+                CornerRadiusBottomLeft = 6, CornerRadiusBottomRight = 6,
+                ContentMarginLeft = 20, ContentMarginTop = 10,
+                ContentMarginRight = 20, ContentMarginBottom = 10
+            };
+            btn.AddThemeStyleboxOverride("normal", normal);
+
+            var hover = (StyleBoxFlat)normal.Duplicate();
+            hover.BgColor = ColorButtonHover;
+            hover.BorderColor = new Color(0.4f, 0.55f, 0.7f, 0.7f);
+            btn.AddThemeStyleboxOverride("hover", hover);
+
+            var pressed = (StyleBoxFlat)normal.Duplicate();
+            pressed.BgColor = new Color(0.08f, 0.12f, 0.18f, 0.95f);
+            btn.AddThemeStyleboxOverride("pressed", pressed);
+        }
+
+        private void UpdateVersionDisplay()
+        {
+            if (_versionLabel == null) return;
+            try
+            {
+                string version = "";
+                if (VersionManager.Instance != null)
+                {
+                    version = VersionManager.Instance.GameVersion;
+                }
+                _versionLabel.Text = $"v{version}";
+            }
+            catch
+            {
+                _versionLabel.Text = "";
+            }
+        }
+
+        public override void _Process(double delta)
+        {
+            if (!Visible)
+            {
+                _canvasLayer.Visible = false;
+                return;
+            }
+
+            // Entrance animation
+            if (!_entranceDone)
+            {
+                _elapsedTime += (float)delta;
+
+                // Fade in the top background
+                float bgProgress = Mathf.Clamp(_elapsedTime / 1.0f, 0, 1);
+                if (_backgroundTop != null)
+                    _backgroundTop.Modulate = new Color(1, 1, 1, bgProgress * 0.85f);
+
+                // Decorative line fades in after background
+                float lineProgress = Mathf.Clamp((_elapsedTime - 0.5f) / 0.8f, 0, 1);
+                if (_decorativeLine != null)
+                    _decorativeLine.Modulate = new Color(0.3f, 0.6f, 0.9f, lineProgress * 0.4f);
+
+                // Main buttons fade in last
+                float btnProgress = Mathf.Clamp((_elapsedTime - 0.8f) / 0.6f, 0, 1);
+                _mainButton.Modulate = new Color(1, 1, 1, btnProgress);
+
+                if (_elapsedTime >= 2.0f)
+                {
+                    _entranceDone = true;
+                    _mainButton.Modulate = new Color(1, 1, 1, 1);
+                    if (_backgroundTop != null)
+                        _backgroundTop.Modulate = new Color(1, 1, 1, 0.85f);
+                    if (_decorativeLine != null)
+                        _decorativeLine.Modulate = new Color(0.3f, 0.6f, 0.9f, 0.4f);
+                }
+            }
+        }
+
+        // Load settings from ConfigManager
         private void LoadSettings()
         {
             try
             {
-                // 确保ConfigManager实例存在
                 if (ConfigManager.Instance == null)
                 {
                     Log.Error("ConfigManager instance is null");
                     return;
                 }
 
-                // 从ConfigManager加载音量设置
                 if (_masterVolumeSlider != null)
                     _masterVolumeSlider.Value = ConfigManager.Instance.CurrentConfig.MasterVolume;
                 if (_musicVolumeSlider != null)
@@ -159,7 +312,6 @@ namespace hd2dtest.Scenes.Start
                 if (_voiceVolumeSlider != null)
                     _voiceVolumeSlider.Value = ConfigManager.Instance.CurrentConfig.VoiceVolume;
 
-                // 从ConfigManager加载图形设置
                 if (_brightnessSlider != null)
                     _brightnessSlider.Value = ConfigManager.Instance.CurrentConfig.Brightness;
                 if (_contrastSlider != null)
@@ -171,7 +323,6 @@ namespace hd2dtest.Scenes.Start
                 if (_vsyncToggle != null)
                     _vsyncToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.VSync;
 
-                // 从ConfigManager加载游戏设置
                 if (_autoSaveToggle != null)
                     _autoSaveToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.AutoSave;
                 if (_textSpeedSlider != null)
@@ -179,23 +330,20 @@ namespace hd2dtest.Scenes.Start
                 if (_showFPSToggle != null)
                     _showFPSToggle.ButtonPressed = ConfigManager.Instance.CurrentConfig.ShowFPS;
 
-                // 应用音量设置到AudioStreamPlayer
+                // Apply master volume to audio player
                 AudioStreamPlayer audioPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
                 if (audioPlayer != null)
                 {
                     audioPlayer.VolumeDb = Mathf.LinearToDb(ConfigManager.Instance.CurrentConfig.MasterVolume);
                 }
 
-                // 初始化语言选择器
+                // Language selector
                 if (_languageSelector != null)
                 {
-                    // 清除现有选项
                     _languageSelector.Clear();
-                    // 添加语言选项
                     _languageSelector.AddItem("language_zh");
                     _languageSelector.AddItem("language_en");
                     _languageSelector.AddItem("language_ja");
-                    // 从配置加载语言设置
                     string savedLanguage = ConfigManager.Instance.CurrentConfig.Language;
                     int selectedIndex = savedLanguage switch
                     {
@@ -204,11 +352,9 @@ namespace hd2dtest.Scenes.Start
                         _ => 0
                     };
                     _languageSelector.Selected = selectedIndex;
-                    // 应用语言设置
                     TranslationServer.SetLocale(savedLanguage);
                 }
 
-                // 调整设置标签宽度，确保多语言下对齐
                 UpdateSettingLabelsWidth();
             }
             catch (Exception e)
@@ -217,12 +363,9 @@ namespace hd2dtest.Scenes.Start
             }
         }
 
-        // 统一调整设置项标签宽度
         private void UpdateSettingLabelsWidth()
         {
-            // 设置统一的最小宽度，确保最长的文本也能放下
             float minWidth = 250f;
-
             string basePath = "CanvasLayer/CenterContainer2/SettingMenu/ScrollContainer/SettingsContainer";
             string[] labelPaths = new[]
             {
@@ -255,98 +398,70 @@ namespace hd2dtest.Scenes.Start
             }
         }
 
-        public override void _Process(double delta)
-        {
-            if (!Visible)
-            {
-                _canvasLayer.Visible = false;
-            }
-        }
+        // --- Button Handlers ---
 
-        // 开始游戏按钮点击事件
         private void OnStartButtonPressed()
         {
             Log.Info("Start button pressed");
-            // 切换到First场景
             Main.Instance.SwitchScene("first");
         }
 
-        // 继续游戏按钮点击事件
         private void OnContinueButtonPressed()
         {
             Log.Info("Continue button pressed");
-            // 显示存档列表
             ShowSaveList();
-
         }
 
-        // 显示存档列表
         private void ShowSaveList()
         {
-            // 清空存档列表
             ClearSaveList();
-
-            // 获取所有存档信息
             List<SaveInfo> saveInfos = SaveManager.Instance.GetAllSaveInfos();
             Log.Info($"Found {saveInfos.Count} saves");
             if (saveInfos.Count == 0)
             {
-                // 如果没有存档，显示提示
                 Label noSaveLabel = new()
                 {
                     Text = "no_saves",
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
+                noSaveLabel.AddThemeFontOverride("font", GameFont);
                 noSaveLabel.AddThemeFontSizeOverride("font_size", 20);
+                noSaveLabel.AddThemeColorOverride("font_color", ColorMuted);
                 noSaveLabel.SizeFlagsHorizontal = Control.SizeFlags.Fill;
-                noSaveLabel.AddThemeConstantOverride("margin_top", 20);
-                noSaveLabel.AddThemeConstantOverride("margin_bottom", 20);
                 _saveListContainer.AddChild(noSaveLabel);
             }
             else
             {
-                // 动态创建存档项
                 foreach (SaveInfo saveInfo in saveInfos)
                 {
                     CreateSaveItem(saveInfo);
                 }
             }
 
-            // 隐藏主菜单的CenterContainer
             GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = false;
-
-            // 显示存档列表面板
             _saveListPanel.Visible = true;
         }
 
-        // 初始化存档列表UI
         private void InitializeSaveListUI()
         {
-            // 从场景中获取存档列表UI元素
             _saveListPanel = GetNode<ColorRect>("CanvasLayer/SaveListPanel");
             _saveListContainer = GetNode<VBoxContainer>("CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer/ScrollContainer/SaveListContainer");
             _backButton = GetNode<Button>("CanvasLayer/SaveListPanel/CenterContainer/Panel/VBoxContainer/BackButton");
-
-            // 连接返回按钮信号
             _backButton.Pressed += OnBackButtonPressed;
         }
 
-        // 设置按钮点击事件
         private void OnSettingsButtonPressed()
         {
             Log.Info("Settings button pressed");
-            // 隐藏主菜单，显示设置页面
             _mainButton.Visible = false;
             GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = false;
             _centerContainer2.Visible = true;
             _settingMenu.Visible = true;
         }
 
-        // 设置页面返回按钮点击事件
         private void OnSettingBackButtonPressed()
         {
             Log.Info("Setting back button pressed");
-            // 显示主菜单，隐藏设置页面
             _settingMenu.Visible = false;
             _centerContainer2.Visible = false;
             _mainButton.Visible = true;
@@ -354,13 +469,9 @@ namespace hd2dtest.Scenes.Start
             ConfigManager.Instance.SaveConfig();
         }
 
-        // 主音量变更事件
         private void OnMasterVolumeChanged(double value)
         {
-            Log.Info($"Master volume changed to: {value}");
             ConfigManager.Instance.SetMasterVolume((float)value);
-
-            // 应用音量设置到AudioStreamPlayer
             AudioStreamPlayer audioPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
             if (audioPlayer != null)
             {
@@ -368,84 +479,18 @@ namespace hd2dtest.Scenes.Start
             }
         }
 
-        // 音乐音量变更事件
-        private void OnMusicVolumeChanged(double value)
-        {
-            Log.Info($"Music volume changed to: {value}");
-            ConfigManager.Instance.SetMusicVolume((float)value);
-        }
+        private void OnMusicVolumeChanged(double value) => ConfigManager.Instance.SetMusicVolume((float)value);
+        private void OnSFXVolumeChanged(double value) => ConfigManager.Instance.SetSoundEffectVolume((float)value);
+        private void OnVoiceVolumeChanged(double value) => ConfigManager.Instance.SetVoiceVolume((float)value);
+        private void OnBrightnessChanged(double value) => ConfigManager.Instance.SetBrightness((float)value);
+        private void OnContrastChanged(double value) => ConfigManager.Instance.SetContrast((float)value);
+        private void OnSaturationChanged(double value) => ConfigManager.Instance.SetSaturation((float)value);
+        private void OnFullscreenToggled(bool toggled) => ConfigManager.Instance.SetFullscreen(toggled);
+        private void OnVSyncToggled(bool toggled) => ConfigManager.Instance.SetVSync(toggled);
+        private void OnAutoSaveToggled(bool toggled) => ConfigManager.Instance.SetAutoSave(toggled);
+        private void OnTextSpeedChanged(double value) => ConfigManager.Instance.SetTextSpeed((float)value);
+        private void OnShowFPSToggled(bool toggled) => ConfigManager.Instance.SetShowFPS(toggled);
 
-        // 音效音量变更事件
-        private void OnSFXVolumeChanged(double value)
-        {
-            Log.Info($"SFX volume changed to: {value}");
-            ConfigManager.Instance.SetSoundEffectVolume((float)value);
-        }
-
-        // 语音音量变更事件
-        private void OnVoiceVolumeChanged(double value)
-        {
-            Log.Info($"Voice volume changed to: {value}");
-            ConfigManager.Instance.SetVoiceVolume((float)value);
-        }
-
-        // 亮度变更事件
-        private void OnBrightnessChanged(double value)
-        {
-            Log.Info($"Brightness changed to: {value}");
-            ConfigManager.Instance.SetBrightness((float)value);
-        }
-
-        // 对比度变更事件
-        private void OnContrastChanged(double value)
-        {
-            Log.Info($"Contrast changed to: {value}");
-            ConfigManager.Instance.SetContrast((float)value);
-        }
-
-        // 饱和度变更事件
-        private void OnSaturationChanged(double value)
-        {
-            Log.Info($"Saturation changed to: {value}");
-            ConfigManager.Instance.SetSaturation((float)value);
-        }
-
-        // 全屏切换事件
-        private void OnFullscreenToggled(bool toggled)
-        {
-            Log.Info($"Fullscreen toggled to: {toggled}");
-            ConfigManager.Instance.SetFullscreen(toggled);
-        }
-
-        // 垂直同步切换事件
-        private void OnVSyncToggled(bool toggled)
-        {
-            Log.Info($"VSync toggled to: {toggled}");
-            ConfigManager.Instance.SetVSync(toggled);
-        }
-
-        // 自动保存切换事件
-        private void OnAutoSaveToggled(bool toggled)
-        {
-            Log.Info($"Auto save toggled to: {toggled}");
-            ConfigManager.Instance.SetAutoSave(toggled);
-        }
-
-        // 文本速度变更事件
-        private void OnTextSpeedChanged(double value)
-        {
-            Log.Info($"Text speed changed to: {value}");
-            ConfigManager.Instance.SetTextSpeed((float)value);
-        }
-
-        // 显示FPS切换事件
-        private void OnShowFPSToggled(bool toggled)
-        {
-            Log.Info($"Show FPS toggled to: {toggled}");
-            ConfigManager.Instance.SetShowFPS(toggled);
-        }
-
-        // 语言选择事件
         private void OnLanguageSelected(long index)
         {
             string language = index switch
@@ -457,163 +502,105 @@ namespace hd2dtest.Scenes.Start
             };
             Log.Info($"Language selected: {language}");
             ConfigManager.Instance.SetLanguage(language);
-            // 重新加载设置以更新UI文本
             LoadSettings();
         }
 
-        // 退出按钮点击事件
         private void OnExitButtonPressed()
         {
             Log.Info("Exit button pressed");
-            // 退出游戏
             GetTree().Quit();
         }
 
-        // 返回按钮点击事件
         private void OnBackButtonPressed()
         {
-            // 隐藏存档列表
             _saveListPanel.Visible = false;
-
-            // 重新显示主菜单的CenterContainer
             GetNode<CenterContainer>("CanvasLayer/CenterContainer").Visible = true;
         }
 
-        // 清空存档列表
         private void ClearSaveList()
         {
             foreach (Node child in _saveListContainer.GetChildren())
-            {
                 child.QueueFree();
-            }
         }
 
-        // 创建存档项
         private void CreateSaveItem(SaveInfo saveInfo)
         {
-            // 创建存档项容器
             Panel saveItemPanel = new()
             {
                 CustomMinimumSize = new Vector2(0, 120)
             };
-            saveItemPanel.AddThemeConstantOverride("margin_bottom", 10);
             _saveListContainer.AddChild(saveItemPanel);
 
-            // 创建CenterContainer用于居中显示存档信息
             CenterContainer centerContainer = new();
             centerContainer.SetAnchorsPreset(Control.LayoutPreset.FullRect);
             saveItemPanel.AddChild(centerContainer);
 
-            // 创建垂直容器
             VBoxContainer saveItemVBox = new()
             {
                 SizeFlagsHorizontal = Control.SizeFlags.ShrinkCenter,
                 SizeFlagsVertical = Control.SizeFlags.ShrinkCenter
             };
-            saveItemVBox.AddThemeConstantOverride("margin_left", 10);
-            saveItemVBox.AddThemeConstantOverride("margin_top", 10);
-            saveItemVBox.AddThemeConstantOverride("margin_right", 10);
-            saveItemVBox.AddThemeConstantOverride("margin_bottom", 10);
             centerContainer.AddChild(saveItemVBox);
 
-            // 存档名称
-            Label nameLabel = new()
-            {
-                Text = saveInfo.SaveName
-            };
-            nameLabel.AddThemeFontSizeOverride("font_size", 24);
+            Label nameLabel = new() { Text = saveInfo.SaveName };
+            nameLabel.AddThemeFontOverride("font", GameFont);
+            nameLabel.AddThemeFontSizeOverride("font_size", 22);
+            nameLabel.AddThemeColorOverride("font_color", new Color(0.93f, 0.94f, 0.95f, 1f));
             nameLabel.HorizontalAlignment = HorizontalAlignment.Center;
             saveItemVBox.AddChild(nameLabel);
 
-            // 存档信息
             Label infoLabel = new();
             string playTime = FormatPlayTime(saveInfo.PlayTime);
-            string levelText = "level";
-            string playTimeText = "play_time";
-            string saveTimeText = "save_time";
-            infoLabel.Text = $"{levelText}: {saveInfo.AveragePlayerLevel} | {playTimeText}: {playTime} | {saveTimeText}: {saveInfo.SaveTime:yyyy-MM-dd HH:mm}";
+            infoLabel.Text = $"Level: {saveInfo.AveragePlayerLevel} | Time: {playTime} | {saveInfo.SaveTime:yyyy-MM-dd HH:mm}";
+            infoLabel.AddThemeFontOverride("font", GameFont);
+            infoLabel.AddThemeFontSizeOverride("font_size", 14);
+            infoLabel.AddThemeColorOverride("font_color", new Color(0.6f, 0.65f, 0.7f, 1f));
             infoLabel.HorizontalAlignment = HorizontalAlignment.Center;
-            infoLabel.AddThemeFontSizeOverride("font_size", 16);
             saveItemVBox.AddChild(infoLabel);
 
-            // 操作按钮容器
-            HBoxContainer buttonContainer = new()
-            {
-                Alignment = BoxContainer.AlignmentMode.Center
-            };
-            buttonContainer.AddThemeConstantOverride("margin_top", 10);
+            HBoxContainer buttonContainer = new() { Alignment = BoxContainer.AlignmentMode.Center };
             saveItemVBox.AddChild(buttonContainer);
 
-            // 加载按钮
-            Button loadButton = new()
-            {
-                Text = "load",
-                CustomMinimumSize = new Vector2(100, 30)
-            };
-            loadButton.AddThemeFontSizeOverride("font_size", 16);
-            loadButton.Pressed += () => OnLoadSavePressed(saveInfo.SaveId);
+            Button loadButton = new() { Text = "load", CustomMinimumSize = new Vector2(120, 36) };
+            loadButton.AddThemeFontOverride("font", GameFont);
+            loadButton.AddThemeFontSizeOverride("font_size", 15);
+            loadButton.AddThemeColorOverride("font_color", new Color(0.93f, 0.94f, 0.95f, 1f));
+            StyleMainButton(loadButton);
+            string capturedId = saveInfo.SaveId;
+            loadButton.Pressed += () => OnLoadSavePressed(capturedId);
             buttonContainer.AddChild(loadButton);
 
-            // 间隔
-            Control spacer = new()
-            {
-                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
-            };
-            buttonContainer.AddChild(spacer);
-
-            // 添加点击事件
-            saveItemPanel.MouseEntered += () =>
-            {
-                saveItemPanel.Modulate = new Color(1f, 1f, 1f, 0.8f);
-            };
-            saveItemPanel.MouseExited += () =>
-            {
-                saveItemPanel.Modulate = new Color(1f, 1f, 1f, 1f);
-            };
+            saveItemPanel.MouseEntered += () => saveItemPanel.Modulate = new Color(1f, 1f, 1f, 0.85f);
+            saveItemPanel.MouseExited += () => saveItemPanel.Modulate = new Color(1f, 1f, 1f, 1f);
         }
 
-        // 格式化游戏时间
         private static string FormatPlayTime(int seconds)
         {
             int hours = seconds / 3600;
             int minutes = seconds % 3600 / 60;
             int secs = seconds % 60;
-
-            string h = "h";
-            string m = "m";
-            string s = "s";
-
-            return hours > 0 ? $"{hours}{h} {minutes}{m}" : minutes > 0 ? $"{minutes}{m} {secs}{s}" : $"{secs}{s}";
+            return hours > 0 ? $"{hours}h {minutes}m" : minutes > 0 ? $"{minutes}m {secs}s" : $"{secs}s";
         }
 
-        // 加载存档按钮点击事件
         private void OnLoadSavePressed(string saveId)
         {
             Log.Info($"Load save pressed for slot {saveId}");
-            // 加载存档
             SaveData saveData = SaveManager.Instance.LoadGame(saveId);
             if (saveData != null)
             {
-                // 隐藏存档列表
                 _saveListPanel.Visible = false;
-                // 切换到存档中的场景
                 string targetScene = saveData.CurrentScene;
                 Log.Info($"Loading scene: {targetScene}");
                 Main.Instance.SwitchScene(targetScene);
             }
             else
             {
-                string failedText = "load_save_failed";
-                ShowToast($"{failedText} {saveId}");
+                ShowToast($"load_save_failed {saveId}");
             }
         }
 
-
-
-        // 显示提示信息
         private void ShowToast(string message)
         {
-            // 这里可以实现一个简单的提示信息显示
             Log.Info($"Toast: {message}");
         }
     }

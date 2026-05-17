@@ -1,9 +1,33 @@
+/*
+ * File: SkillExecutor.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 技能执行器，负责执行技能的各个阶段和事件。
+ * 支持技能的分阶段执行、事件调度、中断处理和状态管理。
+ * 
+ * Key Features:
+ * - 分阶段执行：支持技能的多个阶段顺序执行
+ * - 事件调度：按时间顺序执行技能事件
+ * - 技能中断：支持技能执行过程中的中断
+ * - 状态管理：跟踪当前执行状态和阶段
+ * - 信号通知：技能开始、阶段开始、技能完成、技能中断信号
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System.Collections.Generic;
 using hd2dtest.Scripts.Utilities;
 
 namespace hd2dtest.Scripts.Modules.SkillSystem
 {
+    /// <summary>
+    /// 技能执行器，负责执行技能的各个阶段和事件
+    /// </summary>
+    /// <remarks>
+    /// 支持技能的分阶段执行、事件调度和中断处理
+    /// </remarks>
     public partial class SkillExecutor : Node
     {
         [Signal] public delegate void SkillStartedEventHandler(string skillId);

@@ -1,8 +1,30 @@
+/*
+ * File: MoveToTarget.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 移动到目标行为节点，用于行为树中控制代理移动到指定目标位置。
+ * 支持CharacterBody3D和普通Node3D的移动，可配置移动速度和停止距离。
+ * 
+ * Key Features:
+ * - 从黑板获取目标节点
+ * - 支持CharacterBody3D的MoveAndSlide移动
+ * - 支持普通Node3D的直接位置更新
+ * - 可配置移动速度和停止距离
+ */
+
 using Godot;
 using System.Collections.Generic;
 
 namespace hd2dtest.Scripts.Modules.AI.BehaviorTree.Actions
 {
+    /// <summary>
+    /// 移动到目标行为节点
+    /// </summary>
+    /// <remarks>
+    /// 控制代理移动到黑板中指定的目标位置，到达目标时返回成功
+    /// </remarks>
     public class MoveToTarget : ActionNode
     {
         private Node3D _agent;

@@ -1,3 +1,18 @@
+/*
+ * File: ConditionChecker.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 条件检查器，负责检查对话选项的条件是否满足。
+ * 支持物品检查和任务状态检查等条件类型。
+ * 
+ * Key Features:
+ * - HasItem：检查玩家是否拥有指定物品
+ * - QuestState：检查任务状态是否为指定值
+ * - 支持自定义条件格式："条件类型:键:值"
+ */
+
 using System;
 using hd2dtest.Scripts.Managers;
 using hd2dtest.Scripts.Utilities;

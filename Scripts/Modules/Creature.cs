@@ -1,3 +1,22 @@
+/*
+ * File: Creature.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 生物基类，定义游戏中所有生物（玩家、怪物、NPC）的通用属性和行为。
+ * 提供生命值管理、伤害计算、治疗机制和死亡处理等核心功能。
+ * 
+ * Key Features:
+ * - 核心属性：生命值、攻击力、防御力、速度、等级、经验值
+ * - 伤害承受和治疗机制
+ * - 弱点系统支持（火、水、雷、冰、物理、魔法等）
+ * - 死亡状态管理
+ * - 战斗状态标记
+ * - 完整的异常处理和日志记录
+ * - 支持多语言翻译
+ */
+
 using System;
 using System.Collections.Generic;
 using Godot;
@@ -30,7 +49,7 @@ namespace hd2dtest.Scripts.Modules
     /// 作为游戏中所有生物（包括玩家、怪物、NPC等）的基础类，提供通用的属性和行为
     /// </remarks>
     [GlobalClass]
-    public partial class Creature : Resource
+    public partial class Creature : CharacterBody3D
     {
         /// <summary>
         /// 生物名称
@@ -100,12 +119,6 @@ namespace hd2dtest.Scripts.Modules
         public List<Weakness> Weaknesses { get; set; } = [];
 
         /// <summary>
-        /// 位置信息
-        /// </summary>
-        /// <value>生物在游戏世界中的坐标位置</value>
-        public Vector3 Position { get; set; } = Vector3.Zero;
-
-        /// <summary>
         /// 是否在战斗中
         /// </summary>
         /// <value>true 表示生物处于战斗状态，暂停大地图AI</value>
@@ -119,8 +132,16 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public virtual void Initialize()
         {
-            Health = MaxHealth;
-            IsAlive = true;
+            try
+            {
+                Health = MaxHealth;
+                IsAlive = true;
+                Log.Info($"Creature {CreatureName} initialized");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error initializing creature {CreatureName}: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -135,24 +156,43 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public virtual List<int> TakeDamage(Creature creature, Skill skill)
         {
-            if (!IsAlive)
+            try
             {
+                if (!IsAlive)
+                {
+                    Log.Warning($"Creature {CreatureName} is already dead, cannot take damage");
+                    return [0];
+                }
+
+                if (creature == null)
+                {
+                    Log.Error("Cannot take damage from null creature");
+                    return [0];
+                }
+
+                if (skill == null)
+                {
+                    Log.Error("Cannot take damage with null skill");
+                    return [0];
+                }
+
+                List<int> actualDamage = DamageCalculator.CalculateDamage(creature, this, skill);
+
+                Health -= actualDamage.Sum();
+
+                if (Health <= 0f)
+                {
+                    Health = 0f;
+                    Die();
+                }
+
+                return actualDamage;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error taking damage for creature {CreatureName}: {ex.Message}");
                 return [0];
             }
-
-            // 对于基础生物，不考虑弱点，只考虑防御
-            List<int> actualDamage = DamageCalculator.CalculateDamage(creature, this, skill);
-
-            Health -= actualDamage.Sum();
-
-            // 检查是否死亡
-            if (Health <= 0f)
-            {
-                Health = 0f;
-                Die();
-            }
-
-            return actualDamage;
         }
 
         /// <summary>
@@ -162,17 +202,31 @@ namespace hd2dtest.Scripts.Modules
         /// <param name="damageType">伤害类型</param>
         public virtual void TakeDamage(float amount, string damageType)
         {
-            if (!IsAlive) return;
-
-            // 这里可以添加伤害类型相关的逻辑，例如抗性计算
-            // 目前简化处理，直接扣除生命值
-            Health -= amount;
-
-            // 检查是否死亡
-            if (Health <= 0f)
+            try
             {
-                Health = 0f;
-                Die();
+                if (!IsAlive)
+                {
+                    Log.Warning($"Creature {CreatureName} is already dead, cannot take damage");
+                    return;
+                }
+
+                if (amount < 0)
+                {
+                    Log.Warning($"Attempted to apply negative damage: {amount}");
+                    return;
+                }
+
+                Health -= amount;
+
+                if (Health <= 0f)
+                {
+                    Health = 0f;
+                    Die();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error taking damage for creature {CreatureName}: {ex.Message}");
             }
         }
 
@@ -187,14 +241,35 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         public virtual List<int> Heal(Creature creature, Skill skill)
         {
-            if (!IsAlive)
+            try
             {
+                if (!IsAlive)
+                {
+                    Log.Warning($"Creature {CreatureName} is dead, cannot be healed");
+                    return [0];
+                }
+
+                if (creature == null)
+                {
+                    Log.Error("Cannot heal from null creature");
+                    return [0];
+                }
+
+                if (skill == null)
+                {
+                    Log.Error("Cannot heal with null skill");
+                    return [0];
+                }
+
+                List<int> healAmount = DamageCalculator.CalculateDamage(creature, this, skill);
+                Health = Math.Min(Health + healAmount.Sum(), MaxHealth);
+                return healAmount;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error healing creature {CreatureName}: {ex.Message}");
                 return [0];
             }
-
-            List<int> healAmount = DamageCalculator.CalculateDamage(creature, this, skill);
-            Health = Math.Min(Health + healAmount.Sum(), MaxHealth);
-            return healAmount;
         }
 
         /// <summary>
@@ -205,7 +280,21 @@ namespace hd2dtest.Scripts.Modules
         /// </remarks>
         protected virtual void Die()
         {
-            IsAlive = false;
+            try
+            {
+                if (!IsAlive)
+                {
+                    Log.Warning($"Creature {CreatureName} is already dead");
+                    return;
+                }
+
+                IsAlive = false;
+                Log.Info($"Creature {CreatureName} has died");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in Die method for creature {CreatureName}: {ex.Message}");
+            }
         }
 
         /// <summary>

@@ -1,9 +1,28 @@
+/*
+ * File: SkillData.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 技能数据模型类，定义技能的基本信息和执行时间线。
+ * 包含技能数据、阶段数据、技能事件基类和执行上下文。
+ * 
+ * Key Features:
+ * - SkillData：技能基本数据（ID、名称、描述、冷却时间、魔法消耗等）
+ * - SkillPhase：技能阶段（阶段名称、持续时间、事件列表）
+ * - SkillEvent：技能事件基类（标准化时间、执行方法）
+ * - SkillExecutionContext：技能执行上下文（施法者、目标、节点引用等）
+ */
+
 using Godot;
 using System.Collections.Generic;
 using Godot.Collections;
 
 namespace hd2dtest.Scripts.Modules.SkillSystem
 {
+    /// <summary>
+    /// 技能数据类，定义技能的基本信息和执行时间线
+    /// </summary>
     [GlobalClass]
     public partial class SkillData : Resource
     {

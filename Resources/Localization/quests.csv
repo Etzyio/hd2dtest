@@ -1,0 +1,112 @@
+key,en_US,zh_CN,ja_JP
+# Quest Lines
+quest_line_wuxia_main_story_name,Jianghu Storm,江湖风云,江湖風雲
+quest_line_wuxia_main_story_desc,From an escort agency apprentice to uncovering the chancellor's conspiracy - a journey of love and revenge.,从威远镖局的一名普通弟子到揭开当朝宰相的惊天阴谋，一段充满恩怨情仇的江湖旅程,威遠镖局の普通の弟子から宰相の陰謀を暴くまでの愛と復讐の江湖旅
+quest_line_wuxia_side_quests_name,Marginal Tales,江湖轶事,江湖の逸話
+quest_line_wuxia_side_quests_desc,Side quests in the martial world, help those in need and earn additional rewards.,江湖中的支线任务，帮助有需要的人，获得额外奖励,江湖のサイドクエスト。困っている人を助け、追加報酬を得よう
+quest_line_wuxia_secret_chapters_name,Secret Encounters,秘境奇遇,秘境の奇遇
+quest_line_wuxia_secret_chapters_desc,Explore secret realms and encounter adventures and challenges in the martial world.,在江湖中探索各种秘境，遇到奇遇和挑战,江湖の様々な秘境を探検し、冒険と挑戦に出会おう
+
+# Quest Line Nodes
+node_start_biaoju_node_name,The Escort Begins,风起镖局,風起つ镖局
+node_start_biaoju_node_desc,The Weiyuan Escort Agency receives an imperial decree. Master Zhou looks troubled as you and senior brother Shen Jianfeng embark on a perilous journey.,威远镖局接到朝廷密令，师父周远面露忧色，你与师兄沈剑锋踏上凶险旅程,威遠镖局が朝廷の密命を受ける。周遠師匠は憂いを帯び、あなたは兄・沈劍鋒と危険な旅に出る
+node_huangnigang_ambush_node_name,Ambush at Huangni Ridge,黄泥岗之变,黄泥崗の変
+node_huangnigang_ambush_node_desc,Ambushed at Huangni Ridge, the tribute is stolen, senior brother is killed. You fall off a cliff but survive, only to find Qingfeng Sect raided by the Eastern Depot.,黄泥岗遭遇伏击，生辰纲被劫，师兄惨死。你坠崖后得救，却发现清风门已被东厂查封,黄泥崗で待ち伏せに遭い、貢物が奪われ、兄は惨死。崖から落ちるも救われるが、清風門が東廠に封鎖されたことを知る
+node_qingfeng_ruins_node_name,Ruins of Qingfeng,清风蒙难,清風の受難
+node_qingfeng_ruins_node_desc,Qingfeng Sect lies in ruins. Beggar Lu Da, Cold Moon, and Zhao Tieshan of the Six Gates all appear to help you uncover the truth.,清风门已成废墟。丐帮鲁达、冷月、六扇门赵铁山相继出现，助你查明真相,清風門は廃墟と化す。丐幫の魯達、冷月、六扇門の趙鐵山が次々と現れ、真実を明かす手助けをする
+node_moyu_reborn_node_name,Reborn as Mo Yu,化名墨羽,墨羽として生まれ変わる
+node_moyu_reborn_node_desc,You assume the name Mo Yu and reopen the escort agency. Junior sister Su Wanqing brings news of the Dark Cult. A mysterious merchant Li hires you for a western delivery.,你化名墨羽重建镖局，师妹苏婉清带来幽冥教线索。神秘李老板委托西域押运,墨羽と名乗り镖局を再建。師妹・蘇婉清が幽冥教の手がかりをもたらす。謎の李老闆が西域への運搬を依頼
+node_western_journey_node_name,Journey to the West,西域之行,西域への旅
+node_western_journey_node_desc,The Longmen Inn keeper reveals her blood feud with Cai Jing. At the Dark Cult headquarters, you discover the leader is none other than Wanqing's senior sister Liu Qingqing.,龙门客栈老板娘揭露与蔡京的血仇。幽冥教总坛发现教主竟是婉清师姐柳青青,竜門客栈の女将が蔡京との血の復讐を明かす。幽冥教の総本山で教主が婉清の師姐・柳青青であることを知る
+node_capital_justice_node,Justice at the Capital,京城鸣冤,京城に鳴らす冤罪
+node_capital_justice_node_desc,Returning with evidence, Longmen Inn has been burned. Qin Xianzi brings Master Zhou's final letter. You decide to go to the capital to expose Cai Jing.,带着证据返回中原，龙门客栈已被焚毁。琴仙子带来周远遗书，你决定上京揭露蔡京,証拠を持って中原に戻るも、竜門客栈は焼失。琴仙子が周遠の遺書を届け、蔡京を暴くために上京を決意
+node_final_showdown_node_name,Final Showdown,幽冥终战,幽冥の終戦
+node_final_showdown_node_desc,Cai Jing is captured but his adopted son Cai You resists. In the final battle, Su Wanqing sacrifices herself to protect you. You slay Cai You, avenging all.,蔡京伏法，但其义子蔡攸顽抗。最终决战中苏婉清为保护你而牺牲，你手刃蔡攸,蔡京は捕らえられるが養子・蔡攸が抗戦。最終決戦で蘇婉清があなたを守り犠牲に。蔡攸を討ち取り全ての仇を討つ
+node_epilogue_node_name,Qingfeng Rises Again,清风再起,清風再起
+node_epilogue_node_desc,Three years later, Qingfeng Escort Agency is rebuilt. At Wanqing's grave you make a promise - a new journey begins.,三年后，清风镖局重建。婉清墓前你许下承诺，新的旅程即将开始,三年後、清風镖局が再建される。婉清の墓前で誓いを立て、新たな旅が始まる
+
+# Main Story Quests
+quest_main_story_001_name,Storm Clouds Gather,风雨欲来,風雨来たらんとする
+quest_main_story_001_desc,The Weiyuan Escort Agency receives a secret imperial decree to deliver tribute to the capital. Master Zhou seems troubled, but orders must be followed. You and senior brother Shen Jianfeng embark on this dangerous journey.,威远镖局接到朝廷密令押送生辰纲。师父周远面露隐忧，你与师兄沈剑锋踏上凶险旅程,威遠镖局が朝廷の密命で貢物を京城に運ぶことになる。周遠師匠は不安を隠せないが、あなたと沈劍鋒は危険な旅に出る
+quest_main_story_002_name,Bloody Dusk,血色黄昏,血色の黄昏
+quest_main_story_002_desc,Ambushed at Huangni Ridge, the tribute is stolen and Shen Jianfeng is killed. You fall off a cliff but survive, only to be framed as the thief. Waking up in a cave, you learn Qingfeng Sect has been raided by the Eastern Depot.,黄泥岗遭遇伏击，生辰纲被劫，师兄沈剑锋惨死。你坠崖被救，却发现清风门已被东厂查封，自己被诬陷为劫纲凶手,黄泥崗で待ち伏せに遭い、貢物が奪われ沈劍鋒が命を落とす。崖から落ちるも助かるが、清風門が東廠に封鎖され、自分が犯人に仕立て上げられていることを知る
+quest_main_story_003_name,Shattered Land,山河破碎,山河破れる
+quest_main_story_003_desc,Qingfeng Sect lies in ruins. The senior sect brother is gravely wounded. Just as despair sets in, allies appear - Beggar Lu Da, Cold Moon of the sword, and Zhao Tieshan of the Six Gates. All are willing to help you find the truth.,清风门已成废墟，二师兄身受重伤。丐帮鲁达、冷面剑姬冷月、六扇门赵铁山相继出现，都愿意帮助你查明真相,清風門は廃墟と化し、二師兄は重傷。丐幫の魯達、冷面劍姬の冷月、六扇門の趙鐵山が次々と現れ、真実を探す手助けを申し出る
+quest_main_story_004_name,Rebirth of Mo Yu,墨羽重生,墨羽再生
+quest_main_story_004_desc,You take the name Mo Yu and rebuild the escort agency in Suzhou. Junior sister Su Wanqing suddenly appears with crucial clues about the Dark Cult. A mysterious Mr. Li hires you to deliver goods to the Western Regions.,你化名墨羽在苏州重建镖局。师妹苏婉清带来幽冥教线索。神秘李老板委托你运送货物前往西域,墨羽と名乗り蘇州で镖局を再建。師妹・蘇婉清が幽冥教の手がかりをもたらす。謎の李老闆から西域への貨物運搬を依頼される
+quest_main_story_005_name,Western Mystery,西域迷踪,西域の迷踪
+quest_main_story_005_desc,The Longmen Inn keeper reveals her blood feud with Cai Jing and joins you. Crossing the desert, you finally meet the Dark Cult leader - a phoenix-masked figure who reveals herself as Liu Qingqing, Wanqing's senior sister!,龙门客栈老板娘揭露与蔡京的血仇并加入。穿越沙漠抵达幽冥教总坛，教主竟是婉清的师姐柳青青,竜門客栈の女将が蔡京との血の復讐を語り仲間に加わる。砂漠を越えて幽冥教総本山に到着、教主は婉清の師姐・柳青青だった！
+quest_main_story_006_name,Justice in the Golden Hall,金殿鸣冤,金殿に冤罪を鳴らす
+quest_main_story_006_desc,Returning to find Longmen Inn burned and its keeper wounded, the legendary Qin Xianzi appears with Master Zhou's final letter. You decide to go to the imperial palace to expose Cai Jing's conspiracy.,带着证据返回中原却发现龙门客栈已被焚毁。琴仙子带来周远遗书，你决定前往京城向皇上揭露蔡京的阴谋,証拠を持って戻ると竜門客栈は焼かれていた。琴仙子が周遠の遺書を届け、あなたは都で皇帝に蔡京の陰謀を暴くことを決意する
+quest_main_story_007_name,Final Battle at the Dark Cult,决战幽冥,幽冥の決戦
+quest_main_story_007_desc,Cai Jing is arrested but his adopted son Cai You still resists. The final battle unfolds at the Dark Cult headquarters. Su Wanqing sacrifices herself to protect you. You slay Cai You with your own hands, avenging all who fell.,蔡京被拿下，但其义子蔡攸仍在顽抗。最终决战在幽冥教总坛展开，苏婉清为保护你而牺牲。你手刃蔡攸为所有人报了仇,蔡京は捕らえられたが養子・蔡攸はなお抵抗。最終決戦が幽冥教総本山で繰り広げられる。蘇婉清があなたを守り命を落とす。あなたは自ら蔡攸を討ち、全ての仇を討つ
+quest_main_story_008_name,Qingfeng Rises Again,清风再扬,清風再び揚がる
+quest_main_story_008_desc,Three years later, Qingfeng Escort Agency has been rebuilt, larger than before. Standing before Wanqing's grave, you make a promise. A new journey is about to begin...,三年后，清风镖局重建。婉清墓前你许下承诺，新的旅程即将开始,三年後、清風镖局は再建され以前よりも賑わっている。婉清の墓前で誓いを立てる。新たな旅が始まろうとしている…
+
+# Quest Objectives
+obj_talk_to_master_zhou,Talk to Master Zhou Yuan,与师父周远对话,周遠師匠と話す
+obj_talk_to_shen_jianfeng,Talk to Senior Brother Shen Jianfeng,与大师兄沈剑锋对话,沈劍鋒兄と話す
+obj_meet_su_wanqing,Bid Farewell to Su Wanqing,与师妹苏婉清告别,蘇婉清妹と別れを告げる
+obj_reach_huangnigang,Arrive at Huangni Ridge,抵达黄泥岗,黄泥崗に到着する
+obj_survive_ambush,Survive the Ambush at Huangni Ridge,在黄泥岗伏击战中存活,黄泥崗の待ち伏せを生き延びる
+obj_receive_jade_pendant,Receive the Half-Jade Pendant from Senior Brother,从师兄手中接过半块玉佩,兄から半玉佩を受け取る
+obj_wake_in_cave,Talk to the Old Man Who Saved You,与救你的老者对话,あなたを救った老人と話す
+obj_return_to_qingfeng,Return to Qingfeng Sect Ruins,返回清风门废墟,清風門の廃墟に戻る
+obj_meet_chen_tieshan,Talk to Senior Brother Chen Tieshan,与二师兄陈铁山对话,陳鐵山二師兄と話す
+obj_meet_lu_da,Talk to Lu Da of the Beggar Clan,与丐帮鲁达对话,丐幫の魯達と話す
+obj_meet_leng_yue,Talk to Leng Yue,与冷月对话,冷月と話す
+obj_meet_zhao_tieshan,Talk to Zhao Tieshan of the Six Gates,与六扇门赵铁山对话,六扇門の趙鐵山と話す
+obj_decide_fate,Discuss Plans with Companions,与同伴商议下一步计划,仲間と今後の計画を話し合う
+obj_create_moyu_biaoju,Decide to Rebuild the Escort Agency as Mo Yu,决定化名墨羽重建镖局,墨羽と名乗り镖局再建を決意する
+obj_meet_wanqing_again,Reunite with Su Wanqing,与苏婉清重逢,蘇婉清と再会する
+obj_accept_mission,Accept Li Boss's Western Delivery Mission,接受李老板的西域押运任务,李老闆の西域運搬任務を引き受ける
+obj_reach_longmen_kezhan,Arrive at Longmen Inn,抵达龙门客栈,竜門客栈に到着する
+obj_talk_to_boss_longmen,Talk to the Longmen Inn Keeper,与龙门客栈老板娘对话,竜門客栈の女将と話す
+obj_defend_longmen,Repel the Eastern Depot Pursuers,击退东厂追兵,東廠の追手を撃退する
+obj_alliance_with_boss,Form Alliance with the Inn Keeper,与老板娘结成同盟,女将と同盟を結ぶ
+obj_reach_youming_jiao,Arrive at Dark Cult Headquarters,抵达幽冥教总坛,幽冥教総本山に到着する
+obj_meet_phoenix,Talk to the Dark Cult Leader,与幽冥教教主对话,幽冥教教主と話す
+obj_find_treasure,Find the Stolen Tribute,找到被劫走的生辰綱,奪われた貢物を見つける
+obj_return_to_longmen,Return to Longmen Inn,返回龙门客栈,竜門客栈に戻る
+obj_defend_ruins,Protect the Inn Keeper,保护老板娘,女将を守る
+obj_receive_letter,Talk to Qin Xianzi and Receive Master Zhou's Letter,与琴仙子对话获取周远遗书,琴仙子と話し周遠の遺書を受け取る
+obj_reach_imperial_palace,Arrive at the Imperial Palace,抵达皇宫,皇宫に到着する
+obj_expose_cai_jing,Expose Cai Jing's Conspiracy Before the Emperor,在金殿揭露蔡京的阴谋,金殿で蔡京の陰謀を暴く
+obj_return_youming_final,Return to Dark Cult Headquarters for the Final Battle,重返幽冥教总坛决战,幽冥教総本山に戻り決戦に臨む
+obj_final_battle,Final Battle Against Cai You,与蔡攸决战,蔡攸との最終決戦
+obj_visit_wanqing_grave,Visit Su Wanqing's Grave,前往苏婉清墓前,蘇婉清の墓前に向かう
+obj_accept_new_mission,Accept a New Delivery Mission,接受新的押运任务,新たな運搬任務を引き受ける
+
+# Quest Status
+quest_status_none,None,无状态,なし
+quest_status_available,Available,可接取,受け入れ可能
+quest_status_in_progress,In Progress,进行中,進行中
+quest_status_completed,Completed,已完成,完了
+quest_status_failed,Failed,已失败,失敗
+
+# Quest Types
+quest_type_main,Main Quest,主线任务,メインクエスト
+quest_type_side,Side Quest,支线任务,サイドクエスト
+
+# Side Quest Nodes
+node_help_innkeeper_node_name,Innkeeper's Trouble,客栈老板的困扰,宿屋主人の悩み
+node_help_innkeeper_node_desc,The innkeeper is in trouble and needs your help.,客栈老板遇到了麻烦，需要你的帮助,宿屋の主人が困っている。助けてあげろ
+node_blacksmith_request_node_name,Blacksmith's Request,铁匠的请求,鍛冶屋の依頼
+node_blacksmith_request_node_desc,The blacksmith needs rare ores to forge weapons.,铁匠需要稀有矿石来打造武器,鍛冶屋が武器を作るのに希少な鉱石が必要だ
+
+# Secret Chapter Nodes
+node_ancient_ruins_node_name,Ancient Ruins,古老遗迹,古代遺跡
+node_ancient_ruins_node_desc,Discover an ancient ruin containing precious martial arts manuscripts.,发现一处古老的遗迹，里面隐藏着珍贵的武学秘籍,貴重な武術の秘書が隠された古代遺跡を発見せよ
+
+# Objective Types
+objective_type_talk,Talk,对话,会話
+objective_type_kill,Kill,击杀,討伐
+objective_type_collect,Collect,收集,収集
+objective_type_reach_location,Reach Location,到达位置,到着
+objective_type_escort,Escort,护送,護衛
+objective_type_rescue,Rescue,解救,救出
+objective_type_defend,Defend,守卫,防衛
+objective_type_protect,Protect,保护,保護
+objective_type_prepare,Prepare,准备,準備
+objective_type_attend,Attend,参加,参加
+objective_type_discover,Discover,发现,発見

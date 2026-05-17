@@ -1,4 +1,5 @@
 key,en_US,zh_CN,ja_JP
+subtitle_text,A Wuxia JRPG Tale,清风不扬 - 武侠JRPG,武侠JRPGの物語
 teammate_name_1,Teammate 1,队友 1,チームメイト 1
 teammate_name_2,Teammate 2,队友 2,チームメイト 2
 teammate_name_3,Teammate 3,队友 3,チームメイト 3
@@ -21,3 +22,110 @@ monster_normal,Normal Monster,普通怪,通常モンスター
 time_h,h,小时,時間
 time_m,m,分,分
 time_s,s,秒,秒
+# Map Panel UI
+map_panel_title,Jianghu Map,江湖地图,江湖マップ
+map_filter_all,All,全部,すべて
+map_back,Back,返回,戻る
+map_section_description,Description,描述,説明
+map_section_npcs,Related NPCs,相关人物,関連人物
+map_section_connections,Connected Locations,连接地点,接続場所
+map_climate,Climate: {0},气候：{0},気候：{0}
+map_select_prompt,Select Location,选择地点,場所を選択
+map_no_locations,No locations in this area,该区域暂无地点,このエリアに場所はありません
+map_none,None,无,なし
+# Map Names
+map_suzhou_biaoju,Suzhou Escort Agency,苏州镖局,蘇州镖局
+map_lin_mochen_room,Lin Mochen's Room,林墨尘房间,林墨塵の部屋
+map_huangnigang,Huangni Ridge,黄泥岗,黄泥崗
+map_huangnigang_battle,Battle at Huangni Ridge,黄泥岗伏击战,黄泥崗の戦い
+map_huangnigang_death,Fall of Huangni Ridge,黄泥岗之殇,黄泥崗の悲劇
+map_cave,Cliff Cave,山崖洞穴,崖の洞窟
+map_qingfeng_ruins,Qingfeng Sect Ruins,清风门废墟,清風門の廃墟
+map_broken_temple,Abandoned Temple,破庙,廃寺
+map_moyu_biaoju,Mo Yu Escort Agency,墨羽镖局,墨羽镖局
+map_longmen_kezhan,Longmen Inn,龙门客栈,竜門客栈
+map_longmen_kezhan_night,Night at Longmen Inn,龙门客栈夜谈,竜門客栈の夜
+map_youming_jiao,Dark Cult Headquarters,幽冥教总坛,幽冥教総本山
+map_treasure_cave,Treasure Cave,宝藏洞穴,宝の洞窟
+map_longmen_ruins,Longmen Inn Ruins,龙门客栈废墟,竜門客栈の廃墟
+map_longmen_battle,Battle at Longmen,龙门保卫战,竜門の戦い
+map_imperial_palace,Imperial Palace,皇宫金銮殿,皇宫
+map_youming_final,Final Battle,幽冥教终战,幽冥教決戦
+map_qingfeng_biaoju,Qingfeng Escort Agency,清风镖局,清風镖局
+map_wanqing_grave,Su Wanqing's Grave,苏婉清之墓,蘇婉清の墓
+# Map Descriptions
+map_suzhou_biaoju_desc,Headquarters of Weiyuan Escort Agency located in the bustling area of Suzhou.,威远镖局总舵所在地，位于苏州城内繁华地段。镖局门面宽敞，门前有两尊石狮，院内设有演武场和客房。,威遠镖局の本拠地、蘇州城内の繁華街に位置する。
+map_lin_mochen_room_desc,Lin Mochen's residence at the escort agency simple and tidy.,林墨尘在镖局的住所，简单整洁，墙上挂着一把青冥剑，桌上摆放着一些暗器和书籍。,林墨塵の镖局での住まい、簡素で整頓されている。
+map_huangnigang_desc,A remote mountain path in Jiangnan surrounded by dense forests frequently visited by bandits.,江南一条偏僻的山路，周围是茂密的树林，经常有山贼出没。,江南の片田舎の山道、周囲は密林に覆われている。
+map_huangnigang_battle_desc,A fierce battle on Huangni Ridge amidst tangled weeds and muddy ground.,黄泥岗上的一场激烈战斗，草莽丛生，地面泥泞，血腥味弥漫。,黄泥崗での激戦、雑草が生い茂り地面は泥濘む。
+map_huangnigang_death_desc,The place where Shen Jianfeng sacrificed himself rain washing away the blood.,沈剑锋牺牲的地方，雨水冲刷着血迹，气氛悲凉。,沈劍鋒が犠牲になった場所、雨が血痕を洗い流す。
+map_cave_desc,A natural cave under the cliff near Huangni Ridge dry and sheltered.,黄泥岗附近山崖下的一个天然洞穴，干燥隐蔽，是老者的隐居之所。,黄泥崗近くの崖の下にある天然の洞窟、乾燥して隠れている。
+map_qingfeng_ruins_desc,The once glorious Qingfeng Sect reduced to ruins by the Eastern Depot overgrown with weeds.,曾经辉煌的清风门被东厂焚毁后的废墟，断壁残垣间长满杂草，空气中弥漫着焦土的气息。,かつて栄えた清風門が東廠によって焼かれた廃墟。
+map_broken_temple_desc,An abandoned ancient temple outside Suzhou City providing temporary shelter.,苏州城外一座废弃的古庙，虽然破旧但尚可遮风挡雨，是墨羽等人暂时的栖身之所。,蘇州城外の廃寺、破損しているが雨風をしのげる。
+map_moyu_biaoju_desc,The new escort agency opened by Lin Mochen under the name Mo Yu in Suzhou.,林墨尘化名墨羽后在苏州城新开的镖局，店面不大但整洁有序，门口挂着新做的牌匾。,林墨塵が墨羽と名乗り蘇州に開いた新しい镖局。
+map_longmen_kezhan_desc,An inn at the end of the Hexi Corridor the only passage to the Western Regions bustling with travelers.,位于河西走廊尽头的一家客栈，是通往西域的必经之路。客栈建筑古朴，门前挂着红灯笼，店内热闹非凡。,河西回廊の果てにある客栈、西域への唯一の通り道。
+map_longmen_kezhan_night_desc,A night at Longmen Inn dimly lit and shrouded in mystery.,龙门客栈的夜晚，灯光昏暗，气氛神秘，适合秘密交谈。,竜門客栈の夜、灯りは薄暗く神秘的な雰囲気。
+map_youming_jiao_desc,Headquarters of the Dark Cult hidden beneath a sand dune deep in the Western Regions desert.,幽冥教的总部，位于西域沙漠深处的沙丘之下。入口处有巨大的凤凰浮雕，内部阴暗神秘。,幽冥教の本部、西域の砂漠の奥にある砂丘の下に隠れている。
+map_treasure_cave_desc,A hidden cave containing the stolen imperial tribute and ancient treasures.,埋藏生辰纲和前朝宝藏的隐秘洞穴，洞内堆满金银珠宝，闪烁着诱人的光芒。,貢物と財宝が隠された洞窟、金銀珠宝が山積み。
+map_longmen_ruins_desc,The ruins of Longmen Inn after being burned down by the Eastern Depot still smoldering.,被东厂焚毁后的龙门客栈废墟，残垣断壁还在燃烧，空气中弥漫着焦糊味。,東廠に焼かれた竜門客栈の廃墟、崩れた壁がまだ燃えている。
+map_longmen_battle_desc,A fierce battle erupts at the Longmen Inn ruins with clashing blades and war cries.,在龙门客栈废墟爆发的一场激战，刀光剑影，杀声震天。,竜門客栈の廃墟で繰り広げられる激戦。
+map_imperial_palace_desc,The magnificent hall where the emperor conducts state affairs majestic and solemn.,当朝皇帝处理政务的地方，金碧辉煌，庄严肃穆，两旁站立着侍卫。,皇帝が政務を執り行う場所、金碧輝煌としている。
+map_youming_final_desc,The final battlefield at the Dark Cult headquarters tension fills the air.,幽冥教总坛的最终决战之地，气氛紧张，决战一触即发。,幽冥教総本山の最終決戦の地、緊張が漂う。
+map_qingfeng_biaoju_desc,The rebuilt Qingfeng Escort Agency three years later larger and more prosperous than before.,三年后重建的清风镖局，规模比以前更大，门前人来人往，一派兴旺景象。,三年後に再建された清風镖局、以前よりも規模が大きい。
+map_wanqing_grave_desc,Su Wanqing's grave located among lush green hills outside Suzhou surrounded by pines and flowers.,苏婉清的墓地，位于苏州城外的青山绿水之间，墓碑整洁，四周种满青松和鲜花。,蘇婉清の墓、蘇州城外の美しい自然の中にある。
+# Regions
+region_江南,Jiangnan,江南,江南
+region_西域,Western Regions,西域,西域
+region_京城,Capital,京城,京城
+# Climate
+climate_温和湿润,Temperate and Humid,温和湿润,温暖多湿
+climate_潮湿多雨,Damp and Rainy,潮湿多雨,湿潤多雨
+climate_暴雨,Rainstorm,暴雨,豪雨
+climate_阴凉,Cool,阴凉,涼しい
+climate_萧瑟,Bleak,萧瑟,寂寥
+climate_温和,Temperate,温和,温暖
+climate_干燥,Dry,干燥,乾燥
+climate_炎热干燥,Hot and Dry,炎热干燥,暑く乾燥
+climate_战火,Warzone,战火,戦火
+climate_庄严,Solemn,庄严,荘厳
+climate_决战,Decisive Battle,决战,決戦
+climate_繁荣,Prosperous,繁荣,繁栄
+climate_宁静,Peaceful,宁静,平穏
+climate_夜间,Night,夜间,夜
+# Settings Panel
+settings_title,Settings,设置,設定
+settings_save,Save Settings,保存设置,設定を保存
+settings_reset,Reset Defaults,恢复默认,デフォルトに戻す
+settings_back,Back,返回,戻る
+# Audio
+settings_audio,Audio,音频,オーディオ
+settings_master_volume,Master Volume,主音量,マスター音量
+settings_music_volume,Music Volume,音乐音量,音楽音量
+settings_sfx_volume,SFX Volume,音效音量,SFX音量
+settings_voice_volume,Voice Volume,语音音量,ボイス音量
+# Graphics
+settings_graphics,Graphics,画面,グラフィック
+settings_brightness,Brightness,亮度,明るさ
+settings_contrast,Contrast,对比度,コントラスト
+settings_saturation,Saturation,饱和度,彩度
+settings_resolution,Resolution,分辨率,解像度
+settings_fullscreen,Fullscreen,全屏,フルスクリーン
+settings_vsync,VSync,垂直同步,垂直同期
+# Game
+settings_game,Game,游戏,ゲーム
+settings_language,Language,语言,言語
+settings_auto_save,Auto Save,自动保存,自動保存
+settings_text_speed,Text Speed,文本速度,テキスト速度
+settings_show_fps,Show FPS,显示FPS,FPS表示
+# Controls
+settings_controls,Controls,控制,コントロール
+settings_keybindings,Keybindings,按键绑定,キー割り当て
+settings_reset_keys,Reset Keybindings,重置按键,キー割り当てをリセット
+settings_sensitivity,Mouse Sensitivity,鼠标灵敏度,マウス感度
+settings_invert_y,Invert Y,反转Y轴,Y軸反転
+settings_press_key,Press a key...,按下按键...,キーを押してください...
+settings_click_to_rebind,Click to rebind,点击修改,クリックで変更
+# Notifications
+settings_notifications,Notifications,通知,通知
+settings_game_notifications,Game Notifications,游戏通知,ゲーム通知
+settings_achievement_notifications,Achievement Notifications,成就通知,実績通知

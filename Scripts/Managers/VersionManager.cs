@@ -1,3 +1,20 @@
+/*
+ * File: VersionManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 版本管理器，作为全局单例负责管理游戏的版本信息。
+ * 支持版本号管理、Git提交哈希获取、构建日期记录和版本信息加载。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 从version.json文件加载版本信息
+ * - 存储游戏版本号、构建日期和Git提交哈希
+ * - 提供格式化的版本字符串显示
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Diagnostics;

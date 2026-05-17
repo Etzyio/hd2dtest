@@ -1,3 +1,20 @@
+/*
+ * File: DialogueEffectHandler.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 对话效果处理器，负责执行对话期间触发的各种事件和效果。
+ * 支持播放声音、屏幕震动、添加任务和给予物品等效果类型。
+ * 
+ * Key Features:
+ * - PlaySound：播放声音效果
+ * - ScreenShake：屏幕震动效果
+ * - AddQuest：添加任务
+ * - GiveItem：给予物品
+ * - 支持通过上下文节点访问场景中的音频播放器
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;

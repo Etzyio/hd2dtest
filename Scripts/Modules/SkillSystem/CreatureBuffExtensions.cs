@@ -1,3 +1,23 @@
+/*
+ * File: CreatureBuffExtensions.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 生物Buff管理扩展类，为Creature类提供Buff管理的扩展方法。
+ * 简化Buff的添加、移除、驱散和查询操作。
+ * 
+ * Key Features:
+ * - AddBuff：为生物添加Buff
+ * - RemoveBuff：移除生物身上的指定Buff
+ * - DispelBuffs：驱散生物身上的Buff
+ * - GetActiveBuffs：获取生物当前活跃的Buff列表
+ * - GetBuffStacks：获取指定Buff的叠加层数
+ * - HasBuff：检查生物是否拥有指定Buff
+ * - InitializeBuffManager：初始化Buff管理器
+ * - CleanupBuffManager：清理Buff管理器
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -8,8 +28,11 @@ using hd2dtest.Scripts.Utilities;
 namespace hd2dtest.Scripts.Modules.SkillSystem
 {
     /// <summary>
-    /// 生物Buff管理扩展
+    /// 生物Buff管理扩展类
     /// </summary>
+    /// <remarks>
+    /// 为Creature类提供Buff管理的扩展方法，简化Buff操作
+    /// </remarks>
     public static class CreatureBuffExtensions
     {
         /// <summary>

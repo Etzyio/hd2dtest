@@ -2,7 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://c2a0h7a8cac11" path="res://Scenes/UI/GameUI.tscn" id="2_jaxsk"]
 [ext_resource type="PackedScene" uid="uid://d0lijq8h7iggo" path="res://Scenes/UI/BattleUI.tscn" id="3_k6flv"]
+[ext_resource type="Script" path="res://Scripts/Scenes/Battle/BattleScene.cs" id="4_scene"]
 
-[node name="GameUI" parent="." unique_id=49785692 instance=ExtResource("2_jaxsk")]
+[node name="BattleScene" type="Node"]
+script = ExtResource("4_scene")
 
-[node name="BattleUI" parent="." unique_id=1259468241 instance=ExtResource("3_k6flv")]
+[node name="GameUI" parent="." instance=ExtResource("2_jaxsk")]
+
+[node name="BattleUI" parent="." instance=ExtResource("3_k6flv")]

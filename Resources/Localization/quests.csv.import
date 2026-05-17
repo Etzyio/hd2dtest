@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://q2w3e4r5t6y7u"
+
+[deps]
+
+files=["res://Resources/Localization/quests.en_US.translation", "res://Resources/Localization/quests.zh_CN.translation", "res://Resources/Localization/quests.ja_JP.translation"]
+
+source_file="res://Resources/Localization/quests.csv"
+dest_files=["res://Resources/Localization/quests.en_US.translation", "res://Resources/Localization/quests.zh_CN.translation", "res://Resources/Localization/quests.ja_JP.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

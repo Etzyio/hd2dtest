@@ -1,9 +1,28 @@
+/*
+ * File: SensorySystem.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 感官系统，负责处理AI实体的视觉和听觉感知。
+ * 检测可见目标和可听目标，支持视野范围、视野角度和听觉范围的配置。
+ * 
+ * Key Features:
+ * - 视觉检测：基于视野范围、角度和射线检测的可见性判断
+ * - 听觉检测：基于距离的声音感知
+ * - 支持自定义检测层
+ * - 提供只读的目标列表访问
+ */
+
 using Godot;
 using System.Collections.Generic;
-using hd2dtest.Scripts.Modules; // For Creature
+using hd2dtest.Scripts.Modules;
 
 namespace hd2dtest.Scripts.Modules.AI
 {
+    /// <summary>
+    /// 感官系统，处理AI实体的视觉和听觉感知
+    /// </summary>
     [GlobalClass]
     public partial class SensorySystem : Node3D
     {

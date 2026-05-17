@@ -1,3 +1,20 @@
+/*
+ * File: Item.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 道具类，定义游戏中所有道具的属性和行为。
+ * 包含道具基础属性、类型信息、使用行为和堆叠拆分功能。
+ * 
+ * Key Features:
+ * - 支持多种道具类型：消耗品、材料、关键物品、任务物品、杂项
+ * - 消耗品类型细分：生命药水、魔法药水、状态药水、食物、卷轴
+ * - 道具使用逻辑：根据类型执行相应效果
+ * - 堆叠与拆分功能：支持道具堆叠和拆分操作
+ * - 完整的异常处理和日志记录
+ */
+
 using System;
 using hd2dtest.Scripts.Core;
 using hd2dtest.Scripts.Utilities;

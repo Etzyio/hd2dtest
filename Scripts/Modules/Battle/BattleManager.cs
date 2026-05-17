@@ -2,37 +2,97 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 using hd2dtest.Scripts.Core;
+using hd2dtest.Scripts.Modules;
 using hd2dtest.Scripts.Utilities;
+using System;
 
 namespace hd2dtest.Scripts.Modules.Battle
 {
+    /// <summary>
+    /// 战斗管理器，负责管理回合制战斗系统
+    /// </summary>
+    /// <remarks>
+    /// 该类继承自 Godot.Node，作为单例使用，负责管理战斗的流程和状态。
+    /// 支持回合制战斗，包括玩家回合、敌人回合、技能使用、攻击和成员切换等功能。
+    /// 战斗状态基于速度排序，支持女神异闻录风格的回合制系统。
+    /// </remarks>
     public partial class BattleManager : Node
     {
+        /// <summary>
+        /// 战斗管理器的单例实例
+        /// </summary>
         public static BattleManager Instance { get; private set; }
 
+        /// <summary>
+        /// 战斗状态枚举
+        /// </summary>
         public enum BattleState
         {
+            /// <summary>战斗准备阶段</summary>
             Setup,
+            /// <summary>回合计算阶段</summary>
             TurnCalculation,
+            /// <summary>玩家回合</summary>
             PlayerTurn,
+            /// <summary>敌人回合</summary>
             EnemyTurn,
+            /// <summary>动作执行阶段</summary>
             ActionExecution,
+            /// <summary>胜利状态</summary>
             Victory,
+            /// <summary>失败状态</summary>
             Defeat
         }
 
+        /// <summary>
+        /// 回合开始信号
+        /// </summary>
+        /// <param name="activeCreature">当前行动的战斗单位</param>
         [Signal] public delegate void TurnStartedEventHandler(Creature activeCreature);
+
+        /// <summary>
+        /// 战斗结束信号
+        /// </summary>
+        /// <param name="victory">是否胜利</param>
         [Signal] public delegate void BattleEndedEventHandler(bool victory);
 
+        /// <summary>
+        /// 当前战斗状态
+        /// </summary>
+        /// <value>战斗状态枚举值，默认为Setup</value>
         public BattleState CurrentState { get; private set; } = BattleState.Setup;
 
+        /// <summary>
+        /// 最近一次战斗的结算奖励（胜利时填充，失败时为null）
+        /// </summary>
+        public BattleRewards LastBattleRewards { get; private set; }
+
+        /// <summary>
+        /// 所有战斗单位列表
+        /// </summary>
         private List<Creature> _allCombatants = [];
+
+        /// <summary>
+        /// 回合队列
+        /// </summary>
         private List<Creature> _turnQueue = [];
+
+        /// <summary>
+        /// 当前行动的战斗单位
+        /// </summary>
         private Creature _activeCreature;
 
-        // 依赖项
+        /// <summary>
+        /// 战斗场景根节点
+        /// </summary>
         private Node _battleSceneRoot;
 
+        /// <summary>
+        /// 节点准备就绪时调用
+        /// </summary>
+        /// <remarks>
+        /// 设置单例实例
+        /// </remarks>
         public override void _Ready()
         {
             Instance = this;
@@ -40,30 +100,85 @@ namespace hd2dtest.Scripts.Modules.Battle
 
         public void StartBattle(List<Creature> players, List<Creature> enemies)
         {
-            _allCombatants.Clear();
-            _allCombatants.AddRange(players);
-            _allCombatants.AddRange(enemies);
-
-            // 初始化战斗人员（例如重置临时属性）
-            foreach (var c in _allCombatants)
+            try
             {
-                // c.OnBattleStart(); // 如果我们添加这个方法
-            }
+                if (CurrentState != BattleState.Setup && CurrentState != BattleState.Victory && CurrentState != BattleState.Defeat)
+                {
+                    Log.Error($"Cannot start battle: already in battle state {CurrentState}");
+                    return;
+                }
 
-            Log.Info("Battle Started!");
-            CurrentState = BattleState.TurnCalculation;
-            CallDeferred(nameof(ProcessTurnQueue));
+                if (players == null || players.Count == 0)
+                {
+                    Log.Error("Cannot start battle: no players provided");
+                    return;
+                }
+
+                if (enemies == null || enemies.Count == 0)
+                {
+                    Log.Error("Cannot start battle: no enemies provided");
+                    return;
+                }
+
+                _allCombatants.Clear();
+                
+                foreach (var player in players)
+                {
+                    if (player == null)
+                    {
+                        Log.Warning("Null player in players list, skipping");
+                        continue;
+                    }
+                    if (!player.IsAlive)
+                    {
+                        Log.Warning($"Player {player.CreatureName} is not alive, skipping");
+                        continue;
+                    }
+                    _allCombatants.Add(player);
+                }
+
+                foreach (var enemy in enemies)
+                {
+                    if (enemy == null)
+                    {
+                        Log.Warning("Null enemy in enemies list, skipping");
+                        continue;
+                    }
+                    if (!enemy.IsAlive)
+                    {
+                        Log.Warning($"Enemy {enemy.CreatureName} is not alive, skipping");
+                        continue;
+                    }
+                    _allCombatants.Add(enemy);
+                }
+
+                if (_allCombatants.Count == 0)
+                {
+                    Log.Error("Cannot start battle: no valid combatants");
+                    return;
+                }
+
+                Log.Info("Battle Started!");
+                CurrentState = BattleState.TurnCalculation;
+                CallDeferred(nameof(ProcessTurnQueue));
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error starting battle: {ex.Message}");
+            }
         }
 
+        /// <summary>
+        /// 处理回合队列
+        /// </summary>
+        /// <remarks>
+        /// 根据战斗单位的速度排序，确定回合顺序
+        /// 支持女神异闻录风格的回合制系统
+        /// </remarks>
         private void ProcessTurnQueue()
         {
             if (CheckBattleEnd()) return;
 
-            // 简单的 CTB 或回合制按速度排序
-            // 对于女神异闻录风格，1 More 会立即增加一个额外回合，
-            // 但基本流程是基于速度的
-
-            // 过滤死亡单位
             _turnQueue = [.. _allCombatants.Where(c => c.IsAlive).OrderByDescending(c => c.Speed)];
 
             if (_turnQueue.Count > 0)
@@ -72,12 +187,18 @@ namespace hd2dtest.Scripts.Modules.Battle
             }
             else
             {
-                // 不应该发生，如果 CheckBattleEnd 正确的话，但以防万一
                 Log.Warning("No valid combatants left?");
                 CheckBattleEnd();
             }
         }
 
+        /// <summary>
+        /// 开始回合
+        /// </summary>
+        /// <param name="creature">当前行动的战斗单位</param>
+        /// <remarks>
+        /// 设置当前行动单位，发送回合开始信号，根据单位类型设置战斗状态
+        /// </remarks>
         private void StartTurn(Creature creature)
         {
             _activeCreature = creature;
@@ -87,29 +208,30 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (_activeCreature is Player)
             {
                 CurrentState = BattleState.PlayerTurn;
-                // UI 应该监听 TurnStarted 并显示菜单
             }
             else
             {
                 CurrentState = BattleState.EnemyTurn;
-                // 执行 AI
                 ExecuteEnemyTurn();
             }
         }
 
+        /// <summary>
+        /// 执行敌人回合
+        /// </summary>
+        /// <remarks>
+        /// 延迟0.5秒后执行敌人AI，随机选择一个玩家作为目标进行攻击
+        /// </remarks>
         private void ExecuteEnemyTurn()
         {
-            // 简单的 AI 延迟
             GetTree().CreateTimer(0.5f).Timeout += () =>
             {
                 if (_activeCreature is Monster monster)
                 {
-                    // 查找目标（随机玩家）
                     var players = _allCombatants.Where(c => c is Player && c.IsAlive).ToList();
                     if (players.Count > 0)
                     {
                         var target = players[DamageCalculator.Randi(players.Count)];
-                        // 怪物 AI 逻辑在这里或调用 monster.ExecuteAI(target)
                         monster.AttackTarget(target);
                         EndTurn();
                     }
@@ -123,100 +245,220 @@ namespace hd2dtest.Scripts.Modules.Battle
 
         public void PlayerAction_Attack(Creature target)
         {
-            if (CurrentState != BattleState.PlayerTurn) return;
+            try
+            {
+                if (CurrentState != BattleState.PlayerTurn)
+                {
+                    Log.Warning($"Cannot attack: not player turn. Current state: {CurrentState}");
+                    return;
+                }
 
-            CurrentState = BattleState.ActionExecution;
+                if (_activeCreature == null)
+                {
+                    Log.Error("Cannot attack: no active creature");
+                    return;
+                }
 
-            // 执行攻击
-            // 在真实场景中，我们会播放动画，等待信号，然后造成伤害
-            // 这里我们立即计算
+                if (!_activeCreature.IsAlive)
+                {
+                    Log.Error($"Cannot attack: active creature {_activeCreature.CreatureName} is dead");
+                    return;
+                }
 
-            // 基础攻击技能
-            var basicAttack = new Skill { SkillName = "Attack", SkillDefs = [new()] };
-            target.TakeDamage(_activeCreature, basicAttack);
+                if (target == null)
+                {
+                    Log.Error("Cannot attack null target");
+                    return;
+                }
 
-            Log.Info($"{_activeCreature.CreatureName} attacks {target.CreatureName}");
+                if (!target.IsAlive)
+                {
+                    Log.Warning($"Cannot attack dead target: {target.CreatureName}");
+                    return;
+                }
 
-            CheckBattleEnd(); // 检查目标是否死亡
-            EndTurn();
+                CurrentState = BattleState.ActionExecution;
+
+                // 基础攻击技能
+                var basicAttack = new Skill { SkillName = "Attack", SkillDefs = [new()] };
+                target.TakeDamage(_activeCreature, basicAttack);
+
+                Log.Info($"{_activeCreature.CreatureName} attacks {target.CreatureName}");
+
+                CheckBattleEnd();
+                EndTurn();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in PlayerAction_Attack: {ex.Message}");
+                CurrentState = BattleState.PlayerTurn;
+            }
         }
 
         public void PlayerAction_Skill(Skill skill, Creature target)
         {
-            if (CurrentState != BattleState.PlayerTurn) return;
-
-            CurrentState = BattleState.ActionExecution;
-
-            if (_activeCreature is Player player)
+            try
             {
-                // 法力检查
-                if (player.Mana < skill.ManaCost)
+                if (CurrentState != BattleState.PlayerTurn)
                 {
-                    Log.Info("Not enough Mana!");
-                    CurrentState = BattleState.PlayerTurn; // 恢复
+                    Log.Warning($"Cannot use skill: not player turn. Current state: {CurrentState}");
                     return;
                 }
 
-                player.Mana -= skill.ManaCost;
-
-                // 应用技能
-                // 遍历定义
-                foreach (var def in skill.SkillDefs)
+                if (_activeCreature == null)
                 {
-                    if (def.Type == Skill.SkillType.Attack)
-                    {
-                        target.TakeDamage(player, skill);
-                    }
-                    else if (def.Type == Skill.SkillType.Healing)
-                    {
-                        target.Heal(player, skill);
-                    }
-                    // 支持/防御技能...
+                    Log.Error("Cannot use skill: no active creature");
+                    return;
                 }
 
-                Log.Info($"{player.CreatureName} uses {skill.SkillName} on {target.CreatureName}");
-            }
+                if (!_activeCreature.IsAlive)
+                {
+                    Log.Error($"Cannot use skill: active creature {_activeCreature.CreatureName} is dead");
+                    return;
+                }
 
-            CheckBattleEnd();
-            EndTurn();
+                if (skill == null)
+                {
+                    Log.Error("Cannot use null skill");
+                    return;
+                }
+
+                if (target == null)
+                {
+                    Log.Error("Cannot use skill on null target");
+                    return;
+                }
+
+                CurrentState = BattleState.ActionExecution;
+
+                if (_activeCreature is Player player)
+                {
+                    if (player.Mana < skill.ManaCost)
+                    {
+                        Log.Warning($"Not enough Mana to use {skill.SkillName}! Need: {skill.ManaCost}, Have: {player.Mana}");
+                        CurrentState = BattleState.PlayerTurn;
+                        return;
+                    }
+
+                    player.Mana -= skill.ManaCost;
+
+                    if (skill.SkillDefs == null || skill.SkillDefs.Count == 0)
+                    {
+                        Log.Warning($"Skill {skill.SkillName} has no definitions");
+                        CurrentState = BattleState.PlayerTurn;
+                        return;
+                    }
+
+                    foreach (var def in skill.SkillDefs)
+                    {
+                        if (def == null)
+                        {
+                            Log.Warning("Null skill definition in skill");
+                            continue;
+                        }
+
+                        if (def.Type == Skill.SkillType.Attack)
+                        {
+                            target.TakeDamage(player, skill);
+                        }
+                        else if (def.Type == Skill.SkillType.Healing)
+                        {
+                            target.Heal(player, skill);
+                        }
+                    }
+
+                    Log.Info($"{player.CreatureName} uses {skill.SkillName} on {target.CreatureName}");
+                }
+
+                CheckBattleEnd();
+                EndTurn();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in PlayerAction_Skill: {ex.Message}");
+                CurrentState = BattleState.PlayerTurn;
+            }
         }
 
         // 切换成员动作
         public void PlayerAction_SwitchMember(Player incomingMember)
         {
-            // 验证
-            if (CurrentState != BattleState.PlayerTurn) return;
+            try
+            {
+                if (CurrentState != BattleState.PlayerTurn)
+                {
+                    Log.Warning($"Cannot switch member: not player turn. Current state: {CurrentState}");
+                    return;
+                }
 
-            // 交换逻辑在 PartyManager 中（尚未实现）
-            // PartyManager.Instance.SwapMember(_activeCreature as Player, incomingMember);
+                if (_activeCreature == null)
+                {
+                    Log.Error("Cannot switch member: no active creature");
+                    return;
+                }
 
-            Log.Info($"{_activeCreature.CreatureName} switched with {incomingMember.CreatureName}");
-            EndTurn();
+                if (incomingMember == null)
+                {
+                    Log.Error("Cannot switch to null member");
+                    return;
+                }
+
+                if (!incomingMember.IsAlive)
+                {
+                    Log.Warning($"Cannot switch to dead member: {incomingMember.CreatureName}");
+                    return;
+                }
+
+                if (_activeCreature is Player currentPlayer && currentPlayer == incomingMember)
+                {
+                    Log.Warning($"Cannot switch member with themselves: {currentPlayer.CreatureName}");
+                    return;
+                }
+
+                Log.Info($"{_activeCreature.CreatureName} switched with {incomingMember.CreatureName}");
+                EndTurn();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Error in PlayerAction_SwitchMember: {ex.Message}");
+            }
         }
 
         public void EndTurn()
         {
-            if (CurrentState == BattleState.Victory || CurrentState == BattleState.Defeat) return;
-
-            // 处理回合结束效果（持续伤害、Buff 到期）
-
-            // 移动到队列中的下一个？还是重新计算？
-            // 对于简单的轮转制，我们可以直接索引++，但通常会重新计算或弹出。
-            // 让我们假设我们移除活跃单位并选择下一个。
-
-            _turnQueue.Remove(_activeCreature);
-
-            if (_turnQueue.Count > 0)
+            try
             {
-                StartTurn(_turnQueue[0]);
+                if (CurrentState == BattleState.Victory || CurrentState == BattleState.Defeat)
+                {
+                    Log.Warning("Cannot end turn: battle already ended");
+                    return;
+                }
+
+                _turnQueue.Remove(_activeCreature);
+
+                if (_turnQueue.Count > 0)
+                {
+                    StartTurn(_turnQueue[0]);
+                }
+                else
+                {
+                    ProcessTurnQueue();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                // 回合结束，重新计算
-                ProcessTurnQueue();
+                Log.Error($"Error in EndTurn: {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// 检查战斗是否结束
+        /// </summary>
+        /// <returns>战斗结束返回true，否则返回false</returns>
+        /// <remarks>
+        /// 检查所有玩家和敌人是否存活，判断战斗胜负
+        /// 如果所有玩家死亡，则战斗失败；如果所有敌人死亡，则战斗胜利
+        /// </remarks>
         private bool CheckBattleEnd()
         {
             bool anyPlayerAlive = _allCombatants.Any(c => c is Player && c.IsAlive);
@@ -225,6 +467,7 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (!anyPlayerAlive)
             {
                 CurrentState = BattleState.Defeat;
+                LastBattleRewards = new BattleRewards { Victory = false };
                 Log.Info("DEFEAT");
                 EmitSignal(SignalName.BattleEnded, false);
                 return true;
@@ -233,12 +476,91 @@ namespace hd2dtest.Scripts.Modules.Battle
             if (!anyEnemyAlive)
             {
                 CurrentState = BattleState.Victory;
+                LastBattleRewards = CalculateRewards();
+                ApplyRewards(LastBattleRewards);
                 Log.Info("VICTORY");
                 EmitSignal(SignalName.BattleEnded, true);
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 计算战斗奖励（金币、经验、掉落物品、升级）
+        /// </summary>
+        private BattleRewards CalculateRewards()
+        {
+            var rewards = new BattleRewards { Victory = true };
+            var rng = new Random();
+
+            foreach (var c in _allCombatants)
+            {
+                if (c is Monster monster && !monster.IsAlive)
+                {
+                    // Gold: same formula as Monster.DropLoot
+                    int gold = rng.Next(5, monster.Level * 20 + 6);
+                    rewards.TotalGold += gold;
+
+                    // Experience: same as Player.KillEnemy
+                    int exp = monster.Level * 10;
+                    rewards.TotalExperience += exp;
+
+                    // JP: based on monster level and type
+                    int jp = monster.Level * 2;
+                    if (monster.Type == Monster.MonsterType.Elite) jp *= 2;
+                    if (monster.Type == Monster.MonsterType.Boss) jp *= 4;
+                    rewards.TotalJP += jp;
+
+                    // Items: 40% chance to drop one item from DropItems
+                    if (monster.DropItems.Count > 0 && rng.NextDouble() < 0.4)
+                    {
+                        string itemId = monster.DropItems[rng.Next(monster.DropItems.Count)];
+                        rewards.DroppedItems.Add(itemId);
+                    }
+                }
+            }
+
+            return rewards;
+        }
+
+        /// <summary>
+        /// 将奖励应用到玩家
+        /// </summary>
+        private void ApplyRewards(BattleRewards rewards)
+        {
+            foreach (var c in _allCombatants)
+            {
+                if (c is Player player)
+                {
+                    int prevLevel = player.Level;
+
+                    player.Gold += rewards.TotalGold;
+                    player.JP += rewards.TotalJP;
+                    player.Experience += rewards.TotalExperience;
+
+                    // Check for level up
+                    int requiredExp = player.Level * 100;
+                    while (player.Experience >= requiredExp)
+                    {
+                        player.Level++;
+                        player.Experience -= requiredExp;
+                        requiredExp = player.Level * 100;
+                    }
+
+                    if (player.Level > prevLevel)
+                        rewards.LevelUps.Add(player.CreatureName);
+
+                    // Add dropped items to inventory
+                    foreach (var itemId in rewards.DroppedItems)
+                    {
+                        if (player.Inventory.TryGetValue(itemId, out int qty))
+                            player.Inventory[itemId] = qty + 1;
+                        else
+                            player.Inventory[itemId] = 1;
+                    }
+                }
+            }
         }
     }
 }

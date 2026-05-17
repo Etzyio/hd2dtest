@@ -1,3 +1,23 @@
+/*
+ * File: ResourcesManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 资源管理器，作为全局单例负责管理游戏中的所有静态资源。
+ * 支持异步加载、优先级排序、缓存管理和资源查询。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 异步资源加载，支持优先级排序（Critical/High/Medium/Low）
+ * - 多级缓存机制（技能、物品、NPC、怪物、武器、装备、关卡、任务等）
+ * - ViewRegister场景注册管理
+ * - 资源加载进度事件和统计
+ * - JSON序列化/反序列化支持
+ * - 资源重新加载和缓存清理功能
+ * - 完整的异常处理和性能监控
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -21,42 +41,6 @@ namespace hd2dtest.Scripts.Managers
     /// </remarks>
     public partial class ResourcesManager : Node
     {
-        /// <summary>
-        /// 资源加载优先级
-        /// </summary>
-        public enum ResourceLoadPriority
-        {
-            Critical = 0,
-            High = 1,
-            Medium = 2,
-            Low = 3
-        }
-
-        /// <summary>
-        /// 资源加载状态
-        /// </summary>
-        public enum ResourceLoadStatus
-        {
-            NotLoaded,
-            Loading,
-            Loaded,
-            Failed
-        }
-
-        /// <summary>
-        /// 资源加载信息
-        /// </summary>
-        public class ResourceLoadInfo
-        {
-            public string ResourceName { get; set; }
-            public ResourceLoadPriority Priority { get; set; }
-            public ResourceLoadStatus Status { get; set; }
-            public double LoadTimeMs { get; set; }
-            public long FileSizeBytes { get; set; }
-            public string ErrorMessage { get; set; }
-        }
-
-        /// <summary>
         /// 单例实例
         /// </summary>
         private static ResourcesManager _instance;
@@ -66,6 +50,20 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         /// <value>资源管理器的单例实例</value>
         public static ResourcesManager Instance => _instance;
+
+        /// <summary>
+        /// 获取资源管理器实例
+        /// </summary>
+        /// <returns>资源管理器实例</returns>
+        public static ResourcesManager GetInstance()
+        {
+            if (_instance == null)
+            {
+                Log.Warning("ResourcesManager instance not initialized, creating new instance");
+                _instance = new ResourcesManager();
+            }
+            return _instance;
+        }
 
         /// <summary>
         /// 技能缓存字典
@@ -113,6 +111,11 @@ namespace hd2dtest.Scripts.Managers
         public static readonly Dictionary<string, QuestLineData> QuestLinesCache = [];
 
         /// <summary>
+        /// 地图缓存字典
+        /// </summary>
+        public static readonly Dictionary<string, MapData> MapsCache = [];
+
+        /// <summary>
         /// 视图注册缓存字典
         /// </summary>
         public static readonly Dictionary<string, string> ViewRegister = [];
@@ -150,6 +153,7 @@ namespace hd2dtest.Scripts.Managers
             { "Equipment.json", ResourceLoadPriority.Medium },
             { "Levels.json", ResourceLoadPriority.High },
             { "ViewRegister.json", ResourceLoadPriority.High },
+            { "Maps.json", ResourceLoadPriority.Medium },
             { "Quests", ResourceLoadPriority.Low },
             { "QuestLines", ResourceLoadPriority.Low }
         };
@@ -173,18 +177,15 @@ namespace hd2dtest.Scripts.Managers
         /// </summary>
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
-            // 忽略大小写
             PropertyNameCaseInsensitive = true,
-            // 处理空值
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            // 允许注释
             ReadCommentHandling = JsonCommentHandling.Skip,
-            // 允许尾随逗号
             AllowTrailingCommas = true,
-            // 使用驼峰命名
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            // 自定义枚举转换器
-            Converters = { new JsonStringEnumConverter(), new Vector3JsonConverter() }
+            Converters = {
+                new JsonStringEnumConverter(),
+                new QuestObjectiveConverter()
+            }
         };
 
         /// <summary>
@@ -321,7 +322,7 @@ namespace hd2dtest.Scripts.Managers
 
                 _loadTimer.Stop();
 
-                Log.Info($"Resource initialization completed - Skills: {SkillsCache.Count}, Items: {ItemsCache.Count}, NPCs: {NPCsCache.Count}, Monsters: {MonstersCache.Count}, Weapons: {WeaponsCache.Count}, Equipment: {EquipmentCache.Count}, Levels: {LevelsCache.Count}, Quests: {QuestsCache.Count}, QuestLines: {QuestLinesCache.Count}");
+                Log.Info($"Resource initialization completed - Skills: {SkillsCache.Count}, Items: {ItemsCache.Count}, NPCs: {NPCsCache.Count}, Monsters: {MonstersCache.Count}, Weapons: {WeaponsCache.Count}, Equipment: {EquipmentCache.Count}, Levels: {LevelsCache.Count}, Maps: {MapsCache.Count}, Quests: {QuestsCache.Count}, QuestLines: {QuestLinesCache.Count}, Dialogues: {DialoguesCache.Count}");
                 Log.Info($"Total load time: {_loadTimer.ElapsedMilliseconds}ms");
 
                 AllResourcesLoaded?.Invoke();
@@ -386,6 +387,7 @@ namespace hd2dtest.Scripts.Managers
                 LoadResourceToCacheWithTracking("Monsters.json", MonstersCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Weapons.json", WeaponsCache, ResourceLoadPriority.Medium);
                 LoadResourceToCacheWithTracking("Equipment.json", EquipmentCache, ResourceLoadPriority.Medium);
+                LoadMaps();
             });
         }
 
@@ -398,6 +400,7 @@ namespace hd2dtest.Scripts.Managers
             {
                 LoadQuests();
                 LoadQuestLines();
+                LoadDialogues();
             });
         }
 
@@ -1080,25 +1083,10 @@ namespace hd2dtest.Scripts.Managers
             await InitializeResourcesAsync();
         }
 
-
-
         /// <summary>
-        /// ViewRegister项临时类
+        /// 对话章节缓存（按章节ID索引）
         /// </summary>
-        private class ViewRegisterItem
-        {
-            /// <summary>
-            /// 视图ID
-            /// </summary>
-            [JsonPropertyName("id")]
-            public string Id { get; set; }
-
-            /// <summary>
-            /// 场景文件路径
-            /// </summary>
-            [JsonPropertyName("tscn")]
-            public string Tscn { get; set; }
-        }
+        public static readonly Dictionary<string, DialogueChapterData> DialoguesCache = [];
 
         /// <summary>
         /// 本地化缓存，用于提高性能
@@ -1167,16 +1155,22 @@ namespace hd2dtest.Scripts.Managers
                     QuestsCache.Clear();
                     while ((file = dir.GetNext()) != "")
                     {
-                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json"))
+                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json") && file != "dialogues.json")
                         {
                             var fileStopwatch = Stopwatch.StartNew();
                             string filePath = $"{questsDir}/{file}";
                             try
                             {
-                                var questData = LoadResource<QuestData>(file, questsDir + "/");
-                                if (questData != null && !string.IsNullOrEmpty(questData.Id))
+                                var questDataList = LoadQuestDataList(file, questsDir + "/");
+                                if (questDataList != null && questDataList.Quests != null)
                                 {
-                                    QuestsCache[questData.Id] = questData;
+                                    foreach (var questData in questDataList.Quests)
+                                    {
+                                        if (questData != null && !string.IsNullOrEmpty(questData.Id))
+                                        {
+                                            QuestsCache[questData.Id] = questData;
+                                        }
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -1200,6 +1194,50 @@ namespace hd2dtest.Scripts.Managers
                 stopwatch.Stop();
                 Log.Error($"Error loading quests: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
                 QuestsCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 加载任务数据列表（支持新的JSON结构）
+        /// </summary>
+        /// <param name="fileName">JSON文件名</param>
+        /// <param name="customPath">自定义路径</param>
+        /// <returns>任务数据包装类</returns>
+        private static QuestDataWrapper LoadQuestDataList(string fileName, string customPath = null)
+        {
+            string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
+            var stopwatch = Stopwatch.StartNew();
+
+            if (!FileAccess.FileExists(filePath))
+            {
+                stopwatch.Stop();
+                Log.Warning($"JSON file not found: {filePath}");
+                return null;
+            }
+
+            try
+            {
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                string jsonContent = file.GetAsText();
+
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    stopwatch.Stop();
+                    Log.Warning($"JSON file is empty: {filePath}");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<QuestDataWrapper>(jsonContent, JsonOptions);
+                stopwatch.Stop();
+                Log.Info($"Successfully loaded quest data list: {filePath}, Type: QuestDataWrapper, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                Log.Error($"Quest data list deserialization failed: {filePath}, Error: {ex.Message}");
+                return null;
             }
         }
 
@@ -1244,7 +1282,7 @@ namespace hd2dtest.Scripts.Managers
             var stopwatch = Stopwatch.StartNew();
             try
             {
-                string questLinesDir = "res://Resources/Static/QuestLines";
+                string questLinesDir = "res://Resources/Static/Quests";
                 var dir = DirAccess.Open(questLinesDir);
                 if (dir != null)
                 {
@@ -1253,37 +1291,32 @@ namespace hd2dtest.Scripts.Managers
                     QuestLinesCache.Clear();
                     while ((file = dir.GetNext()) != "")
                     {
-                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json"))
+                        if (!(file.Length > 0 && file[0] == '.') && file.EndsWith(".json") && file.Contains("quest_lines"))
                         {
                             var fileStopwatch = Stopwatch.StartNew();
                             string filePath = $"{questLinesDir}/{file}";
-                            var fileAccess = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
-                            if (fileAccess != null)
+                            try
                             {
-                                try
+                                var questLineList = LoadQuestLineDataList(file, questLinesDir + "/");
+                                if (questLineList != null && questLineList.QuestLines != null)
                                 {
-                                    string json = fileAccess.GetAsText();
-                                    QuestLineData questLineData = JsonSerializer.Deserialize<QuestLineData>(json, JsonOptions);
-                                    if (questLineData != null && !string.IsNullOrEmpty(questLineData.Id))
+                                    foreach (var questLineData in questLineList.QuestLines)
                                     {
-                                        QuestLinesCache[questLineData.Id] = questLineData;
+                                        if (questLineData != null && !string.IsNullOrEmpty(questLineData.Id))
+                                        {
+                                            QuestLinesCache[questLineData.Id] = questLineData;
+                                        }
                                     }
                                 }
-                                catch (Exception ex)
-                                {
-                                    Log.Warning($"Failed to load quest line file {file}: {ex.Message}");
-                                }
-                                finally
-                                {
-                                    fileAccess.Close();
-                                    fileStopwatch.Stop();
-                                    Log.Info($"Loaded quest line file: {file}, Time: {fileStopwatch.ElapsedMilliseconds:F2}ms");
-                                }
                             }
-                            else
+                            catch (Exception ex)
+                            {
+                                Log.Warning($"Failed to load quest line file {file}: {ex.Message}");
+                            }
+                            finally
                             {
                                 fileStopwatch.Stop();
-                                Log.Warning($"Failed to open quest line file {file}, Time: {fileStopwatch.ElapsedMilliseconds:F2}ms");
+                                Log.Info($"Loaded quest line file: {file}, Time: {fileStopwatch.ElapsedMilliseconds:F2}ms");
                             }
                         }
                     }
@@ -1297,6 +1330,147 @@ namespace hd2dtest.Scripts.Managers
                 stopwatch.Stop();
                 Log.Error($"Error loading quest lines: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
                 QuestLinesCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 加载所有地图数据
+        /// </summary>
+        private static void LoadMaps()
+        {
+            var stopwatch = Stopwatch.StartNew();
+            try
+            {
+                var wrapper = LoadResource<MapDataWrapper>("Maps.json");
+                MapsCache.Clear();
+                if (wrapper?.Maps != null)
+                {
+                    foreach (var map in wrapper.Maps)
+                    {
+                        if (map != null && !string.IsNullOrEmpty(map.Id))
+                        {
+                            MapsCache[map.Id] = map;
+                        }
+                    }
+                }
+                stopwatch.Stop();
+                Log.Info($"Loaded {MapsCache.Count} maps from Maps.json, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+
+                // Notify MapManager to reload from cache
+                if (MapManager.Instance != null)
+                {
+                    MapManager.Instance.LoadMapsFromCache();
+                }
+            }
+            catch (Exception e)
+            {
+                stopwatch.Stop();
+                Log.Error($"Error loading maps: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+                MapsCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 获取所有地图数据
+        /// </summary>
+        public static List<MapData> GetAllMaps()
+        {
+            return [.. MapsCache.Values];
+        }
+
+        /// <summary>
+        /// 加载所有对话数据
+        /// </summary>
+        private static void LoadDialogues()
+        {
+            var stopwatch = Stopwatch.StartNew();
+            try
+            {
+                string questsDir = "res://Resources/Static/Quests/";
+                var wrapper = LoadResource<DialogueChapterWrapper>("dialogues.json", questsDir);
+                DialoguesCache.Clear();
+                if (wrapper?.Chapters != null)
+                {
+                    foreach (var chapter in wrapper.Chapters)
+                    {
+                        if (chapter != null && !string.IsNullOrEmpty(chapter.ChapterId))
+                        {
+                            DialoguesCache[chapter.ChapterId] = chapter;
+                        }
+                    }
+                }
+                stopwatch.Stop();
+                Log.Info($"Loaded {DialoguesCache.Count} dialogue chapters from dialogues.json, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+            }
+            catch (Exception e)
+            {
+                stopwatch.Stop();
+                Log.Error($"Error loading dialogues: {e.Message}, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+                DialoguesCache.Clear();
+            }
+        }
+
+        /// <summary>
+        /// 根据任务ID获取对话列表
+        /// </summary>
+        public static List<DialogueEntryData> GetDialoguesByQuest(string questId)
+        {
+            var result = new List<DialogueEntryData>();
+            foreach (var chapter in DialoguesCache.Values)
+            {
+                if (chapter.Dialogues != null)
+                {
+                    foreach (var dlg in chapter.Dialogues)
+                    {
+                        if (dlg.QuestId == questId)
+                            result.Add(dlg);
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 加载任务线数据列表（支持新的JSON结构）
+        /// </summary>
+        /// <param name="fileName">JSON文件名</param>
+        /// <param name="customPath">自定义路径</param>
+        /// <returns>任务线数据包装类</returns>
+        private static QuestLineWrapper LoadQuestLineDataList(string fileName, string customPath = null)
+        {
+            string filePath = string.IsNullOrEmpty(customPath) ? DefaultResourcesPath + fileName : customPath + fileName;
+            var stopwatch = Stopwatch.StartNew();
+
+            if (!FileAccess.FileExists(filePath))
+            {
+                stopwatch.Stop();
+                Log.Warning($"JSON file not found: {filePath}");
+                return null;
+            }
+
+            try
+            {
+                using var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+                string jsonContent = file.GetAsText();
+
+                if (string.IsNullOrEmpty(jsonContent))
+                {
+                    stopwatch.Stop();
+                    Log.Warning($"JSON file is empty: {filePath}");
+                    return null;
+                }
+
+                var result = JsonSerializer.Deserialize<QuestLineWrapper>(jsonContent, JsonOptions);
+                stopwatch.Stop();
+                Log.Info($"Successfully loaded quest line data list: {filePath}, Type: QuestLineWrapper, Time: {stopwatch.ElapsedMilliseconds:F2}ms");
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                stopwatch.Stop();
+                Log.Error($"Quest line data list deserialization failed: {filePath}, Error: {ex.Message}");
+                return null;
             }
         }
 
@@ -1466,9 +1640,24 @@ namespace hd2dtest.Scripts.Managers
             LevelsCache.Clear();
             QuestsCache.Clear();
             QuestLinesCache.Clear();
+            MapsCache.Clear();
+            DialoguesCache.Clear();
             ViewRegister.Clear();
             ClearLocalizationCache();
             Log.Info("All resource caches cleared");
+        }
+
+        /// <summary>
+        /// 清理资源管理器
+        /// </summary>
+        /// <remarks>
+        /// 该方法在游戏退出时调用，用于清理所有资源缓存和释放内存。
+        /// </remarks>
+        public void Cleanup()
+        {
+            ClearAllCaches();
+            _loadInfoCache.Clear();
+            Log.Info("ResourcesManager cleaned up");
         }
 
         /// <summary>

@@ -1,3 +1,22 @@
+/*
+ * File: PlayerSkillHelper.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 玩家技能辅助方法类，提供各种Buff的创建方法。
+ * 支持创建防御Buff、攻击Buff、速度Buff、持续治疗Buff、伤害减免Buff和暴击率提升Buff。
+ * 
+ * Key Features:
+ * - CreateDefenseBuff：创建防御提升Buff
+ * - CreateAttackBuff：创建攻击提升Buff
+ * - CreateSpeedBuff：创建速度提升Buff
+ * - CreateRegenerationBuff：创建持续治疗Buff
+ * - CreateDamageReductionBuff：创建伤害减免Buff
+ * - CreateCriticalRateBuff：创建暴击率提升Buff
+ * - 支持多语言翻译
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -9,8 +28,11 @@ using hd2dtest.Scripts.Modules.SkillSystem;
 namespace hd2dtest.Scripts.Modules
 {
     /// <summary>
-    /// 玩家技能辅助方法
+    /// 玩家技能辅助方法类
     /// </summary>
+    /// <remarks>
+    /// 提供各种Buff的创建方法，支持多语言翻译
+    /// </remarks>
     public static class PlayerSkillHelper
     {
         /// <summary>

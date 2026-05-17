@@ -1,3 +1,21 @@
+/*
+ * File: SaveModels.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 存档数据模型类，定义游戏存档系统中使用的数据结构。
+ * 包含玩家状态、存档数据和存档信息等数据模型，支持游戏数据的序列化和反序列化。
+ * 
+ * Key Features:
+ * - PlayerSaveData：玩家状态数据，包含属性、装备、技能、物品等
+ * - SaveData：完整存档数据，包含游戏进度、任务状态、玩家列表等
+ * - SaveInfo：存档显示信息，用于存档列表展示
+ * - 支持多玩家存档：可保存多个玩家角色状态
+ * - 支持自定义数据：允许扩展存储额外游戏数据
+ * - 版本管理：记录游戏版本号和构建信息
+ */
+
 using System;
 using System.Collections.Generic;
 using Godot;
@@ -91,6 +109,11 @@ namespace hd2dtest.Scripts.Modules
         /// </summary>
         /// <value>玩家拥有的金币数量</value>
         public int Gold { get; set; }
+
+        /// <summary>
+        /// JP (Job Points) 职业点数
+        /// </summary>
+        public int JP { get; set; }
 
         /// <summary>
         /// 击杀敌人数量

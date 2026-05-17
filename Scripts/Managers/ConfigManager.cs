@@ -1,3 +1,21 @@
+/*
+ * File: ConfigManager.cs
+ * Author: hd2dtest Team
+ * Last Modified: 2026-05-15
+ * 
+ * Purpose:
+ * 配置管理器，作为全局单例负责管理游戏的所有设置。
+ * 支持配置的加载、保存、应用和重置，涵盖音量、图形、游戏和控制设置。
+ * 
+ * Key Features:
+ * - 单例模式设计，全局可访问
+ * - 配置数据结构包含：音量设置、图形设置、游戏设置、控制设置
+ * - 自动检测系统语言并设置相应语言
+ * - 支持配置重置为默认值
+ * - 配置变更信号通知
+ * - 完整的异常处理和日志记录
+ */
+
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -121,6 +139,26 @@ namespace hd2dtest.Scripts.Managers
             #endregion
 
             #region 控制设置
+            /// <summary>
+            /// 鼠标灵敏度，范围0.1-2.0
+            /// </summary>
+            public float MouseSensitivity { get; set; } = 1.0f;
+
+            /// <summary>
+            /// 是否反转Y轴
+            /// </summary>
+            public bool InvertY { get; set; } = false;
+
+            /// <summary>
+            /// 是否显示游戏通知
+            /// </summary>
+            public bool ShowGameNotifications { get; set; } = true;
+
+            /// <summary>
+            /// 是否显示成就通知
+            /// </summary>
+            public bool ShowAchievementNotifications { get; set; } = true;
+
             /// <summary>
             /// 按键绑定字典，键为动作名称，值为输入事件名称
             /// </summary>
@@ -528,6 +566,42 @@ namespace hd2dtest.Scripts.Managers
             SaveConfig();
             ApplyLanguage();
         }
+
+        /// <summary>
+        /// 设置鼠标灵敏度
+        /// </summary>
+        public void SetMouseSensitivity(float value)
+        {
+            CurrentConfig.MouseSensitivity = Mathf.Clamp(value, 0.1f, 2.0f);
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置反转Y轴
+        /// </summary>
+        public void SetInvertY(bool value)
+        {
+            CurrentConfig.InvertY = value;
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置游戏通知开关
+        /// </summary>
+        public void SetShowGameNotifications(bool value)
+        {
+            CurrentConfig.ShowGameNotifications = value;
+            SaveConfig();
+        }
+
+        /// <summary>
+        /// 设置成就通知开关
+        /// </summary>
+        public void SetShowAchievementNotifications(bool value)
+        {
+            CurrentConfig.ShowAchievementNotifications = value;
+            SaveConfig();
+        }
         #endregion
 
         #region 控制设置方法
@@ -570,6 +644,111 @@ namespace hd2dtest.Scripts.Managers
                 { "inventory", "ui_cancel" },
             };
             SaveConfig();
+        }
+        #endregion
+
+        #region 通用获取方法
+        /// <summary>
+        /// 获取浮点配置值
+        /// </summary>
+        /// <param name="section">配置节</param>
+        /// <param name="key">配置键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>配置值</returns>
+        public float GetFloat(string section, string key, float defaultValue = 0f)
+        {
+            try
+            {
+                switch ($"{section}.{key}")
+                {
+                    case "audio.bgm_volume":
+                        return CurrentConfig.MusicVolume;
+                    case "audio.sfx_volume":
+                        return CurrentConfig.SoundEffectVolume;
+                    case "audio.master_volume":
+                        return CurrentConfig.MasterVolume;
+                    case "audio.voice_volume":
+                        return CurrentConfig.VoiceVolume;
+                    case "graphics.brightness":
+                        return CurrentConfig.Brightness;
+                    case "graphics.contrast":
+                        return CurrentConfig.Contrast;
+                    case "graphics.saturation":
+                        return CurrentConfig.Saturation;
+                    case "game.text_speed":
+                        return CurrentConfig.TextSpeed;
+                    case "controls.mouse_sensitivity":
+                        return CurrentConfig.MouseSensitivity;
+                    default:
+                        return defaultValue;
+                }
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// 获取字符串配置值
+        /// </summary>
+        /// <param name="section">配置节</param>
+        /// <param name="key">配置键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>配置值</returns>
+        public string GetString(string section, string key, string defaultValue = "")
+        {
+            try
+            {
+                switch ($"{section}.{key}")
+                {
+                    case "game.language":
+                        return CurrentConfig.Language;
+                    default:
+                        return defaultValue;
+                }
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// 获取布尔配置值
+        /// </summary>
+        /// <param name="section">配置节</param>
+        /// <param name="key">配置键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns>配置值</returns>
+        public bool GetBool(string section, string key, bool defaultValue = false)
+        {
+            try
+            {
+                switch ($"{section}.{key}")
+                {
+                    case "game.auto_save":
+                        return CurrentConfig.AutoSave;
+                    case "game.show_fps":
+                        return CurrentConfig.ShowFPS;
+                    case "game.vsync":
+                        return CurrentConfig.VSync;
+                    case "graphics.fullscreen":
+                        return CurrentConfig.Fullscreen;
+                    case "controls.invert_y":
+                        return CurrentConfig.InvertY;
+                    case "game.show_game_notifications":
+                        return CurrentConfig.ShowGameNotifications;
+                    case "game.show_achievement_notifications":
+                        return CurrentConfig.ShowAchievementNotifications;
+                    default:
+                        return defaultValue;
+                }
+            }
+            catch
+            {
+                return defaultValue;
+            }
         }
         #endregion
     }
