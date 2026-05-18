@@ -9,7 +9,11 @@
       "Bash(grep -rn \"scene_1\" /Users/lixiaofeng/Documents/test/hd2dtest --include=\"*.cs\" --include=\"*.json\" --include=\"*.tscn\" ! -path \"*/.history/*\")",
       "Bash(python3 *)",
       "Bash(awk '/^\\\\[input\\\\]/,/^\\\\[/' /Users/lixiaofeng/Documents/test/hd2dtest/project.godot)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(grep -r --include=\"*.cs\" -l \"QuestState\\\\|StoryState\\\\|quest_flag\\\\|story_flag\\\\|QuestFlag\\\\|StoryFlag\\\\|NPCTalkType\\\\|QuestStatus\" /Users/lixiaofeng/Documents/test/hd2dtest/Scripts/ ! -path \"*/.history/*\")",
+      "Bash(grep -r --include=\"*.cs\" \"NPCAssociation\\\\|class.*Quest\\\\|enum.*QuestStatus\\\\|enum.*NPCTalkType\" /Users/lixiaofeng/Documents/test/hd2dtest/Scripts/ ! -path \"*/.history/*\")",
+      "Bash(gh pr *)"
     ]
   }
 }
