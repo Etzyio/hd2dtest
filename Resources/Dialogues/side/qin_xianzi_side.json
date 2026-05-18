@@ -1,0 +1,30 @@
+{
+  "id": "qin_xianzi_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "琴仙子",
+      "text": "剑能杀人，也能护人。你如今更想用它做哪一件？",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "从前只想报仇，现在更想守住还活着的人。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "琴仙子",
+      "text": "很好。心若还没黑到底，你这条路就还能往前走。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "前辈这句，比一封遗书还重。",
+      "next_node_id": ""
+    }
+  }
+}

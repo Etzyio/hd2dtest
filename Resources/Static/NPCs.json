@@ -10,7 +10,9 @@
     {
       "id": "lin_mochen",
       "name": "林墨尘",
-      "alias": ["墨羽"],
+      "alias": [
+        "墨羽"
+      ],
       "category": "major",
       "gender": "male",
       "age": 20,
@@ -19,11 +21,23 @@
       "description": "清风门弟子，后化名墨羽重建镖局。为人正直善良，擅长轻功和暗器，心怀正义，最终为师门和江湖除害。",
       "appearance": "身材修长，面容俊朗，眼神锐利，常穿青衫，腰间佩着一把青冥剑",
       "personality": "正直善良，重情重义，聪明机智，坚韧不拔",
-      "skills": ["青冥剑法", "流云步", "暗器绝学"],
+      "skills": [
+        "青冥剑法",
+        "流云步",
+        "暗器绝学"
+      ],
       "defaultScene": "suzhou_biaoju",
       "voiceType": "沉稳青年",
       "spriteSheet": "lin_mochen.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "清风门弟子，后化名墨羽重建镖局。为人正直善良，擅长轻功和暗器，心怀正义，最终为师门和江湖除害。",
+      "sideDialogues": []
     },
     {
       "id": "zhou_yuan",
@@ -36,11 +50,51 @@
       "description": "威远镖局总镖头，林墨尘的恩人。二十年前救过蔡京，知道前朝宝藏的秘密。为保护林墨尘而牺牲。",
       "appearance": "魁梧高大，须发半白，面容威严，常穿锦缎长袍，腰间佩着一把古朴宝刀",
       "personality": "正直勇敢，重信重义，深谋远虑",
-      "skills": ["威远刀法", "镖局管理"],
+      "skills": [
+        "威远刀法",
+        "镖局管理"
+      ],
       "defaultScene": "suzhou_biaoju",
       "voiceType": "威严中年",
       "spriteSheet": "zhou_yuan.png",
-      "status": "deceased"
+      "status": "deceased",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "走镖的人，先学会看路，再学会看人。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/zhou_yuan_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_zhou_yuan_001",
+          "sceneId": "suzhou_biaoju",
+          "title": "守镖旧训",
+          "mood": "quiet",
+          "summary": "启程前夜，周远借一壶热茶提醒林墨尘行镖不只是走路，更是守人守心。",
+          "availability": "pre_main_story",
+          "graphPath": "res://Resources/Dialogues/side/zhou_yuan_side.json",
+          "lines": [
+            {
+              "speaker": "周远",
+              "text": "走镖的人，先学会看路，再学会看人。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "师父是怕我年轻气盛，路上出错？"
+            },
+            {
+              "speaker": "周远",
+              "text": "我怕的不是你出错，是你认死理。江湖上的规矩，从来不只写在旗面上。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "弟子记下了。人能活着回来，镖才算真的送到。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "shen_jianfeng",
@@ -53,11 +107,51 @@
       "description": "清风门大师兄，赵铁山的生死之交。稳重可靠，武艺高强，在黄泥岗伏击战中为保护林墨尘而牺牲，临终前将半块玉佩交给林墨尘。",
       "appearance": "剑眉星目，英气逼人，身材挺拔，常穿白色劲装，佩剑名为\"清风\"",
       "personality": "沉稳可靠，重情重义，英勇无畏",
-      "skills": ["清风剑法", "君子剑"],
+      "skills": [
+        "清风剑法",
+        "君子剑"
+      ],
       "defaultScene": "qingfeng_men",
       "voiceType": "英气青年",
       "spriteSheet": "shen_jianfeng.png",
-      "status": "deceased"
+      "status": "deceased",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "你出手太快，容易赢，也容易招人惦记。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/shen_jianfeng_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_shen_jianfeng_001",
+          "sceneId": "qingfeng_men",
+          "title": "练剑前夜",
+          "mood": "steady",
+          "summary": "出发前的练武场，沈剑锋以师兄身份叮嘱林墨尘收锋藏锐。",
+          "availability": "pre_huangnigang",
+          "graphPath": "res://Resources/Dialogues/side/shen_jianfeng_side.json",
+          "lines": [
+            {
+              "speaker": "沈剑锋",
+              "text": "你出手太快，容易赢，也容易招人惦记。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "师兄的意思，是让我藏一藏？"
+            },
+            {
+              "speaker": "沈剑锋",
+              "text": "该藏的时候要藏，该护的时候别退。真到要命处，我挡前头。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "那我就替师兄看后路。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "su_wanqing",
@@ -70,11 +164,51 @@
       "description": "柳青云的女儿，林墨尘的师妹。温柔善良，机智勇敢，在最终决战中为保护林墨尘而牺牲。",
       "appearance": "清丽秀美，眸若秋水，长发束成马尾，常穿绿衫，腰间系着一枚碧绿玉佩",
       "personality": "温柔善良，机智勇敢，重情重义",
-      "skills": ["银针术", "医术"],
+      "skills": [
+        "银针术",
+        "医术"
+      ],
       "defaultScene": "qingfeng_men",
       "voiceType": "温柔少女",
       "spriteSheet": "su_wanqing.png",
-      "status": "deceased"
+      "status": "deceased",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "你袖口又裂了，明明会躲刀，偏偏总不记得躲树枝。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/su_wanqing_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_su_wanqing_001",
+          "sceneId": "qingfeng_men",
+          "title": "药炉微雨",
+          "mood": "warm",
+          "summary": "苏婉清在药炉边替林墨尘整理伤药，语气温软却极有主见。",
+          "availability": "pre_main_story",
+          "graphPath": "res://Resources/Dialogues/side/su_wanqing_side.json",
+          "lines": [
+            {
+              "speaker": "苏婉清",
+              "text": "你袖口又裂了，明明会躲刀，偏偏总不记得躲树枝。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "跟你比，我大概只会把伤带回来。"
+            },
+            {
+              "speaker": "苏婉清",
+              "text": "那也得带着人回来。药我替你配好了，别逞强。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "好，我听你的。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "su_wanqing_grave",
@@ -91,7 +225,44 @@
       "defaultScene": "wanqing_grave",
       "voiceType": "",
       "spriteSheet": "su_wanqing_grave.png",
-      "status": "inactive"
+      "status": "inactive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "我这回不是来报喜，也不是来报仇。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/su_wanqing_grave_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_su_wanqing_grave_001",
+          "sceneId": "wanqing_grave",
+          "title": "墓前独白",
+          "mood": "melancholic",
+          "summary": "苏州城外的墓前，林墨尘把平日压住的话都说给婉清听。",
+          "availability": "post_main_story",
+          "graphPath": "res://Resources/Dialogues/side/su_wanqing_grave_side.json",
+          "lines": [
+            {
+              "speaker": "林墨尘",
+              "text": "我这回不是来报喜，也不是来报仇。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "我只是想告诉你，镖局里的人都还在，清风也还在。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "你替我挡下的那一掌，我会用余下的路慢慢还。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "等下次再来，我给你带京城的新茶。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "old_man",
@@ -104,11 +275,51 @@
       "description": "在山崖下救了林墨尘的老者，博学多闻，对江湖秘辛知之甚详。",
       "appearance": "白发苍苍，面容慈祥，身穿灰色道袍，手持拐杖",
       "personality": "慈祥睿智，洞察世事",
-      "skills": ["医术", "江湖经验"],
+      "skills": [
+        "医术",
+        "江湖经验"
+      ],
       "defaultScene": "cave",
       "voiceType": "慈祥老年",
       "spriteSheet": "old_man.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "山里风大，心若更乱，路就更难走。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/old_man_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_old_man_001",
+          "sceneId": "cave",
+          "title": "山洞清谈",
+          "mood": "reflective",
+          "summary": "隐士老者继续劝林墨尘别让恨意吞掉心智。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/old_man_side.json",
+          "lines": [
+            {
+              "speaker": "老者",
+              "text": "山里风大，心若更乱，路就更难走。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "前辈总能把最难的话说得最轻。"
+            },
+            {
+              "speaker": "老者",
+              "text": "我只是活得久，看过太多人急着报仇，最后把自己先埋了。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "我会记着，先把命与心都稳住。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "chen_tieshan",
@@ -121,11 +332,51 @@
       "description": "清风门二师兄，在清风门覆灭后幸存，找到林墨尘并告知真相。",
       "appearance": "身材结实，皮肤黝黑，常穿粗布衣衫，左腿微跛",
       "personality": "忠诚耿直，坚韧不屈",
-      "skills": ["铁布衫", "太祖长拳"],
+      "skills": [
+        "铁布衫",
+        "太祖长拳"
+      ],
       "defaultScene": "qingfeng_ruins",
       "voiceType": "粗豪青年",
       "spriteSheet": "chen_tieshan.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "人走得再多，这火也不能灭。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/chen_tieshan_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_chen_tieshan_001",
+          "sceneId": "qingfeng_ruins",
+          "title": "残垣守火",
+          "mood": "somber",
+          "summary": "废墟中守夜的陈铁山仍把自己当清风门的人。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/chen_tieshan_side.json",
+          "lines": [
+            {
+              "speaker": "陈铁山",
+              "text": "人走得再多，这火也不能灭。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "二师兄还在替师门守着。"
+            },
+            {
+              "speaker": "陈铁山",
+              "text": "守不住山门，也得守住这口气。只要还有一个人记得，我们就不算输净。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "等我把账算清，再回来和你一起把门立起来。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "lu_da",
@@ -138,11 +389,52 @@
       "description": "丐帮八袋弟子，人称笑面虎。性格开朗，为洪长老委派来保护林墨尘。",
       "appearance": "身材肥胖，圆脸大耳，笑容可掬，穿着丐帮标志性的百衲衣，腰间挂着酒葫芦",
       "personality": "开朗乐观，重情重义，豪爽大方",
-      "skills": ["打狗棒法", "丐帮内功", "酒葫芦醉拳"],
+      "skills": [
+        "打狗棒法",
+        "丐帮内功",
+        "酒葫芦醉拳"
+      ],
       "defaultScene": "qingfeng_ruins",
       "voiceType": "豪爽中年",
       "spriteSheet": "lu_da.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "墨兄，你再这么皱眉，连酒都要跟着变苦了。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/lu_da_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_lu_da_001",
+          "sceneId": "qingfeng_biaoju",
+          "title": "酒坛闲话",
+          "mood": "lively",
+          "summary": "鲁达用粗豪玩笑冲淡众人心头阴影，也提醒林墨尘别把自己绷太紧。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/lu_da_side.json",
+          "lines": [
+            {
+              "speaker": "鲁达",
+              "text": "墨兄，你再这么皱眉，连酒都要跟着变苦了。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "你倒是什么时候都喝得下。"
+            },
+            {
+              "speaker": "鲁达",
+              "text": "天塌下来先顶着，顶不住再喝一口。人活着，总得给自己留点热乎气。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "行，那今晚这坛酒，你少替我省。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "leng_yue",
@@ -155,11 +447,52 @@
       "description": "江湖人称冷面剑姬，曾是杀手组织成员，被柳青云救过，特来报恩。",
       "appearance": "冷艳绝世，面容冰冷，眼神锐利，常穿黑色劲装，腰间佩着一把软剑",
       "personality": "外冷内热，恩怨分明，忠诚可靠",
-      "skills": ["冷月剑法", "暗杀术", "潜行术"],
+      "skills": [
+        "冷月剑法",
+        "暗杀术",
+        "潜行术"
+      ],
       "defaultScene": "broken_temple",
       "voiceType": "冷艳女声",
       "spriteSheet": "leng_yue.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "你脚步重了。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/leng_yue_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_leng_yue_001",
+          "sceneId": "broken_temple",
+          "title": "夜巡短谈",
+          "mood": "cool",
+          "summary": "破庙夜巡时，冷月用极短的话提醒林墨尘保持清醒。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/leng_yue_side.json",
+          "lines": [
+            {
+              "speaker": "冷月",
+              "text": "你脚步重了。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "你连这都听得出来？"
+            },
+            {
+              "speaker": "冷月",
+              "text": "心一乱，脚就沉。想杀人可以，别先把自己露出去。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "放心，我还没到失手的时候。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "zhao_tieshan",
@@ -172,11 +505,52 @@
       "description": "六扇门捕头，沈剑锋的生死之交。不相信沈剑锋是劫纲凶手，协助林墨尘查明真相。",
       "appearance": "身材高大，面容刚毅，眼神锐利，穿着六扇门官服，腰间佩着绣春刀",
       "personality": "正直不阿，重情重义，明察秋毫",
-      "skills": ["六扇门捕快术", "绣春刀法", "侦探术"],
+      "skills": [
+        "六扇门捕快术",
+        "绣春刀法",
+        "侦探术"
+      ],
       "defaultScene": "qingfeng_ruins",
       "voiceType": "刚毅中年",
       "spriteSheet": "zhao_tieshan.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "线索一多，最忌先信自己最想信的那一条。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/zhao_tieshan_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_zhao_tieshan_001",
+          "sceneId": "qingfeng_biaoju",
+          "title": "案卷余音",
+          "mood": "measured",
+          "summary": "赵铁山把查案习惯带进闲谈里，提醒林墨尘别只靠直觉。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/zhao_tieshan_side.json",
+          "lines": [
+            {
+              "speaker": "赵铁山",
+              "text": "线索一多，最忌先信自己最想信的那一条。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "你们六扇门说话，连闲聊都像审案。"
+            },
+            {
+              "speaker": "赵铁山",
+              "text": "习惯。真相常藏在最不像真相的地方，急不得。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "好，我继续盯人，你替我盯证。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "li_boss",
@@ -189,11 +563,50 @@
       "description": "苏州布商，委托墨羽镖局押送货物到西域，货物实为幽冥教的物资。",
       "appearance": "身材微胖，面容和善，穿着丝绸长袍，头戴员外帽",
       "personality": "谨慎小心，世故圆滑",
-      "skills": ["经商"],
+      "skills": [
+        "经商"
+      ],
       "defaultScene": "moyu_biaoju",
       "voiceType": "和善中年",
       "spriteSheet": "li_boss.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "墨羽镖头，买卖人最要紧的就是一个稳字。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/li_boss_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_li_boss_001",
+          "sceneId": "moyu_biaoju",
+          "title": "市井试探",
+          "mood": "cautious",
+          "summary": "李老板话里有话，始终不肯把货底交透。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/li_boss_side.json",
+          "lines": [
+            {
+              "speaker": "李老板",
+              "text": "墨羽镖头，买卖人最要紧的就是一个稳字。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "可稳字后头，常常藏着见不得光的事。"
+            },
+            {
+              "speaker": "李老板",
+              "text": "您这话说得重了。我只求货别丢，人别死，旁的事知道太多未必是福。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "我走镖也只认一个理，谁把刀藏在货里，我就得先看清。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "boss_longmen",
@@ -206,11 +619,52 @@
       "description": "龙门客栈的老板娘，二十年前父亲被蔡京害死，一直寻找报仇机会。武艺高强，美艳动人。",
       "appearance": "美艳动人，眼神中透出坚毅，常穿红色罗裙，腰间佩着一把弯刀",
       "personality": "恩怨分明，坚毅勇敢，热情豪爽",
-      "skills": ["红绡刀法", "客栈管理", "情报收集"],
+      "skills": [
+        "红绡刀法",
+        "客栈管理",
+        "情报收集"
+      ],
       "defaultScene": "longmen_kezhan",
       "voiceType": "美艳熟女",
       "spriteSheet": "boss_longmen.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "这世上最难欠的，不是银子，是命。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/boss_longmen_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_boss_longmen_001",
+          "sceneId": "longmen_kezhan",
+          "title": "客栈闲夜",
+          "mood": "heated",
+          "summary": "夜深客散后，老板娘与林墨尘在灯下谈人情与旧债。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/boss_longmen_side.json",
+          "lines": [
+            {
+              "speaker": "老板娘",
+              "text": "这世上最难欠的，不是银子，是命。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "可最难还的，也是命。"
+            },
+            {
+              "speaker": "老板娘",
+              "text": "所以我这二十年一直没敢忘。蔡京那笔账，早晚得有人收。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "那就等我把刀磨利，你我一起去收。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "dongchang_boss",
@@ -223,16 +677,58 @@
       "description": "东厂头目，蔡京的心腹，奉命抓捕林墨尘，血洗龙门客栈。",
       "appearance": "面容阴鸷，身材瘦高，穿着东厂官服，脸色苍白",
       "personality": "阴险狡诈，心狠手辣，欺软怕硬",
-      "skills": ["东厂鹰爪功", "严刑拷打"],
+      "skills": [
+        "东厂鹰爪功",
+        "严刑拷打"
+      ],
       "defaultScene": "longmen_kezhan",
       "voiceType": "阴鸷中年",
       "spriteSheet": "dongchang_boss.png",
-      "status": "deceased"
+      "status": "deceased",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "东厂问话，最好有一句答一句。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/dongchang_boss_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_dongchang_boss_001",
+          "sceneId": "longmen_kezhan",
+          "title": "盘查口供",
+          "mood": "threatening",
+          "summary": "东厂头目面对林墨尘时，永远是高压与恫吓。",
+          "availability": "villain_encounter",
+          "graphPath": "res://Resources/Dialogues/side/dongchang_boss_side.json",
+          "lines": [
+            {
+              "speaker": "东厂头目",
+              "text": "东厂问话，最好有一句答一句。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "我若不答呢？"
+            },
+            {
+              "speaker": "东厂头目",
+              "text": "那就带回去，慢慢答。人嘴再硬，也硬不过东厂的刑架。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "可惜我这人向来不爱进狗笼。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "liu_qingqing",
       "name": "柳青青",
-      "alias": ["凤凰"],
+      "alias": [
+        "凤凰"
+      ],
       "category": "ally",
       "gender": "female",
       "age": 25,
@@ -241,11 +737,52 @@
       "description": "苏婉清的师姐，三年前离开清风门，后来成为幽冥教教主。暗中收集蔡京的罪证。",
       "appearance": "冷艳高贵，眼神深邃，常穿黑色长袍，戴着凤凰面具，摘下后容貌清丽",
       "personality": "外冷内热，忍辱负重，智慧过人",
-      "skills": ["幽冥剑法", "凤凰神功", "易容术"],
+      "skills": [
+        "幽冥剑法",
+        "凤凰神功",
+        "易容术"
+      ],
       "defaultScene": "youming_jiao",
       "voiceType": "神秘女声",
       "spriteSheet": "liu_qingqing.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "戴面具久了，人会忘了自己原来长什么样。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/liu_qingqing_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_liu_qingqing_001",
+          "sceneId": "youming_jiao",
+          "title": "面具之下",
+          "mood": "controlled",
+          "summary": "柳青青卸下面具后，短暂透露了自己这些年的真实心境。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/liu_qingqing_side.json",
+          "lines": [
+            {
+              "speaker": "柳青青",
+              "text": "戴面具久了，人会忘了自己原来长什么样。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "可你还记得自己为什么留下。"
+            },
+            {
+              "speaker": "柳青青",
+              "text": "不敢忘。忘了，就真成了他们的人。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "放心，这张面具不会永远焊在你脸上。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "qin_xianzi",
@@ -258,11 +795,52 @@
       "description": "江湖第一高手，琴棋书画样样精通，以玉笛为武器。受周远所托，在关键时刻保护林墨尘。",
       "appearance": "清丽脱俗，宛如仙子，常穿白色长裙，手持一支玉笛，气质出尘",
       "personality": "淡泊名利，善良正义，重情重义",
-      "skills": ["天音神功", "玉笛点穴", "琴音迷魂"],
+      "skills": [
+        "天音神功",
+        "玉笛点穴",
+        "琴音迷魂"
+      ],
       "defaultScene": "longmen_battle",
       "voiceType": "清越女声",
       "spriteSheet": "qin_xianzi.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "剑能杀人，也能护人。你如今更想用它做哪一件？",
+      "dialogueGraphId": "res://Resources/Dialogues/side/qin_xianzi_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_qin_xianzi_001",
+          "sceneId": "longmen_battle",
+          "title": "笛声问心",
+          "mood": "elegant",
+          "summary": "琴仙子不谈胜负，只问林墨尘心里还剩下多少光。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/qin_xianzi_side.json",
+          "lines": [
+            {
+              "speaker": "琴仙子",
+              "text": "剑能杀人，也能护人。你如今更想用它做哪一件？"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "从前只想报仇，现在更想守住还活着的人。"
+            },
+            {
+              "speaker": "琴仙子",
+              "text": "很好。心若还没黑到底，你这条路就还能往前走。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "前辈这句，比一封遗书还重。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "emperor",
@@ -275,11 +853,51 @@
       "description": "当朝皇帝，在金殿上听取林墨尘的申述，查明蔡京的罪行后将其拿下。",
       "appearance": "身材挺拔，面容威严，头戴龙冠，身穿龙袍，不怒自威",
       "personality": "英明果断，明辨是非",
-      "skills": ["帝王心术", "治国"],
+      "skills": [
+        "帝王心术",
+        "治国"
+      ],
       "defaultScene": "imperial_palace",
       "voiceType": "威严帝王",
       "spriteSheet": "emperor.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "江湖人常说快意恩仇，朝堂上却没有这么简单。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/emperor_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_emperor_001",
+          "sceneId": "imperial_palace",
+          "title": "退朝之后",
+          "mood": "formal",
+          "summary": "金殿之外，皇上对林墨尘少见地说了几句不带朝仪的话。",
+          "availability": "post_trial",
+          "graphPath": "res://Resources/Dialogues/side/emperor_side.json",
+          "lines": [
+            {
+              "speaker": "皇上",
+              "text": "江湖人常说快意恩仇，朝堂上却没有这么简单。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "草民明白，所以才把证据带到了殿上。"
+            },
+            {
+              "speaker": "皇上",
+              "text": "你能忍到今日，已胜过许多人。把刀收好，往后未必没有再用的时候。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "草民会记住皇上的话。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "cai_jing",
@@ -292,11 +910,51 @@
       "description": "当朝宰相，阴险狡诈，心狠手辣。二十年前得到前朝宝藏秘密，设计陷害清风门，企图独占宝藏。",
       "appearance": "面容苍老但眼神锐利，身材微胖，穿着宰相官服，面容中透着奸诈",
       "personality": "阴险狡诈，心狠手辣，贪得无厌",
-      "skills": ["权谋之术", "朝堂争斗"],
+      "skills": [
+        "权谋之术",
+        "朝堂争斗"
+      ],
       "defaultScene": "imperial_palace",
       "voiceType": "苍老阴毒",
       "spriteSheet": "cai_jing.png",
-      "status": "arrested"
+      "status": "arrested",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "年轻人总爱把自己那点血气，当成天下道理。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/cai_jing_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_cai_jing_001",
+          "sceneId": "imperial_palace",
+          "title": "相府冷话",
+          "mood": "sinister",
+          "summary": "蔡京即便在败局边缘，也仍把一切说成权术大局。",
+          "availability": "villain_encounter",
+          "graphPath": "res://Resources/Dialogues/side/cai_jing_side.json",
+          "lines": [
+            {
+              "speaker": "蔡京",
+              "text": "年轻人总爱把自己那点血气，当成天下道理。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "你这种人，连杀人都要替自己找块牌坊。"
+            },
+            {
+              "speaker": "蔡京",
+              "text": "成大事，本就要有人流血。区别只在于，谁有资格决定别人流血。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "那今天开始，你没这个资格了。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "cai_you",
@@ -309,11 +967,51 @@
       "description": "蔡京的义子，武功高强，为人残忍。在蔡京被抓后，带领幽冥教残余势力顽抗，最终被林墨尘击败。",
       "appearance": "面容阴狠，身材壮硕，穿着黑色锦袍，眼神中透着凶光",
       "personality": "残忍凶暴，嚣张跋扈，愚忠",
-      "skills": ["幽冥掌法", "毒功"],
+      "skills": [
+        "幽冥掌法",
+        "毒功"
+      ],
       "defaultScene": "youming_final",
       "voiceType": "阴狠中年",
       "spriteSheet": "cai_you.png",
-      "status": "deceased"
+      "status": "deceased",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "我义父输，不是因为他错，是因为他还不够狠。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/cai_you_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_cai_you_001",
+          "sceneId": "youming_final",
+          "title": "余孽挑衅",
+          "mood": "violent",
+          "summary": "蔡攸对败局毫无自省，只把一切归结为力量不够狠。",
+          "availability": "villain_encounter",
+          "graphPath": "res://Resources/Dialogues/side/cai_you_side.json",
+          "lines": [
+            {
+              "speaker": "蔡攸",
+              "text": "我义父输，不是因为他错，是因为他还不够狠。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "你把狠当本事，把命当草。"
+            },
+            {
+              "speaker": "蔡攸",
+              "text": "江湖和朝堂，本来就都是谁狠谁坐得稳。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "那我今天就让你看看，什么叫该狠的时候绝不留人。"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "young_man",
@@ -326,11 +1024,50 @@
       "description": "在三年后来到清风镖局，委托墨羽押送货物到京城的年轻商人。",
       "appearance": "面容清秀，穿着商人服饰，态度恭敬",
       "personality": "恭敬有礼，谨慎小心",
-      "skills": ["经商"],
+      "skills": [
+        "经商"
+      ],
       "defaultScene": "qingfeng_biaoju",
       "voiceType": "清脆青年",
       "spriteSheet": "young_man.png",
-      "status": "alive"
+      "status": "alive",
+      "type": "Villager",
+      "isInteractive": true,
+      "availableInteractions": [
+        "Talk"
+      ],
+      "detectionRadius": 4.0,
+      "dialogue": "我父亲常说，走远路最怕遇上不守信的人。",
+      "dialogueGraphId": "res://Resources/Dialogues/side/young_man_side.json",
+      "sideDialogues": [
+        {
+          "id": "side_young_man_001",
+          "sceneId": "qingfeng_biaoju",
+          "title": "托镖闲叙",
+          "mood": "calm",
+          "summary": "年轻商人借托镖表达对清风镖局名声的信任。",
+          "availability": "free_roam",
+          "graphPath": "res://Resources/Dialogues/side/young_man_side.json",
+          "lines": [
+            {
+              "speaker": "年轻人",
+              "text": "我父亲常说，走远路最怕遇上不守信的人。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "所以你才来清风镖局？"
+            },
+            {
+              "speaker": "年轻人",
+              "text": "是。别人卖的是脚程，您这里卖的是安心。"
+            },
+            {
+              "speaker": "林墨尘",
+              "text": "这句夸赞，我替兄弟们收下了。"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

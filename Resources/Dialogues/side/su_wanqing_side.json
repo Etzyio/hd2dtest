@@ -1,0 +1,30 @@
+{
+  "id": "su_wanqing_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "苏婉清",
+      "text": "你袖口又裂了，明明会躲刀，偏偏总不记得躲树枝。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "跟你比，我大概只会把伤带回来。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "苏婉清",
+      "text": "那也得带着人回来。药我替你配好了，别逞强。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "好，我听你的。",
+      "next_node_id": ""
+    }
+  }
+}

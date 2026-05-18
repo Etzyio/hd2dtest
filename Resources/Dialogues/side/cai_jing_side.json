@@ -1,0 +1,30 @@
+{
+  "id": "cai_jing_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "蔡京",
+      "text": "年轻人总爱把自己那点血气，当成天下道理。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "你这种人，连杀人都要替自己找块牌坊。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "蔡京",
+      "text": "成大事，本就要有人流血。区别只在于，谁有资格决定别人流血。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "那今天开始，你没这个资格了。",
+      "next_node_id": ""
+    }
+  }
+}

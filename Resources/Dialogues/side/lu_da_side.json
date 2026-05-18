@@ -1,0 +1,30 @@
+{
+  "id": "lu_da_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "鲁达",
+      "text": "墨兄，你再这么皱眉，连酒都要跟着变苦了。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "你倒是什么时候都喝得下。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "鲁达",
+      "text": "天塌下来先顶着，顶不住再喝一口。人活着，总得给自己留点热乎气。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "行，那今晚这坛酒，你少替我省。",
+      "next_node_id": ""
+    }
+  }
+}

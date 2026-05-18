@@ -1,0 +1,30 @@
+{
+  "id": "chen_tieshan_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "陈铁山",
+      "text": "人走得再多，这火也不能灭。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "二师兄还在替师门守着。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "陈铁山",
+      "text": "守不住山门，也得守住这口气。只要还有一个人记得，我们就不算输净。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "等我把账算清，再回来和你一起把门立起来。",
+      "next_node_id": ""
+    }
+  }
+}

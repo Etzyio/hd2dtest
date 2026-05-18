@@ -1,0 +1,30 @@
+{
+  "id": "shen_jianfeng_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "沈剑锋",
+      "text": "你出手太快，容易赢，也容易招人惦记。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "师兄的意思，是让我藏一藏？",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "沈剑锋",
+      "text": "该藏的时候要藏，该护的时候别退。真到要命处，我挡前头。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "那我就替师兄看后路。",
+      "next_node_id": ""
+    }
+  }
+}

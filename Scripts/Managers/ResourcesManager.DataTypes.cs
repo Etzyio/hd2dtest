@@ -175,6 +175,45 @@ namespace hd2dtest.Scripts.Managers
         }
 
         /// <summary>
+        /// NPC 静态数据包装类（用于 JSON 反序列化）
+        /// </summary>
+        public class NpcStaticDataWrapper
+        {
+            [JsonPropertyName("npcs")]
+            public List<NpcStaticData> Npcs { get; set; }
+        }
+
+        /// <summary>
+        /// NPC 静态数据
+        /// </summary>
+        public class NpcStaticData
+        {
+            [JsonPropertyName("id")]
+            public string Id { get; set; }
+
+            [JsonPropertyName("name")]
+            public string Name { get; set; }
+
+            [JsonPropertyName("type")]
+            public NPC.NPCType? Type { get; set; }
+
+            [JsonPropertyName("dialogue")]
+            public string Dialogue { get; set; }
+
+            [JsonPropertyName("dialogueGraphId")]
+            public string DialogueGraphId { get; set; }
+
+            [JsonPropertyName("isInteractive")]
+            public bool? IsInteractive { get; set; }
+
+            [JsonPropertyName("availableInteractions")]
+            public List<NPC.InteractionType> AvailableInteractions { get; set; }
+
+            [JsonPropertyName("detectionRadius")]
+            public float? DetectionRadius { get; set; }
+        }
+
+        /// <summary>
         /// 对话章节数据包装类（用于JSON反序列化）
         /// </summary>
         public class DialogueChapterWrapper

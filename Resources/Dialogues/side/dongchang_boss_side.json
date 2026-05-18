@@ -1,0 +1,30 @@
+{
+  "id": "dongchang_boss_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "东厂头目",
+      "text": "东厂问话，最好有一句答一句。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "我若不答呢？",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "东厂头目",
+      "text": "那就带回去，慢慢答。人嘴再硬，也硬不过东厂的刑架。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "可惜我这人向来不爱进狗笼。",
+      "next_node_id": ""
+    }
+  }
+}

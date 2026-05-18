@@ -1,0 +1,30 @@
+{
+  "id": "liu_qingqing_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "柳青青",
+      "text": "戴面具久了，人会忘了自己原来长什么样。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "可你还记得自己为什么留下。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "柳青青",
+      "text": "不敢忘。忘了，就真成了他们的人。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "放心，这张面具不会永远焊在你脸上。",
+      "next_node_id": ""
+    }
+  }
+}

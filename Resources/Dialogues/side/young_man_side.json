@@ -1,0 +1,30 @@
+{
+  "id": "young_man_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "年轻人",
+      "text": "我父亲常说，走远路最怕遇上不守信的人。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "所以你才来清风镖局？",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "年轻人",
+      "text": "是。别人卖的是脚程，您这里卖的是安心。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "这句夸赞，我替兄弟们收下了。",
+      "next_node_id": ""
+    }
+  }
+}

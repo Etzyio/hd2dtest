@@ -1,0 +1,30 @@
+{
+  "id": "emperor_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "皇上",
+      "text": "江湖人常说快意恩仇，朝堂上却没有这么简单。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "草民明白，所以才把证据带到了殿上。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "皇上",
+      "text": "你能忍到今日，已胜过许多人。把刀收好，往后未必没有再用的时候。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "草民会记住皇上的话。",
+      "next_node_id": ""
+    }
+  }
+}

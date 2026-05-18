@@ -1,0 +1,30 @@
+{
+  "id": "zhou_yuan_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "周远",
+      "text": "走镖的人，先学会看路，再学会看人。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "师父是怕我年轻气盛，路上出错？",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "周远",
+      "text": "我怕的不是你出错，是你认死理。江湖上的规矩，从来不只写在旗面上。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "弟子记下了。人能活着回来，镖才算真的送到。",
+      "next_node_id": ""
+    }
+  }
+}

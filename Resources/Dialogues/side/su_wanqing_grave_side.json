@@ -1,0 +1,30 @@
+{
+  "id": "su_wanqing_grave_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "林墨尘",
+      "text": "我这回不是来报喜，也不是来报仇。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "我只是想告诉你，镖局里的人都还在，清风也还在。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "林墨尘",
+      "text": "你替我挡下的那一掌，我会用余下的路慢慢还。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "等下次再来，我给你带京城的新茶。",
+      "next_node_id": ""
+    }
+  }
+}

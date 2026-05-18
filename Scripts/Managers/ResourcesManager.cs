@@ -733,26 +733,36 @@ namespace hd2dtest.Scripts.Managers
 
                 cache.Clear();
 
-                using var doc = JsonDocument.Parse(jsonContent);
-                if (doc.RootElement.ValueKind == JsonValueKind.Object && doc.RootElement.TryGetProperty("npcs", out var npcsEl) && npcsEl.ValueKind == JsonValueKind.Array)
+                var wrapper = JsonSerializer.Deserialize<NpcStaticDataWrapper>(jsonContent, JsonOptions);
+                if (wrapper?.Npcs != null && wrapper.Npcs.Count > 0)
                 {
-                    foreach (var npcEl in npcsEl.EnumerateArray())
+                    foreach (var data in wrapper.Npcs)
                     {
-                        if (npcEl.ValueKind != JsonValueKind.Object)
+                        if (data == null || string.IsNullOrWhiteSpace(data.Id))
                         {
                             continue;
                         }
 
-                        string id = npcEl.TryGetProperty("id", out var idEl) && idEl.ValueKind == JsonValueKind.String ? idEl.GetString() : null;
-                        string name = npcEl.TryGetProperty("name", out var nameEl) && nameEl.ValueKind == JsonValueKind.String ? nameEl.GetString() : null;
-
-                        var npc = new NPC();
-                        npc.Id = id ?? string.Empty;
-                        npc.CreatureName = name ?? string.Empty;
-
-                        if (string.IsNullOrWhiteSpace(npc.Id))
+                        var npc = new NPC
                         {
-                            continue;
+                            Id = data.Id,
+                            CreatureName = data.Name ?? string.Empty,
+                            Dialogue = string.IsNullOrWhiteSpace(data.Dialogue)
+                                ? TranslationServer.Translate("npc_default_dialogue")
+                                : data.Dialogue,
+                            DialogueGraphId = data.DialogueGraphId,
+                            IsInteractive = data.IsInteractive ?? true,
+                            DetectionRadius = data.DetectionRadius ?? 50f
+                        };
+
+                        if (data.Type.HasValue)
+                        {
+                            npc.Type = data.Type.Value;
+                        }
+
+                        if (data.AvailableInteractions != null && data.AvailableInteractions.Count > 0)
+                        {
+                            npc.AvailableInteractions = data.AvailableInteractions;
                         }
 
                         cache[npc.Id] = npc;

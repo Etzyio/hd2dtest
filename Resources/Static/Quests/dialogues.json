@@ -10,16 +10,66 @@
           "npcId": "zhou_yuan",
           "mapId": "suzhou_biaoju",
           "lines": [
-            {"speaker": "zhou_yuan", "text": "墨尘，剑锋，你们过来。", "emotion": "serious", "animation": "calling"},
-            {"speaker": "lin_mochen", "text": "师父，您找我们？", "emotion": "respectful", "animation": "bowing"},
-            {"speaker": "shen_jianfeng", "text": "师父有何吩咐？", "emotion": "respectful", "animation": "bowing"},
-            {"speaker": "zhou_yuan", "text": "朝廷下达了密令，要我们威远镖局护送生辰纲前往京城。", "emotion": "serious", "animation": "standing"},
-            {"speaker": "lin_mochen", "text": "生辰纲？那可是十万生辰礼物啊！此行当真要我们二人押送？", "emotion": "concerned", "animation": "thinking"},
-            {"speaker": "zhou_yuan", "text": "正是因为事关重大，才需要你们二人联手。剑锋经验丰富，沉稳可靠，由他带队。墨尘你机灵聪慧，轻功暗器皆是一绝，好生辅佐你师兄。", "emotion": "trusting", "animation": "pointing"},
-            {"speaker": "shen_jianfeng", "text": "师父放心，剑锋定不辱使命，必将生辰纲安全送达京城。", "emotion": "confident", "animation": "bowing"},
-            {"speaker": "zhou_yuan", "text": "记住，此行凶险。江湖上觊觎生辰纲的人不在少数，你们务必小心谨慎。", "emotion": "worried", "animation": "frowning"},
-            {"speaker": "lin_mochen", "text": "师父，您是不是知道些什么？", "emotion": "curious", "animation": "leaning"},
-            {"speaker": "zhou_yuan", "text": "...没什么。你们下去准备吧，三日之后出发。", "emotion": "evasive", "animation": "turning"}
+            {
+              "speaker": "zhou_yuan",
+              "text": "墨尘，剑锋，都过来。",
+              "emotion": "serious",
+              "animation": "calling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师父，您唤我们？",
+              "emotion": "respectful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "师父有何吩咐？",
+              "emotion": "respectful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "zhou_yuan",
+              "text": "朝廷密令已下，要威远镖局押送生辰纲入京。",
+              "emotion": "serious",
+              "animation": "standing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "生辰纲分量太重，只凭我与师兄押送？",
+              "emotion": "concerned",
+              "animation": "thinking"
+            },
+            {
+              "speaker": "zhou_yuan",
+              "text": "正因事重，才要你二人联手。剑锋领队，墨尘从旁策应。",
+              "emotion": "trusting",
+              "animation": "pointing"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "弟子领命，人在镖在，绝不辱师命。",
+              "emotion": "confident",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "zhou_yuan",
+              "text": "记住，路上先守信，再守命。真遇险，不可逞强。",
+              "emotion": "worried",
+              "animation": "frowning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师父，您像是还有话没说完。",
+              "emotion": "curious",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "zhou_yuan",
+              "text": "该知道的时候，你自会知道。先去准备，三日后启程。",
+              "emotion": "evasive",
+              "animation": "turning"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -30,20 +80,86 @@
           "npcId": "su_wanqing",
           "mapId": "lin_mochen_room",
           "lines": [
-            {"speaker": "su_wanqing", "text": "墨尘师兄！", "emotion": "worried", "animation": "running"},
-            {"speaker": "lin_mochen", "text": "婉清？这么晚了，你怎么来了？师父不是说让你早点休息吗？", "emotion": "surprised", "animation": "turning"},
-            {"speaker": "su_wanqing", "text": "我睡不着。听说你们要去押送生辰纲？", "emotion": "worried", "animation": "fidgeting"},
-            {"speaker": "lin_mochen", "text": "是啊，三日之后就出发。", "emotion": "calm", "animation": "smiling"},
-            {"speaker": "su_wanqing", "text": "这个给你，路上保重。", "emotion": "sad", "animation": "giving"},
-            {"speaker": "lin_mochen", "text": "这是...？", "emotion": "curious", "animation": "receiving"},
-            {"speaker": "su_wanqing", "text": "这是我亲手绣的平安符，希望能保佑你平安归来。", "emotion": "shy", "animation": "blushing"},
-            {"speaker": "lin_mochen", "text": "婉清，你放心，我和师兄一定会平安回来的。", "emotion": "comforting", "animation": "patting"},
-            {"speaker": "su_wanqing", "text": "我不是担心这个，我听说生辰纲是蔡京那老贼要的。此人阴险狡诈，心狠手辣，你们一定要小心。", "emotion": "angry", "animation": "clenched"},
-            {"speaker": "su_wanqing", "text": "还有这个，噬魂散，关键时刻用得上。记住，留得青山在，不怕没柴烧。", "emotion": "serious", "animation": "handing_item"},
-            {"speaker": "lin_mochen", "text": "婉清...谢谢你。", "emotion": "touched", "animation": "smiling"}
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄。",
+              "emotion": "worried",
+              "animation": "running"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "这么晚了，你怎么还没歇下？",
+              "emotion": "surprised",
+              "animation": "turning"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "我睡不着。听说你们真要押送生辰纲？",
+              "emotion": "worried",
+              "animation": "fidgeting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "嗯，三日后就走。",
+              "emotion": "calm",
+              "animation": "smiling"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "这个给你，你带在身上。",
+              "emotion": "sad",
+              "animation": "giving"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "平安符？",
+              "emotion": "curious",
+              "animation": "receiving"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "我亲手绣的，不值什么，只求你平安。",
+              "emotion": "shy",
+              "animation": "blushing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "有师兄在，我不会有事的。",
+              "emotion": "comforting",
+              "animation": "patting"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "我怕的不是路险，是蔡京那条毒蛇。你们若觉不对，先保命。",
+              "emotion": "angry",
+              "animation": "clenched"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "还有这瓶噬魂散，万不得已再用。记着，留得青山在，不怕没柴烧。",
+              "emotion": "serious",
+              "animation": "handing_item"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "婉清，我记下了。谢谢你。",
+              "emotion": "touched",
+              "animation": "smiling"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddItem", "itemId": "soul_eater_powder", "count": 1}, {"type": "AddItem", "itemId": "peace_amulet", "count": 1}]
+          "effects": [
+            {
+              "type": "AddItem",
+              "itemId": "soul_eater_powder",
+              "count": 1
+            },
+            {
+              "type": "AddItem",
+              "itemId": "peace_amulet",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "dlg_prologue_003",
@@ -51,13 +167,48 @@
           "npcId": "shen_jianfeng",
           "mapId": "lin_mochen_room",
           "lines": [
-            {"speaker": "shen_jianfeng", "text": "墨尘，你有没有觉得，师父今天有些不对劲？", "emotion": "worried", "animation": "leaning"},
-            {"speaker": "lin_mochen", "text": "我也感觉到了。师父的手一直在抖，好像很害怕的样子。", "emotion": "concerned", "animation": "nodding"},
-            {"speaker": "shen_jianfeng", "text": "我刚才去师父房里送茶，听到他在自言自语，说什么'这趟镖...怕是有去无回'。", "emotion": "serious", "animation": "frowning"},
-            {"speaker": "lin_mochen", "text": "有去无回？师父为什么会这么说？", "emotion": "confused", "animation": "scratching_head"},
-            {"speaker": "shen_jianfeng", "text": "我怀疑，这趟生辰纲，恐怕没那么简单。墨尘，此行凶险，你我务必小心谨慎。", "emotion": "urgent", "animation": "grabbing_shoulder"},
-            {"speaker": "shen_jianfeng", "text": "无论发生什么事，都要保护好自己。如果...如果我遭遇不测，你一定要查出真相。", "emotion": "sad", "animation": "looking_down"},
-            {"speaker": "lin_mochen", "text": "师兄！你说什么呢！我们一定会一起回来的！", "emotion": "determined", "animation": "shaking_head"}
+            {
+              "speaker": "shen_jianfeng",
+              "text": "墨尘，你也看出来了吧，师父今日不对劲。",
+              "emotion": "worried",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我看见他手一直在抖，像在怕什么。",
+              "emotion": "concerned",
+              "animation": "nodding"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "我刚去送茶，听见他低声说，这趟镖怕是有去无回。",
+              "emotion": "serious",
+              "animation": "frowning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄，你觉得生辰纲背后还有别的事？",
+              "emotion": "confused",
+              "animation": "scratching_head"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "必然有。你路上多留一分心眼，真有变故，先保自己。",
+              "emotion": "urgent",
+              "animation": "grabbing_shoulder"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "若我出了事，你别犯傻，替我把真相查出来。",
+              "emotion": "sad",
+              "animation": "looking_down"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄，我们一定一起回来。",
+              "emotion": "determined",
+              "animation": "shaking_head"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -68,8 +219,18 @@
           "npcId": "zhou_yuan",
           "mapId": "suzhou_biaoju",
           "lines": [
-            {"speaker": "zhou_yuan", "text": "（独自站在窗前，望着远方）二十年前...没想到，终究还是逃不掉...", "emotion": "nostalgic", "animation": "staring"},
-            {"speaker": "zhou_yuan", "text": "（从怀中取出半块玉佩）柳兄，你把这个交给我，是希望我能保护好墨尘...我一定不会让你失望的。", "emotion": "determined", "animation": "clutching"}
+            {
+              "speaker": "zhou_yuan",
+              "text": "二十年前欠下的债，终究还是追上门了……",
+              "emotion": "nostalgic",
+              "animation": "staring"
+            },
+            {
+              "speaker": "zhou_yuan",
+              "text": "柳兄，你把玉佩托给我，我便是拼了这条命，也要把墨尘护住。",
+              "emotion": "determined",
+              "animation": "clutching"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -86,11 +247,36 @@
           "npcId": "lin_mochen",
           "mapId": "huangnigang",
           "lines": [
-            {"speaker": "lin_mochen", "text": "师兄，这雨越下越大了，前面好像有片树林，要不要进去避一避？", "emotion": "shouting", "animation": "looking_up"},
-            {"speaker": "shen_jianfeng", "text": "不行，此地不宜久留。尽快通过这里！", "emotion": "alert", "animation": "scanning"},
-            {"speaker": "lin_mochen", "text": "可是雨这么大，兄弟们都湿透了...", "emotion": "concerned", "animation": "looking_around"},
-            {"speaker": "shen_jianfeng", "text": "墨尘，你忘了师父的叮嘱吗？生辰纲事关重大，不能有任何闪失。", "emotion": "serious", "animation": "pointing"},
-            {"speaker": "lin_mochen", "text": "是，师兄。", "emotion": "obedient", "animation": "nodding"}
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄，前头林子能避雨，要不要停片刻？",
+              "emotion": "shouting",
+              "animation": "looking_up"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "不能停。黄泥岗最忌久留，车不停，人不散。",
+              "emotion": "alert",
+              "animation": "scanning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "兄弟们都快湿透了，再拖下去怕乱阵脚。",
+              "emotion": "concerned",
+              "animation": "looking_around"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "越是这个时候越不能乱。传话下去，咬牙撑过去。",
+              "emotion": "serious",
+              "animation": "pointing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "是，师兄。",
+              "emotion": "obedient",
+              "animation": "nodding"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -101,13 +287,38 @@
           "npcId": "shen_jianfeng",
           "mapId": "huangnigang_battle",
           "lines": [
-            {"speaker": "shen_jianfeng", "text": "不好！有埋伏！列阵！保护生辰纲！", "emotion": "shouting", "animation": "drawing_sword"},
-            {"speaker": "mysterious_voice", "text": "哈哈哈！威远镖局的人果然来了！", "emotion": "laughing", "animation": "hidden"},
-            {"speaker": "shen_jianfeng", "text": "是什么人？！藏头露尾，算什么英雄好汉！", "emotion": "angry", "animation": "pointing_sword"},
-            {"speaker": "mysterious_voice", "text": "英雄好汉？我们只认金银财宝！兄弟们，上！", "emotion": "greedy", "animation": "commanding"}
+            {
+              "speaker": "shen_jianfeng",
+              "text": "有埋伏！列阵，护车！",
+              "emotion": "shouting",
+              "animation": "drawing_sword"
+            },
+            {
+              "speaker": "mysterious_voice",
+              "text": "威远镖局果然守时，倒省得我们久等。",
+              "emotion": "laughing",
+              "animation": "hidden"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "藏头露尾，报上名来！",
+              "emotion": "angry",
+              "animation": "pointing_sword"
+            },
+            {
+              "speaker": "mysterious_voice",
+              "text": "名号不值钱，命和值钱。弟兄们，动手！",
+              "emotion": "greedy",
+              "animation": "commanding"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "StartBattle", "battleId": "huangnigang_ambush"}]
+          "effects": [
+            {
+              "type": "StartBattle",
+              "battleId": "huangnigang_ambush"
+            }
+          ]
         },
         {
           "id": "dlg_chapter1_003",
@@ -115,17 +326,67 @@
           "npcId": "shen_jianfeng",
           "mapId": "huangnigang_death",
           "lines": [
-            {"speaker": "lin_mochen", "text": "师兄！小心！", "emotion": "shouting", "animation": "warning"},
-            {"speaker": "shen_jianfeng", "text": "啊！", "emotion": "pain", "animation": "staggering"},
-            {"speaker": "lin_mochen", "text": "师兄！！！", "emotion": "horrified", "animation": "running"},
-            {"speaker": "shen_jianfeng", "text": "墨尘...快走...他们的目标是你...", "emotion": "dying", "animation": "gasping"},
-            {"speaker": "lin_mochen", "text": "不！我不会丢下你的！", "emotion": "desperate", "animation": "catching"},
-            {"speaker": "shen_jianfeng", "text": "快走...玉佩...师父...蔡京...", "emotion": "dying", "animation": "giving_item"},
-            {"speaker": "lin_mochen", "text": "师兄！！！", "emotion": "screaming", "animation": "crying"},
-            {"speaker": "mysterious_voice", "text": "林墨尘！束手就擒吧！", "emotion": "triumphant", "animation": "approaching"}
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄，身后！",
+              "emotion": "shouting",
+              "animation": "warning"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "墨尘……快退！",
+              "emotion": "pain",
+              "animation": "staggering"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄！",
+              "emotion": "horrified",
+              "animation": "running"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "他们冲着你来的，别管我，走！",
+              "emotion": "dying",
+              "animation": "gasping"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我不走！",
+              "emotion": "desperate",
+              "animation": "catching"
+            },
+            {
+              "speaker": "shen_jianfeng",
+              "text": "玉佩……收好……去查师父，去查蔡京……",
+              "emotion": "dying",
+              "animation": "giving_item"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄！",
+              "emotion": "screaming",
+              "animation": "crying"
+            },
+            {
+              "speaker": "mysterious_voice",
+              "text": "林墨尘，放下兵刃，你还能死得痛快些！",
+              "emotion": "triumphant",
+              "animation": "approaching"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddItem", "itemId": "jade_pendant_half", "count": 1}, {"type": "TriggerCutscene", "cutsceneId": "mochen_falls"}]
+          "effects": [
+            {
+              "type": "AddItem",
+              "itemId": "jade_pendant_half",
+              "count": 1
+            },
+            {
+              "type": "TriggerCutscene",
+              "cutsceneId": "mochen_falls"
+            }
+          ]
         },
         {
           "id": "dlg_chapter1_004",
@@ -133,9 +394,24 @@
           "npcId": "lin_mochen",
           "mapId": "huangnigang_death",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（抱着师兄的尸体）为什么...为什么会这样...", "emotion": "broken", "animation": "cradling"},
-            {"speaker": "lin_mochen", "text": "师兄...你等着...我一定会为你报仇...为所有死去的兄弟报仇...", "emotion": "vowing", "animation": "clenching_fist"},
-            {"speaker": "lin_mochen", "text": "蔡京...我记住你了...", "emotion": "hateful", "animation": "gritting_teeth"}
+            {
+              "speaker": "lin_mochen",
+              "text": "为什么……为什么会变成这样……",
+              "emotion": "broken",
+              "animation": "cradling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄，这笔血债，我会一笔一笔讨回来。",
+              "emotion": "vowing",
+              "animation": "clenching_fist"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "蔡京，我记住你了。",
+              "emotion": "hateful",
+              "animation": "gritting_teeth"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -152,12 +428,42 @@
           "npcId": "old_man",
           "mapId": "cave",
           "lines": [
-            {"speaker": "old_man", "text": "你醒了。", "emotion": "calm", "animation": "sitting"},
-            {"speaker": "lin_mochen", "text": "是...是你救了我？", "emotion": "weak", "animation": "sitting_up"},
-            {"speaker": "old_man", "text": "我路过山崖下，见你还有一口气，就把你救上来了。小伙子，你是威远镖局的人？", "emotion": "curious", "animation": "stirring_fire"},
-            {"speaker": "lin_mochen", "text": "是...生辰纲被劫了...师兄...师兄他...", "emotion": "sad", "animation": "looking_down"},
-            {"speaker": "old_man", "text": "我猜到了。山下贴满了海捕文书，说你是劫纲凶手，悬赏千金捉拿你。", "emotion": "sympathetic", "animation": "shaking_head"},
-            {"speaker": "lin_mochen", "text": "我没有劫纲！是有人陷害我！", "emotion": "angry", "animation": "shouting"}
+            {
+              "speaker": "old_man",
+              "text": "终于醒了。",
+              "emotion": "calm",
+              "animation": "sitting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "前辈……是您救了我？",
+              "emotion": "weak",
+              "animation": "sitting_up"
+            },
+            {
+              "speaker": "old_man",
+              "text": "我在崖下捡回你半条命。山下如今都在传，你是劫纲凶手。",
+              "emotion": "curious",
+              "animation": "stirring_fire"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我没有！是有人设局害我！",
+              "emotion": "sad",
+              "animation": "looking_down"
+            },
+            {
+              "speaker": "old_man",
+              "text": "急着喊冤没用，活下来，才有资格把冤洗净。",
+              "emotion": "sympathetic",
+              "animation": "shaking_head"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我一定要把真相查出来。",
+              "emotion": "angry",
+              "animation": "shouting"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -168,12 +474,42 @@
           "npcId": "old_man",
           "mapId": "cave",
           "lines": [
-            {"speaker": "old_man", "text": "那些人是什么来头？他们的武功路数很诡异。江湖上，能有这种身手的，除了那些隐世的邪派，怕是没有别人了。", "emotion": "mysterious", "animation": "leaning_forward"},
-            {"speaker": "old_man", "text": "听说最近江南一带不太平，经常有商队被劫，手法都很相似。有人说，是一个神秘的组织干的。他们行事诡秘，从不留下活口。", "emotion": "whispering", "animation": "looking_around"},
-            {"speaker": "lin_mochen", "text": "神秘组织？", "emotion": "curious", "animation": "leaning"},
-            {"speaker": "old_man", "text": "我听说，这次押送生辰纲的任务，是当朝宰相蔡京亲自点的名。", "emotion": "serious", "animation": "frowning"},
-            {"speaker": "lin_mochen", "text": "蔡京...果然是他...", "emotion": "realizing", "animation": "clenching_fist"},
-            {"speaker": "old_man", "text": "小伙子，你要报仇，就得先活下来。现在整个江南都在通缉你，你得好好想想下一步该怎么做。", "emotion": "wise", "animation": "patting"}
+            {
+              "speaker": "old_man",
+              "text": "那些人的路数阴狠怪异，不像正派，也不像寻常匪类。",
+              "emotion": "mysterious",
+              "animation": "leaning_forward"
+            },
+            {
+              "speaker": "old_man",
+              "text": "最近江南商队接连出事，动手的人像是同一伙，干净得连活口都不留。",
+              "emotion": "whispering",
+              "animation": "looking_around"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "神秘组织……",
+              "emotion": "curious",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "old_man",
+              "text": "还有件事，这趟镖是蔡京亲自点名让威远镖局接的。",
+              "emotion": "serious",
+              "animation": "frowning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "果然又是他。",
+              "emotion": "realizing",
+              "animation": "clenching_fist"
+            },
+            {
+              "speaker": "old_man",
+              "text": "想报仇，就先别让自己死在通缉令上。先活着，再翻案。",
+              "emotion": "wise",
+              "animation": "patting"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -184,8 +520,18 @@
           "npcId": "lin_mochen",
           "mapId": "cave",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（抚摸着手中的玉佩）师兄...师父...清风门...", "emotion": "sad", "animation": "staring"},
-            {"speaker": "lin_mochen", "text": "（握紧玉佩）我要回清风门看看...我要知道到底发生了什么...", "emotion": "determined", "animation": "standing"}
+            {
+              "speaker": "lin_mochen",
+              "text": "师兄、师父、清风门……",
+              "emotion": "sad",
+              "animation": "staring"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我得回去一趟。哪怕只剩废墟，我也要知道他们到底遭了什么。",
+              "emotion": "determined",
+              "animation": "standing"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -202,13 +548,48 @@
           "npcId": "chen_tieshan",
           "mapId": "qingfeng_ruins",
           "lines": [
-            {"speaker": "chen_tieshan", "text": "林公子...你还活着...太好了...太好了...", "emotion": "relieved", "animation": "limping"},
-            {"speaker": "lin_mochen", "text": "二师兄！你怎么伤成这样？师父呢？师门其他人呢？", "emotion": "worried", "animation": "supporting"},
-            {"speaker": "chen_tieshan", "text": "师父...师父为了保护你，被东厂的人带走了。三天后...三天后他的尸体被扔在了城门外...", "emotion": "crying", "animation": "kneeling"},
-            {"speaker": "lin_mochen", "text": "不...不可能...师父他...", "emotion": "shocked", "animation": "staggering"},
-            {"speaker": "chen_tieshan", "text": "这不是你的错。是那些人...是蔡京！他早就想对付清风门了，生辰纲只是一个借口。", "emotion": "angry", "animation": "clenched"},
-            {"speaker": "lin_mochen", "text": "蔡京...我要杀了他...", "emotion": "hateful", "animation": "gritting_teeth"},
-            {"speaker": "chen_tieshan", "text": "林公子，你要冷静。现在整个江湖都在通缉你，你不能冲动。", "emotion": "calm", "animation": "grabbing_arm"}
+            {
+              "speaker": "chen_tieshan",
+              "text": "林公子……你还活着，太好了……",
+              "emotion": "relieved",
+              "animation": "limping"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "二师兄！你这伤是怎么回事？师父呢？门里的人呢？",
+              "emotion": "worried",
+              "animation": "supporting"
+            },
+            {
+              "speaker": "chen_tieshan",
+              "text": "师父为了护你，被东厂拖走了。三天后，尸体被扔在城门外。",
+              "emotion": "crying",
+              "animation": "kneeling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "不……不可能……",
+              "emotion": "shocked",
+              "animation": "staggering"
+            },
+            {
+              "speaker": "chen_tieshan",
+              "text": "这不是你的错。是蔡京借生辰纲做局，顺手把清风门一并踩碎了。",
+              "emotion": "angry",
+              "animation": "clenched"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我要杀了他。",
+              "emotion": "hateful",
+              "animation": "gritting_teeth"
+            },
+            {
+              "speaker": "chen_tieshan",
+              "text": "你现在去，只是白送一条命。先忍住，这口气以后再出。",
+              "emotion": "calm",
+              "animation": "grabbing_arm"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -219,16 +600,60 @@
           "npcId": "lu_da",
           "mapId": "qingfeng_ruins",
           "lines": [
-            {"speaker": "lu_da", "text": "哈哈！找到了！林公子果然在这里！", "emotion": "friendly", "animation": "laughing"},
-            {"speaker": "lin_mochen", "text": "你是...？", "emotion": "alert", "animation": "guarding"},
-            {"speaker": "lu_da", "text": "别紧张别紧张，我们是来帮你的！", "emotion": "friendly", "animation": "hands_up"},
-            {"speaker": "leng_yue", "text": "（从暗处走出）在下冷月，江湖人称冷面剑姬。", "emotion": "cool", "animation": "stepping_forward"},
-            {"speaker": "lin_mochen", "text": "帮我的？", "emotion": "skeptical", "animation": "squinting"},
-            {"speaker": "leng_yue", "text": "我与清风门素有渊源，听说清风门遭难，特来相助。", "emotion": "cool", "animation": "bowing"},
-            {"speaker": "lu_da", "text": "在下鲁达，人称笑面虎，是丐帮的八袋弟子。洪长老让我们来保护你！", "emotion": "cheerful", "animation": "thumbs_up"}
+            {
+              "speaker": "lu_da",
+              "text": "哈，果然在这儿！林公子，你这命可真硬。",
+              "emotion": "friendly",
+              "animation": "laughing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你们是谁？",
+              "emotion": "alert",
+              "animation": "guarding"
+            },
+            {
+              "speaker": "lu_da",
+              "text": "放轻松，我们不是来拿你的，是来帮你的。",
+              "emotion": "friendly",
+              "animation": "hands_up"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "冷月。柳掌门于我有恩，我来还债。",
+              "emotion": "cool",
+              "animation": "stepping_forward"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "帮我？",
+              "emotion": "skeptical",
+              "animation": "squinting"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "清风门遭难，不该没人伸手。你若还想查下去，我可以陪你走一程。",
+              "emotion": "cool",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lu_da",
+              "text": "我叫鲁达，丐帮八袋弟子。洪长老发了话，谁敢动你，先过我这关。",
+              "emotion": "cheerful",
+              "animation": "thumbs_up"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddPartyMember", "memberId": "lu_da"}, {"type": "AddPartyMember", "memberId": "leng_yue"}]
+          "effects": [
+            {
+              "type": "AddPartyMember",
+              "memberId": "lu_da"
+            },
+            {
+              "type": "AddPartyMember",
+              "memberId": "leng_yue"
+            }
+          ]
         },
         {
           "id": "dlg_chapter2_003",
@@ -236,15 +661,50 @@
           "npcId": "zhao_tieshan",
           "mapId": "qingfeng_ruins",
           "lines": [
-            {"speaker": "zhao_tieshan", "text": "（远处传来脚步声）林公子，在下六扇门赵铁山，奉命前来。", "emotion": "serious", "animation": "bowing"},
-            {"speaker": "lin_mochen", "text": "六扇门？你们是来抓我的？", "emotion": "alert", "animation": "drawing_weapon"},
-            {"speaker": "zhao_tieshan", "text": "不，我是来告诉你真相的。沈剑锋是我的生死之交，我绝不相信他会监守自盗。", "emotion": "determined", "animation": "sincere"},
-            {"speaker": "lin_mochen", "text": "你...你认识我师兄？", "emotion": "surprised", "animation": "lowering_weapon"},
-            {"speaker": "zhao_tieshan", "text": "我们一起在六扇门共事三年，情同手足。剑锋为人正直，绝不可能做出这种事。", "emotion": "serious", "animation": "frowning"},
-            {"speaker": "zhao_tieshan", "text": "我会帮你查清真相。为了剑锋，也为了正义。", "emotion": "resolute", "animation": "handshake"}
+            {
+              "speaker": "zhao_tieshan",
+              "text": "林公子，在下六扇门赵铁山，特来见你。",
+              "emotion": "serious",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "六扇门？你也是来抓我的？",
+              "emotion": "alert",
+              "animation": "drawing_weapon"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "我若要抓你，就不会一个人来。沈剑锋是我至交，我不信他会沾生辰纲。",
+              "emotion": "determined",
+              "animation": "sincere"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你认识我师兄？",
+              "emotion": "surprised",
+              "animation": "lowering_weapon"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "我和他共事多年，他的人品我信得过。这案子里一定藏着更深的手。",
+              "emotion": "serious",
+              "animation": "frowning"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "为了剑锋，也为了公道，我会帮你把它挖出来。",
+              "emotion": "resolute",
+              "animation": "handshake"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddPartyMember", "memberId": "zhao_tieshan"}]
+          "effects": [
+            {
+              "type": "AddPartyMember",
+              "memberId": "zhao_tieshan"
+            }
+          ]
         },
         {
           "id": "dlg_chapter2_004",
@@ -252,9 +712,24 @@
           "npcId": "chen_tieshan",
           "mapId": "qingfeng_ruins",
           "lines": [
-            {"speaker": "chen_tieshan", "text": "林公子，既然有这么多朋友愿意帮你，你就不要再孤身一人了。", "emotion": "encouraging", "animation": "patting"},
-            {"speaker": "lin_mochen", "text": "二师兄...谢谢你们...", "emotion": "grateful", "animation": "bowing"},
-            {"speaker": "chen_tieshan", "text": "清风门虽然没了，但我们这些师兄弟还在。只要我们齐心协力，一定能为师父报仇，为清风门洗清冤屈。", "emotion": "determined", "animation": "raising_fist"}
+            {
+              "speaker": "chen_tieshan",
+              "text": "你看，肯陪你的人还在，清风门也就还没真的断。",
+              "emotion": "encouraging",
+              "animation": "patting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "二师兄……",
+              "emotion": "grateful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "chen_tieshan",
+              "text": "门能毁，骨气不能散。咱们活着的人，得替死去的人把名字讨回来。",
+              "emotion": "determined",
+              "animation": "raising_fist"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -271,13 +746,48 @@
           "npcId": "leng_yue",
           "mapId": "broken_temple",
           "lines": [
-            {"speaker": "leng_yue", "text": "（走到林墨尘身边）在想什么？", "emotion": "curious", "animation": "approaching"},
-            {"speaker": "lin_mochen", "text": "我在想...接下来该怎么办。师父死了，师门毁了，师妹下落不明...我甚至不知道，自己还能做些什么。", "emotion": "lost", "animation": "staring_fire"},
-            {"speaker": "leng_yue", "text": "你知道吗，我第一次见到你师父的时候，他还是一个意气风发的年轻人。", "emotion": "nostalgic", "animation": "sitting"},
-            {"speaker": "lin_mochen", "text": "哦？", "emotion": "curious", "animation": "looking_up"},
-            {"speaker": "leng_yue", "text": "那时候，我还是一个杀手组织的成员，奉命刺杀一个商人。柳青云恰好路过，出手救了那个商人。", "emotion": "nostalgic", "animation": "staring_fire"},
-            {"speaker": "leng_yue", "text": "他说，杀戮不能解决问题，只会制造更多的仇恨。他放了我，还给了我一些银两，让我重新开始。", "emotion": "grateful", "animation": "looking_down"},
-            {"speaker": "leng_yue", "text": "因为柳青云给了我第二次生命，现在，我想把这份恩情，还给你。", "emotion": "determined", "animation": "hand_on_shoulder"}
+            {
+              "speaker": "leng_yue",
+              "text": "火都快熄了，你还盯着不说话，在想什么？",
+              "emotion": "curious",
+              "animation": "approaching"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我在想，门没了，师父没了，我还能拿什么继续走下去。",
+              "emotion": "lost",
+              "animation": "staring_fire"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "你师父当年救过我，也只说过一句话。",
+              "emotion": "nostalgic",
+              "animation": "sitting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "什么话？",
+              "emotion": "curious",
+              "animation": "looking_up"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "他说，杀人容易，活成个人更难。",
+              "emotion": "nostalgic",
+              "animation": "staring_fire"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "那时我不懂，如今懂了。你若只剩仇，早晚会被仇吞掉。",
+              "emotion": "grateful",
+              "animation": "looking_down"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "所以我来，是替柳掌门把你往正路上拽一把。",
+              "emotion": "determined",
+              "animation": "hand_on_shoulder"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -288,19 +798,78 @@
           "npcId": "lin_mochen",
           "mapId": "broken_temple",
           "lines": [
-            {"speaker": "zhao_tieshan", "text": "现在的情况是，官府正在通缉林公子，清风门已经覆灭，威远镖局也被查封了。我们想要翻案，必须找到足够的证据。", "emotion": "analytical", "animation": "folding_arms"},
-            {"speaker": "lu_da", "text": "证据？什么证据？蔡京那老贼做事一向滴水不漏，我们上哪儿找证据去？", "emotion": "confused", "animation": "scratching_head"},
-            {"speaker": "chen_tieshan", "text": "这可难了，蔡京权倾朝野，党羽遍布天下，我们怎么可能与他对抗？", "emotion": "discouraged", "animation": "slumping"},
-            {"speaker": "lin_mochen", "text": "（沉默良久）我有一个想法。", "emotion": "thinking", "animation": "standing"},
-            {"speaker": "leng_yue", "text": "哦？说来听听。", "emotion": "curious", "animation": "tilting_head"},
-            {"speaker": "lin_mochen", "text": "威远镖局虽然被查封了，但镖局的招牌还在。我可以化名重建镖局，从小生意做起，慢慢积累实力和人脉。", "emotion": "determined", "animation": "gesturing"},
-            {"speaker": "lin_mochen", "text": "同时，我也可以借镖局的名义，调查生辰纲的真相。", "emotion": "determined", "animation": "clenching_fist"},
-            {"speaker": "zhao_tieshan", "text": "这...这倒是个好主意！", "emotion": "approving", "animation": "nodding"},
-            {"speaker": "leng_yue", "text": "化名？你想用什么名字？", "emotion": "curious", "animation": "tilting_head"},
-            {"speaker": "lin_mochen", "text": "墨羽。从今以后，我就叫墨羽。", "emotion": "resolute", "animation": "clenching_fist"}
+            {
+              "speaker": "zhao_tieshan",
+              "text": "现在要翻案，靠喊冤没用，得有身份、有落脚处、有能进出各方的路子。",
+              "emotion": "analytical",
+              "animation": "folding_arms"
+            },
+            {
+              "speaker": "lu_da",
+              "text": "蔡京做事滴水不漏，我们上哪儿去找证据？",
+              "emotion": "confused",
+              "animation": "scratching_head"
+            },
+            {
+              "speaker": "chen_tieshan",
+              "text": "光凭我们这几个人，真能跟他掰手腕？",
+              "emotion": "discouraged",
+              "animation": "slumping"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我想过了。",
+              "emotion": "thinking",
+              "animation": "standing"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "说。",
+              "emotion": "curious",
+              "animation": "tilting_head"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "威远的招牌虽然倒了，可镖路还在。我可以另立门户，用走镖做外衣，把消息、人脉、线索一点点捞回来。",
+              "emotion": "determined",
+              "animation": "gesturing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "明面押货，暗里查案。这样比一味逃命有用。",
+              "emotion": "determined",
+              "animation": "clenching_fist"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "这法子能成。",
+              "emotion": "approving",
+              "animation": "nodding"
+            },
+            {
+              "speaker": "leng_yue",
+              "text": "那你新名号叫什么？",
+              "emotion": "curious",
+              "animation": "tilting_head"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "墨羽。从今日起，江湖上先记这个名字。",
+              "emotion": "resolute",
+              "animation": "clenching_fist"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "ChangeName", "newName": "墨羽"}, {"type": "CreateOrganization", "orgId": "moyu_biaoju"}]
+          "effects": [
+            {
+              "type": "ChangeName",
+              "newName": "墨羽"
+            },
+            {
+              "type": "CreateOrganization",
+              "orgId": "moyu_biaoju"
+            }
+          ]
         },
         {
           "id": "dlg_chapter3_003",
@@ -308,10 +877,30 @@
           "npcId": "lu_da",
           "mapId": "broken_temple",
           "lines": [
-            {"speaker": "lu_da", "text": "墨羽？好名字！听起来就很有气势！", "emotion": "cheerful", "animation": "thumbs_up"},
-            {"speaker": "zhao_tieshan", "text": "墨羽镖头，以后我们就跟着你干了！", "emotion": "determined", "animation": "bowing"},
-            {"speaker": "chen_tieshan", "text": "林公子...不，墨羽镖头，我也会尽我所能帮助你。", "emotion": "determined", "animation": "bowing"},
-            {"speaker": "lin_mochen", "text": "谢谢你们...从今以后，我们就是一家人了。", "emotion": "grateful", "animation": "smiling"}
+            {
+              "speaker": "lu_da",
+              "text": "墨羽？好！听着就有几分江湖气。",
+              "emotion": "cheerful",
+              "animation": "thumbs_up"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "墨羽镖头，这趟脏活累活，赵某陪你一道扛。",
+              "emotion": "determined",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "chen_tieshan",
+              "text": "我嘴笨，但有力出力，有命出命。",
+              "emotion": "determined",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "多谢。从今以后，咱们不只是同路，是一家人。",
+              "emotion": "grateful",
+              "animation": "smiling"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -328,18 +917,73 @@
           "npcId": "su_wanqing",
           "mapId": "moyu_biaoju",
           "lines": [
-            {"speaker": "su_wanqing", "text": "（站在镖局门口，犹豫良久）墨羽镖局...这...", "emotion": "confused", "animation": "hesitating"},
-            {"speaker": "lin_mochen", "text": "（听到声音，抬头望去）婉清？！", "emotion": "shocked", "animation": "running"},
-            {"speaker": "su_wanqing", "text": "墨尘师兄...真的是你...", "emotion": "tearful", "animation": "revealing"},
-            {"speaker": "lin_mochen", "text": "婉清！你怎么会在这里？这几个月你去了哪里？", "emotion": "surprised", "animation": "embracing"},
-            {"speaker": "su_wanqing", "text": "那天东厂的人来清风门抓人，我趁乱逃了出去。之后我一路躲藏，四处打听你的消息。", "emotion": "relieved", "animation": "smiling_through_tears"},
-            {"speaker": "su_wanqing", "text": "直到前几天，我听说苏州城里新开了一家墨羽镖局...我就知道，一定是你。", "emotion": "happy", "animation": "tearful"},
-            {"speaker": "lin_mochen", "text": "婉清，你受苦了...", "emotion": "touched", "animation": "patting"},
-            {"speaker": "su_wanqing", "text": "这是我从一个东厂密探身上偷来的。生辰纲已安全运抵西域...那半块玉佩已被沈剑锋带走...", "emotion": "serious", "animation": "handing_letter"},
-            {"speaker": "su_wanqing", "text": "我还查到，蔡京与一个叫幽冥教的邪派有所勾结。生辰纲就是被他们劫走的。", "emotion": "angry", "animation": "clenched"}
+            {
+              "speaker": "su_wanqing",
+              "text": "墨羽镖局……果然是你。",
+              "emotion": "confused",
+              "animation": "hesitating"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "婉清？！",
+              "emotion": "shocked",
+              "animation": "running"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄，我总算找到你了。",
+              "emotion": "tearful",
+              "animation": "revealing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你这些日子都去了哪儿？",
+              "emotion": "surprised",
+              "animation": "embracing"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "我一路躲，一路查，还从东厂探子身上摸到一封密信。",
+              "emotion": "relieved",
+              "animation": "smiling_through_tears"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "我一听见“墨羽”两个字，就知道你还活着。",
+              "emotion": "happy",
+              "animation": "tearful"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "让你受苦了……",
+              "emotion": "touched",
+              "animation": "patting"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "信上说，生辰纲并未入京，而是被转往西域，和幽冥教有关。",
+              "emotion": "serious",
+              "animation": "handing_letter"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "蔡京果然和邪派勾上了线，这条路我们追对了。",
+              "emotion": "angry",
+              "animation": "clenched"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddPartyMember", "memberId": "su_wanqing"}, {"type": "AddItem", "itemId": "secret_letter", "count": 1}]
+          "effects": [
+            {
+              "type": "AddPartyMember",
+              "memberId": "su_wanqing"
+            },
+            {
+              "type": "AddItem",
+              "itemId": "secret_letter",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "dlg_chapter3_continue_002",
@@ -347,17 +991,62 @@
           "npcId": "li_boss",
           "mapId": "moyu_biaoju",
           "lines": [
-            {"speaker": "li_boss", "text": "（急匆匆走进镖局）墨羽镖头，有急事相求！", "emotion": "anxious", "animation": "bowing"},
-            {"speaker": "lin_mochen", "text": "这位是？", "emotion": "curious", "animation": "standing"},
-            {"speaker": "li_boss", "text": "在下姓李，是苏州城里的布商。我有一批货物要运往西域，但其他镖局都不敢接。", "emotion": "anxious", "animation": "explaining"},
-            {"speaker": "lin_mochen", "text": "运往西域？是什么货物？为何其他镖局不敢接？", "emotion": "curious", "animation": "leaning"},
-            {"speaker": "li_boss", "text": "实不相瞒，这批货物有些特殊。是给西域一个叫幽冥教的门派运送的。", "emotion": "whispering", "animation": "looking_around"},
-            {"speaker": "lin_mochen", "text": "（眼神一凛）幽冥教？", "emotion": "alert", "animation": "standing"},
-            {"speaker": "su_wanqing", "text": "（轻声）墨尘师兄，这可能是个机会...", "emotion": "suggestive", "animation": "whispering"},
-            {"speaker": "lin_mochen", "text": "李老板，这趟镖，我接了。", "emotion": "determined", "animation": "nodding"}
+            {
+              "speaker": "li_boss",
+              "text": "墨羽镖头，李某冒昧登门，实在是有桩急差非你不可。",
+              "emotion": "anxious",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "阁下是？",
+              "emotion": "curious",
+              "animation": "standing"
+            },
+            {
+              "speaker": "li_boss",
+              "text": "苏州布商李某。有一批货要送去西域，旁的镖局一听去处都不敢沾。",
+              "emotion": "anxious",
+              "animation": "explaining"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "什么货？又为什么不敢接？",
+              "emotion": "curious",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "li_boss",
+              "text": "买卖人图个平安，我本不想多说。可事到如今，只能直言，收货的是幽冥教。",
+              "emotion": "whispering",
+              "animation": "looking_around"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "幽冥教？",
+              "emotion": "alert",
+              "animation": "standing"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄，这也许正是我们要找的门路。",
+              "emotion": "suggestive",
+              "animation": "whispering"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "好，这趟镖我接了。",
+              "emotion": "determined",
+              "animation": "nodding"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AcceptQuest", "questId": "main_story_004"}]
+          "effects": [
+            {
+              "type": "AcceptQuest",
+              "questId": "main_story_004"
+            }
+          ]
         },
         {
           "id": "dlg_chapter3_continue_003",
@@ -365,11 +1054,36 @@
           "npcId": "su_wanqing",
           "mapId": "moyu_biaoju",
           "lines": [
-            {"speaker": "su_wanqing", "text": "墨尘师兄，你真的要接这趟镖吗？幽冥教可是蔡京的爪牙...", "emotion": "worried", "animation": "concerned"},
-            {"speaker": "lin_mochen", "text": "正因为如此，我们才更要去。这可能是我们找到生辰纲下落的唯一机会。", "emotion": "determined", "animation": "explaining"},
-            {"speaker": "su_wanqing", "text": "可是...太危险了...", "emotion": "worried", "animation": "fidgeting"},
-            {"speaker": "lin_mochen", "text": "婉清，我知道你担心我。但为了查清真相，为了给师父和师兄报仇，我必须去。", "emotion": "serious", "animation": "hand_on_shoulder"},
-            {"speaker": "su_wanqing", "text": "那...那我也要跟你一起去！", "emotion": "determined", "animation": "standing"}
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄，你真要替幽冥教走这趟镖？",
+              "emotion": "worried",
+              "animation": "concerned"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "正因为是他们，我们才得亲自去。错过这次，未必还有第二回。",
+              "emotion": "determined",
+              "animation": "explaining"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "我知道你急着查真相，可这一路一定比黄泥岗更险。",
+              "emotion": "worried",
+              "animation": "fidgeting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "险也要走。师父和师兄不能白死。",
+              "emotion": "serious",
+              "animation": "hand_on_shoulder"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "那我跟你一起去。这次你别想再把我留在后头。",
+              "emotion": "determined",
+              "animation": "standing"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -386,12 +1100,42 @@
           "npcId": "boss_longmen",
           "mapId": "longmen_kezhan",
           "lines": [
-            {"speaker": "boss_longmen", "text": "（站在客栈门口，望着远方）又是一群风尘仆仆的旅人...", "emotion": "bored", "animation": "leaning"},
-            {"speaker": "lin_mochen", "text": "（走进客栈）老板娘，给我们安排几间上好的客房。", "emotion": "polite", "animation": "bowing"},
-            {"speaker": "boss_longmen", "text": "客官几位？打尖还是住店？", "emotion": "welcoming", "animation": "bowing"},
-            {"speaker": "lin_mochen", "text": "在下墨羽，路过贵地，想在此歇息一晚。", "emotion": "polite", "animation": "bowing"},
-            {"speaker": "boss_longmen", "text": "墨羽？没听说过这个名字。不过看你年纪轻轻，倒是有几分气度。几位请坐，我让人给你们安排房间。", "emotion": "assessing", "animation": "smirking"},
-            {"speaker": "lu_da", "text": "老板娘，先来两斤牛肉，一坛好酒！", "emotion": "hungry", "animation": "rubbing_stomach"}
+            {
+              "speaker": "boss_longmen",
+              "text": "又来了几位带着风沙味的客人。",
+              "emotion": "bored",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "老板娘，备几间干净客房，再来些热饭热水。",
+              "emotion": "polite",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "住店可以，先报个名号。",
+              "emotion": "welcoming",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "在下墨羽，借贵地歇一晚。",
+              "emotion": "polite",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "墨羽？名字生，可你这双眼不像走寻常镖路的人。坐吧，房我给你留。",
+              "emotion": "assessing",
+              "animation": "smirking"
+            },
+            {
+              "speaker": "lu_da",
+              "text": "先别留房，先上酒肉！我肚子都在打鼓了。",
+              "emotion": "hungry",
+              "animation": "rubbing_stomach"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -402,15 +1146,50 @@
           "npcId": "boss_longmen",
           "mapId": "longmen_kezhan",
           "lines": [
-            {"speaker": "dongchang_boss", "text": "（带着一群东厂番子冲进客栈）林墨尘！你果然在这里！", "emotion": "shouting", "animation": "pointing"},
-            {"speaker": "lin_mochen", "text": "东厂的人？你们怎么找到这里的？", "emotion": "alert", "animation": "standing"},
-            {"speaker": "boss_longmen", "text": "慢着！在我的地盘上，谁敢动武？", "emotion": "defiant", "animation": "stepping_forward"},
-            {"speaker": "dongchang_boss", "text": "老板娘，此人乃是朝廷钦犯，你敢包庇他？", "emotion": "threatening", "animation": "drawing_sword"},
-            {"speaker": "boss_longmen", "text": "朝廷钦犯？我龙门客栈开门做生意，不管客人是官是匪，只要付得起银子，就是我的客人。", "emotion": "angry", "animation": "drawing_blade"},
-            {"speaker": "boss_longmen", "text": "你们若是想动武，先问问我手里的刀答不答应！", "emotion": "defiant", "animation": "ready"}
+            {
+              "speaker": "dongchang_boss",
+              "text": "奉东厂之命拿人！林墨尘，你躲得倒远。",
+              "emotion": "shouting",
+              "animation": "pointing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你们来得比我想的还快。",
+              "emotion": "alert",
+              "animation": "standing"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "在我的地盘拔刀，谁给你的胆子？",
+              "emotion": "defiant",
+              "animation": "stepping_forward"
+            },
+            {
+              "speaker": "dongchang_boss",
+              "text": "老板娘，此人是朝廷钦犯，你若护他，就是与东厂为敌。",
+              "emotion": "threatening",
+              "animation": "drawing_sword"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "我开客栈的，认银子，也认规矩。你想在这儿撒野，先问过我手里这把刀。",
+              "emotion": "angry",
+              "animation": "drawing_blade"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "想拿人？可以。先踏过龙门客栈这道门槛再说。",
+              "emotion": "defiant",
+              "animation": "ready"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "StartBattle", "battleId": "longmen_ambush"}]
+          "effects": [
+            {
+              "type": "StartBattle",
+              "battleId": "longmen_ambush"
+            }
+          ]
         },
         {
           "id": "dlg_chapter4_003",
@@ -418,19 +1197,74 @@
           "npcId": "boss_longmen",
           "mapId": "longmen_kezhan_night",
           "lines": [
-            {"speaker": "boss_longmen", "text": "墨羽，你果然就是林墨尘。我听说过你的事。柳青云是个好人，他的弟子，我相信也不是什么奸恶之徒。", "emotion": "trusting", "animation": "sitting"},
-            {"speaker": "lin_mochen", "text": "多谢老板娘出手相助，在下感激不尽。", "emotion": "grateful", "animation": "bowing"},
-            {"speaker": "boss_longmen", "text": "我有件事要告诉你。你这次运送的货物，恐怕不简单。", "emotion": "serious", "animation": "leaning"},
-            {"speaker": "lin_mochen", "text": "哦？老板娘知道些什么？", "emotion": "curious", "animation": "leaning"},
-            {"speaker": "boss_longmen", "text": "这是我从一个幽冥教的人身上偷来的。", "emotion": "serious", "animation": "handing_letter"},
-            {"speaker": "lin_mochen", "text": "（看完信）他们果然在找这半块玉佩。", "emotion": "realizing", "animation": "looking_at_item"},
-            {"speaker": "boss_longmen", "text": "蔡京正在暗中培植势力，准备对付朝中的反对派。幽冥教，就是他手中的一把刀。", "emotion": "angry", "animation": "clenched"},
-            {"speaker": "boss_longmen", "text": "二十年前，我父亲是一个小官，因为得罪了蔡京，被诬陷入狱，最后死在狱中。我一直在等待机会，为我父亲报仇。", "emotion": "sad", "animation": "teary"},
-            {"speaker": "lin_mochen", "text": "老板娘，你愿意加入我们吗？我们一起对付蔡京。", "emotion": "determined", "animation": "handshake"},
-            {"speaker": "boss_longmen", "text": "好。从今以后，龙门客栈就是你们的后盾。", "emotion": "resolute", "animation": "nodding"}
+            {
+              "speaker": "boss_longmen",
+              "text": "墨羽，不，林墨尘。你终究还是走到我跟前了。",
+              "emotion": "trusting",
+              "animation": "sitting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "老板娘今夜援手，在下记下了。",
+              "emotion": "grateful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "谢不用急着谢，你这趟镖的货，水很深。",
+              "emotion": "serious",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你知道什么？",
+              "emotion": "curious",
+              "animation": "leaning"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "这是我从幽冥教的人身上顺来的密信，你自己看。",
+              "emotion": "serious",
+              "animation": "handing_letter"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "他们在找玉佩，看来我手里的东西比想象中更要命。",
+              "emotion": "realizing",
+              "animation": "looking_at_item"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "幽冥教是蔡京养在江湖上的刀，脏事、险事、见不得光的事，都是他们替他做。",
+              "emotion": "angry",
+              "animation": "clenched"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "我爹当年也是被蔡京害死的，这笔账我等了二十年。",
+              "emotion": "sad",
+              "animation": "teary"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "若你真肯扳他，我愿同你并肩。",
+              "emotion": "determined",
+              "animation": "handshake"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "好。从今日起，龙门客栈替你们挡一阵风。",
+              "emotion": "resolute",
+              "animation": "nodding"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddAlly", "allyId": "longmen_boss"}]
+          "effects": [
+            {
+              "type": "AddAlly",
+              "allyId": "longmen_boss"
+            }
+          ]
         },
         {
           "id": "dlg_chapter4_004",
@@ -438,10 +1272,30 @@
           "npcId": "leng_yue",
           "mapId": "longmen_kezhan_night",
           "lines": [
-            {"speaker": "leng_yue", "text": "老板娘，谢谢你告诉我们这些。", "emotion": "grateful", "animation": "bowing"},
-            {"speaker": "boss_longmen", "text": "不用谢。我只是做了我应该做的。", "emotion": "humble", "animation": "waving"},
-            {"speaker": "zhao_tieshan", "text": "现在我们知道了幽冥教和蔡京的关系，接下来该怎么办？", "emotion": "thinking", "animation": "folding_arms"},
-            {"speaker": "lin_mochen", "text": "继续前往西域。我们要亲自去幽冥教总坛，看看他们到底在搞什么鬼。", "emotion": "determined", "animation": "standing"}
+            {
+              "speaker": "leng_yue",
+              "text": "老板娘，多谢你把话说透。",
+              "emotion": "grateful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "我只是把该还的债还出去。",
+              "emotion": "humble",
+              "animation": "waving"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "眼下线索已经并上了，下一步怎么走？",
+              "emotion": "thinking",
+              "animation": "folding_arms"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "继续往西。既然刀已经出鞘，就去看清执刀的人到底是谁。",
+              "emotion": "determined",
+              "animation": "standing"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -458,19 +1312,74 @@
           "npcId": "liu_qingqing",
           "mapId": "youming_jiao",
           "lines": [
-            {"speaker": "liu_qingqing", "text": "（坐在高台上，戴着凤凰面具）墨羽镖头，久仰大名。", "emotion": "mysterious", "animation": "sitting"},
-            {"speaker": "lin_mochen", "text": "你是幽冥教的教主？", "emotion": "curious", "animation": "looking_up"},
-            {"speaker": "liu_qingqing", "text": "正是。你可以叫我凤凰。", "emotion": "mysterious", "animation": "nodding"},
-            {"speaker": "lin_mochen", "text": "你手中的玉佩，给我看看。", "emotion": "curious", "animation": "reaching"},
-            {"speaker": "liu_qingqing", "text": "这玉佩，是开启一个秘密的钥匙。", "emotion": "revealing", "animation": "showing_item"},
-            {"speaker": "liu_qingqing", "text": "二十年前，蔡京无意中得到了一个秘密——前朝皇室在灭亡之前，将一批宝藏埋藏在了一个隐秘的地方。", "emotion": "serious", "animation": "leaning_forward"},
-            {"speaker": "lin_mochen", "text": "宝藏？", "emotion": "surprised", "animation": "eyes_wide"},
-            {"speaker": "liu_qingqing", "text": "柳青云是唯一知道宝藏下落的人。蔡京设计陷害清风门，就是为了逼他说出宝藏的位置。", "emotion": "serious", "animation": "leaning_forward"},
-            {"speaker": "lin_mochen", "text": "那你...", "emotion": "curious", "animation": "questioning"},
-            {"speaker": "liu_qingqing", "text": "（缓缓摘下面具）我是柳青青，苏婉清的师姐。", "emotion": "revealing", "animation": "removing_mask"}
+            {
+              "speaker": "liu_qingqing",
+              "text": "墨羽镖头，来得比我预计得快。",
+              "emotion": "mysterious",
+              "animation": "sitting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你就是幽冥教教主？",
+              "emotion": "curious",
+              "animation": "looking_up"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "世人都这么叫我，你也可以叫我凤凰。",
+              "emotion": "mysterious",
+              "animation": "nodding"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你手里的另一半玉佩，从哪儿来的？",
+              "emotion": "curious",
+              "animation": "reaching"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "玉佩不是宝物，是钥匙。它开的不是门，是一桩埋了二十年的旧案。",
+              "emotion": "revealing",
+              "animation": "showing_item"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "二十年前，前朝宝藏下落泄出，蔡京由此生了贪念。",
+              "emotion": "serious",
+              "animation": "leaning_forward"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "所以他才对清风门下手？",
+              "emotion": "surprised",
+              "animation": "eyes_wide"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "不错。柳青云知道线索，他不肯开口，清风门就成了祭旗的牺牲品。",
+              "emotion": "serious",
+              "animation": "leaning_forward"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你到底是谁？",
+              "emotion": "curious",
+              "animation": "questioning"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "我叫柳青青，婉清的师姐，也是你们一直在找的人。",
+              "emotion": "revealing",
+              "animation": "removing_mask"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddPartyMember", "memberId": "liu_qingqing"}]
+          "effects": [
+            {
+              "type": "AddPartyMember",
+              "memberId": "liu_qingqing"
+            }
+          ]
         },
         {
           "id": "dlg_chapter4_continue_002",
@@ -478,12 +1387,42 @@
           "npcId": "liu_qingqing",
           "mapId": "youming_jiao",
           "lines": [
-            {"speaker": "su_wanqing", "text": "师姐？！真的是你？！", "emotion": "shocked", "animation": "running"},
-            {"speaker": "liu_qingqing", "text": "婉清...好久不见...", "emotion": "touched", "animation": "embracing"},
-            {"speaker": "liu_qingqing", "text": "三年前，我离开清风门，就是为了查明这个秘密。", "emotion": "serious", "animation": "letting_go"},
-            {"speaker": "liu_qingqing", "text": "我潜入幽冥教，一步步坐上教主的位置，就是为了收集蔡京的罪证。", "emotion": "determined", "animation": "clenching_fist"},
-            {"speaker": "lin_mochen", "text": "师姐...谢谢你...", "emotion": "grateful", "animation": "bowing"},
-            {"speaker": "liu_qingqing", "text": "墨尘师弟，我们是一家人。现在，让我带你去看看，蔡京到底藏了什么。", "emotion": "determined", "animation": "gesturing"}
+            {
+              "speaker": "su_wanqing",
+              "text": "师姐？！真的是你？！",
+              "emotion": "shocked",
+              "animation": "running"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "婉清，你长大了。",
+              "emotion": "touched",
+              "animation": "embracing"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "我离开清风门，不是背弃师门，是为了钻进幽冥教心口里，把蔡京的脏账一点点抄出来。",
+              "emotion": "serious",
+              "animation": "letting_go"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "我潜进去三年，就是为了把这盘局从里面撕开。",
+              "emotion": "determined",
+              "animation": "clenching_fist"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师姐……谢谢你。",
+              "emotion": "grateful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "一家人不说谢。跟我来，我带你们去看蔡京到底想藏什么。",
+              "emotion": "determined",
+              "animation": "gesturing"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -500,17 +1439,63 @@
           "npcId": "liu_qingqing",
           "mapId": "treasure_cave",
           "lines": [
-            {"speaker": "liu_qingqing", "text": "（推开石门）就是这里了。", "emotion": "serious", "animation": "gesturing"},
-            {"speaker": "lin_mochen", "text": "（走进洞穴，震惊）这...这是...", "emotion": "shocked", "animation": "staring"},
-            {"speaker": "liu_qingqing", "text": "就是这些，蔡京原本打算用这批财物贿赂朝中大臣，巩固自己的势力。", "emotion": "disgusted", "animation": "gesturing"},
-            {"speaker": "lin_mochen", "text": "生辰纲...也在这里...", "emotion": "realizing", "animation": "picking_up"},
-            {"speaker": "liu_qingqing", "text": "是的。这就是你们当年押送的生辰纲。", "emotion": "serious", "animation": "nodding"},
-            {"speaker": "lin_mochen", "text": "我要把这些证据，呈给皇上。", "emotion": "determined", "animation": "clenching_fist"},
-            {"speaker": "zhao_tieshan", "text": "蔡京权倾朝野，皇上未必会相信你。", "emotion": "worried", "animation": "frowning"},
-            {"speaker": "lin_mochen", "text": "我相信正义，我相信，真相终会大白。", "emotion": "resolute", "animation": "looking_up"}
+            {
+              "speaker": "liu_qingqing",
+              "text": "石门后头，就是他这些年的命根子。",
+              "emotion": "serious",
+              "animation": "gesturing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "这洞里……全是金银与箱篓。",
+              "emotion": "shocked",
+              "animation": "staring"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "这些财物一半是劫掠，一半是拿来买通朝臣的。",
+              "emotion": "disgusted",
+              "animation": "gesturing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "生辰纲也在这里。",
+              "emotion": "realizing",
+              "animation": "picking_up"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "你们当年拼命护的东西，从黄泥岗绕了一圈，最后还是落进了蔡京私库。",
+              "emotion": "serious",
+              "animation": "nodding"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "这些证据，我要亲手送到皇上面前。",
+              "emotion": "determined",
+              "animation": "clenching_fist"
+            },
+            {
+              "speaker": "zhao_tieshan",
+              "text": "蔡京在朝里根深，光有愤怒不够，得把证据带得稳稳当当。",
+              "emotion": "worried",
+              "animation": "frowning"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "只要东西在手，真相就不会永远埋着。",
+              "emotion": "resolute",
+              "animation": "looking_up"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddItem", "itemId": "treasure_evidence", "count": 1}]
+          "effects": [
+            {
+              "type": "AddItem",
+              "itemId": "treasure_evidence",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "dlg_chapter5_002",
@@ -518,13 +1503,39 @@
           "npcId": "liu_qingqing",
           "mapId": "treasure_cave",
           "lines": [
-            {"speaker": "liu_qingqing", "text": "我这里还有一份账册，记录了蔡京这些年收受贿赂的明细。", "emotion": "serious", "animation": "handing_item"},
-            {"speaker": "lin_mochen", "text": "有了这些证据，皇上一定会相信我们的！", "emotion": "hopeful", "animation": "taking"},
-            {"speaker": "su_wanqing", "text": "墨尘师兄，我们终于可以为师父和师兄报仇了！", "emotion": "happy", "animation": "teary"},
-            {"speaker": "liu_qingqing", "text": "但是我们要小心。蔡京不会轻易让我们带着这些证据离开西域。", "emotion": "worried", "animation": "frowning"}
+            {
+              "speaker": "liu_qingqing",
+              "text": "这里还有一本到手账，收银、送礼、灭口，全在上头。",
+              "emotion": "serious",
+              "animation": "handing_item"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "有了它，蔡京就不是只凭口说的罪人了。",
+              "emotion": "hopeful",
+              "animation": "taking"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄，我们终于快替师父和师兄把冤洗干净了！",
+              "emotion": "happy",
+              "animation": "teary"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "别高兴太早。蔡京越接近死局，反扑就会越狠。",
+              "emotion": "worried",
+              "animation": "frowning"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddItem", "itemId": "bribery_ledger", "count": 1}]
+          "effects": [
+            {
+              "type": "AddItem",
+              "itemId": "bribery_ledger",
+              "count": 1
+            }
+          ]
         }
       ]
     },
@@ -538,14 +1549,44 @@
           "npcId": "boss_longmen",
           "mapId": "longmen_ruins",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（看着眼前的废墟）龙门客栈...怎么会变成这样...", "emotion": "shocked", "animation": "staring"},
-            {"speaker": "boss_longmen", "text": "（从废墟中走出）墨羽...你回来了...", "emotion": "weak", "animation": "slumping"},
-            {"speaker": "lin_mochen", "text": "老板娘！你怎么样？", "emotion": "worried", "animation": "running"},
-            {"speaker": "boss_longmen", "text": "东厂的人...他们早就埋伏好了...这是个陷阱...", "emotion": "dying", "animation": "slumping"},
-            {"speaker": "lin_mochen", "text": "老板娘！坚持住！", "emotion": "shouting", "animation": "catching"}
+            {
+              "speaker": "lin_mochen",
+              "text": "龙门客栈……竟烧成了这样。",
+              "emotion": "shocked",
+              "animation": "staring"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "你回来了……可惜还是慢了一步。",
+              "emotion": "weak",
+              "animation": "slumping"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "老板娘，你伤得很重，先别说话。",
+              "emotion": "worried",
+              "animation": "running"
+            },
+            {
+              "speaker": "boss_longmen",
+              "text": "东厂早守在这儿……这是冲你们来的套子……",
+              "emotion": "dying",
+              "animation": "slumping"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "撑住，我不会让你白流这口血。",
+              "emotion": "shouting",
+              "animation": "catching"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "StartBattle", "battleId": "longmen_defense"}]
+          "effects": [
+            {
+              "type": "StartBattle",
+              "battleId": "longmen_defense"
+            }
+          ]
         },
         {
           "id": "dlg_chapter5_continue_002",
@@ -553,17 +1594,63 @@
           "npcId": "qin_xianzi",
           "mapId": "longmen_battle",
           "lines": [
-            {"speaker": "qin_xianzi", "text": "（远处传来悠扬的笛声）你们这些败类，今日一个也别想走！", "emotion": "angry", "animation": "playing_flute"},
-            {"speaker": "lin_mochen", "text": "（看向笛声来源）那是...", "emotion": "curious", "animation": "looking"},
-            {"speaker": "dongchang_boss", "text": "什么人？！", "emotion": "alert", "animation": "drawing_sword"},
-            {"speaker": "qin_xianzi", "text": "（现身）江湖人称琴仙子。", "emotion": "calm", "animation": "landing"},
-            {"speaker": "lin_mochen", "text": "琴仙子？！多谢前辈出手相救...", "emotion": "grateful", "animation": "bowing"},
-            {"speaker": "qin_xianzi", "text": "不用谢我，我是受人之托，来保护你的。", "emotion": "calm", "animation": "stopping_flute"},
-            {"speaker": "lin_mochen", "text": "受人之托？是谁？", "emotion": "curious", "animation": "questioning"},
-            {"speaker": "qin_xianzi", "text": "周镖头已经去世了。这封信是他生前写给我的，让我在关键时刻交给你。", "emotion": "sad", "animation": "handing_letter"}
+            {
+              "speaker": "qin_xianzi",
+              "text": "一群阉狗，也敢在光天化日下行凶。",
+              "emotion": "angry",
+              "animation": "playing_flute"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "这笛声……",
+              "emotion": "curious",
+              "animation": "looking"
+            },
+            {
+              "speaker": "dongchang_boss",
+              "text": "什么人？！",
+              "emotion": "alert",
+              "animation": "drawing_sword"
+            },
+            {
+              "speaker": "qin_xianzi",
+              "text": "琴仙子。今日我来，是来收你们的刀。",
+              "emotion": "calm",
+              "animation": "landing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "前辈，多谢救命之恩。",
+              "emotion": "grateful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "qin_xianzi",
+              "text": "不必谢我，我只是替故人还一桩情。",
+              "emotion": "calm",
+              "animation": "stopping_flute"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "故人？",
+              "emotion": "curious",
+              "animation": "questioning"
+            },
+            {
+              "speaker": "qin_xianzi",
+              "text": "周远死前留了封信，要我在你最难的时候交到你手里。",
+              "emotion": "sad",
+              "animation": "handing_letter"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "AddItem", "itemId": "zhou_yuan_letter", "count": 1}]
+          "effects": [
+            {
+              "type": "AddItem",
+              "itemId": "zhou_yuan_letter",
+              "count": 1
+            }
+          ]
         },
         {
           "id": "dlg_chapter5_continue_003",
@@ -571,10 +1658,30 @@
           "npcId": "qin_xianzi",
           "mapId": "longmen_battle",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（看完信）师父...原来你早就知道...", "emotion": "sad", "animation": "teary"},
-            {"speaker": "qin_xianzi", "text": "周镖头二十年前就救过蔡京一命，没想到蔡京竟然恩将仇报。", "emotion": "angry", "animation": "clenched"},
-            {"speaker": "qin_xianzi", "text": "周镖头知道蔡京不会放过他，所以提前做好了安排。", "emotion": "serious", "animation": "nodding"},
-            {"speaker": "lin_mochen", "text": "师父...我一定会完成你的遗愿...", "emotion": "determined", "animation": "clenching_fist"}
+            {
+              "speaker": "lin_mochen",
+              "text": "师父原来早就料到这一步了。",
+              "emotion": "sad",
+              "animation": "teary"
+            },
+            {
+              "speaker": "qin_xianzi",
+              "text": "周镖头不是料到，是早早替你铺了后路。",
+              "emotion": "angry",
+              "animation": "clenched"
+            },
+            {
+              "speaker": "qin_xianzi",
+              "text": "蔡京这种人，受过恩也只记得自己要更多。",
+              "emotion": "serious",
+              "animation": "nodding"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师父没走完的路，我替他走完。",
+              "emotion": "determined",
+              "animation": "clenching_fist"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -591,23 +1698,102 @@
           "npcId": "emperor",
           "mapId": "imperial_palace",
           "lines": [
-            {"speaker": "guard", "text": "（拦住林墨尘）大胆！竟敢擅闯皇宫！", "emotion": "shouting", "animation": "blocking"},
-            {"speaker": "lin_mochen", "text": "草民林墨尘，有要事求见皇上！我有蔡京谋反的证据！", "emotion": "shouting", "animation": "kneeling"},
-            {"speaker": "emperor", "text": "（从殿内走出）让他进来。", "emotion": "curious", "animation": "waving"},
-            {"speaker": "lin_mochen", "text": "参见皇上！", "emotion": "respectful", "animation": "bowing"},
-            {"speaker": "emperor", "text": "你说你有蔡京谋反的证据？", "emotion": "curious", "animation": "sitting"},
-            {"speaker": "lin_mochen", "text": "正是。草民奉命押送生辰纲，途中遭遇劫匪，生辰纲被劫，师兄沈剑锋惨遭杀害。", "emotion": "determined", "animation": "presenting"},
-            {"speaker": "lin_mochen", "text": "草民被诬陷为劫匪，四处逃亡。经过调查，草民发现，这一切都是蔡京精心设计的阴谋。", "emotion": "determined", "animation": "presenting"},
-            {"speaker": "cai_jing", "text": "（从旁边走出）皇上，这些都是伪造的！", "emotion": "angry", "animation": "pointing"},
-            {"speaker": "cai_jing", "text": "这个林墨尘，乃是朝廷钦犯，他为了脱罪，不惜捏造证据，诬陷老臣！", "emotion": "angry", "animation": "pointing"},
-            {"speaker": "liu_qingqing", "text": "（从人群中走出）那我来作证，这账册是真的。", "emotion": "serious", "animation": "stepping_forward"},
-            {"speaker": "liu_qingqing", "text": "草民柳青青，原清风门弟子，半年前，草民是幽冥教的教主。这份账册，是草民亲手记录的。", "emotion": "serious", "animation": "presenting"},
-            {"speaker": "emperor", "text": "蔡京！你还有什么话说？！", "emotion": "angry", "animation": "slamming_table"},
-            {"speaker": "cai_jing", "text": "皇上！这都是污蔑！一定是他们串通好了陷害老臣！", "emotion": "panicked", "animation": "kneeling"},
-            {"speaker": "emperor", "text": "蔡京，你为了私利，竟然做出这等事情！来人，将蔡京拿下！", "emotion": "angry", "animation": "shouting"}
+            {
+              "speaker": "guard",
+              "text": "皇城重地，擅闯者拿下！",
+              "emotion": "shouting",
+              "animation": "blocking"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "草民林墨尘，有生辰纲旧案与蔡京谋逆证据，求见皇上！",
+              "emotion": "shouting",
+              "animation": "kneeling"
+            },
+            {
+              "speaker": "emperor",
+              "text": "让他进来。",
+              "emotion": "curious",
+              "animation": "waving"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "草民林墨尘，叩见皇上。",
+              "emotion": "respectful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "emperor",
+              "text": "你说蔡京有罪，证据何在？",
+              "emotion": "curious",
+              "animation": "sitting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "黄泥岗伏击、清风门灭门、幽冥教往来密信、生辰纲失踪，全线都指向蔡京。",
+              "emotion": "determined",
+              "animation": "presenting"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "这些账册与密函，便是实证。",
+              "emotion": "determined",
+              "animation": "presenting"
+            },
+            {
+              "speaker": "cai_jing",
+              "text": "皇上，切莫轻信！此子本是钦犯，为求脱罪，什么谎都编得出来！",
+              "emotion": "angry",
+              "animation": "pointing"
+            },
+            {
+              "speaker": "cai_jing",
+              "text": "老臣侍奉朝廷多年，岂会与邪教同流？",
+              "emotion": "angry",
+              "animation": "pointing"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "我可以作证。这些账册出自幽冥教内库，字迹、印记、流向俱全。",
+              "emotion": "serious",
+              "animation": "stepping_forward"
+            },
+            {
+              "speaker": "liu_qingqing",
+              "text": "我曾潜伏其间，亲手抄录核对，不会有错。",
+              "emotion": "serious",
+              "animation": "presenting"
+            },
+            {
+              "speaker": "emperor",
+              "text": "蔡京，你还要狡辩到几时？",
+              "emotion": "angry",
+              "animation": "slamming_table"
+            },
+            {
+              "speaker": "cai_jing",
+              "text": "皇上！这分明是他们串通设局，意图构陷老臣！",
+              "emotion": "panicked",
+              "animation": "kneeling"
+            },
+            {
+              "speaker": "emperor",
+              "text": "来人，拿下蔡京，着三司会审，不得有误！",
+              "emotion": "angry",
+              "animation": "shouting"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "CompleteQuest", "questId": "main_story_006"}, {"type": "AddAchievement", "achievementId": "exposed_cai_jing"}]
+          "effects": [
+            {
+              "type": "CompleteQuest",
+              "questId": "main_story_006"
+            },
+            {
+              "type": "AddAchievement",
+              "achievementId": "exposed_cai_jing"
+            }
+          ]
         },
         {
           "id": "dlg_chapter6_002",
@@ -615,13 +1801,48 @@
           "npcId": "emperor",
           "mapId": "imperial_palace",
           "lines": [
-            {"speaker": "emperor", "text": "林墨尘，你为朝廷除去了一大祸害，朕重重有赏！", "emotion": "pleased", "animation": "smiling"},
-            {"speaker": "lin_mochen", "text": "草民不敢居功。这一切都是各位朋友帮助的结果。", "emotion": "humble", "animation": "bowing"},
-            {"speaker": "emperor", "text": "好！朕就恢复你的清白，并重振威远镖局！", "emotion": "generous", "animation": "waving"},
-            {"speaker": "lin_mochen", "text": "谢皇上！但草民有一个请求。", "emotion": "serious", "animation": "bowing"},
-            {"speaker": "emperor", "text": "说。", "emotion": "curious", "animation": "gesturing"},
-            {"speaker": "lin_mochen", "text": "草民希望皇上能为清风门和威远镖局的冤魂昭雪。", "emotion": "serious", "animation": "kneeling"},
-            {"speaker": "emperor", "text": "准奏！朕会下旨为清风门平反，追封柳青云和周远为忠义侯！", "emotion": "just", "animation": "nodding"}
+            {
+              "speaker": "emperor",
+              "text": "林墨尘，此案若真如你所言，朕记你大功。",
+              "emotion": "pleased",
+              "animation": "smiling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "草民不敢居功。若无同伴并肩，草民走不到今天。",
+              "emotion": "humble",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "emperor",
+              "text": "功是功，冤是冤。朕既要赏你，也要替清风门与威远镖局昭雪。",
+              "emotion": "generous",
+              "animation": "waving"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "草民谢恩。但草民还有一求。",
+              "emotion": "serious",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "emperor",
+              "text": "讲。",
+              "emotion": "curious",
+              "animation": "gesturing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "请皇上为师门与镖局枉死之人正名。",
+              "emotion": "serious",
+              "animation": "kneeling"
+            },
+            {
+              "speaker": "emperor",
+              "text": "准。柳青云、周远等忠义之名，朕亲自还他们。",
+              "emotion": "just",
+              "animation": "nodding"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -638,19 +1859,78 @@
           "npcId": "cai_you",
           "mapId": "youming_final",
           "lines": [
-            {"speaker": "cai_you", "text": "（站在幽冥教总坛前）林墨尘！你以为打败了我父亲，就赢了吗？", "emotion": "angry", "animation": "drawing_weapon"},
-            {"speaker": "lin_mochen", "text": "蔡攸，你父亲已经伏法，你还执迷不悟吗？", "emotion": "serious", "animation": "drawing_sword"},
-            {"speaker": "cai_you", "text": "执迷不悟？我蔡家经营多年，岂会轻易倒下？", "emotion": "arrogant", "animation": "laughing"},
-            {"speaker": "cai_you", "text": "今日，我就让你看看，什么叫做真正的力量！", "emotion": "angry", "animation": "charging"},
-            {"speaker": "su_wanqing", "text": "（挡在林墨尘身前）墨尘师兄！小心！", "emotion": "worried", "animation": "shielding"},
-            {"speaker": "cai_you", "text": "（一掌打在苏婉清身上）碍事的丫头！", "emotion": "angry", "animation": "striking"},
-            {"speaker": "su_wanqing", "text": "墨尘师兄...不要...不要放弃...", "emotion": "weak", "animation": "falling"},
-            {"speaker": "lin_mochen", "text": "婉清！！！", "emotion": "horrified", "animation": "catching"},
-            {"speaker": "lin_mochen", "text": "蔡攸！我要杀了你！！！", "emotion": "enraged", "animation": "screaming"},
-            {"speaker": "lin_mochen", "text": "这一剑，是为了我师父，为了我师兄，为了清风门，为了威远镖局...还有，为了婉清！", "emotion": "enraged", "animation": "stabbing"}
+            {
+              "speaker": "cai_you",
+              "text": "林墨尘！你以为扳倒我义父，蔡家就真完了？",
+              "emotion": "angry",
+              "animation": "drawing_weapon"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "蔡攸，收手吧。再往前一步，只会多赔几条命。",
+              "emotion": "serious",
+              "animation": "drawing_sword"
+            },
+            {
+              "speaker": "cai_you",
+              "text": "收手？我蔡家经营这么多年，凭你一句话就要我跪？",
+              "emotion": "arrogant",
+              "animation": "laughing"
+            },
+            {
+              "speaker": "cai_you",
+              "text": "今日我就拿你的命祭旗，让所有人知道蔡家还没倒！",
+              "emotion": "angry",
+              "animation": "charging"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄，小心！",
+              "emotion": "worried",
+              "animation": "shielding"
+            },
+            {
+              "speaker": "cai_you",
+              "text": "多管闲事的丫头，滚开！",
+              "emotion": "angry",
+              "animation": "striking"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "师兄……别停……别让他们赢……",
+              "emotion": "weak",
+              "animation": "falling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "婉清！",
+              "emotion": "horrified",
+              "animation": "catching"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "蔡攸，我要你偿命！",
+              "emotion": "enraged",
+              "animation": "screaming"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "这一剑，为师父，为师兄，为清风门，为威远镖局，也为婉清！",
+              "emotion": "enraged",
+              "animation": "stabbing"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "StartBattle", "battleId": "final_boss"}, {"type": "AddAchievement", "achievementId": "defeated_cai_you"}]
+          "effects": [
+            {
+              "type": "StartBattle",
+              "battleId": "final_boss"
+            },
+            {
+              "type": "AddAchievement",
+              "achievementId": "defeated_cai_you"
+            }
+          ]
         },
         {
           "id": "dlg_chapter7_002",
@@ -658,12 +1938,42 @@
           "npcId": "lin_mochen",
           "mapId": "youming_final",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（抱着苏婉清）婉清...对不起...我没能保护好你...", "emotion": "broken", "animation": "crying"},
-            {"speaker": "su_wanqing", "text": "墨尘师兄...别哭...能死在你怀里...我...我很幸福...", "emotion": "weak", "animation": "smiling"},
-            {"speaker": "su_wanqing", "text": "答应我...好好活着...重建清风镖局...", "emotion": "weak", "animation": "hand_on_cheek"},
-            {"speaker": "lin_mochen", "text": "我答应你...我一定会做到...", "emotion": "promising", "animation": "crying"},
-            {"speaker": "su_wanqing", "text": "墨尘师兄...我...我一直...喜欢你...", "emotion": "shy", "animation": "closing_eyes"},
-            {"speaker": "lin_mochen", "text": "婉清！！！", "emotion": "screaming", "animation": "crying"}
+            {
+              "speaker": "lin_mochen",
+              "text": "婉清，对不起……我终究还是没护住你。",
+              "emotion": "broken",
+              "animation": "crying"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "师兄……别这样。能陪你走到这里，我不后悔。",
+              "emotion": "weak",
+              "animation": "smiling"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "答应我……好好活，替我看着清风镖局重新把旗立起来。",
+              "emotion": "weak",
+              "animation": "hand_on_cheek"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我答应你，我一定做到。",
+              "emotion": "promising",
+              "animation": "crying"
+            },
+            {
+              "speaker": "su_wanqing",
+              "text": "墨尘师兄……我一直都喜欢你……",
+              "emotion": "shy",
+              "animation": "closing_eyes"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "婉清！",
+              "emotion": "screaming",
+              "animation": "crying"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -680,16 +1990,60 @@
           "npcId": "lu_da",
           "mapId": "qingfeng_biaoju",
           "lines": [
-            {"speaker": "lu_da", "text": "镖头！有生意了！", "emotion": "cheerful", "animation": "running"},
-            {"speaker": "lin_mochen", "text": "（从内堂走出）好，我去看看。", "emotion": "calm", "animation": "standing"},
-            {"speaker": "young_man", "text": "（走进镖局）请问，你就是墨羽镖头吗？", "emotion": "hopeful", "animation": "bowing"},
-            {"speaker": "lin_mochen", "text": "正是在下。请问有何指教？", "emotion": "polite", "animation": "bowing"},
-            {"speaker": "young_man", "text": "我有一批货物要运往京城，听说清风镖局信誉极好，特来相求。", "emotion": "hopeful", "animation": "bowing"},
-            {"speaker": "lin_mochen", "text": "运往京城？好，这趟镖，我接了。", "emotion": "smiling", "animation": "nodding"},
-            {"speaker": "lu_da", "text": "太好了！又有生意了！", "emotion": "cheerful", "animation": "thumbs_up"}
+            {
+              "speaker": "lu_da",
+              "text": "镖头！门口来活儿了！",
+              "emotion": "cheerful",
+              "animation": "running"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "好，我这就过去。",
+              "emotion": "calm",
+              "animation": "standing"
+            },
+            {
+              "speaker": "young_man",
+              "text": "晚辈见过墨羽镖头，特来求镖。",
+              "emotion": "hopeful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "请坐，慢慢说。",
+              "emotion": "polite",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "young_man",
+              "text": "有一批货要送往京城，听人说清风镖局最守信，所以才敢上门。",
+              "emotion": "hopeful",
+              "animation": "bowing"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "京城的路我熟，这趟镖我接了。",
+              "emotion": "smiling",
+              "animation": "nodding"
+            },
+            {
+              "speaker": "lu_da",
+              "text": "好嘞！咱们清风镖局，又开张了！",
+              "emotion": "cheerful",
+              "animation": "thumbs_up"
+            }
           ],
           "conditions": [],
-          "effects": [{"type": "CompleteQuest", "questId": "main_story_008"}, {"type": "AddAchievement", "achievementId": "qingfeng_restored"}]
+          "effects": [
+            {
+              "type": "CompleteQuest",
+              "questId": "main_story_008"
+            },
+            {
+              "type": "AddAchievement",
+              "achievementId": "qingfeng_restored"
+            }
+          ]
         },
         {
           "id": "dlg_epilogue_002",
@@ -697,12 +2051,42 @@
           "npcId": "su_wanqing_grave",
           "mapId": "wanqing_grave",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（站在墓碑前，轻轻擦拭）婉清，我来看你了。", "emotion": "sad", "animation": "kneeling"},
-            {"speaker": "lin_mochen", "text": "清风镖局重建好了，比以前更热闹了。", "emotion": "calm", "animation": "smiling"},
-            {"speaker": "lin_mochen", "text": "鲁达、冷月、赵铁山他们都还在，我们一起打理镖局。", "emotion": "calm", "animation": "talking"},
-            {"speaker": "lin_mochen", "text": "婉清，我要去京城了。这一次，不是为了复仇，而是为了守护。", "emotion": "determined", "animation": "looking_up"},
-            {"speaker": "lin_mochen", "text": "你放心，我会好好的。清风镖局，也会好好的。", "emotion": "promising", "animation": "placing_flower"},
-            {"speaker": "lin_mochen", "text": "等我回来，再来看你。", "emotion": "loving", "animation": "bowing"}
+            {
+              "speaker": "lin_mochen",
+              "text": "婉清，我来看你了。",
+              "emotion": "sad",
+              "animation": "kneeling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "镖局如今热闹多了，院里日日有人练刀走镖。",
+              "emotion": "calm",
+              "animation": "smiling"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "鲁达还是吵，冷月还是冷，赵铁山也常来信。",
+              "emotion": "calm",
+              "animation": "talking"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "我这回去京城，不是为了讨债，是为了守路。",
+              "emotion": "determined",
+              "animation": "looking_up"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "你放心，我会把你想看的那个清风，替你一直看下去。",
+              "emotion": "promising",
+              "animation": "placing_flower"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "等我回来，再来和你说这一路的见闻。",
+              "emotion": "loving",
+              "animation": "bowing"
+            }
           ],
           "conditions": [],
           "effects": []
@@ -713,9 +2097,24 @@
           "npcId": "lin_mochen",
           "mapId": "qingfeng_biaoju",
           "lines": [
-            {"speaker": "lin_mochen", "text": "（站在镖局门口，望着远方）清风不扬，江湖不息...", "emotion": "nostalgic", "animation": "staring"},
-            {"speaker": "lin_mochen", "text": "师父，师兄，婉清...我会带着你们的希望，继续走下去。", "emotion": "determined", "animation": "clenching_fist"},
-            {"speaker": "lin_mochen", "text": "（转身对众人）兄弟们，出发！", "emotion": "determined", "animation": "shouting"}
+            {
+              "speaker": "lin_mochen",
+              "text": "清风不扬，江湖却还在走。",
+              "emotion": "nostalgic",
+              "animation": "staring"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "师父，师兄，婉清，我不会让你们白等。",
+              "emotion": "determined",
+              "animation": "clenching_fist"
+            },
+            {
+              "speaker": "lin_mochen",
+              "text": "兄弟们，整队，出发！",
+              "emotion": "determined",
+              "animation": "shouting"
+            }
           ],
           "conditions": [],
           "effects": []

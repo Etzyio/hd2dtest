@@ -1,0 +1,30 @@
+{
+  "id": "zhao_tieshan_side",
+  "start_node_id": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "speaker_name": "赵铁山",
+      "text": "线索一多，最忌先信自己最想信的那一条。",
+      "next_node_id": "n2"
+    },
+    "n2": {
+      "id": "n2",
+      "speaker_name": "林墨尘",
+      "text": "你们六扇门说话，连闲聊都像审案。",
+      "next_node_id": "n3"
+    },
+    "n3": {
+      "id": "n3",
+      "speaker_name": "赵铁山",
+      "text": "习惯。真相常藏在最不像真相的地方，急不得。",
+      "next_node_id": "n4"
+    },
+    "n4": {
+      "id": "n4",
+      "speaker_name": "林墨尘",
+      "text": "好，我继续盯人，你替我盯证。",
+      "next_node_id": ""
+    }
+  }
+}

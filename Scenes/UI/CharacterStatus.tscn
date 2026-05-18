@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" uid="uid://bvxsr38mv82hh" path="res://Scenes/UI/CharacterStatus.cs" id="1_charstatus"]
+[ext_resource type="Script" uid="uid://bnlfdrn8saowy" path="res://Scenes/UI/CharacterStatus.cs" id="1_charstatus"]
 
 [node name="CharacterStatus" type="Control"]
 layout_mode = 1
